@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {trigger, state, transition, style, animate} from '@angular/animations';
 
 @Component({
-    selector: 'app-inline-profile',
+    selector: 'core-profile',
     template: `
         <div class="profile" [ngClass]="{'profile-expanded':active}">
             <a href="#" (click)="onClick($event)">
@@ -69,7 +69,7 @@ import {trigger, state, transition, style, animate} from '@angular/animations';
         ])
     ]
 })
-export class AppProfileComponent {
+export class CoreProfileComponent {
 
     active: boolean;
 

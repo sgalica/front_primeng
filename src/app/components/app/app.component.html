@@ -6,13 +6,13 @@
                 'layout-menu-static-inactive': staticMenuDesktopInactive,
                 'layout-menu-static-active': staticMenuMobileActive}">
 
-    <app-topbar></app-topbar>
+    <core-topbar></core-topbar>
 
     <div class="layout-menu-container" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick($event)">
         <p-scrollPanel #layoutMenuScroller [style]="{height: '100%' }">
             <div class="menu-scroll-content">
-                <app-inline-profile *ngIf="profileMode=='inline'&&!isHorizontal()"></app-inline-profile>
-                <app-menu [reset]="resetMenu"></app-menu>
+                <core-profile *ngIf="profileMode=='inline'&&!isHorizontal()"></core-profile>
+                <core-menu [reset]="resetMenu"></core-menu>
             </div>
         </p-scrollPanel>
     </div>
@@ -23,6 +23,6 @@
 
     <div class="layout-mask"></div>
 
-    <app-footer></app-footer>
+    <core-footer></core-footer>
 
 </div>
