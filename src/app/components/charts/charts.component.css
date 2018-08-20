@@ -1,0 +1,48 @@
+.card {
+    -webkit-box-shadow: 0 19px 28px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+    padding: 0;
+
+}
+
+.charts {margin: auto; max-width: 1400px;    ;
+}
+
+
+.centerText{
+    background: #00a6dd;
+    padding: 10px;
+}
+
+.chart{padding: 40px}
+
+.chart1 .pie-chart {
+
+}
+
+.chart2 .line-chart {
+    padding: 5px;
+    display: inline-block;
+}
+
+.chart1 span, .chart2 span {
+    font-family: "Segoe UI Semilight", "Segoe UI", "Segoe", Tahoma, Helvetica, Arial, sans-serif;
+    color: #fff;
+    overflow: hidden;
+    text-align: center;
+}
+
+.chart1 .title {
+    background-color: #e85292;
+    padding: 5px;
+    margin: 20px;
+}
+
+.chart2 .title {
+    background-color: #008bd2;
+    padding: 5px;
+    margin: 20px;
+}
+
+.chart1{ width: 40%; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);}
+
+.chart2{ width: 40%; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);}
