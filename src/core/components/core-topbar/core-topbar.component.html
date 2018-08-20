@@ -119,6 +119,7 @@
                     </li>
                 </ul>
             </li>
+
             <li #notifications [ngClass]="{'active-top-menu':app.activeTopbarItem === notifications}">
                 <a href="#" (click)="app.onTopbarItemClick($event,notifications)">
                     <i class="topbar-icon fa fa-fw fa-bell-o"></i>
@@ -159,5 +160,7 @@
                 </div>
             </li>
         </ul>
+
+
     </div>
 </div>

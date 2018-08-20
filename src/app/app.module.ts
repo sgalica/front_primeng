@@ -122,6 +122,7 @@ import {
     TreeModule,
     TreeTableModule
 } from 'primeng/primeng';
+import { PrestationsComponent } from './prestations/prestations.component';
 
 
 
@@ -230,6 +231,7 @@ import {
         RegisterComponent,
         AlertComponent,
         HomeComponent,
+        PrestationsComponent,
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },

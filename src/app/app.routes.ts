@@ -19,18 +19,21 @@ import { AppCustomerComponent } from './components/app-customer/app-customer.com
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './demo/service/auth.guard';
+import {CollaborateursComponent} from './collaborateurs/collaborateurs.component';
+import {PrestationsComponent} from './prestations/prestations.component';
 
 
 export const routes: Routes = [
     {path: '', component: AppDashboardComponent, canActivate: [AuthGuard]},
+    {path: 'accueil', component: AppDashboardComponent, canActivate: [AuthGuard]},
     {path: 'customer', component: AppCustomerComponent},
 
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
 
     // Demo Routing
-    {path: 'dashboard', component: DashboardDemoComponent},
-    {path: 'sample', component: SampleDemoComponent},
+    {path: 'collaborateurs', component: CollaborateursComponent, canActivate: [AuthGuard]},
+    {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]},
     {path: 'forms', component: FormsDemoComponent},
     {path: 'data', component: DataDemoComponent},
     {path: 'panels', component: PanelsDemoComponent},
