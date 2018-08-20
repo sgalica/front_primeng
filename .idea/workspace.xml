@@ -2,100 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/rollup.config.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/alert/alert.component.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/alert/alert.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/alert/alert.component.spec.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/alert/alert.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/collaborateurs/collaborateurs.component.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/collaborateurs/collaborateurs.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/collaborateurs/collaborateurs.component.spec.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/collaborateurs/collaborateurs.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/components/charts/charts.component.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/components/charts/charts.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/components/charts/charts.component.spec.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/components/charts/charts.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/alert.service.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/auth.guard.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/auth.service.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/authentication.service.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/error.interceptor.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/fake-backend.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/jwt.interceptor.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/user.service.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/demo/service/user.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/home/home.component.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/home/home.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/home/home.component.spec.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/home/home.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/login/login.component.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/login/login.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/login/login.component.spec.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/login/login.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/register/register.component.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/register/register.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/register/register.component.spec.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/register/register.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/1.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/2.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/3.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/4.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/5.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/6.PNG" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/7.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/8.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/9.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/Sans titre.xcf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/annuaire.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/annuaire.xcf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/collaborateurs.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/conges.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/coopte.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/logo.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/logo_ATG2.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/logo_ATG2.xcf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/logo_ATG2mini.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/logo_atg.xcf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/logo_fastlab_byopen_3.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/prestation.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/prestation.xcf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/referenciel.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/referenciel.xcf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/tableau de bord.xcf" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/tableaudebord.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/demo.module.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/domain/car.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/service/carservice.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/service/countryservice.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/service/eventservice.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/service/nodeservice.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/chartsdemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/chartsdemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/dashboard.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/dashboarddemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/datademo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/documentation.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/documentation.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/emptydemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/emptydemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/filedemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/filedemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/formsdemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/formsdemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/menusdemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/menusdemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/messagesdemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/messagesdemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/miscdemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/miscdemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/overlaysdemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/overlaysdemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/panelsdemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/panelsdemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/sampledemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/sampledemo.component.ts" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/utilsdemo.component.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/demo2/view/utilsdemo.component.ts" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -465,7 +371,7 @@
       <workItem from="1529501113861" duration="916000" />
       <workItem from="1529559316916" duration="18000" />
       <workItem from="1529565935771" duration="2506000" />
-      <workItem from="1534656694953" duration="29988000" />
+      <workItem from="1534656694953" duration="29999000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1534730228097</created>
@@ -488,11 +394,18 @@
       <option name="project" value="LOCAL" />
       <updated>1534730512996</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="first commit">
+      <created>1534747987926</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1534747987926</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="134039000" />
+    <option name="totallyTimeSpent" value="134050000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1296" height="1000" extended-state="6" />
