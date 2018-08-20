@@ -3,55 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/angular.json" afterPath="$PROJECT_DIR$/angular.json" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/app/app.module.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.routes.ts" afterPath="$PROJECT_DIR$/src/app/app.routes.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/app-dashboard/app-dashboard.component.html" afterPath="$PROJECT_DIR$/src/app/components/app-dashboard/app-dashboard.component.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/app-dashboard/app-dashboard.component.scss" afterPath="$PROJECT_DIR$/src/app/components/app-dashboard/app-dashboard.component.scss" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/app-dashboard/app-dashboard.component.ts" afterPath="$PROJECT_DIR$/src/app/components/app-dashboard/app-dashboard.component.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/app/app.component.html" afterPath="$PROJECT_DIR$/src/app/components/app/app.component.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/components/app/app.component.scss" afterPath="$PROJECT_DIR$/src/app/components/app/app.component.scss" />
-      <change beforePath="$PROJECT_DIR$/src/assets/layout/css/layout-blue.css" afterPath="$PROJECT_DIR$/src/assets/layout/css/layout-blue.css" />
-      <change beforePath="$PROJECT_DIR$/src/assets/layout/images/logo.png" afterPath="$PROJECT_DIR$/src/assets/layout/images/logo.png" />
-      <change beforePath="$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.html" afterPath="$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.html" />
-      <change beforePath="$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.scss" afterPath="$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.scss" />
-      <change beforePath="$PROJECT_DIR$/src/core/components/core-menu/core-menu.component.ts" afterPath="$PROJECT_DIR$/src/core/components/core-menu/core-menu.component.ts" />
-      <change beforePath="$PROJECT_DIR$/src/demo/demo.module.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/domain/car.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/service/carservice.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/service/countryservice.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/service/eventservice.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/service/nodeservice.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/chartsdemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/chartsdemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/dashboard.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/dashboarddemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/datademo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/datademo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/documentation.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/documentation.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/emptydemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/emptydemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/filedemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/filedemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/formsdemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/formsdemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/menusdemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/menusdemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/messagesdemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/messagesdemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/miscdemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/miscdemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/overlaysdemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/overlaysdemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/panelsdemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/panelsdemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/sampledemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/sampledemo.component.ts" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/utilsdemo.component.html" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/src/demo/view/utilsdemo.component.ts" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -538,7 +489,7 @@
       <workItem from="1529501113861" duration="916000" />
       <workItem from="1529559316916" duration="18000" />
       <workItem from="1529565935771" duration="2506000" />
-      <workItem from="1534656694953" duration="29239000" />
+      <workItem from="1534656694953" duration="29252000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1534730228097</created>
@@ -547,11 +498,18 @@
       <option name="project" value="LOCAL" />
       <updated>1534730228098</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="first commit">
+      <created>1534730500688</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1534730500688</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="133290000" />
+    <option name="totallyTimeSpent" value="133303000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1912" y="-8" width="1296" height="1000" extended-state="6" />
