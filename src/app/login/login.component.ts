@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
     loading = false;
     submitted = false;
     returnUrl: string;
+    dialogVisible: boolean;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -21,6 +22,7 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService) {}
 
     ngOnInit() {
+        this.dialogVisible = true;
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]

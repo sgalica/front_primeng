@@ -1,5 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {trigger, state, transition, style, animate} from '@angular/animations';
+import {User} from '../../../app/demo/service/user';
+import { Location } from '@angular/common';
+
 
 @Component({
     selector: 'core-profile',
@@ -7,9 +10,11 @@ import {trigger, state, transition, style, animate} from '@angular/animations';
         <div class="profile" [ngClass]="{'profile-expanded':active}">
             <a href="#" (click)="onClick($event)">
                 <img class="profile-image" src="assets/layout/images/avatar.png" />
-                <span class="profile-name">Isabel Oliviera</span>
+                <span class="profile-name">{{currentUser.username}}</span>
                 <i class="fa fa-fw fa-caret-down"></i>
-                <span class="profile-role">Marketing</span>
+                <div class="ui-dialog-buttonpane ui-helper-clearfix">
+
+                    <p><a [routerLink]="['/login']">Logout</a></p></div>
             </a>
         </div>
 
@@ -45,7 +50,7 @@ import {trigger, state, transition, style, animate} from '@angular/animations';
                 </div>
             </li>
             <li role="menuitem">
-                <a href="#" [attr.tabindex]="!active ? '-1' : null">
+                <a [routerLink]="['/login']" [attr.tabindex]="!active ? '-1' : null">
                     <i class="fa fa-fw fa-sign-out"></i>
                     <span>Logout</span>
                 </a>
@@ -69,12 +74,38 @@ import {trigger, state, transition, style, animate} from '@angular/animations';
         ])
     ]
 })
-export class CoreProfileComponent {
+export class CoreProfileComponent implements OnInit, OnChanges {
+
+
 
     active: boolean;
+    currentUser: User = new User();
+
+    constructor(private location: Location) {}
+
+    ngOnInit(): void {
+        if (localStorage.getItem('currentUser')) {
+            this.currentUser.username = JSON.parse( localStorage.getItem('currentUser') )['username'];
+        } else {this.currentUser.username = null; }
+
+
+    }
+
+    ngOnChanges(): void {
+        this.pageRefresh();
+
+    }
+
+    pageRefresh() {
+        location.reload();
+    }
+
 
     onClick(event) {
+
         this.active = !this.active;
         event.preventDefault();
     }
+
+
 }
