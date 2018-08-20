@@ -16,13 +16,20 @@ import { FileDemoComponent } from './demo/view/filedemo.component';
 import { UtilsDemoComponent } from './demo/view/utilsdemo.component';
 import { DocumentationComponent } from './demo/view/documentation.component';
 import { AppCustomerComponent } from './components/app-customer/app-customer.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './demo/service/auth.guard';
+
 
 export const routes: Routes = [
-    {path: 'dashboard', component: AppDashboardComponent},
+    {path: '', component: AppDashboardComponent, canActivate: [AuthGuard]},
     {path: 'customer', component: AppCustomerComponent},
 
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+
     // Demo Routing
-    {path: '', component: DashboardDemoComponent},
+    {path: 'dashboard', component: DashboardDemoComponent},
     {path: 'sample', component: SampleDemoComponent},
     {path: 'forms', component: FormsDemoComponent},
     {path: 'data', component: DataDemoComponent},

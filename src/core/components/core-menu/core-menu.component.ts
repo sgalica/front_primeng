@@ -27,8 +27,13 @@ export class CoreMenuComponent implements OnInit {
 
     ngOnInit() {
         this.model = [
-            { label: 'Dashboard', icon: 'fa fa-fw fa-home', routerLink: ['/dashboard'] },
-            { label: 'Manage Customers', icon: 'fa fa-fw fa-users', routerLink: ['/customer'] },
+            { label: 'Accueil', icon: 'fa fa-fw fa-home', routerLink: ['/accueil'] },
+            { label: 'Collaborateurs', icon: 'fa fa-fw fa-home', routerLink: ['/collaborateurs'] },
+            { label: 'Congés', icon: 'fa fa-fw fa-home', routerLink: ['/conges'] },
+            { label: 'Annuaire', icon: 'fa fa-fw fa-home', routerLink: ['/annuaire'] },
+            { label: 'Prestations', icon: 'fa fa-fw fa-users', routerLink: ['/prestations'] },
+            { label: 'Tableau de bord', icon: 'fa fa-fw fa-users', routerLink: ['/tableaudebord'] },
+            { label: 'Réferenciel', icon: 'fa fa-fw fa-users', routerLink: ['/referenciel'] },
             {
                 label: 'Demo', icon: 'fa fa-fw  fa-tags',
                 items: [

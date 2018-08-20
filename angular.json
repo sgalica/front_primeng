@@ -67,7 +67,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "avalon:build"
+            "browserTarget": "avalon:build"      ,
+              "port": 4202
           },
           "configurations": {
             "production": {
