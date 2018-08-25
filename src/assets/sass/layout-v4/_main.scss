@@ -198,6 +198,7 @@ body {
                 }
 
                 .profile-name {
+                    text-transform: capitalize;
                     display: block;
                     color: $textColor;
                     vertical-align: middle;
@@ -982,6 +983,8 @@ body {
 
                     > a {
                         .profile-name, .profile-role, i {
+                            text-transform: capitalize;
+
                             display: none;
                         }
                     }

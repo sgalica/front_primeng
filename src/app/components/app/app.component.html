@@ -8,21 +8,27 @@
 
     <core-topbar></core-topbar>
 
-    <div class="layout-menu-container" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick($event)">
-        <p-scrollPanel #layoutMenuScroller [style]="{height: '100%' }">
-            <div class="menu-scroll-content">
-                <core-profile *ngIf="profileMode=='inline'&&!isHorizontal()"></core-profile>
-                <core-menu [reset]="resetMenu"></core-menu>
-            </div>
-        </p-scrollPanel>
+    <div>
+        <div class="layout-menu-container" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick($event)">
+            <p-scrollPanel #layoutMenuScroller [style]="{height: '100%' }">
+                <div class="menu-scroll-content">
+                    <div *ngIf="isLoggedIn$ | async">
+                        <core-profile *ngIf="profileMode=='inline'&&!isHorizontal()"></core-profile>
+                        <core-menu [reset]="resetMenu"></core-menu>
+                    </div>
+                </div>
+            </p-scrollPanel>
+        </div>
     </div>
+
 
     <div class="layout-main">
         <router-outlet></router-outlet>
     </div>
 
-    <div class="">   <core-footer></core-footer></div>
-
+    <div class="">
+        <core-footer></core-footer>
+    </div>
 
 
 </div>

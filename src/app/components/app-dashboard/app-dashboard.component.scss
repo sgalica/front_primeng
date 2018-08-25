@@ -1,3 +1,8 @@
+
+.profile-name{text-transform: capitalize;}
+
+.news-area{padding: 20px}
+
 .line1 {
     max-height: 500px;
     max-width: 1400px;
@@ -47,6 +52,7 @@
 }
 
 .menu {
+    background: none;
     padding: 0px;
     min-height: 100%;
     //max-width: 380px;

@@ -1,66 +1,14 @@
 import {Component, OnChanges, OnInit} from '@angular/core';
 import {trigger, state, transition, style, animate} from '@angular/animations';
 import {User} from '../../../app/demo/service/user';
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
+import {Observable} from 'rxjs/Rx';
+import {AuthenticationService} from '../../../app/demo/service/authentication.service';
 
 
 @Component({
     selector: 'core-profile',
-    template: `
-        <div class="profile" [ngClass]="{'profile-expanded':active}">
-            <a href="#" (click)="onClick($event)">
-                <img class="profile-image" src="assets/layout/images/avatar.png" />
-                <span class="profile-name">{{currentUser.username}}</span>
-                <i class="fa fa-fw fa-caret-down"></i>
-                <div class="ui-dialog-buttonpane ui-helper-clearfix">
-
-                    <p><a [routerLink]="['/login']">Logout</a></p></div>
-            </a>
-        </div>
-
-        <ul id="profile-menu" class="layout-menu" [@menu]="active ? 'visible' : 'hidden'">
-            <li role="menuitem">
-                <a href="#" [attr.tabindex]="!active ? '-1' : null">
-                    <i class="fa fa-fw fa-user"></i>
-                    <span>Profile</span>
-                </a>
-                <div class="layout-menu-tooltip">
-                    <div class="layout-menu-tooltip-arrow"></div>
-                    <div class="layout-menu-tooltip-text">Profile</div>
-                </div>
-            </li>
-            <li role="menuitem">
-                <a href="#" [attr.tabindex]="!active ? '-1' : null">
-                    <i class="fa fa-fw fa-user-secret"></i>
-                    <span>Privacy</span>
-                </a>
-                <div class="layout-menu-tooltip">
-                    <div class="layout-menu-tooltip-arrow"></div>
-                    <div class="layout-menu-tooltip-text">Privacy</div>
-                </div>
-            </li>
-            <li role="menuitem">
-                <a href="#" [attr.tabindex]="!active ? '-1' : null">
-                    <i class="fa fa-fw fa-cog"></i>
-                    <span>Settings</span>
-                </a>
-                <div class="layout-menu-tooltip">
-                    <div class="layout-menu-tooltip-arrow"></div>
-                    <div class="layout-menu-tooltip-text">Settings</div>
-                </div>
-            </li>
-            <li role="menuitem">
-                <a [routerLink]="['/login']" [attr.tabindex]="!active ? '-1' : null">
-                    <i class="fa fa-fw fa-sign-out"></i>
-                    <span>Logout</span>
-                </a>
-                <div class="layout-menu-tooltip">
-                    <div class="layout-menu-tooltip-arrow"></div>
-                    <div class="layout-menu-tooltip-text">Logout</div>
-                </div>
-            </li>
-        </ul>
-    `,
+    templateUrl: './core-profile.component.html',
     animations: [
         trigger('menu', [
             state('hidden', style({
@@ -74,31 +22,31 @@ import { Location } from '@angular/common';
         ])
     ]
 })
-export class CoreProfileComponent implements OnInit, OnChanges {
+export class CoreProfileComponent implements OnInit {
 
 
 
     active: boolean;
-    currentUser: User = new User();
+    currentUser: User;
 
-    constructor(private location: Location) {}
+    constructor(private auth: AuthenticationService) {
+        this.auth.itemValue.subscribe(nextValue => {
+            this.currentUser = nextValue as User ;
+        });
+    }
+
 
     ngOnInit(): void {
         if (localStorage.getItem('currentUser')) {
-            this.currentUser.username = JSON.parse( localStorage.getItem('currentUser') )['username'];
-        } else {this.currentUser.username = null; }
+            this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        } else {
+            this.currentUser = null;
+        }
 
 
     }
 
-    ngOnChanges(): void {
-        this.pageRefresh();
 
-    }
-
-    pageRefresh() {
-        location.reload();
-    }
 
 
     onClick(event) {

@@ -1,5 +1,7 @@
-import { Component, AfterViewInit, ElementRef, Renderer2, ViewChild, OnDestroy } from '@angular/core';
+import {Component, AfterViewInit, ElementRef, Renderer2, ViewChild, OnDestroy, OnInit} from '@angular/core';
 import { ScrollPanel } from 'primeng/primeng';
+import {Observable} from 'rxjs/Rx';
+import {AuthService} from '../../demo/service/auth.service';
 
 enum MenuOrientation {
     STATIC,
@@ -13,7 +15,12 @@ enum MenuOrientation {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit , OnInit {
+
+
+    isLoggedIn$: Observable<boolean>;                  // {1}
+
+
 
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
 
@@ -45,11 +52,28 @@ export class AppComponent implements AfterViewInit {
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ScrollPanel;
 
-    constructor(public renderer: Renderer2) { }
+    constructor(public renderer: Renderer2, private authService: AuthService ) { }
+
+    ngOnInit() {
+        console.log('appComponent init');
+
+        this.isLoggedIn$ = this.authService.isLoggedIn ; // {2}
+    }
+
 
     ngAfterViewInit() {
+        if (! this.isLoggedIn$ ) {
         setTimeout(() => { this.layoutMenuScrollerViewChild.moveBar(); }, 100);
+        }
+
+
     }
+
+
+    onLogout() {
+        this.authService.logout();                      // {3}
+    }
+
 
     onLayoutClick() {
         if (!this.topbarItemClick) {
@@ -171,5 +195,8 @@ export class AppComponent implements AfterViewInit {
     changeToSlimMenu() {
         this.layoutMode = MenuOrientation.SLIM;
     }
+
+
+
 
 }

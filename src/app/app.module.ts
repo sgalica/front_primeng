@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {InjectionToken, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 import {AppRoutes} from './app.routes';
@@ -34,28 +34,27 @@ import {EmptyDemoComponent} from '../app/demo/view/emptydemo.component';
 import {FileDemoComponent} from '../app/demo/view/filedemo.component';
 import {UtilsDemoComponent} from '../app/demo/view/utilsdemo.component';
 import {DocumentationComponent} from '../app/demo/view/documentation.component';
-import { CollaborateursComponent } from './collaborateurs/collaborateurs.component';
-import { RegisterComponent } from './register/register.component';
-import { HomeComponent } from './home/home.component';
+import {CollaborateursComponent} from './collaborateurs/collaborateurs.component';
+import {RegisterComponent} from './register/register.component';
+import {HomeComponent} from './home/home.component';
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 // used to create fake backend
-import { fakeBackendProvider } from './demo/service/fake-backend';
-import {JwtHelperService} from '@auth0/angular-jwt';
+import {fakeBackendProvider} from './demo/service/fake-backend';
+import {JwtHelperService, JwtModule, JwtModuleOptions} from '@auth0/angular-jwt';
 
-import { AuthGuard } from './demo/service/auth.guard';
-import { JwtInterceptor } from './demo/service/jwt.interceptor';
-import { ErrorInterceptor } from './demo/service/error.interceptor';
-import { AlertService } from './demo/service/alert.service';
-import { AuthenticationService } from './demo/service/authentication.service';
-import { UserService } from './demo/service/user.service';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule  } from '@angular/forms';
+import {AuthGuard} from './demo/service/auth.guard';
+import {JwtInterceptor} from './demo/service/jwt.interceptor';
+import {ErrorInterceptor} from './demo/service/error.interceptor';
+import {AlertService} from './demo/service/alert.service';
+import {AuthenticationService} from './demo/service/authentication.service';
+import {UserService} from './demo/service/user.service';
+import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 import {
-
     AccordionModule,
     AutoCompleteModule,
     BreadcrumbModule,
@@ -122,12 +121,25 @@ import {
     TreeModule,
     TreeTableModule
 } from 'primeng/primeng';
-import { PrestationsComponent } from './prestations/prestations.component';
 
+import {PrestationsComponent} from './prestations/prestations.component';
+import {MenuComponent} from './menu/menu.component';
+import {AuthService} from './demo/service/auth.service';
 
+export function tokenGetter() {
+    return localStorage.getItem('access_token');
+}
 
 @NgModule({
     imports: [
+        HttpClientModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                whitelistedDomains: ['localhost:3001'],
+                blacklistedRoutes: ['localhost:3001/auth/']
+            }
+            }),
         ReactiveFormsModule,
         FormsModule,
         OrderListModule,
@@ -203,7 +215,8 @@ import { PrestationsComponent } from './prestations/prestations.component';
         ToolbarModule,
         TooltipModule,
         TreeModule,
-        TreeTableModule
+        TreeTableModule,
+        JwtModule
     ],
     declarations: [
         DashboardDemoComponent,
@@ -232,15 +245,16 @@ import { PrestationsComponent } from './prestations/prestations.component';
         AlertComponent,
         HomeComponent,
         PrestationsComponent,
+        MenuComponent,
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
         CarService, CountryService, EventService, NodeService, AuthGuard,
         AlertService,
-        AuthenticationService,
-        UserService,
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        AuthenticationService, AuthService,
+        UserService, JwtHelperService,
+        {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
 
         // provider used to create fake backend
         fakeBackendProvider
