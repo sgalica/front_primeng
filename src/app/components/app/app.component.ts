@@ -1,7 +1,9 @@
 import {Component, AfterViewInit, ElementRef, Renderer2, ViewChild, OnDestroy, OnInit} from '@angular/core';
-import { ScrollPanel } from 'primeng/primeng';
-import {Observable} from 'rxjs/Rx';
+import {ScrollPanel} from 'primeng/primeng';
+import {BehaviorSubject, Observable} from 'rxjs/Rx';
 import {AuthService} from '../../demo/service/auth.service';
+import {del} from 'selenium-webdriver/http';
+import {delay} from 'q';
 
 enum MenuOrientation {
     STATIC,
@@ -15,11 +17,11 @@ enum MenuOrientation {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit , OnInit {
+export class AppComponent implements AfterViewInit, OnInit {
 
+    isLoggedIn$ = new BehaviorSubject<boolean>(false); // {1}
 
-    isLoggedIn$: Observable<boolean>;                  // {1}
-
+    // isLoggedIn$: Observable<boolean> = false;                  // {1}
 
 
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
@@ -52,18 +54,25 @@ export class AppComponent implements AfterViewInit , OnInit {
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ScrollPanel;
 
-    constructor(public renderer: Renderer2, private authService: AuthService ) { }
+    constructor(public renderer: Renderer2, private authService: AuthService) { console.log('[app.component.ts]');    }
 
     ngOnInit() {
-        console.log('appComponent init');
+        /*
+         The use of "async()" and " await" clears the ExpressionChangedAfterItHasBeenCheckedError exception.
+        */
+         this.authService.isLoggedIn.subscribe(async(value) => this.isLoggedIn$.next(await value)); // {2}
+        console.log('[app.component.ts] appComponent init', this.isLoggedIn$);
 
-        this.isLoggedIn$ = this.authService.isLoggedIn ; // {2}
+
     }
 
 
     ngAfterViewInit() {
-        if (! this.isLoggedIn$ ) {
-        setTimeout(() => { this.layoutMenuScrollerViewChild.moveBar(); }, 100);
+
+        if (!this.isLoggedIn$) {
+            setTimeout(() => {
+                this.layoutMenuScrollerViewChild.moveBar();
+            }, 100);
         }
 
 
@@ -120,7 +129,9 @@ export class AppComponent implements AfterViewInit , OnInit {
         this.resetMenu = false;
 
         if (!this.isHorizontal()) {
-            setTimeout(() => { this.layoutMenuScrollerViewChild.moveBar(); }, 450);
+            setTimeout(() => {
+                this.layoutMenuScrollerViewChild.moveBar();
+            }, 450);
         }
     }
 
@@ -195,8 +206,6 @@ export class AppComponent implements AfterViewInit , OnInit {
     changeToSlimMenu() {
         this.layoutMode = MenuOrientation.SLIM;
     }
-
-
 
 
 }

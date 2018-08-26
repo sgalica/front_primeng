@@ -1,10 +1,10 @@
 
 <div class="profile" [ngClass]="{'profile-expanded':active}" >
     <a href="#" (click)="onClick($event)">
-        <img class="profile-image" src="assets/layout/images/avatar.png"/>
-        <a class="profile-name">{{currentUser.lastName}} {{currentUser.firstName}} </a>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix"></div>
+        <img  style="margin-left: 20px"  class="profile-image" src="assets/layout/images/avatar.png"/>
+        <a style="text-transform: capitalize;"  class="profile-name">{{currentUser.lastName}} {{currentUser.firstName}} </a>
         <i class="fa fa-fw fa-caret-down"></i>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix"></div>
 
     </a>
 </div>

@@ -6,9 +6,12 @@ import {Observable} from 'rxjs/Rx';
 import {AuthenticationService} from '../../../app/demo/service/authentication.service';
 
 
+
 @Component({
     selector: 'core-profile',
     templateUrl: './core-profile.component.html',
+    styleUrls: ['./core-profile.component.css'],
+
     animations: [
         trigger('menu', [
             state('hidden', style({

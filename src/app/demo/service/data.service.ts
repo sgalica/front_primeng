@@ -1,6 +1,3 @@
-///<reference path="auth.guard.ts"/>
-// src/app/auth/auth.service.ts
-
 import {Injectable} from '@angular/core';
 import {JwtHelperService as _JwtHelperService} from '@auth0/angular-jwt';
 import {BehaviorSubject, Observable, Subject} from 'rxjs/Rx';
@@ -19,25 +16,17 @@ export const JwtHelperService = {
 };
 
 @Injectable()
-export class AuthService {
-
-    static loggedIn = new Observable<boolean>(); // {1}
-    itemValue = new Subject();
+export class DataService {
 
 
     constructor(public jwtHelper: _JwtHelperService, private router: Router, private http: HttpClient, private authGuard: AuthGuard) {
-        console.log('[auth.service.ts]', AuthService.loggedIn);
+        console.log('[data.service.ts]');
     }
 
 
-    get isLoggedIn() {
-        AuthService.loggedIn = this.authGuard.isLoggedIn;
-        console.log('[auth.service.ts] on verifie si on est connecté ', this.authGuard.isLoggedIn);
-        return AuthService.loggedIn; // {2}
-    }
 
 
-    login(username: string, password: string) {
+    collaborateurs(username: string, password: string) {
         console.log('[auth.service.ts] AuthenticationService login()');
 
         return this.http.post<any>(`localhost:8080/users/authenticate`, {username: username, password: password})
@@ -53,22 +42,9 @@ export class AuthService {
 
                     this.router.navigate(['/']);
                 }
-                this.itemValue.next(user); // this will make sure to tell every subscriber about the change.
 
                 return user;
             }));
     }
 
-    logout() {                            // {4}
-        console.log('[auth.service.ts] on se deconnecte', AuthService.loggedIn);
-
-        AuthGuard.logged.next(false);
-        // remove user from local storage to log user out
-        localStorage.removeItem('currentUser');
-        console.log('[auth.service.ts] on est deconnecté', AuthService.loggedIn);
-
-        console.log('[auth.service.ts] on affiche le form login');
-
-        this.router.navigate(['/login']);
-    }
 }

@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthService,
-        private alertService: AlertService) {}
+        private alertService: AlertService) { console.log('[login.component.ts]'); }
 
     ngOnInit() {
         console.log('LoginComponent init');
@@ -62,13 +62,15 @@ export class LoginComponent implements OnInit {
 
                     this.router.navigate([this.returnUrl]);
                     console.log( 'appel de la route /Accueil');
+                    console.log('Login successful');
 
                 },
                 error => {
+                    console.log('Login error');
+
                     this.alertService.error(error);
                     this.loading = false;
                 });
-        console.log('Login successful');
 
     }
 }
