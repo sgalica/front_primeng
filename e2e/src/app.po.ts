@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class AvalonPage {
+export class ATGPage {
   navigateTo() {
     return browser.get('/');
   }

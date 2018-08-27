@@ -1,10 +1,10 @@
-import { AvalonPage } from './app.po';
+import { ATGPage } from './app.po';
 
 describe('Avalon App', function() {
-  let page: AvalonPage;
+  let page: ATGPage;
 
   beforeEach(() => {
-    page = new AvalonPage();
+    page = new ATGPage();
   });
 
 });
