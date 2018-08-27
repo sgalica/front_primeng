@@ -78,7 +78,7 @@
     transition-property: transform;
 }
 
-.image:hover {
+.case:hover .image{
     overflow: hidden;
     transition-duration: 0.5s;
     transition-property: transform;

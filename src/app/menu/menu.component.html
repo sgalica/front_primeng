@@ -1,0 +1,10 @@
+<div class="layout-menu-container" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick($event)"  *ngIf="isLoggedIn$ | async" >
+    <p-scrollPanel #layoutMenuScroller [style]="{height: '100%' }">
+        <div class="menu-scroll-content">
+            <core-profile *ngIf="profileMode=='inline'&&!isHorizontal()"></core-profile>
+            <core-menu [reset]="resetMenu"></core-menu>
+        </div>
+    </p-scrollPanel>
+</div>
+
+
