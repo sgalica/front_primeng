@@ -125,6 +125,7 @@ import {
 import {PrestationsComponent} from './prestations/prestations.component';
 import {MenuComponent} from './menu/menu.component';
 import {AuthService} from './demo/service/auth.service';
+import {CollaborateurService} from './demo/service/collaborateur.service';
 
 export function tokenGetter() {
     return localStorage.getItem('access_token');
@@ -251,6 +252,7 @@ export function tokenGetter() {
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
         CarService, CountryService, EventService, NodeService, AuthGuard,
         AlertService,
+        CollaborateurService,
         AuthenticationService, AuthService,
         UserService, JwtHelperService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

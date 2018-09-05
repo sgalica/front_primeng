@@ -29,7 +29,7 @@ export class DataService {
     collaborateurs(username: string, password: string) {
         console.log('[auth.service.ts] AuthenticationService login()');
 
-        return this.http.post<any>(`localhost:8080/users/authenticate`, {username: username, password: password})
+        return this.http.post<any>(`localhost:9090/collaborateur`, {username: username, password: password})
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {

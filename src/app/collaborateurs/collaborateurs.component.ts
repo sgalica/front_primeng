@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {Car} from '../demo/domain/car';
 import {SelectItem} from 'primeng/api';
 import {CarService} from '../demo/service/carservice';
+import {first} from 'rxjs/operators';
+import {CollaborateurService} from '../demo/service/collaborateur.service';
+import {User} from '../demo/service/user';
+import {Collaborateur} from '../demo/service/collaborateur';
 
 @Component({
   selector: 'app-collaborateurs',
@@ -24,7 +28,9 @@ export class CollaborateursComponent implements OnInit {
 
     sortOrder: number;
 
-    constructor(private carService: CarService) { }
+    collaborateurs: Collaborateur[] = [];
+
+    constructor(private carService: CarService, private collaborateurService: CollaborateurService) { }
 
     ngOnInit() {
         this.carService.getCarsLarge().then(cars => this.cars = cars);
@@ -34,6 +40,9 @@ export class CollaborateursComponent implements OnInit {
             {label: 'Oldest First', value: 'year'},
             {label: 'Brand', value: 'brand'}
         ];
+
+
+            this.loadAllCollaborateurs();
     }
 
     selectCar(event: Event, car: Car) {
@@ -56,5 +65,11 @@ export class CollaborateursComponent implements OnInit {
 
     onDialogHide() {
         this.selectedCar = null;
+    }
+
+    loadAllCollaborateurs() {
+        this.collaborateurService.getAll().pipe(first()).subscribe(collaborateurs => {
+            this.collaborateurs = collaborateurs;
+        });
     }
 }
