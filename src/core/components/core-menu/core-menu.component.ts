@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MenuItem } from 'primeng/primeng';
-import { AppComponent } from '../../../app/components/app/app.component';
+import { AppComponent } from '../../../app/app.component';
 
 @Component({
     selector: 'core-menu',

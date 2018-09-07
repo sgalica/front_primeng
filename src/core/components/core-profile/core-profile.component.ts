@@ -1,9 +1,9 @@
 import {Component, OnChanges, OnInit} from '@angular/core';
 import {trigger, state, transition, style, animate} from '@angular/animations';
-import {User} from '../../../app/demo/service/user';
+import {User} from '../../../app/model/user';
 import {Location} from '@angular/common';
 import {Observable} from 'rxjs/Rx';
-import {AuthenticationService} from '../../../app/demo/service/authentication.service';
+import {AuthenticationService} from '../../../app/service/authentication.service';
 
 
 

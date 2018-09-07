@@ -1,26 +1,13 @@
 import {Routes, RouterModule} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
-import { AppDashboardComponent } from './components/app-dashboard/app-dashboard.component';
-import { DashboardDemoComponent } from './demo/view/dashboarddemo.component';
-import { SampleDemoComponent } from './demo/view/sampledemo.component';
-import { FormsDemoComponent } from './demo/view/formsdemo.component';
-import { DataDemoComponent } from './demo/view/datademo.component';
-import { PanelsDemoComponent } from './demo/view/panelsdemo.component';
-import { OverlaysDemoComponent } from './demo/view/overlaysdemo.component';
-import { MenusDemoComponent } from './demo/view/menusdemo.component';
-import { MessagesDemoComponent } from './demo/view/messagesdemo.component';
-import { MiscDemoComponent } from './demo/view/miscdemo.component';
-import { EmptyDemoComponent } from './demo/view/emptydemo.component';
-import { ChartsDemoComponent } from './demo/view/chartsdemo.component';
-import { FileDemoComponent } from './demo/view/filedemo.component';
-import { UtilsDemoComponent } from './demo/view/utilsdemo.component';
-import { DocumentationComponent } from './demo/view/documentation.component';
-import { AppCustomerComponent } from './components/app-customer/app-customer.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { AuthGuard } from './demo/service/auth.guard';
-import {CollaborateursComponent} from './collaborateurs/collaborateurs.component';
-import {PrestationsComponent} from './prestations/prestations.component';
+import { AppDashboardComponent } from './component/app-dashboard/app-dashboard.component';
+
+import { AppCustomerComponent } from './component/app-customer/app-customer.component';
+import { LoginComponent } from './component/login/login.component';
+import { RegisterComponent } from './component/register/register.component';
+import { AuthGuard } from './service/auth.guard';
+import {CollaborateursComponent} from './component/collaborateurs/collaborateurs.component';
+import {PrestationsComponent} from './component/prestations/prestations.component';
 
 
 export const routes: Routes = [
@@ -33,19 +20,7 @@ export const routes: Routes = [
 
     // Demo Routing
     {path: 'collaborateurs', component: CollaborateursComponent, canActivate: [AuthGuard]},
-    {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]},
-    {path: 'forms', component: FormsDemoComponent},
-    {path: 'data', component: DataDemoComponent},
-    {path: 'panels', component: PanelsDemoComponent},
-    {path: 'overlays', component: OverlaysDemoComponent},
-    {path: 'menus', component: MenusDemoComponent},
-    {path: 'messages', component: MessagesDemoComponent},
-    {path: 'misc', component: MiscDemoComponent},
-    {path: 'empty', component: EmptyDemoComponent},
-    {path: 'charts', component: ChartsDemoComponent},
-    {path: 'file', component: FileDemoComponent},
-    {path: 'utils', component: UtilsDemoComponent},
-    {path: 'documentation', component: DocumentationComponent}
+    {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]}
 ];
 
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);
