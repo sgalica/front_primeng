@@ -29,6 +29,7 @@ export class CoreMenuComponent implements OnInit {
         this.model = [
             { label: 'Accueil', icon: 'fa fa-fw fa-home', routerLink: ['/accueil'] },
             { label: 'Collaborateurs', icon: 'fa fa-fw fa-users', routerLink: ['/collaborateurs'] },
+            { label: 'New Collaborateur', icon: 'fa fa-fw fa-users', routerLink: ['/newCollaborateur'] },
             { label: 'Congés', icon: 'fa fa-fw fa-ban', routerLink: ['/conges'] },
             { label: 'Annuaire', icon: 'fa fa-fw fa-phone-square', routerLink: ['/annuaire'] },
             { label: 'Prestations', icon: 'fa fa-fw fa-check-square-o', routerLink: ['/prestations'] },

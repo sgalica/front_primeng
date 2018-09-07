@@ -47,4 +47,25 @@ export class DataService {
             }));
     }
 
+    prestations(username: string, password: string) {
+        console.log('[auth.service.ts] AuthenticationService login()');
+
+        return this.http.post<any>(`localhost:9090/prestation`, {username: username, password: password})
+            .pipe(map(user => {
+                // login successful if there's a jwt token in the response
+                if (user && user.token) {
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    console.log('[auth.service.ts] on enregistre le user dans le cookie');
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+
+                    AuthGuard.logged.next(true);
+                    console.log('[auth.service.ts] on change la valeur a true de LOGGEDIN', AuthGuard.logged.getValue());
+
+                    this.router.navigate(['/']);
+                }
+
+                return user;
+            }));
+    }
+
 }

@@ -1,0 +1,113 @@
+<p-toolbar>
+    <div class="ui-toolbar-group-left">
+        <button pButton type="button" label="New" icon="pi pi-plus"></button>
+        <button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>
+
+        <i class="pi pi-bars"></i>
+
+    </div>
+
+    <div class="ui-toolbar-group-right">
+        <button pButton type="button" icon="pi pi-search"></button>
+        <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
+        <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
+    </div>
+</p-toolbar>
+
+<h3 class="first">Collaborateur</h3>
+<div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">id_pilot</span>
+            <input type="text" pInputText placeholder="id_pilot">
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">nom</span>
+            <input type="text" pInputText placeholder="nom">
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">www</span>
+            <input type="text" pInputText placeholder="Website">
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">prenom</span>
+            <input type="text" pInputText placeholder="prenom">
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">trig_open</span>
+            <input type="text" pInputText placeholder="trig_open">
+        </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-4">
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon">tel_perso</span>
+            <input type="text" pInputText placeholder="tel_perso">
+        </div>
+    </div>
+
+</div>
+<div class="ui-toolbar-group-right">
+    <button pButton type="button" label="Rajouter"  class="ui-button-success"></button>
+</div>
+
+
+
+<!--<p-table #tt [columns]="cols" [value]="collaborateurs" [paginator]="true" [rows]="10">-->
+    <!--<ng-template pTemplate="caption">-->
+        <!--<div class="ui-toolbar-group-left">COLLABORATEURS</div>-->
+        <!--<i class="fa fa-search" style="margin:4px 4px 0 0"></i>-->
+        <!--<input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">-->
+    <!--</ng-template>-->
+
+    <!--<ng-template pTemplate="header" let-columns>-->
+        <!--<tr>-->
+            <!--<th *ngFor="let col of cols">-->
+                <!--{{col.header}}-->
+            <!--</th>-->
+        <!--</tr>-->
+
+    <!--</ng-template>-->
+    <!--<ng-template pTemplate="body" let-rowData let-columns="columns">-->
+        <!--<tr [pSelectableRow]="rowData">-->
+
+            <!--<td *ngFor="let col of columns">-->
+                <!--{{rowData[col.field]}}-->
+            <!--</td>-->
+        <!--</tr>-->
+
+    <!--</ng-template>-->
+<!--</p-table>-->
+
+
+<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+          width="225" (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedCollaborateur">
+        <div class="ui-g-12" style="text-align:center">
+            <img src="assets/showcase/images/demo/car/{{selectedCollaborateur.prenom}}.png">
+        </div>
+        <div class="ui-g-4">Vin:</div>
+        <div class="ui-g-8">{{selectedCollaborateur.nom}}</div>
+
+        <div class="ui-g-4">Brand:</div>
+        <div class="ui-g-8">{{selectedCollaborateur.prenom}}</div>
+
+        <div class="ui-g-4">Year:</div>
+        <div class="ui-g-8">{{selectedCollaborateur.tel_perso}}</div>
+
+        <div class="ui-g-4">Color:</div>
+        <div class="ui-g-8">{{selectedCollaborateur.mail_open}}</div>
+    </div>
+</p-dialog>

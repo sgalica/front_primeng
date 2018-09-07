@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {CollaborateurService} from '../../service/collaborateur.service';
-import {Collaborateur} from '../../model/collaborateur';
+import {CollaborateurService} from '../demo/service/collaborateur.service';
+import {Collaborateur} from '../demo/service/collaborateur';
 
 @Component({
-  selector: 'app-collaborateurs',
-  templateUrl: './collaborateurs.component.html',
-  styleUrls: ['./collaborateurs.component.css']
+    selector: 'app-newCollaborateur',
+    templateUrl: './newCollaborateur.component.html',
+    styleUrls: ['./newCollaborateur.component.css']
 })
-export class CollaborateursComponent implements OnInit {
+export class NewCollaborateurComponent implements OnInit {
 
 
     selectedCollaborateur: Collaborateur;
@@ -53,7 +53,7 @@ export class CollaborateursComponent implements OnInit {
         ]
 
 
-            this.loadAllCollaborateurs();
+        this.loadAllCollaborateurs();
     }
 
     selectCollaborateur(event: Event, collaborateur: Collaborateur) {
