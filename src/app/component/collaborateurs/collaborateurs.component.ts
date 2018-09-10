@@ -50,6 +50,7 @@ export class CollaborateursComponent implements OnInit {
             {header: 'categorisation', field:'code_categorisation'},
             {header: 'top_statut', field:'top_statut'},
             {header: 'statut', field:'statut'},
+
         ]
 
 
