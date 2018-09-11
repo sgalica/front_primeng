@@ -21,7 +21,8 @@
 </div>-->
 <p-toolbar>
     <div class="ui-toolbar-group-right">
-    <button pButton type="button" label="New" icon="pi pi-plus"></button>
+    <button pButton type="button" label="New" icon="pi pi-plus" (click)="afficherLaSaisie(event)"></button>
+    <!--<p-button pButton type="button" label="New" icon="pi pi-plus" (onClick)="afficherLaSaisie($event)"></p-button>-->
     <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
     <!--<i class="pi pi-bars"></i>-->
     </div>
@@ -160,22 +161,109 @@
     <!--</ng-template>-->
 <!--</p-dataView>-->
 
-<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
-          width="225" (onAfterHide)="onDialogHide()">
-    <div class="ui-g" *ngIf="selectedCollaborateur">
-        <div class="ui-g-12" style="text-align:center">
-            <img src="assets/showcase/images/demo/car/{{selectedCollaborateur.prenom}}.png">
+<!--<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"-->
+          <!--width="225" (onAfterHide)="onDialogHide()">-->
+    <!--<div class="ui-g" *ngIf="selectedCollaborateur">-->
+        <!--<div class="ui-g-12" style="text-align:center">-->
+            <!--<img src="assets/showcase/images/demo/car/{{selectedCollaborateur.prenom}}.png">-->
+        <!--</div>-->
+        <!--<div class="ui-g-4">Vin:</div>-->
+        <!--<div class="ui-g-8">{{selectedCollaborateur.nom}}</div>-->
+
+        <!--<div class="ui-g-4">Brand:</div>-->
+        <!--<div class="ui-g-8">{{selectedCollaborateur.prenom}}</div>-->
+
+        <!--<div class="ui-g-4">Year:</div>-->
+        <!--<div class="ui-g-8">{{selectedCollaborateur.tel_perso}}</div>-->
+
+        <!--<div class="ui-g-4">Color:</div>-->
+        <!--<div class="ui-g-8">{{selectedCollaborateur.mail_open}}</div>-->
+    <!--</div>-->
+<!--</p-dialog>-->
+
+<!--<p-dialog header="Login" [resizable]="true" visible="false" responsive="true"-->
+          <!--modal="true" [styleClass]="">-->
+    <p-dialog header="New Collaborateur" [(visible)]="displayDialog" [responsive]="true" [modal]="true"  >
+
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">id_pilot</span>
+                    <input type="text" pInputText placeholder="identifiant pilot">
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">nom</span>
+                    <input type="text" pInputText placeholder="nom">
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">prenom</span>
+                    <input type="text" pInputText placeholder="prenom">
+                </div>
+            </div>
         </div>
-        <div class="ui-g-4">Vin:</div>
-        <div class="ui-g-8">{{selectedCollaborateur.nom}}</div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">trig_open</span>
+                    <input type="text" pInputText placeholder="trigramme open">
+                </div>
+            </div>
 
-        <div class="ui-g-4">Brand:</div>
-        <div class="ui-g-8">{{selectedCollaborateur.prenom}}</div>
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">tel_p</span>
+                    <input type="text" pInputText placeholder="telephone personnel">
+                </div>
+            </div>
 
-        <div class="ui-g-4">Year:</div>
-        <div class="ui-g-8">{{selectedCollaborateur.tel_perso}}</div>
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">mail_op</span>
+                    <input type="text" pInputText placeholder="mail open">
+                </div>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">mail_sg</span>
+                    <input type="text" pInputText placeholder="mail sociéte générale">
+                </div>
+            </div>
 
-        <div class="ui-g-4">Color:</div>
-        <div class="ui-g-8">{{selectedCollaborateur.mail_open}}</div>
-    </div>
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">code_cat</span>
+                    <input type="text" pInputText placeholder="categorisation">
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">top_sta</span>
+                    <input type="text" pInputText placeholder="top statut">
+                </div>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">statut</span>
+                    <input type="text" pInputText placeholder="statut">
+                </div>
+            </div>
+        </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button pButton type="button" label="Save" icon="pi pi-upload" class="ui-button-success" (click)="saveNewCollaborateur(event)"></button>
+        </div>
+    </p-footer>
+
 </p-dialog>

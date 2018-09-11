@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {PrestationService} from '../demo/service/prestation.service';
-import {Prestation} from '../demo/service/prestation';
+import {PrestationService} from '../../service/prestation.service';
+import {Prestation} from '../../service/prestation';
 
 
 @Component({
@@ -53,14 +53,14 @@ export class PrestationsComponent implements OnInit {
             {header: 'pu', field:'pu'},
             {header: 'dateDprest', field:'date_debut_prest'},
             {header: 'dateFprest', field:'date_fin_prest'},
-            {header: 'etat_p', field:'etat_prest'},
+            {header: 'etat', field:'etat_prest'},
             {header: 'site_sg', field:'site_sg'},
             {header: 'com_open', field:'id_commercial_open'},
             {header: 'atg_atu', field:'top_atg_atu'},
             {header: 'date_c', field:'date_creation'},
-            {header: 'user_crea', field:'id_utilisateur_creation'},
-            {header: 'date_maj', field:'date_maj'},
-            {header: 'user_maj', field:'utilisateur_maj'},
+            {header: 'user_c', field:'id_utilisateur_creation'},
+            {header: 'date_m', field:'date_maj'},
+            {header: 'user_m', field:'utilisateur_maj'},
 
         ];
 

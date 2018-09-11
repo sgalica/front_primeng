@@ -5,6 +5,7 @@ import {AppRoutes} from './app.routes';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './component/login/login.component';
+import {NewCollaborateurComponent} from './component/newCollaborateur/newCollaborateur.component';
 import {AlertComponent} from './component/alert/alert.component';
 
 import {CarService} from './service/carservice';
@@ -112,6 +113,7 @@ import {PrestationsComponent} from './component/prestations/prestations.componen
 import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
 import {CollaborateurService} from './service/collaborateur.service';
+import {PrestationService} from "./service/prestation.service";
 
 export function tokenGetter() {
     return localStorage.getItem('access_token');
@@ -210,6 +212,7 @@ export function tokenGetter() {
         ChartsComponent,
         CollaborateursComponent,
         LoginComponent,
+        NewCollaborateurComponent,
         RegisterComponent,
         AlertComponent,
         HomeComponent,
@@ -221,6 +224,7 @@ export function tokenGetter() {
         CarService, CountryService, EventService, NodeService, AuthGuard,
         AlertService,
         CollaborateurService,
+        PrestationService,
         AuthenticationService, AuthService,
         UserService, JwtHelperService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
