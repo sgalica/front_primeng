@@ -16,7 +16,7 @@ export class UserService {
     }
 
     register(user: User) {
-        return this.http.post(`http://localhost:9090/users/register`, user);
+        return this.http.post(`http://localhost:5000/api/auth/signup`, user);
     }
 
     update(user: User) {

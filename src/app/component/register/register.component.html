@@ -9,11 +9,11 @@
                     </div>
                     <div class="ui-g-12" style="margin-bottom:10px">
 
-                        <input type="text" formControlName="firstName" class="form-control"
-                               [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"/>
+                        <input type="text" formControlName="firstname" class="form-control"
+                               [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"/>
                     </div>
-                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                        <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                        <div *ngIf="f.firstname.errors.required">First Name is required</div>
                     </div>
                 </div>
 
@@ -27,11 +27,11 @@
                         <label for="lastName">Last Name</label>
                     </div>
                     <div class="ui-g-12" style="margin-bottom:10px">
-                        <input type="text" formControlName="lastName" class="form-control"
-                               [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"/>
+                        <input type="text" formControlName="lastname" class="form-control"
+                               [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"/>
                     </div>
-                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
-                        <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                    <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                        <div *ngIf="f.lastname.errors.required">Last Name is required</div>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                     <div class="ui-g-12">
 
 
-                        <label for="lastName">Last Name</label>
+                        <label for="Username">User Name</label>
                     </div>
                     <div class="ui-g-12" style="margin-bottom:10px">
                         <input type="text" formControlName="username" class="form-control"
@@ -49,6 +49,22 @@
                     </div>
                     <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                         <div *ngIf="f.username.errors.required">Username is required</div>
+                    </div>
+                </div>
+
+                <div class="ui-g">
+
+                    <div class="ui-g-12">
+
+
+                        <label for="Email">Email</label>
+                    </div>
+                    <div class="ui-g-12" style="margin-bottom:10px">
+                        <input type="text" formControlName="email" class="form-control"
+                               [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
+                    </div>
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">email is required</div>
                     </div>
                 </div>
 

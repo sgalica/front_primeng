@@ -3,7 +3,7 @@
 
 import {Injectable} from '@angular/core';
 import {JwtHelperService as _JwtHelperService} from '@auth0/angular-jwt';
-import {BehaviorSubject, Observable, Subject} from 'rxjs/Rx';
+import {BehaviorSubject, Observable, Subject} from 'rxjs-compat/index';
 import {User} from '../model/user';
 import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
@@ -40,10 +40,10 @@ export class AuthService {
     login(username: string, password: string) {
         console.log('[auth.service.ts] AuthenticationService login()');
 
-        return this.http.post<any>(`localhost:8080/users/authenticate`, {username: username, password: password})
+        return this.http.post<any>(`http://localhost:5000/api/auth/signin`, {usernameOrEmail: username, password: password})
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
-                if (user && user.token) {
+                if (user || user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     console.log('[auth.service.ts] on enregistre le user dans le cookie');
                     localStorage.setItem('currentUser', JSON.stringify(user));
