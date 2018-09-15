@@ -8,10 +8,8 @@ import {LoginComponent} from './component/login/login.component';
 import {NewCollaborateurComponent} from './component/newCollaborateur/newCollaborateur.component';
 import {AlertComponent} from './component/alert/alert.component';
 
-import {CarService} from './service/carservice';
-import {CountryService} from './service/countryservice';
 import {EventService} from './service/eventservice';
-import {NodeService} from './service/nodeservice';
+import {NodeService} from './service/node.service';
 import {AppDashboardComponent} from './component/app-dashboard/app-dashboard.component';
 import {CoreModule} from '../core/core.module';
 import {AppCustomerComponent} from './component/app-customer/app-customer.component';
@@ -35,7 +33,6 @@ import {AuthGuard} from './service/auth.guard';
 import {JwtInterceptor} from './service/jwt.interceptor';
 import {ErrorInterceptor} from './service/error.interceptor';
 import {AlertService} from './service/alert.service';
-import {AuthenticationService} from './service/authentication.service';
 import {UserService} from './service/user.service';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -116,7 +113,7 @@ import {CollaborateurService} from './service/collaborateur.service';
 import {PrestationService} from "./service/prestation.service";
 
 export function tokenGetter() {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem('accessToken');
 }
 
 @NgModule({
@@ -221,11 +218,11 @@ export function tokenGetter() {
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
-        CarService, CountryService, EventService, NodeService, AuthGuard,
+        EventService, NodeService, AuthGuard,
         AlertService,
         CollaborateurService,
         PrestationService,
-        AuthenticationService, AuthService,
+        AuthService,
         UserService, JwtHelperService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

@@ -3,6 +3,7 @@ import {trigger, state, transition, style, animate} from '@angular/animations';
 import {User} from '../../../app/model/user';
 import {Location} from '@angular/common';
 import {AuthService} from '../../../app/service/auth.service';
+import {first} from "rxjs/operators";
 
 
 
@@ -32,6 +33,10 @@ export class CoreProfileComponent implements OnInit {
     currentUser: User;
 
     constructor(private auth: AuthService) {
+
+        this.auth.getProfile()
+            .pipe(first()).subscribe();
+
         this.auth.itemValue.subscribe(nextValue => {
             this.currentUser = nextValue as User ;
         });
@@ -40,6 +45,8 @@ export class CoreProfileComponent implements OnInit {
 
     ngOnInit(): void {
         if (localStorage.getItem('currentUser')) {
+            this.auth.getProfile().first;
+
             this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         } else {
             this.currentUser = null;

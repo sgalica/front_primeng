@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Prestation } from './prestation';
+import { Prestation } from '../model/prestation';
 
 
 

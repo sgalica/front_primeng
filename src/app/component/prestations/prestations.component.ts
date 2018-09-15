@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {PrestationService} from '../../service/prestation.service';
-import {Prestation} from '../../service/prestation';
+import {Prestation} from '../../model/prestation';
 
 
 @Component({
