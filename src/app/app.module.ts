@@ -5,9 +5,11 @@ import {AppRoutes} from './app.routes';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './component/login/login.component';
+import {NewCollaborateurComponent} from './component/newCollaborateur/newCollaborateur.component';
 import {AlertComponent} from './component/alert/alert.component';
 
-
+import {CarService} from './service/carservice';
+import {CountryService} from './service/countryservice';
 import {EventService} from './service/eventservice';
 import {NodeService} from './service/nodeservice';
 import {AppDashboardComponent} from './component/app-dashboard/app-dashboard.component';
@@ -33,6 +35,7 @@ import {AuthGuard} from './service/auth.guard';
 import {JwtInterceptor} from './service/jwt.interceptor';
 import {ErrorInterceptor} from './service/error.interceptor';
 import {AlertService} from './service/alert.service';
+import {AuthenticationService} from './service/authentication.service';
 import {UserService} from './service/user.service';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -110,6 +113,7 @@ import {PrestationsComponent} from './component/prestations/prestations.componen
 import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
 import {CollaborateurService} from './service/collaborateur.service';
+import {PrestationService} from "./service/prestation.service";
 
 export function tokenGetter() {
     return localStorage.getItem('access_token');
@@ -121,8 +125,8 @@ export function tokenGetter() {
         JwtModule.forRoot({
             config: {
                 tokenGetter: tokenGetter,
-                whitelistedDomains: ['localhost:9090'],
-                blacklistedRoutes: ['localhost:9090/auth/']
+                whitelistedDomains: ['localhost:3001'],
+                blacklistedRoutes: ['localhost:3001/auth/']
             }
             }),
         ReactiveFormsModule,
@@ -208,6 +212,7 @@ export function tokenGetter() {
         ChartsComponent,
         CollaborateursComponent,
         LoginComponent,
+        NewCollaborateurComponent,
         RegisterComponent,
         AlertComponent,
         HomeComponent,
@@ -216,10 +221,11 @@ export function tokenGetter() {
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
-        EventService, NodeService, AuthGuard,
+        CarService, CountryService, EventService, NodeService, AuthGuard,
         AlertService,
         CollaborateurService,
-        AuthService,
+        PrestationService,
+        AuthenticationService, AuthService,
         UserService, JwtHelperService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

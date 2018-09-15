@@ -23,7 +23,7 @@ export class CollaborateurService {
     }
 
     update(collaborateur: Collaborateur) {
-        return this.http.put(`http://localhost:9090/collaborateurs/` + collaborateur.id_pilot, collaborateur);
+        return this.http.put(`http://localhost:9090/collaborateurs/` , collaborateur);
     }
 
     delete(id: number) {

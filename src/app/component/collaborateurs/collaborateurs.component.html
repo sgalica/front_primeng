@@ -20,105 +20,250 @@
   </div>
 </div>-->
 <p-toolbar>
-    <div class="ui-toolbar-group-left">
-        <button pButton type="button" label="New" icon="pi pi-plus"></button>
-        <button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>
-
-        <i class="pi pi-bars"></i>
-
-    </div>
-
     <div class="ui-toolbar-group-right">
-        <button pButton type="button" icon="pi pi-search"></button>
-        <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
-        <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
+    <button pButton type="button" label="New" icon="pi pi-plus" (click)="afficherLaSaisie(event)"></button>
+    <!--<p-button pButton type="button" label="New" icon="pi pi-plus" (onClick)="afficherLaSaisie($event)"></p-button>-->
+    <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
+    <!--<i class="pi pi-bars"></i>-->
     </div>
 </p-toolbar>
-<p-dataView #dv1 [style]="{'padding': '20px'}" [value]="collaborateurs" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="nom"
-            [sortField]="sortField" [sortOrder]="sortOrder">
-    <p-header>
+<div >
+    <h1> </h1>
+    <!--<button pButton type="button" label="New" icon="pi pi-plus"></button>-->
+    <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
+    <!--<i class="pi pi-bars"></i>-->
+</div>
 
-        <div class="ui-helper-clearfix">
-            <div class="ui-g">
-                <div class="ui-g-12 ui-md-4">
-                    <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
-                                (onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
-                </div>
-                <div class="ui-g-6 ui-md-4 filter-container">
-                    <div style="position:relative">
-                        <input type="search" pInputText placeholder="Search by brand" (keyup)="dv1.filter($event.target.value)">
-                    </div>
-                </div>
-                <div class="ui-g-6 ui-md-4" style="text-align:right">
-                    <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
-                </div>
-
-            </div>
-        </div>
-    </p-header>
-    <ng-template let-collaborateur pTemplate="listItem">
-        <div class="ui-g" style="border: 1px solid #d9d9d9">
-
-
-
-            <div class="ui-g-10 ui-md-9 car-details">
-                <div class="ui-g-1 ui-sm-6">Vin:</div>
-                <div class="ui-g-1 ui-sm-6"><b>{{collaborateur.nom}}</b></div>
-
-                <div class="ui-g-1 ui-sm-6">Year:</div>
-                <div class="ui-g-1 ui-sm-6"><b>{{collaborateur.prenom}}</b></div>
-
-                <div class="ui-g-1 ui-sm-6">Year:</div>
-                <div class="ui-g-1 ui-sm-6"><b>{{collaborateur.prenom}}</b></div>
-
-                <div class="ui-g-1 ui-sm-6">Year:</div>
-                <div class="ui-g-1 ui-sm-6"><b>{{collaborateur.prenom}}</b></div>
-
-                <div class="ui-g-1 ui-sm-6">Year:</div>
-                <div class="ui-g-1 ui-sm-6"><b>{{collaborateur.prenom}}</b></div>
-
-
-            </div>
-            <div class="ui-g-1 ui-md-2 search-icon">
-                <button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, collaborateur)"></button>
-                <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
-                <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
-            </div>
-        </div>
-
+<p-table #tt [columns]="cols" [value]="collaborateurs" [paginator]="true" [rows]="10">
+    <ng-template pTemplate="caption">
+        <div class="ui-toolbar-group-left">COLLABORATEURS</div>
+        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
     </ng-template>
 
-
-    <ng-template let-collaborateur pTemplate="gridItem">
-        <div style="padding:.5em" class="ui-g-6 ui-md-2">
-            <p-panel [header]="collaborateur.vin" [style]="{'text-align':'center'}">
-                <img src="assets/showcase/images/demo/car/{{collaborateur.brand}}.png" width="120">
-                <div class="car-detail">{{collaborateur.nom}} - {{collaborateur.prenom}}</div>
-                <hr class="ui-widget-content" style="border-top:0">
-                <button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, collaborateur)"
-                        style="margin-top:0"></button>
-            </p-panel>
-        </div>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of cols">
+                {{col.header}}
+            </th>
+        </tr>
 
     </ng-template>
-</p-dataView>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
 
-<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
-          width="225" (onAfterHide)="onDialogHide()">
-    <div class="ui-g" *ngIf="selectedCollaborateur">
-        <div class="ui-g-12" style="text-align:center">
-            <img src="assets/showcase/images/demo/car/{{selectedCollaborateur.prenom}}.png">
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+            <td >
+                <div class="ui-toolbar-group-right">
+                    <button pButton type="button" icon="pi pi-search"></button>
+                    <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
+                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
+                </div>
+            </td>
+        </tr>
+
+    </ng-template>
+</p-table>
+<!--<p-dataView #dv1 [style]="{'padding': '20px'}" [value]="collaborateurs" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="nom"-->
+            <!--[sortField]="sortField" [sortOrder]="sortOrder">-->
+    <!--<p-header>-->
+
+        <!--<div class="ui-helper-clearfix">-->
+            <!--<div class="ui-g">-->
+                <!--<div class="ui-g-12 ui-md-4">-->
+                    <!--<p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"-->
+                                <!--(onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>-->
+                <!--</div>-->
+                <!--<div class="ui-g-6 ui-md-4 filter-container">-->
+                    <!--<div style="position:relative">-->
+                        <!--<input type="search" pInputText placeholder="Search by brand" (keyup)="dv1.filter($event.target.value)">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="ui-g-6 ui-md-4" style="text-align:right">-->
+                    <!--<p-dataViewLayoutOptions></p-dataViewLayoutOptions>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</p-header>-->
+
+
+
+
+    <!--<ng-template let-collaborateur pTemplate="listItem">-->
+        <!--<div class="ui-g" style="border: 1px solid #d9d9d9">-->
+
+
+
+                <!--<div class="ui-g-1 ui-sm-6">id_pilot:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.id_pilot}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">nom:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.id_pilot}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">prenom:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.prenom}}</b></div>-->
+
+
+
+
+
+                <!--<div class="ui-g-1 ui-sm-6">trig_open:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.trig_open}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">tel_perso:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.tel_perso}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">tel_pro:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.tel_pro}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">mail_open:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.mail_open}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">mail_sg:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.mail_sg}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">code_categorisation:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.code_categorisation}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">top_statut:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.top_statut}}</b></div>-->
+
+                <!--<div class="ui-g-1 ui-sm-6">statut:</div>-->
+                <!--<div class="ui-g-1 ui-sm-6"><b>{{collaborateur.statut}}</b></div>-->
+
+
+
+            <!--<div class="ui-g-1 ui-md-2 search-icon">-->
+                <!--<button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, collaborateur)"></button>-->
+                <!--<button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>-->
+                <!--<button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</ng-template>-->
+
+
+    <!--<ng-template let-collaborateur pTemplate="gridItem">-->
+        <!--<div style="padding:.5em" class="ui-g-6 ui-md-2">-->
+            <!--<p-panel [header]="collaborateur.vin" [style]="{'text-align':'center'}">-->
+                <!--<img src="assets/showcase/images/demo/car/{{collaborateur.brand}}.png" width="120">-->
+                <!--<div class="car-detail">{{collaborateur.nom}} - {{collaborateur.prenom}}</div>-->
+                <!--<hr class="ui-widget-content" style="border-top:0">-->
+                <!--<button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, collaborateur)"-->
+                        <!--style="margin-top:0"></button>-->
+            <!--</p-panel>-->
+        <!--</div>-->
+
+    <!--</ng-template>-->
+<!--</p-dataView>-->
+
+<!--<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"-->
+          <!--width="225" (onAfterHide)="onDialogHide()">-->
+    <!--<div class="ui-g" *ngIf="selectedCollaborateur">-->
+        <!--<div class="ui-g-12" style="text-align:center">-->
+            <!--<img src="assets/showcase/images/demo/car/{{selectedCollaborateur.prenom}}.png">-->
+        <!--</div>-->
+        <!--<div class="ui-g-4">Vin:</div>-->
+        <!--<div class="ui-g-8">{{selectedCollaborateur.nom}}</div>-->
+
+        <!--<div class="ui-g-4">Brand:</div>-->
+        <!--<div class="ui-g-8">{{selectedCollaborateur.prenom}}</div>-->
+
+        <!--<div class="ui-g-4">Year:</div>-->
+        <!--<div class="ui-g-8">{{selectedCollaborateur.tel_perso}}</div>-->
+
+        <!--<div class="ui-g-4">Color:</div>-->
+        <!--<div class="ui-g-8">{{selectedCollaborateur.mail_open}}</div>-->
+    <!--</div>-->
+<!--</p-dialog>-->
+
+<!--<p-dialog header="Login" [resizable]="true" visible="false" responsive="true"-->
+          <!--modal="true" [styleClass]="">-->
+    <p-dialog header="New Collaborateur" [(visible)]="displayDialog" [responsive]="true" [modal]="true"  >
+
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">id_pilot</span>
+                    <input type="text" pInputText placeholder="identifiant pilot">
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">nom</span>
+                    <input type="text" pInputText placeholder="nom">
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">prenom</span>
+                    <input type="text" pInputText placeholder="prenom">
+                </div>
+            </div>
         </div>
-        <div class="ui-g-4">Vin:</div>
-        <div class="ui-g-8">{{selectedCollaborateur.nom}}</div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">trig_open</span>
+                    <input type="text" pInputText placeholder="trigramme open">
+                </div>
+            </div>
 
-        <div class="ui-g-4">Brand:</div>
-        <div class="ui-g-8">{{selectedCollaborateur.prenom}}</div>
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">tel_p</span>
+                    <input type="text" pInputText placeholder="telephone personnel">
+                </div>
+            </div>
 
-        <div class="ui-g-4">Year:</div>
-        <div class="ui-g-8">{{selectedCollaborateur.tel_perso}}</div>
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">mail_op</span>
+                    <input type="text" pInputText placeholder="mail open">
+                </div>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">mail_sg</span>
+                    <input type="text" pInputText placeholder="mail sociéte générale">
+                </div>
+            </div>
 
-        <div class="ui-g-4">Color:</div>
-        <div class="ui-g-8">{{selectedCollaborateur.mail_open}}</div>
-    </div>
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">code_cat</span>
+                    <input type="text" pInputText placeholder="categorisation">
+                </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">top_sta</span>
+                    <input type="text" pInputText placeholder="top statut">
+                </div>
+            </div>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-md-4">
+                <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">statut</span>
+                    <input type="text" pInputText placeholder="statut">
+                </div>
+            </div>
+        </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button pButton type="button" label="Save" icon="pi pi-upload" class="ui-button-success" (click)="saveNewCollaborateur(event)"></button>
+        </div>
+    </p-footer>
+
 </p-dialog>

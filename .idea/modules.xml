@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/atg.iml" filepath="$PROJECT_DIR$/.idea/atg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/atf_front_primeng.iml" filepath="$PROJECT_DIR$/atf_front_primeng.iml" />
     </modules>
   </component>
 </project>

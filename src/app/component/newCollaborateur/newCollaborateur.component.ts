@@ -3,16 +3,16 @@ import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
-import {NewCollaborateurComponent} from "../newCollaborateur/newCollaborateur.component";
 
 @Component({
-  selector: 'app-collaborateurs',
-  templateUrl: './collaborateurs.component.html',
-  styleUrls: ['./collaborateurs.component.css']
+    selector: 'app-newCollaborateur',
+    templateUrl: './newCollaborateur.component.html',
+    styleUrls: ['./newCollaborateur.component.css']
 })
-export class CollaborateursComponent implements OnInit {
+export class NewCollaborateurComponent implements OnInit {
 
-    newcollaborateur : NewCollaborateurComponent;
+
+    collaborateur : Collaborateur;
 
     selectedCollaborateur: Collaborateur;
 
@@ -55,8 +55,8 @@ export class CollaborateursComponent implements OnInit {
 
         ]
 
-
-            this.loadAllCollaborateurs();
+        this.loadAllCollaborateurs();
+        this.saveNewCollaborateur(this.collaborateur);
     }
 
     selectCollaborateur(event: Event, collaborateur: Collaborateur) {
@@ -87,23 +87,9 @@ export class CollaborateursComponent implements OnInit {
         });
     }
 
-    afficherLaSaisie(event){
-
-        // alert("lsklfkdlfkdflkdfldkf");
-       // return this.newcollaborateur;
-       //  event.preventDefault();
-
-        this.displayDialog = true;
-        // event.preventDefault();
-
-
-    }
-
     saveNewCollaborateur(collaborateur : Collaborateur) {
 
-        // alert("lsklfkdlfkdflkdfldkf");
-        //creer l'objet collaborateur a partir des inputs
-       this.collaborateurService.update(collaborateur);
+        this.collaborateurService.update(collaborateur);
 
 
     }
