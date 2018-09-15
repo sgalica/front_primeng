@@ -43,7 +43,7 @@ export class AuthService {
         return this.http.post<any>(`http://localhost:5000/api/auth/signin`, {usernameOrEmail: username, password: password})
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
-                if (user || user.token) {
+                if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     console.log('[auth.service.ts] on enregistre le user dans le cookie');
                     localStorage.setItem('currentUser', JSON.stringify(user));

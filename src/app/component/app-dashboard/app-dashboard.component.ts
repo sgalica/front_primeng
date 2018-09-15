@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NodeService} from '../../service/nodeservice';
 import {SelectItem, TreeNode} from 'primeng/primeng';
-import {CarService} from '../../service/carservice';
 import {Car} from '../../model/car';
 import {EventService} from '../../service/eventservice';
 
@@ -62,7 +61,7 @@ export class AppDashboardComponent implements OnInit {
 
     sortOrder: number;
 
-    constructor(private carService: CarService, private eventService: EventService, private nodeService: NodeService) {}
+    constructor( private eventService: EventService, private nodeService: NodeService) {}
 
     ngOnInit() {
         this.carService.getCarsMedium().then(cars => this.cars1 = cars);

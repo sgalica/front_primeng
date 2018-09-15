@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {Car} from '../../model/car';
-import {CarService} from '../../service/carservice';
 
 @Component({
     selector: 'app-prestations',

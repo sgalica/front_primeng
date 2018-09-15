@@ -7,8 +7,7 @@ import {AppComponent} from './app.component';
 import {LoginComponent} from './component/login/login.component';
 import {AlertComponent} from './component/alert/alert.component';
 
-import {CarService} from './service/carservice';
-import {CountryService} from './service/countryservice';
+
 import {EventService} from './service/eventservice';
 import {NodeService} from './service/nodeservice';
 import {AppDashboardComponent} from './component/app-dashboard/app-dashboard.component';
@@ -34,7 +33,6 @@ import {AuthGuard} from './service/auth.guard';
 import {JwtInterceptor} from './service/jwt.interceptor';
 import {ErrorInterceptor} from './service/error.interceptor';
 import {AlertService} from './service/alert.service';
-import {AuthenticationService} from './service/authentication.service';
 import {UserService} from './service/user.service';
 import {FormsModule} from '@angular/forms';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -123,8 +121,8 @@ export function tokenGetter() {
         JwtModule.forRoot({
             config: {
                 tokenGetter: tokenGetter,
-                whitelistedDomains: ['localhost:3001'],
-                blacklistedRoutes: ['localhost:3001/auth/']
+                whitelistedDomains: ['localhost:9090'],
+                blacklistedRoutes: ['localhost:9090/auth/']
             }
             }),
         ReactiveFormsModule,
@@ -218,10 +216,10 @@ export function tokenGetter() {
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
-        CarService, CountryService, EventService, NodeService, AuthGuard,
+        EventService, NodeService, AuthGuard,
         AlertService,
         CollaborateurService,
-        AuthenticationService, AuthService,
+        AuthService,
         UserService, JwtHelperService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

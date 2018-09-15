@@ -1,9 +1,8 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {trigger, state, transition, style, animate} from '@angular/animations';
 import {User} from '../../../app/model/user';
 import {Location} from '@angular/common';
-import {Observable} from 'rxjs/Rx';
-import {AuthenticationService} from '../../../app/service/authentication.service';
+import {AuthService} from '../../../app/service/auth.service';
 
 
 
@@ -32,7 +31,7 @@ export class CoreProfileComponent implements OnInit {
     active: boolean;
     currentUser: User;
 
-    constructor(private auth: AuthenticationService) {
+    constructor(private auth: AuthService) {
         this.auth.itemValue.subscribe(nextValue => {
             this.currentUser = nextValue as User ;
         });
