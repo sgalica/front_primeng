@@ -55,8 +55,8 @@
             <td *ngFor="let col of columns">
                 {{rowData[col.field]}}
             </td>
-            <td >
-                <div class="ui-toolbar-group-right">
+            <td [style]="{'width':' 200px'}">
+                <div class="ui-toolbar-group-right" >
                     <button pButton type="button" icon="pi pi-search"></button>
                     <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
                     <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
