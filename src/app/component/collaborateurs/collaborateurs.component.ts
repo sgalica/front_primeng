@@ -87,7 +87,7 @@ export class CollaborateursComponent implements OnInit {
         });
     }
 
-    afficherLaSaisie(event){
+    afficherLaSaisie(){
 
         // alert("lsklfkdlfkdflkdfldkf");
        // return this.newcollaborateur;
@@ -99,11 +99,11 @@ export class CollaborateursComponent implements OnInit {
 
     }
 
-    saveNewCollaborateur(collaborateur : Collaborateur) {
+    saveNewCollaborateur() {
 
         // alert("lsklfkdlfkdflkdfldkf");
         //creer l'objet collaborateur a partir des inputs
-       this.collaborateurService.update(collaborateur);
+       //this.collaborateurService.update(collaborateur);
 
 
     }
