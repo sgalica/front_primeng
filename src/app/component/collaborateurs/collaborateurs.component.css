@@ -1,1 +1,21 @@
 button {margin: 3px}
+
+
+.import-collabs> tr> td {
+    border-collapse: collapse;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+    border: 1px solid  #0C0213;
+}
+
+
+ui-datatable-data> tr> td {
+    border-collapse: collapse;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+    border: 1px solid  #0C0213;
+}
