@@ -40,7 +40,7 @@ export class AuthService {
     login(username: string, password: string) {
         console.log('[auth.service.ts] AuthenticationService login()');
 
-        return this.http.post<any>(`http://localhost:5000/api/auth/signin`, {usernameOrEmail: username, password: password})
+        return this.http.post<any>(`http://localhost:8081/api/auth/signin`, {usernameOrEmail: username, password: password})
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.accessToken) {
