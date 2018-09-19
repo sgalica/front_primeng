@@ -11,7 +11,7 @@ export class CollaborateurService {
 
     getAll() {
 
-        return this.http.get<Collaborateur[]>(`http://localhost:8081/api/collaborateurs/`);
+        return this.http.get<Collaborateur[]>(`http://localhost:8080/api/collaborateurs/`);
     }
 
     getById(id: number) {
