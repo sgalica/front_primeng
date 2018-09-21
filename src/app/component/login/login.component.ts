@@ -18,11 +18,11 @@ export class LoginComponent implements OnInit {
                 private router: Router,
                 private authenticationService: AuthService,
                 private alertService: AlertService) {
-        console.log('[login.component.ts]');
+
     }
 
     ngOnInit() {
-        console.log('LoginComponent init');
+
 
         this.dialogVisible = true;
         this.loginForm = this.formBuilder.group({
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log('LoginComponent onSubmit() ');
+
 
 
         this.submitted = true;
@@ -59,15 +59,14 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    console.log(data, 'données retournées');
+
 
                     this.router.navigate([this.returnUrl]);
-                    console.log('appel de la route /Accueil');
-                    console.log('Login successful');
+
 
                 },
                 error => {
-                    console.log('Login error');
+
 
                     this.alertService.error(error);
                     this.loading = false;

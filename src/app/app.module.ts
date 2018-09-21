@@ -9,7 +9,6 @@ import {NewCollaborateurComponent} from './component/newCollaborateur/newCollabo
 import {AlertComponent} from './component/alert/alert.component';
 
 import {EventService} from './service/eventservice';
-import {NodeService} from './service/node.service';
 import {AppDashboardComponent} from './component/app-dashboard/app-dashboard.component';
 import {CoreModule} from '../core/core.module';
 import {AppCustomerComponent} from './component/app-customer/app-customer.component';
@@ -182,6 +181,7 @@ export function tokenGetter() {
         ProgressBarModule,
         RadioButtonModule,
         RatingModule,
+        ReactiveFormsModule,
         ScheduleModule,
         ScrollPanelModule,
         SelectButtonModule,
@@ -218,7 +218,8 @@ export function tokenGetter() {
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
-        EventService, NodeService, AuthGuard,
+        EventService,
+        AuthGuard,
         AlertService,
         CollaborateurService,
         PrestationService,
@@ -228,7 +229,7 @@ export function tokenGetter() {
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
 
         // provider used to create fake backend
-        fakeBackendProvider
+        // fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })

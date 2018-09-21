@@ -54,14 +54,13 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ScrollPanel;
 
-    constructor(public renderer: Renderer2, private authService: AuthService) { console.log('[app.component.ts]');    }
+    constructor(public renderer: Renderer2, private authService: AuthService) {     }
 
     ngOnInit() {
         /*
          The use of "async()" and " await" clears the ExpressionChangedAfterItHasBeenCheckedError exception.
         */
          this.authService.isLoggedIn.subscribe(async(value) => this.isLoggedIn$.next(await value)); // {2}
-        console.log('[app.component.ts] appComponent init', this.isLoggedIn$);
 
 
     }

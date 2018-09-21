@@ -14,7 +14,7 @@ import {delay, mergeMap, materialize, dematerialize} from 'rxjs/operators';
 export class FakeBackendInterceptor implements HttpInterceptor {
 
     constructor() {
-        console.log('[FakeBackendInterceptor.ts]');
+
 
     }
 
@@ -25,8 +25,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
 
-/*            // authenticate
-            if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
+            // authenticate
+            if (request.url.endsWith('/api/auth/signup') && request.method === 'POST') {
                 // find if any user matches login credentials
                 const filteredUsers = users.filter(user => {
                     return user.username === request.body.username && user.password === request.body.password;
@@ -128,7 +128,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     // return 401 not authorised if token is null or invalid
                     return throwError({error: {message: 'Unauthorised'}});
                 }
-            }*/
+            }
 
             // pass through any requests not handled above
             return next.handle(request);

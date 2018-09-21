@@ -34,11 +34,7 @@ export class NewCollaborateurComponent implements OnInit {
 
     ngOnInit() {
 
-        this.sortOptions = [
-            {label: 'Newest First', value: '!nom'},
-            {label: 'Oldest First', value: 'prenom'},
-            {label: 'Brand', value: 'brand'}
-        ];
+
         this.cols = [
 
             {header: 'id_pilot', field:'id_pilot'},
@@ -59,27 +55,6 @@ export class NewCollaborateurComponent implements OnInit {
         this.saveNewCollaborateur(this.collaborateur);
     }
 
-    selectCollaborateur(event: Event, collaborateur: Collaborateur) {
-        this.selectedCollaborateur = collaborateur;
-        this.displayDialog = true;
-        event.preventDefault();
-    }
-
-    onSortChange(event) {
-        const value = event.value;
-
-        if (value.indexOf('!') === 0) {
-            this.sortOrder = -1;
-            this.sortField = value.substring(1, value.length);
-        } else {
-            this.sortOrder = 1;
-            this.sortField = value;
-        }
-    }
-
-    onDialogHide() {
-        this.selectedCollaborateur = null;
-    }
 
     loadAllCollaborateurs() {
         this.collaborateurService.getAll().pipe(first()).subscribe(collaborateurs => {

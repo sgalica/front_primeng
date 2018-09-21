@@ -11,22 +11,22 @@ export class PrestationService {
 
     getAll() {
 
-        return this.http.get<Prestation[]>(`http://localhost:9090/api/prestations/`);
+        return this.http.get<Prestation[]>(`/api/prestations/`);
     }
 
     getById(id: number) {
-        return this.http.get(`http://localhost:9090/prestations/` + id);
+        return this.http.get(`/api/prestations/` + id);
     }
 
     register(prestation: Prestation) {
-        return this.http.post(`http://localhost:9090/prestations/register`, prestation);
+        return this.http.post(`/api/prestations/register`, prestation);
     }
 
     update(prestation: Prestation) {
-        return this.http.put(`http://localhost:9090/prestations/` + prestation.id_prestation, prestation);
+        return this.http.put(`/api/prestations/` + prestation.id_prestation, prestation);
     }
 
     delete(id: number) {
-        return this.http.delete(`http://localhost:9090/prestations/` + id);
+        return this.http.delete(`/api/prestations/` + id);
     }
 }

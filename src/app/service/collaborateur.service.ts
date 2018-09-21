@@ -10,23 +10,27 @@ export class CollaborateurService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-
-        return this.http.get<Collaborateur[]>(`http://localhost:5000/api/collaborateurs/`);
+        return this.http.get<Collaborateur[]>(`/api/collaborateurs/`);
     }
 
     getById(id: number) {
-        return this.http.get(`http://localhost:9090/collaborateurs/` + id);
+        return this.http.get(`/api/collaborateurs/` + id);
+    }
+
+    registerList(collaborateurList: Array<Collaborateur>) {
+        console.log("appel POST", collaborateurList);
+        return this.http.post(`/api/collaborateurs/register/import`, collaborateurList);
     }
 
     register(collaborateur: Collaborateur) {
-        return this.http.post(`http://localhost:9090/collaborateurs/register`, collaborateur);
+        return this.http.post(`/api/collaborateurs/register/1`, collaborateur);
     }
 
     update(collaborateur: Collaborateur) {
-        return this.http.put(`http://localhost:9090/collaborateurs/` , collaborateur);
+        return this.http.put(`/api/collaborateurs/` , collaborateur);
     }
 
     delete(id: number) {
-        return this.http.delete(`http://localhost:9090/collaborateurs/` + id);
+        return this.http.delete(`/api/collaborateurs/` + id);
     }
 }

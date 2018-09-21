@@ -11,7 +11,7 @@ export class MenuComponent implements OnInit {
 
     isLoggedIn$: Observable<boolean>;                  // {1}
 
-    constructor(private authService: AuthService) { console.log('[menu.component.ts]'); }
+    constructor(private authService: AuthService) {  }
 
     ngOnInit() {
         this.isLoggedIn$ = this.authService.isLoggedIn ; // {2}
