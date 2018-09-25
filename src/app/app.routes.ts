@@ -2,7 +2,6 @@ import {Routes, RouterModule} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
 import { AppDashboardComponent } from './component/app-dashboard/app-dashboard.component';
 
-import { AppCustomerComponent } from './component/app-customer/app-customer.component';
 import { LoginComponent } from './component/login/login.component';
 import {NewCollaborateurComponent} from './component/newCollaborateur/newCollaborateur.component';
 import { RegisterComponent } from './component/register/register.component';
@@ -14,7 +13,6 @@ import {PrestationsComponent} from './component/prestations/prestations.componen
 export const routes: Routes = [
     {path: '', component: AppDashboardComponent, canActivate: [AuthGuard]},
     {path: 'accueil', component: AppDashboardComponent, canActivate: [AuthGuard]},
-    {path: 'customer', component: AppCustomerComponent},
 
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },

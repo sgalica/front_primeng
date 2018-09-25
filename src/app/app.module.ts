@@ -11,7 +11,6 @@ import {AlertComponent} from './component/alert/alert.component';
 import {EventService} from './service/eventservice';
 import {AppDashboardComponent} from './component/app-dashboard/app-dashboard.component';
 import {CoreModule} from '../core/core.module';
-import {AppCustomerComponent} from './component/app-customer/app-customer.component';
 import {ChartsComponent} from './component/charts/charts.component';
 
 
@@ -205,7 +204,6 @@ export function tokenGetter() {
     declarations: [
         AppComponent,
         AppDashboardComponent,
-        AppCustomerComponent,
         ChartsComponent,
         CollaborateursComponent,
         LoginComponent,
