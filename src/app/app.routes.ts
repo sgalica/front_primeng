@@ -17,10 +17,11 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
 
-    // Demo Routing
     {path: 'collaborateurs', component: CollaborateursComponent, canActivate: [AuthGuard]},
-    {path: 'newCollaborateur', component: NewCollaborateurComponent},
-    {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]}
+    {path: 'newCollaborateur', component: NewCollaborateurComponent, canActivate: [AuthGuard]},
+    {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]},
+
+    {path: 'administration', component: PrestationsComponent, canActivate: [AuthGuard]}
 
 ];
 

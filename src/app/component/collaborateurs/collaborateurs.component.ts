@@ -33,15 +33,12 @@ export class CollaborateursComponent implements OnInit {
 
     collaborateurs: Collaborateur[] = [];
 
-    constructor(private collaborateurService: CollaborateurService,                private router: Router,private alertService: AlertService
-    ) {
+    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService ) {
     }
 
     ngOnInit() {
 
-
         this.cols = [
-
             {header: 'trig_open', field: 'trig_open'},
             {header: 'nom', field: 'nom'},
             {header: 'prenom', field: 'prenom'},
@@ -75,30 +72,18 @@ export class CollaborateursComponent implements OnInit {
     }
 
     afficherLaSaisie(event) {
-
-
         this.displayDialog = true;
-
-
     }
 
     saveNewCollaborateur() {
         console.log("LOGGING:::::::::::::::::::::::");
-
-
         this.collaborateurService.registerList(this.importedCollabs)
             .pipe(first())
             .subscribe(
                 data => {
-
-
                     this.router.navigate(["/collaborateurs"]);
-
-
                 },
                 error => {
-
-
                     this.alertService.error(error);
                 });
 

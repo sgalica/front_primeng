@@ -1,45 +1,18 @@
-<!--<div *ngFor="let jugador of jugadores">
-  <div class="col-sm-4 col-md-4 col-lg-4">
-    &lt;!&ndash; <div *ngIf="jugador.estado as true"> &ndash;&gt;
-      <div class="well">
-          <h1 class="text-warning">{{jugador.nombre}}</h1>
-          <p><span class="label label-default">Disponible</span>
-          </p>
-          <ul class="list-group">
-              <li class="list-group-item"><b>Edad:</b> {{jugador.edad}}</li>
-              <li class="list-group-item"><b>Apodo:</b> {{jugador.apodo}}</li>
-              <li class="list-group-item"><b>Posicion:</b> {{jugador.posicion}}</li>
-                <li class="list-group-item"><b>Estado:</b> {{jugador.estado}}</li>
-              <li class="list-group-item">
-                  <img src="../../assets/images/{{jugador.foto}}" alt="Sin foto" />
-              </li>
-          </ul>
-          <button *ngIf="jugador.estado as true" class="btn btn-primary btn-sm">Ver</button>
-      </div>
-    &lt;!&ndash; </div> &ndash;&gt;
-  </div>
-</div>-->
+
 <p-toolbar>
     <div class="ui-toolbar-group-right">
         <button pButton type="button" label="New" icon="pi pi-plus" (click)="afficherLaSaisie()"></button>
-        <!--<p-button pButton type="button" label="New" icon="pi pi-plus" (onClick)="afficherLaSaisie($event)"></p-button>-->
-        <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
-        <!--<i class="pi pi-bars"></i>-->
+
     </div>
 </p-toolbar>
-<div>
-    <h1></h1>
-    <!--<button pButton type="button" label="New" icon="pi pi-plus"></button>-->
-    <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
-    <!--<i class="pi pi-bars"></i>-->
-</div>
+<br>
 
-<p-table #tt [columns]="cols" [value]="collaborateurs" [paginator]="true" [rows]="10">
+<p-table #dt [columns]="cols" [value]="collaborateurs" [paginator]="true" [rows]="10">
     <ng-template pTemplate="caption">
         <div class="ui-toolbar-group-left">COLLABORATEURS</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="text" pInputText size="50" placeholder="Global Filter"
-               (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        <input type="search" pInputText size="50" placeholder="Global Filter"
+               (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
     </ng-template>
 
     <ng-template pTemplate="header" let-columns>

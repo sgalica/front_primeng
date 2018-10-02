@@ -109,6 +109,7 @@ import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
 import {CollaborateurService} from './service/collaborateur.service';
 import {PrestationService} from "./service/prestation.service";
+import { AdministratorComponent } from './administrator/administrator.component';
 
 export function tokenGetter() {
     return localStorage.getItem('accessToken');
@@ -213,6 +214,7 @@ export function tokenGetter() {
         HomeComponent,
         PrestationsComponent,
         MenuComponent,
+        AdministratorComponent,
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },

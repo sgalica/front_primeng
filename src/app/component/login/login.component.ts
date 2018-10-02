@@ -22,8 +22,6 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-
-
         this.dialogVisible = true;
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
@@ -44,9 +42,6 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit() {
-
-
-
         this.submitted = true;
 
         // stop here if form is invalid
@@ -59,15 +54,9 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-
-
                     this.router.navigate([this.returnUrl]);
-
-
                 },
                 error => {
-
-
                     this.alertService.error(error);
                     this.loading = false;
                 });
