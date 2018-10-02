@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.dialogVisible = true;
+        // this.dialogVisible = true;
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
@@ -48,15 +48,19 @@ export class LoginComponent implements OnInit {
         if (this.loginForm.invalid) {
             return;
         }
-
         this.loading = true;
         this.authenticationService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
             .subscribe(
                 data => {
+                    debugger;
+
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
+                    debugger;
+                    this.returnUrl = '/login';
+
                     this.alertService.error(error);
                     this.loading = false;
                 });

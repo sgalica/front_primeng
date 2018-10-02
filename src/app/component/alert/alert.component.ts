@@ -2,10 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import { AlertService } from '../../service/alert.service';
+import {MessageService} from "primeng/components/common/messageservice";
 
 @Component({
     selector: 'alert',
-    templateUrl: 'alert.component.html'
+    templateUrl: 'alert.component.html',
+    providers: [MessageService]
 })
 
 export class AlertComponent implements OnInit, OnDestroy {
@@ -14,7 +16,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 
     message: any;
 
-    constructor(private alertService: AlertService) { }
+    constructor(private alertService: AlertService, private messageService: MessageService) { }
 
     ngOnInit() {
         this.subscription = this.alertService.getMessage().subscribe(message => {
