@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="optimise alert message 3">
+    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="optimise alert message 4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -167,7 +167,7 @@
           <entry key="js" value="1" />
           <entry key="json" value="73" />
           <entry key="ts" value="2017" />
-          <entry key="txt" value="61" />
+          <entry key="txt" value="62" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -176,7 +176,7 @@
           <entry key="HTML" value="347" />
           <entry key="JSON" value="73" />
           <entry key="JavaScript" value="1" />
-          <entry key="PLAIN_TEXT" value="61" />
+          <entry key="PLAIN_TEXT" value="62" />
           <entry key="TypeScript" value="2017" />
         </counts>
       </usages-collector>
@@ -574,7 +574,7 @@
     <property name="SearchEverywhereHistoryKey" value="app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538576808444" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538577826889" />
     <property name="last_opened_file_path" value="$USER_HOME$/IdeaProjects/atg-app-server" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -736,7 +736,7 @@
       <workItem from="1536571680582" duration="5000" />
       <workItem from="1536571716076" duration="17000" />
       <workItem from="1536571865560" duration="7061000" />
-      <workItem from="1538552634990" duration="14435000" />
+      <workItem from="1538552634990" duration="15052000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1534730228097</created>
@@ -822,11 +822,18 @@
       <option name="project" value="LOCAL" />
       <updated>1538575597594</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="optimise alert message 4">
+      <created>1538576838579</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1538576838579</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="388793000" />
+    <option name="totallyTimeSpent" value="389410000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -909,7 +916,8 @@
     <MESSAGE value="merge avec code amin et gestion du token jwt" />
     <MESSAGE value="first commit after refacto" />
     <MESSAGE value="optimise alert message 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="optimise alert message 3" />
+    <MESSAGE value="optimise alert message 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="optimise alert message 4" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/app/home/home.component.ts" />
