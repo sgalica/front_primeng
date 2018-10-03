@@ -1,7 +1,10 @@
 
 <div class="profile" [ngClass]="{'profile-expanded':active}" >
     <a href="#" (click)="onClick($event)">
-        <img  style="margin-left: 20px"  class="profile-image" src="assets/layout/images/avatar.png"/>
+        <div class="idPhotoFrame">
+            <img id="idPhoto" style="margin-left: 20px"  class="profile-image" style="margin-left:0; display:none" src="{idPhotoPath}"/>
+            <span style="lineheight:45px; font-size:1.8em; color:white">{{firstLetter}}</span>
+        </div>
         <a style="text-transform: capitalize;"  class="profile-name">{{currentUser.lastname}}
             {{currentUser.firstname}} </a>
         <i class="fa fa-fw fa-caret-down"></i>

@@ -31,6 +31,7 @@ export class CoreProfileComponent implements OnInit {
 
     active: boolean;
     currentUser: User;
+    firstLetter: string;
 
     constructor(private auth: AuthService) {
 
@@ -45,10 +46,16 @@ export class CoreProfileComponent implements OnInit {
 
     ngOnInit(): void {
         if (localStorage.getItem('currentUser')) {
-            this.auth.getProfile().pipe(first()).subscribe();
-
             this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            console.log(this.currentUser);
+
+            this.auth.getProfile().pipe(first()).subscribe(x=> {
+                this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+                this.firstLetter = x.firstname.substr(0,1)+ x.lastname.substr(0,1);
+
+
+            });
+
         } else {
             this.currentUser = null;
         }
