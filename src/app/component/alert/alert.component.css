@@ -1,8 +1,10 @@
-:host ::ng-deep button {
-    margin-right: .25em;
-}
-
-:host ::ng-deep .ui-message,
-:host ::ng-deep .ui-inputtext {
-    margin-right: .25em;
+ui-messages	{
+    z-index: 9999;
+    display: block;
+    width: 600px;
+    min-width: 150px;
+    min-height: 150px;
+    left: 340px;
+    top: 303px;
+    opacity: 1;
 }

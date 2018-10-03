@@ -33,7 +33,7 @@
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.2",
     "primeicons": "1.0.0-beta.9",
-    "primeng": "6.0.0",
+    "primeng": "^6.0.0",
     "quill": "1.1.8",
     "rxjs": "6.2.2",
     "rxjs-compat": "^6.3.2",

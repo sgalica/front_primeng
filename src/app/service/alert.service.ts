@@ -7,11 +7,12 @@ import {MessageService} from "primeng/components/common/messageservice";
 @Injectable()
 export class AlertService {
     private subject = new Subject<any>();
+    private subject2 = new Subject<any>();
     private keepAfterNavigationChange = false;
     msgs: Message[] = [];
 
 
-    constructor(private router: Router, private messageService: MessageService) {
+    constructor(private router: Router) {
         // clear alert message on route change
         router.events.subscribe(event => {
             if (event instanceof NavigationStart) {
@@ -31,6 +32,8 @@ export class AlertService {
         this.subject.next({ type: 'success', text: message });
         this.msgs = [];
         this.msgs.push({severity:'success', summary:'Success Message', detail:'Order submitted'});
+        this.subject2.next(this.msgs);
+
     }
 
     error(message: string, keepAfterNavigationChange = false) {
@@ -38,9 +41,16 @@ export class AlertService {
         this.subject.next({ type: 'error', text: message });
         this.msgs = [];
         this.msgs.push({severity:'error', summary:'Error Message', detail:'Validation failed'});
+        this.subject2.next(this.msgs);
+
     }
 
     getMessage(): Observable<any> {
         return this.subject.asObservable();
     }
+    getMessage2(): Observable<any> {
+        return this.subject2.asObservable();
+    }
+
+
 }

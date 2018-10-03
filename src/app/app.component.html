@@ -1,3 +1,4 @@
+
 <div class="layout-wrapper" (click)="onLayoutClick()" [ngClass]="{'menu-layout-static': !isOverlay(),
                 'menu-layout-overlay': isOverlay(),
                 'layout-menu-overlay-active': overlayMenuActive,
@@ -9,6 +10,7 @@
     <core-topbar></core-topbar>
 
     <div>
+
         <div class="layout-menu-container" [ngClass]="{'layout-menu-dark':darkMenu}" (click)="onMenuClick($event)">
             <p-scrollPanel #layoutMenuScroller [style]="{height: '100%' }">
                 <div class="menu-scroll-content">
@@ -22,9 +24,13 @@
     </div>
 
 
+
     <div class="layout-main">
-        <alert></alert>
+
+        <div > <alert></alert></div>
+
         <router-outlet></router-outlet>
+
     </div>
 
     <div class="">
