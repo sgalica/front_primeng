@@ -3,5 +3,5 @@
 }
 
 .idPhotoFrame {
-    height : 45px; width : 45px; margin-left:20px; background-color:#ddd; border-radius:27px; text-align:center
+    height : 45px; width : 45px; float: right; background-color:#00a6dd; border-radius:27px; text-align:center; margin: 15px;
 }

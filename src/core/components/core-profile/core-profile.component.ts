@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {trigger, state, transition, style, animate} from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {User} from '../../../app/model/user';
-import {Location} from '@angular/common';
 import {AuthService} from '../../../app/service/auth.service';
 import {first} from "rxjs/operators";
-
 
 
 @Component({
@@ -28,7 +26,6 @@ import {first} from "rxjs/operators";
 export class CoreProfileComponent implements OnInit {
 
 
-
     active: boolean;
     currentUser: User;
     firstLetter: string;
@@ -36,25 +33,26 @@ export class CoreProfileComponent implements OnInit {
     constructor(private auth: AuthService) {
 
         this.auth.getProfile()
-            .pipe(first()).subscribe();
+            .pipe().subscribe();
 
         this.auth.itemValue.subscribe(nextValue => {
-            this.currentUser = nextValue as User ;
+            this.currentUser = nextValue as User;
         });
     }
 
 
     ngOnInit(): void {
         if (localStorage.getItem('currentUser')) {
-            this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            this.auth.getProfile().pipe(first()).subscribe(x => {
 
-            this.auth.getProfile().pipe(first()).subscribe(x=> {
-                this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-                this.firstLetter = x.firstname.substr(0,1)+ x.lastname.substr(0,1);
-
+                //this.firstLetter = x.firstname.substr(0,1)+ x.lastname.substr(0,1);
+                this.firstLetter = x.firstname.charAt(0).toUpperCase() + x.lastname.charAt(0).toUpperCase();
 
             });
+
+            this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
 
         } else {
             this.currentUser = null;
@@ -62,8 +60,6 @@ export class CoreProfileComponent implements OnInit {
 
 
     }
-
-
 
 
     onClick(event) {

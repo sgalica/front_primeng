@@ -1,3 +1,38 @@
+//noinspection CssInvalidPropertyValue
+.description{
+    display: none;
+
+    z-index: 100;
+    position: relative;
+    font-size: 11px;
+
+}
+
+.case:hover .description {
+    color: #fff;
+
+    text-align: center;
+    display: block;
+    animation-duration: 1s;
+    animation-name: glissement;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+
+}
+
+
+
+@keyframes glissement {
+    from {
+        margin-top: -40%;
+    }
+
+    to {
+        margin-top: -90%;
+    }
+}
+
+
 
 .profile-name{text-transform: capitalize;}
 
