@@ -43,6 +43,8 @@ export class AuthService {
         return this.http.post<any>(`/api/auth/signin`, {usernameOrEmail: username, password: password})
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
+               // this.itemValue.next(user); // this will make sure to tell every subscriber about the change.
+
                 if (user && user.accessToken) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
 
@@ -53,7 +55,6 @@ export class AuthService {
 
                     this.router.navigate(['/']);
                 }
-                this.itemValue.next(user); // this will make sure to tell every subscriber about the change.
 
                 return user;
             }));

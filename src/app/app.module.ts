@@ -102,7 +102,6 @@ import {ErrorInterceptor} from './service/error.interceptor';
 import {AlertService} from './service/alert.service';
 import {UserService} from './service/user.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-// used to create fake backend
 
 
 import {PrestationsComponent} from './component/prestations/prestations.component';

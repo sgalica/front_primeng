@@ -57,10 +57,10 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.returnUrl = '/login';
                     this.alertService.error(error);
                     this.loading = false;
                 });
+        debugger
 
     }
 }
