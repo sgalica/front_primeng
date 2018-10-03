@@ -1,6 +1,6 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-    <p-dialog header="Login" [resizable]="true" visible="true" responsive="true"
+    <p-dialog header="Login" [resizable]="true" visible="dialogVisible" closable="true" dismissableMask="true" responsive="true"
               modal="true" [width]="600">
 
         <div class="ui-g" style="" >

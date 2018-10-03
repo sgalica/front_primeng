@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
         if (this.loginForm.invalid) {
             return;
         }
+
         this.loading = true;
         this.authenticationService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
@@ -55,9 +56,11 @@ export class LoginComponent implements OnInit {
                 data => {
                     this.alertService.success(data);
                     this.router.navigate([this.returnUrl]);
+                    this.dialogVisible = false ;
+                    this.loading = false;
+
                 },
                 error => {
-                    this.returnUrl = '/login';
                     this.alertService.error(error);
                     this.loading = false;
                 });

@@ -45,9 +45,10 @@ export class CoreProfileComponent implements OnInit {
 
     ngOnInit(): void {
         if (localStorage.getItem('currentUser')) {
-            this.auth.getProfile().first;
+            this.auth.getProfile().pipe(first()).subscribe();
 
             this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            console.log(this.currentUser);
         } else {
             this.currentUser = null;
         }

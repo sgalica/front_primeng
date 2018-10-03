@@ -13,34 +13,22 @@ export class AlertService {
 
 
     constructor(private router: Router) {
-        // clear alert message on route change
-        router.events.subscribe(event => {
-            if (event instanceof NavigationStart) {
-                if (this.keepAfterNavigationChange) {
-                    // only keep for a single location change
-                    this.keepAfterNavigationChange = false;
-                } else {
-                    // clear alert
-                    this.subject.next();
-                }
-            }
-        });
     }
 
-    success(message: string, keepAfterNavigationChange = false) {
-        this.keepAfterNavigationChange = keepAfterNavigationChange;
+    success(message: string) {
+
         this.subject.next({ type: 'success', text: message });
         this.msgs = [];
-        this.msgs.push({severity:'success', summary:'Success Message', detail:'Order submitted'});
+        console.log("LOGGGGGGGGGGGGGGGGG",message);
+        this.msgs.push({severity:'success', summary:'Message de succès', detail: 'Utilisateur authentifié'});
         this.subject2.next(this.msgs);
 
     }
 
-    error(message: string, keepAfterNavigationChange = false) {
-        this.keepAfterNavigationChange = keepAfterNavigationChange;
+    error(message: string) {
         this.subject.next({ type: 'error', text: message });
         this.msgs = [];
-        this.msgs.push({severity:'error', summary:'Error Message', detail:'Validation failed'});
+        this.msgs.push({severity:'error', summary:'Message d\'erreur', detail:message});
         this.subject2.next(this.msgs);
 
     }

@@ -29,14 +29,12 @@ export class AlertComponent implements OnInit, OnDestroy {
         this.subscription = this.alertService.getMessage().subscribe(message => {
 
             this.message = message;
-            console.log("ERRRRRRRRRRRRRROOORRRRRR--------1",message);
 
         });
 
         this.subscription2 = this.alertService.getMessage2().subscribe(message2 => {
 
             this.msgs = message2;
-            console.log("ERRRRRRRRRRRRRROOORRRRRR--------2",message2);
         });
     }
 
