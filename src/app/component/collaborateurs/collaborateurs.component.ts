@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {SelectItem} from 'primeng/api';
+import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
@@ -7,6 +7,7 @@ import {NewCollaborateurComponent} from "../newCollaborateur/newCollaborateur.co
 import {TableModule} from 'primeng/table';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
+import {MessageService} from "primeng/components/common/messageservice";
 
 @Component({
     selector: 'app-collaborateurs',
@@ -32,9 +33,12 @@ export class CollaborateursComponent implements OnInit {
     sortOrder: number;
 
     collaborateurs: Collaborateur[] = [];
+    private msgs: Message[];
 
-    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService ) {
+    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService) {
     }
+
+
 
     ngOnInit() {
 
@@ -131,6 +135,26 @@ export class CollaborateursComponent implements OnInit {
             alert("Please import valid .csv file.");
             this.fileReset();
         }
+    }
+
+
+    onUpload(event: any): void {
+
+        for(let file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+
+        let reader: FileReader = new FileReader();
+        reader.readAsArrayBuffer(Blob.apply(this.uploadedFiles));
+        reader.onload = (e) => {
+            let csv: string = reader.result;
+            alert(csv);
+            console.log(csv);
+        }
+
+        this.msgs = [];
+        this.msgs.push({severity: 'info', summary: 'File Uploaded', detail: ''});
+
     }
 
     getDataRecordsArrayFromCSVFile(rows) {

@@ -1,3 +1,135 @@
+
+.profile-name{text-transform: capitalize;}
+
+.news-area{padding: 20px}
+
+.line1 {
+    max-width: 1400px;
+    margin: auto;
+    height: 70%;
+}
+
+.line2 {
+    max-width: 1400px;
+    margin: auto;
+}
+
+.news {
+    background-color: #607D8B;
+    min-height: 100%; /* 1:1 Aspect Ratio */
+    max-height: 500px;
+    border-radius:0px;
+}
+
+
+
+.panel-gray {
+    background-color: #607D8B;
+    padding : 5px;
+}
+.text-white {
+    text-color : white;
+}
+.title {
+    font-size : 1.3em;
+}
+
+.shadow-box {
+    background-color: #607D8B;
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* 1:1 Aspect Ratio */
+}
+
+.shadow-box img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+}
+
+.card-legend {
+    color:white;
+    position:absolute;
+    bottom:3px;
+    text-align:center;
+    width:100%;
+    font-size:0.85em;
+}
+
+.ui-shadow-1 {
+    /*
+    -webkit-box-shadow: 0 19px 28px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+    */
+}
+
+.menu {
+    background: none;
+    padding: 0px;
+    min-height: 100%;
+    //max-width: 380px;
+}
+
+/* -------------------------------- */
+
+.menu li {
+    position: relative;
+    float: left;
+    cursor: pointer;
+    padding: 0;
+
+    color: #fff;
+}
+
+.image {
+    margin: auto;
+    height: 40%;
+    width: 40%;
+    overflow: hidden;
+    transition-duration: 0.8s;
+    transition-property: transform;
+}
+
+.case:hover .image{
+    overflow: hidden;
+    transition-duration: 0.5s;
+    transition-property: transform;
+    transform: rotate(20deg) scale(2);;
+}
+
+.case {
+    position:relative;
+    color:white; text-align:center;
+}
+
+.case .description {
+    height:0px; overflow:hidden; text-align:center; position : absolute; bottom : 0; left:0; width:100%; background-color:rgba(0,0,0,0.6); font-size:0.85em; line-height:2em;
+
+    -webkit-transition: height 0.35s; /* For Safari 3.1 to 6.0 */
+    -webkit-transition-timing-function: linear;
+    -webkit-transition-delay: 0.2s;
+    transition: height 0.35s;
+    transition-timing-function: linear;
+    transition-delay: 0.2s;
+}
+.case:hover .description{ height: 100%;}
+
+
+
+/* -------------------------------- */
+
+/* -------------------------------- */
+
+.menu li {
+    background-color: #333;
+}
+
+
+
+
+/*
 //noinspection CssInvalidPropertyValue
 .description{
     display: none;
@@ -51,7 +183,7 @@
 
 .news {
     background-color: #607D8B;
-    min-height: 100%; /* 1:1 Aspect Ratio */
+    min-height: 100%; !* 1:1 Aspect Ratio *!
     max-height: 500px;
 }
 
@@ -60,7 +192,7 @@
     background-color: #607D8B;
     position: relative;
     width: 100%;
-    padding-top: 100%; /* 1:1 Aspect Ratio */
+    padding-top: 100%; !* 1:1 Aspect Ratio *!
 }
 
 .shadow-box img {
@@ -73,9 +205,9 @@
 }
 
 .ui-shadow-1 {
-    /*
+    !*
     -webkit-box-shadow: 0 19px 28px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-    */
+    *!
 }
 
 .menu {
@@ -85,7 +217,7 @@
     //max-width: 380px;
 }
 
-/* -------------------------------- */
+!* -------------------------------- *!
 
 .menu li {
     position: relative;
@@ -113,12 +245,13 @@
 
 }
 
-/* -------------------------------- */
+!* -------------------------------- *!
 
-/* -------------------------------- */
+!* -------------------------------- *!
 
 .menu li {
     background-color: #333;
 }
 
 
+*/
