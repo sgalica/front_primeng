@@ -20,7 +20,8 @@ export const routes: Routes = [
     // Demo Routing
     {path: 'collaborateurs', component: CollaborateursComponent, canActivate: [AuthGuard]},
     {path: 'newCollaborateur', component: NewCollaborateurComponent},
-    {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]}
+    {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]},
+    {path: 'prestations/:idcollab', component: PrestationsComponent, canActivate: [AuthGuard]}
 
 ];
 

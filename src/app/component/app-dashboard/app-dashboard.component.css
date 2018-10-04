@@ -105,29 +105,6 @@
     transform: rotate(20deg) scale(2);;
 }
 
-/*
-.description{
-    display: none;
-    background : rgba(10,100,110, 0.5 );
-    z-index: 100;
-    position: relative;
-    font-size: 11px;
-}
-
-.case:hover .description {
-    color: #fff;
-
-    text-align: center;
-    display: block;
-    animation-duration: 1s;
-    animation-name: glissement;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-}
-
-@keyframes glissement {from { margin-top: -40%;  }    to {  margin-top: -90%; }}
-*/
-
 .case {
     position:relative; width:100px; height:100px;
     color:white; text-align:center;

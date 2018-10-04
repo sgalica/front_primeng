@@ -33,7 +33,8 @@ export class CoreMenuComponent implements OnInit {
             { label: 'Annuaire', icon: 'fa fa-fw fa-phone-square', routerLink: ['/annuaire'] },
             { label: 'Prestations', icon: 'fa fa-fw fa-check-square-o', routerLink: ['/prestations'] },
             { label: 'Tableau de bord', icon: 'fa fa-fw fa-dashboard', routerLink: ['/tableaudebord'] },
-            { label: 'Réferenciel', icon: 'fa fa-fw fa-indent', routerLink: ['/referenciel'] }
+            { label: 'Référentiel', icon: 'fa fa-fw fa-indent', routerLink: ['/referenciel'] },
+            { label: 'Administrateur', icon: 'fa fa-fw fa-cogs', routerLink: ['/administrator'] }
         ];
     }
 
