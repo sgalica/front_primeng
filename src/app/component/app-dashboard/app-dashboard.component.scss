@@ -114,6 +114,11 @@
     transition-timing-function: linear;
     transition-delay: 0.2s;
 }
+
+.case:active{
+    outline: none;
+}
+
 .case:hover .description{ height: 100%;}
 
 
