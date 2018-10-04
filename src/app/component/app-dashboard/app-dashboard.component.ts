@@ -3,14 +3,24 @@ import {Component, OnInit} from '@angular/core';
 @Component({
     selector: 'app-dashboard',
     templateUrl: './app-dashboard.component.html',
-    styleUrls: ['./app-dashboard.component.scss']
+    styleUrls: ['./app-dashboard.component.css']
 })
 export class AppDashboardComponent implements OnInit {
-    at_date : String = "01/01/0001";
+    at_date : String = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
+    fr: any;
 
     ngOnInit(): void {
+
+            this.fr = {
+                firstDayOfWeek: 1,
+                dayNames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+                dayNamesShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+                dayNamesMin: ["Di","Lu","Ma","Me","Je","Ve","Sa"],
+                monthNames: [ "Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre" ],
+                monthNamesShort: [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jui","Jui", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+                today: "Aujourd'hui",
+                clear: 'Effacer'
+            };
     }
-
-
 
 }
