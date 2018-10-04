@@ -112,6 +112,7 @@ import {AuthService} from './service/auth.service';
 import {CollaborateurService} from './service/collaborateur.service';
 import {PrestationService} from "./service/prestation.service";
 import { NewsComponent } from './news/news.component';
+import {AdministratorComponent} from "./administrator/administrator.component";
 
 
 export function tokenGetter() {
@@ -206,6 +207,7 @@ export function tokenGetter() {
         JwtModule
     ],
     declarations: [
+        AdministratorComponent,
         AppComponent,
         AppDashboardComponent,
         ChartsComponent,
