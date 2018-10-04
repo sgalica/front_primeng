@@ -26,3 +26,6 @@ ui-datatable-data> tr> td {
     width: 95% !important;
 }
 
+::ng-deep  .cta_collabs{
+    width: 200px ;
+}
