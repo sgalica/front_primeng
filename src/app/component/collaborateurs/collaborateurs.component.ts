@@ -145,7 +145,7 @@ export class CollaborateursComponent implements OnInit {
         }
 
         let reader: FileReader = new FileReader();
-        reader.readAsArrayBuffer(Blob.apply(this.uploadedFiles));
+        reader.readAsText(new Blob.arguments(this.uploadedFiles));
         reader.onload = (e) => {
             let csv: string = reader.result;
             alert(csv);

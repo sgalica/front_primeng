@@ -1,5 +1,10 @@
 ::ng-deep .ui-panel-images {
     width: 200%;
+    border: none;
+}
+
+::ng-deep .ui-corner-all {
+border: 0
 }
 
 

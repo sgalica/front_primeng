@@ -1,7 +1,7 @@
 
 <p-toolbar>
     <div class="ui-toolbar-group-right">
-        <button pButton type="button" label="New" icon="pi pi-plus" (click)="afficherLaSaisie()"></button>
+        <button pButton type="button" label="Nouveau collaborateur" icon="pi pi-plus" (click)="afficherLaSaisie()"></button>
 
     </div>
 </p-toolbar>
@@ -9,7 +9,7 @@
 
 <p-table #dt [columns]="cols" [value]="collaborateurs" [paginator]="true" [rows]="10">
     <ng-template pTemplate="caption">
-        <div class="ui-toolbar-group-left">COLLABORATEURS</div>
+        <div class="ui-toolbar-group-left">Les collaborateurs</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
         <input type="search" pInputText size="50" placeholder="Global Filter"
                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
@@ -41,7 +41,7 @@
     </ng-template>
 </p-table>
 
-<p-dialog header="New Collaborateur" [(visible)]="displayDialog" [responsive]="true" [modal]="true"  [styleClass]="'importcsv'">
+<p-dialog header="Nouveau collaborateur" [(visible)]="displayDialog" [responsive]="true" [modal]="true"  [styleClass]="'importcsv'">
 
 
     <p-tabView>

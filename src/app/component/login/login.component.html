@@ -1,13 +1,18 @@
+
+
+
+
+
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-    <p-dialog header="Login" [resizable]="true" visible="dialogVisible" closable="true" dismissableMask="true" responsive="true"
+    <p-dialog header="Connexion" [resizable]="true" visible="dialogVisible" closable="true" dismissableMask="true" responsive="true"
               modal="true" [width]="600">
 
         <div class="ui-g" style="" >
 
             <div class="ui-g-6 ui-g-nopad">
                 <div class="ui-g-12">
-                    <label >Username</label>
+                    <label >Identifiant</label>
                 </div>
                 <div class="ui-g-12">
 
@@ -20,7 +25,7 @@
 
 
                 <div class="ui-g-12">
-                    <label >Password</label>
+                    <label >Mot de passe</label>
                 </div>
                 <div class="ui-g-12">
                     <input pPassword type="password" formControlName="password" class="form-control"
@@ -39,16 +44,15 @@
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
                 <img style="margin-right: 10px"  *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-                <button [disabled]="loading" label="Login"
+                <button [disabled]="loading" label="Se connecter"
                         icon="fa fa-user" pButton></button>
 
-                <a style="padding-left: 10px" [routerLink]="['/register']" class="btn btn-link">Register</a>
+                <a style="padding-left: 10px" [routerLink]="['/register']" class="btn btn-link">S'inscrire</a>
             </div>
         </p-footer>
 
     </p-dialog>
 </form>
-
 
 
 
