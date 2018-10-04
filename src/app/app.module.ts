@@ -111,6 +111,7 @@ import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
 import {CollaborateurService} from './service/collaborateur.service';
 import {PrestationService} from "./service/prestation.service";
+import { NewsComponent } from './news/news.component';
 
 
 export function tokenGetter() {
@@ -216,6 +217,7 @@ export function tokenGetter() {
         HomeComponent,
         PrestationsComponent,
         MenuComponent,
+        NewsComponent,
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
