@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Rx';
 import {AuthService} from '../../service/auth.service';
 
 @Component({
-  selector: '_app-menu',
+  selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
