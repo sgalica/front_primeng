@@ -3,7 +3,6 @@ import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
-import {NewCollaborateurComponent} from "../newCollaborateur/newCollaborateur.component";
 import {TableModule} from 'primeng/table';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
@@ -16,7 +15,6 @@ import {MessageService} from "primeng/components/common/messageservice";
 })
 export class CollaborateursComponent implements OnInit {
 
-    newcollaborateur: NewCollaborateurComponent;
 
     selectedCollaborateur: Collaborateur;
 

@@ -3,7 +3,6 @@ import {ModuleWithProviders} from '@angular/core';
 import { AppDashboardComponent } from './component/app-dashboard/app-dashboard.component';
 
 import { LoginComponent } from './component/login/login.component';
-import {NewCollaborateurComponent} from './component/newCollaborateur/newCollaborateur.component';
 import { RegisterComponent } from './component/register/register.component';
 import { AuthGuard } from './service/auth.guard';
 import {CollaborateursComponent} from './component/collaborateurs/collaborateurs.component';

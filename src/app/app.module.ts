@@ -76,7 +76,6 @@ import {AppRoutes} from './app.routes';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './component/login/login.component';
-import {NewCollaborateurComponent} from './component/newCollaborateur/newCollaborateur.component';
 import {AlertComponent} from './component/alert/alert.component';
 
 import {EventService} from './service/eventservice';
@@ -213,7 +212,6 @@ export function tokenGetter() {
         ChartsComponent,
         CollaborateursComponent,
         LoginComponent,
-        NewCollaborateurComponent,
         RegisterComponent,
         AlertComponent,
         HomeComponent,
