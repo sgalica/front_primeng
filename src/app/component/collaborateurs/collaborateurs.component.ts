@@ -3,10 +3,11 @@ import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
-import {TableModule} from 'primeng/table';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
-import {MessageService} from "primeng/components/common/messageservice";
+import {camelize} from "tslint/lib/utils";
+import {dashCaseToCamelCase} from "@angular/compiler/src/util";
+import {camelCaseToDashCase} from "@angular/platform-browser/src/dom/util";
 
 @Component({
     selector: 'app-collaborateurs',
@@ -32,33 +33,37 @@ export class CollaborateursComponent implements OnInit {
 
     collaborateurs: Collaborateur[] = [];
     private msgs: Message[];
+    private selectedfile: any;
+    private viewfile: boolean;
+    private columns: any;
 
     constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService) {
     }
 
 
-
     ngOnInit() {
 
+        const camelCase = require('camelcase');
+
         this.cols = [
-            {header: 'trig_open', field: 'trig_open'},
-            {header: 'nom', field: 'nom'},
-            {header: 'prenom', field: 'prenom'},
-            {header: 'tel_perso', field: 'tel_perso'},
-            {header: 'tel_pro', field: 'tel_pro'},
-            {header: 'mail_open', field: 'mail_open'},
-            {header: 'mail_sg', field: 'mail_sg'},
-            {header: 'categorisation', field: 'code_categorisation'},
-            {header: 'top_statut', field: 'top_statut'},
-            {header: 'statut_Collab', field: 'statut_Collab'},
-            {header: 'version_Collab', field: 'version_Collab'},
-            {header: 'societe_stt', field: 'societe_stt'},
-            {header: 'pre_embauche', field: 'pre_embauche'},
-            {header: 'date_embauche', field: 'date_embauche'},
-            {header: 'created_at', field: 'created_at'},
-            {header: 'created_by', field: 'created_by'},
-            {header: 'updated_at', field: 'updated_at'},
-            {header: 'updated_by', field: 'updated_by'},
+            {header: 'trig_open',                   field: camelCase('trig_open')},
+            {header: 'nom',                         field: camelCase('nom')},
+            {header: 'prenom',                      field: camelCase('prenom')},
+            {header: 'tel_perso',                   field: camelCase('tel_perso')},
+            {header: 'tel_pro',                     field: camelCase('tel_pro')},
+            {header: 'mail_open',                   field: camelCase('mail_open')},
+            {header: 'mail_sg',                     field: camelCase('mail_sg')},
+            {header: 'categorisation',              field: camelCase('code_categorisation')},
+            {header: 'top_statut',                  field: camelCase('top_statut')},
+            {header: 'statut_Collab',               field: camelCase('statut_Collab')},
+            {header: 'version_Collab',              field: camelCase('version_Collab')},
+            {header: 'societe_stt',                 field: camelCase('societe_stt')},
+            {header: 'pre_embauche',                field: camelCase('pre_embauche')},
+            {header: 'date_embauche',               field: camelCase('date_embauche')},
+            {header: 'created_at',                  field: camelCase('created_at')},
+            {header: 'created_by',                  field: camelCase('created_by')},
+            {header: 'updated_at',                  field: camelCase('updated_at')},
+            {header: 'updated_by',                  field: camelCase('updated_by')}
 
         ]
 
@@ -103,51 +108,26 @@ export class CollaborateursComponent implements OnInit {
     uploadedFiles: any[] = [];
 
 
-    fileChangeListener(event: any): void {
-
-        var files = event.srcElement.files;
-
-        if (this.isCSVFile(files[0])) {
-
-            var input = event.target;
-            var reader = new FileReader();
-            reader.readAsText(input.files[0]);
-
-            reader.onload = (data) => {
-                let csvData = reader.result;
-                let csvRecordsArray = csvData.split(/\r\n|\n/);
-
-
-                this.csvRecords = this.getDataRecordsArrayFromCSVFile(csvRecordsArray);
-
-                this.importedCollabs = this.csvRecords;
-
-            }
-
-
-            reader.onerror = function () {
-                alert('Unable to read ' + input.files[0]);
-            };
-
-        } else {
-            alert("Please import valid .csv file.");
-            this.fileReset();
-        }
-    }
 
 
     onUpload(event: any): void {
+        var filecontent = event.files[0];
+        this.selectedfile = filecontent;
+        if (filecontent) {
+            var Reader = new FileReader();
+            Reader.onload = (e: any) => {
+                var contents = e.currentTarget.result;
+                let csvRecordsArray = contents.split(/\r\n|\n/);
 
-        for(let file of event.files) {
-            this.uploadedFiles.push(file);
-        }
+                this.csvRecords = this.getDataRecordsArrayFromCSVFile(csvRecordsArray);
+               this.importedCollabs = this.csvRecords;
+              //  this.importedCollabs = contents;
+               // console.log("content cdv ", contents);
+            }
+            Reader.readAsText(filecontent);
+        } else {
 
-        let reader: FileReader = new FileReader();
-        reader.readAsText(new Blob.arguments(this.uploadedFiles));
-        reader.onload = (e) => {
-            let csv: string = reader.result;
-            alert(csv);
-            console.log(csv);
+            this.uploadedFiles = [];
         }
 
         this.msgs = [];
@@ -155,9 +135,17 @@ export class CollaborateursComponent implements OnInit {
 
     }
 
+
+
     getDataRecordsArrayFromCSVFile(rows) {
+        const camelCase = require('camelcase');
         // on retire les noms de colonnes
         var keys = rows.shift().split(",");
+
+        // camel case all keys for sending to back
+        keys = keys.map(x =>  camelCase(x));
+
+        this.columns = keys;
         // on cree un objet "map" avec des attirbuts qui corresondent aux colonnes du fichier CSV et on affecte chaques valeurs
         return rows.map(function (row) {
             return row.split(",").reduce(function (map, val, i) {
@@ -172,12 +160,10 @@ export class CollaborateursComponent implements OnInit {
         return file.name.endsWith(".csv");
     }
 
-
     fileReset() {
         this.fileImportInput.nativeElement.value = "";
         this.csvRecords = [];
     }
-
 
     onSelectImage(files: any) {
 
@@ -186,4 +172,51 @@ export class CollaborateursComponent implements OnInit {
     onRemoveImage($event: any) {
 
     }
+
+
+    fileChangeListener(event: any): void {
+        var files = event.srcElement.files;
+        if (this.isCSVFile(files[0])) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.readAsText(input.files[0]);
+            reader.onload = (data) => {
+                let csvData = reader.result;
+                let csvRecordsArray = csvData.split(/\r\n|\n/);
+                this.csvRecords = this.getDataRecordsArrayFromCSVFile(csvRecordsArray);
+                this.importedCollabs = this.csvRecords;
+            }
+            reader.onerror = function () {
+                alert('Unable to read ' + input.files[0]);
+            };
+        } else {
+            alert("Please import valid .csv file.");
+            this.fileReset();
+        }
+    }
+
+    csvUploader(event, fileuploader) {
+        var filecontent = event.files[0];
+        this.selectedfile = filecontent;
+        if (filecontent) {
+            var Reader = new FileReader();
+            Reader.onload = (e: any) => {
+                var contents = e.currentTarget.result;
+                this.csvRecords = this.getDataRecordsArrayFromCSVFile(contents);
+                this.importedCollabs = this.csvRecords;
+            }
+            Reader.readAsText(filecontent);
+        } else {
+
+            this.uploadedFiles = [];
+        }
+    }
+
+    readcsvcontent(contents, event) {
+        this.viewfile = true;
+        var csvData = contents;
+
+        console.log("csv data = ", csvData);
+    }
+
 }
