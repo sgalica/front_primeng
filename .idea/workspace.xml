@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="mise a jour de la page accueil 04/10/2018 16h57 + admin component v4">
+    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="css optimisations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.component.scss" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -204,9 +203,9 @@
           <entry key="html" value="671" />
           <entry key="js" value="1" />
           <entry key="json" value="73" />
-          <entry key="scss" value="34" />
+          <entry key="scss" value="43" />
           <entry key="ts" value="1843" />
-          <entry key="txt" value="165" />
+          <entry key="txt" value="182" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -215,8 +214,8 @@
           <entry key="HTML" value="671" />
           <entry key="JSON" value="73" />
           <entry key="JavaScript" value="1" />
-          <entry key="PLAIN_TEXT" value="165" />
-          <entry key="SCSS" value="34" />
+          <entry key="PLAIN_TEXT" value="182" />
+          <entry key="SCSS" value="43" />
           <entry key="Scratch" value="2" />
           <entry key="TypeScript" value="1843" />
         </counts>
@@ -230,9 +229,9 @@
           <entry key="md" value="1" />
           <entry key="rnc" value="1" />
           <entry key="roles" value="1" />
-          <entry key="scss" value="2" />
+          <entry key="scss" value="3" />
           <entry key="sql" value="1" />
-          <entry key="ts" value="77" />
+          <entry key="ts" value="78" />
           <entry key="user_roles" value="1" />
         </counts>
       </usages-collector>
@@ -245,9 +244,9 @@
           <entry key="JavaScript" value="1" />
           <entry key="Markdown" value="1" />
           <entry key="RNG Compact" value="1" />
-          <entry key="SCSS" value="2" />
+          <entry key="SCSS" value="3" />
           <entry key="Scratch" value="1" />
-          <entry key="TypeScript" value="77" />
+          <entry key="TypeScript" value="78" />
           <entry key="tsconfig" value="1" />
         </counts>
       </usages-collector>
@@ -304,15 +303,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/app.routes.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
           <provider selected="true" editor-type-id="text-editor">
@@ -395,11 +385,31 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="119" selection-start-line="119" selection-end-line="119" />
+            <state relative-caret-position="408">
+              <caret line="117" selection-start-line="117" selection-end-line="119" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/app.component.scss">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/app.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#108#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -409,18 +419,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
               <caret line="3" column="103" selection-start-line="3" selection-start-column="103" selection-end-line="3" selection-end-column="103" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/app.component.spec.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="43" lean-forward="true" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
-              <folding>
-                <element signature="e#41#96#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -510,7 +508,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/app/collaborateurs/collaborateurs.component.ts" />
         <option value="$PROJECT_DIR$/src/app/collaborateurs/collaborateurs.component.html" />
         <option value="$PROJECT_DIR$/src/app/demo/service/fake-backend.ts" />
         <option value="$PROJECT_DIR$/src/app/demo/service/jwt.interceptor.ts" />
@@ -561,6 +558,7 @@
         <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.scss" />
+        <option value="$PROJECT_DIR$/src/app/app.component.scss" />
       </list>
     </option>
   </component>
@@ -763,7 +761,7 @@
     <property name="SearchEverywhereHistoryKey" value="app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538668545732" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1538668655160" />
     <property name="database.console.LAST_STATE" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../atg-app-server" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -934,7 +932,7 @@
       <workItem from="1537178387410" duration="139000" />
       <workItem from="1537178565580" duration="18488000" />
       <workItem from="1538640967214" duration="191000" />
-      <workItem from="1538641233517" duration="14654000" />
+      <workItem from="1538641233517" duration="14787000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1534730228097</created>
@@ -1104,11 +1102,25 @@
       <option name="project" value="LOCAL" />
       <updated>1538666382430</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="css optimisations">
+      <created>1538668554888</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1538668554888</updated>
+    </task>
+    <task id="LOCAL-00026" summary="css optimisations">
+      <created>1538668561356</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1538668561356</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="386655000" />
+    <option name="totallyTimeSpent" value="386788000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1208,19 +1220,10 @@
     <MESSAGE value="mise a jour de la page accueil 04/10/2018 16h57 + admin component v2" />
     <MESSAGE value="mise a jour de la page accueil 04/10/2018 16h57 + admin component v3" />
     <MESSAGE value="mise a jour de la page accueil 04/10/2018 16h57 + admin component v4" />
-    <option name="LAST_COMMIT_MESSAGE" value="mise a jour de la page accueil 04/10/2018 16h57 + admin component v4" />
+    <MESSAGE value="css optimisations" />
+    <option name="LAST_COMMIT_MESSAGE" value="css optimisations" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/component/alert/alert.component.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/alert/alert.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1571,8 +1574,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="119" selection-start-line="119" selection-end-line="119" />
+        <state relative-caret-position="408">
+          <caret line="117" selection-start-line="117" selection-end-line="119" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/app.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#108#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/app.component.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
