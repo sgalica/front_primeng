@@ -39,27 +39,25 @@ export class CollaborateursComponent implements OnInit {
     ngOnInit() {
 
         this.cols = [
-            {header: 'trig_open', field: 'trig_open'},
-            {header: 'nom', field: 'nom'},
-            {header: 'prenom', field: 'prenom'},
-            {header: 'tel_perso', field: 'tel_perso'},
-            {header: 'tel_pro', field: 'tel_pro'},
-            {header: 'mail_open', field: 'mail_open'},
-            {header: 'mail_sg', field: 'mail_sg'},
-            {header: 'categorisation', field: 'code_categorisation'},
-            {header: 'top_statut', field: 'top_statut'},
-            {header: 'statut_Collab', field: 'statut_Collab'},
-            {header: 'version_Collab', field: 'version_Collab'},
-            {header: 'societe_stt', field: 'societe_stt'},
-            {header: 'pre_embauche', field: 'pre_embauche'},
-            {header: 'date_embauche', field: 'date_embauche'},
-            {header: 'created_at', field: 'created_at'},
+            {header: 'Identifiant Pilot', field: 'trig_open'},
+            {header: 'Nom', field: 'nom'},
+            {header: 'Prénom', field: 'prenom'},
+            {header: 'Tél personnel', field: 'tel_perso'},
+            {header: 'Tél professionnel', field: 'tel_pro'},
+            {header: 'Mail Open', field: 'mail_open'},
+            {header: 'Mail SG', field: 'mail_sg'},
+            {header: 'Catégorisation', field: 'code_categorisation'},
+            {header: 'S/T', field: 'top_statut'},
+            {header: 'Statut', field: 'statut_Collab'},
+            {header: 'Version', field: 'version_Collab'},
+            {header: 'Société STT', field: 'societe_stt'},
+            {header: 'Pré embauche', field: 'pre_embauche'},
+            {header: 'Date embauche', field: 'date_embauche'}
+/*            {header: 'created_at', field: 'created_at'},
             {header: 'created_by', field: 'created_by'},
             {header: 'updated_at', field: 'updated_at'},
-            {header: 'updated_by', field: 'updated_by'},
-
+            {header: 'updated_by', field: 'updated_by'},*/
         ]
-
 
         this.loadAllCollaborateurs();
     }
