@@ -9,7 +9,7 @@
 
 <p-table #dt [columns]="selectedColumns" [value]="collaborateurs" [paginator]="true" [rows]="10">
     <ng-template pTemplate="caption">
-        <div class="ui-toolbar-group-left">Les collaborateurs</div>
+        <div class="ui-toolbar-group-left">La liste des collaborateurs</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
         <input type="search" pInputText size="50" placeholder="Global Filter"
                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
