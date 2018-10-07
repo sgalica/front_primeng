@@ -7,6 +7,7 @@ import { RegisterComponent } from './component/register/register.component';
 import { AuthGuard } from './service/auth.guard';
 import {CollaborateursComponent} from './component/collaborateurs/collaborateurs.component';
 import {PrestationsComponent} from './component/prestations/prestations.component';
+import {AdministratorComponent} from "./administrator/administrator.component";
 
 
 export const routes: Routes = [
@@ -19,7 +20,7 @@ export const routes: Routes = [
     {path: 'collaborateurs', component: CollaborateursComponent, canActivate: [AuthGuard],runGuardsAndResolvers: 'always'},
     {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]},
 
-    {path: 'administration', component: PrestationsComponent, canActivate: [AuthGuard]}
+    {path: 'administration', component: AdministratorComponent, canActivate: [AuthGuard]}
 
 
 

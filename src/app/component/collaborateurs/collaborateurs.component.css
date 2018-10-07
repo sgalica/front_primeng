@@ -28,6 +28,8 @@ button {margin: 3px}
 
 ::ng-deep .importcsv {
     width: 95% !important;
+    top:auto;
+    bottom: auto;
 }
 
 ::ng-deep  .cta_collabs{

@@ -1,3 +1,109 @@
-<p>
-  administrator works!
-</p>
+<p-toolbar>
+    <div class="ui-toolbar-group-right">
+
+        <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file"
+               accept=".xlsx">
+        <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+
+    </div>
+</p-toolbar>
+<br>
+<p-tabView>
+    <p-tabPanel [header]="item" *ngFor="let item of all_sheet_name; let i = index" [selected]="i == 0">
+        <p-table [style]="{'overflow':'auto!important'}" [resizableColumns]="true"
+                 columnResizeMode="expand" [responsive]="true" #tt [columns]="selectedColumns" [value]="alltable[i]"
+                 [paginator]="true" [rows]="10">
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+
+            </ng-template>
+        </p-table>
+        <p-footer>
+            <div class="ui-toolbar-group-left">
+                <button pButton type="button" label="Créer les collaborateurs" icon="pi pi-upload"
+                        class="ui-button-success" (click)="saveNewCollaborateur()"></button>
+
+
+                <p-fileUpload #fubauto #fileImportInput mode="basic" accept=".csv" customUpload="true"
+                              (uploadHandler)="onUpload($event)" auto="true"
+                              chooseLabel="Importer les collaborateurs"></p-fileUpload>
+            </div>
+        </p-footer>
+    </p-tabPanel>
+</p-tabView>
+
+
+<p-tabView>
+    <p-tabPanel header="création" leftIcon="pi pi-calendar">
+
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button pButton type="button" label="Créer les collaborateurs" icon="pi pi-upload"
+                        class="ui-button-success"
+                        (click)="saveNewCollaborateur()"></button>
+            </div>
+        </p-footer>
+    </p-tabPanel>
+    <p-tabPanel header="Importer" leftIcon="pi pi-inbox">
+
+
+        <p-table [style]="{'overflow':'auto!important'}" [resizableColumns]="true"
+                 columnResizeMode="expand" [responsive]="true" #tt [columns]="selectedColumns" [value]="csvRecords"
+                 [paginator]="true" [rows]="10">
+
+            <ng-template pTemplate="caption">
+                <div style="text-align:left">
+                    <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+                                   selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
+                                   defaultLabel="Choose Columns"></p-multiSelect>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>
+                </tr>
+
+            </ng-template>
+        </p-table>
+        <p-footer>
+            <div class="ui-toolbar-group-left">
+                <button pButton type="button" label="Créer les collaborateurs" icon="pi pi-upload"
+                        class="ui-button-success" (click)="saveNewCollaborateur()"></button>
+
+
+                <p-fileUpload #fubauto #fileImportInput mode="basic" accept=".csv" customUpload="true"
+                              (uploadHandler)="onUpload($event)" auto="true"
+                              chooseLabel="Importer les collaborateurs"></p-fileUpload>
+            </div>
+        </p-footer>
+
+    </p-tabPanel>
+
+</p-tabView>
+
