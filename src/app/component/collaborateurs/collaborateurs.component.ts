@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
@@ -8,6 +8,7 @@ import {AlertService} from "../../service/alert.service";
 import {camelize} from "tslint/lib/utils";
 import {dashCaseToCamelCase} from "@angular/compiler/src/util";
 import {camelCaseToDashCase} from "@angular/platform-browser/src/dom/util";
+import {ApiResponse} from "../../model/apiresponse";
 
 @Component({
     selector: 'app-collaborateurs',
@@ -15,6 +16,7 @@ import {camelCaseToDashCase} from "@angular/platform-browser/src/dom/util";
     styleUrls: ['./collaborateurs.component.css']
 })
 export class CollaborateursComponent implements OnInit {
+
 
 
     selectedCollaborateur: Collaborateur;
@@ -36,6 +38,8 @@ export class CollaborateursComponent implements OnInit {
     private selectedfile: any;
     private viewfile: boolean;
     private columns: any;
+     selectedColumns: any[];
+    private apiresponse: ApiResponse;
 
     constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService) {
     }
@@ -44,6 +48,7 @@ export class CollaborateursComponent implements OnInit {
     ngOnInit() {
 
         const camelCase = require('camelcase');
+        this.loadAllCollaborateurs();
 
         this.cols = [
             {header: 'trig_open',                   field: camelCase('trig_open')},
@@ -67,9 +72,11 @@ export class CollaborateursComponent implements OnInit {
 
         ]
 
+        console.log(this.selectedColumns);
+        this.selectedColumns = this.cols;
 
-        this.loadAllCollaborateurs();
     }
+
 
 
     loadAllCollaborateurs() {
@@ -87,10 +94,16 @@ export class CollaborateursComponent implements OnInit {
         this.collaborateurService.registerList(this.importedCollabs)
             .pipe(first())
             .subscribe(
-                data => {
+                data  => {this.apiresponse = data as ApiResponse ;
+                    console.log("data returned = ", Object.getOwnPropertySymbols(data));
+                    console.log("data returned = ", data);
+                    this.alertService.success(this.apiresponse.message);
+
                     this.router.navigate(["/collaborateurs"]);
                 },
                 error => {
+                    console.log("data returned = ", error);
+
                     this.alertService.error(error);
                 });
 

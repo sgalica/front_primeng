@@ -1,23 +1,29 @@
-
 <p-toolbar>
     <div class="ui-toolbar-group-right">
-        <button pButton type="button" label="Nouveau collaborateur" icon="pi pi-plus" (click)="afficherLaSaisie($event)"></button>
+        <button pButton type="button" label="Nouveau collaborateur" icon="pi pi-plus"
+                (click)="afficherLaSaisie($event)"></button>
 
     </div>
 </p-toolbar>
 <br>
 
-<p-table #dt [columns]="cols" [value]="collaborateurs" [paginator]="true" [rows]="10">
+<p-table #dt [columns]="selectedColumns" [value]="collaborateurs" [paginator]="true" [rows]="10">
     <ng-template pTemplate="caption">
         <div class="ui-toolbar-group-left">Les collaborateurs</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
         <input type="search" pInputText size="50" placeholder="Global Filter"
                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        <div class="ui-toolbar-group-right">
+            <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"
+                           selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
+                           defaultLabel="Choose Columns"></p-multiSelect>
+        </div>
     </ng-template>
+
 
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of cols">
+            <th *ngFor="let col of columns">
                 {{col.header}}
             </th>
         </tr>
@@ -41,7 +47,8 @@
     </ng-template>
 </p-table>
 
-<p-dialog header="Nouveau collaborateur" [(visible)]="displayDialog" [responsive]="true" [modal]="true"  [styleClass]="'importcsv'">
+<p-dialog header="Nouveau collaborateur" [(visible)]="displayDialog" [responsive]="true" [modal]="true"
+          [styleClass]="'importcsv'">
 
 
     <p-tabView>
@@ -132,14 +139,20 @@
 
 
             <p-table [style]="{'overflow':'auto!important'}" [resizableColumns]="true"
-                     columnResizeMode="expand"
-                     [responsive]="true" #tt [columns]="cols" [value]="csvRecords" [paginator]="true"
-                     [rows]="10">
+                     columnResizeMode="expand" [responsive]="true" #tt [columns]="selectedColumns" [value]="csvRecords"
+                     [paginator]="true" [rows]="10">
 
+                <ng-template pTemplate="caption">
+                    <div style="text-align:left">
+                        <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+                                       selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
+                                       defaultLabel="Choose Columns"></p-multiSelect>
+                    </div>
+                </ng-template>
 
                 <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th *ngFor="let col of cols">
+                        <th *ngFor="let col of columns">
                             {{col.header}}
                         </th>
                     </tr>
@@ -156,20 +169,14 @@
                 </ng-template>
             </p-table>
             <p-footer>
-                <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <div class="ui-toolbar-group-left">
                     <button pButton type="button" label="Créer les collaborateurs" icon="pi pi-upload"
                             class="ui-button-success" (click)="saveNewCollaborateur()"></button>
 
 
-                    <!--<input type="file" #fileImportInput name="File Upload" id="txtFileUpload2" (change)="fileChangeListener($event)"
-                           accept=".csv"/>
--->
-
-
-                    <p-fileUpload #fubauto #fileImportInput mode="basic"   accept=".csv" customUpload="true" (uploadHandler)="onUpload($event)"
-                                  auto="true" chooseLabel="Importer les collaborateurs"></p-fileUpload>
-
-
+                    <p-fileUpload #fubauto #fileImportInput mode="basic" accept=".csv" customUpload="true"
+                                  (uploadHandler)="onUpload($event)" auto="true"
+                                  chooseLabel="Importer les collaborateurs"></p-fileUpload>
                 </div>
             </p-footer>
 

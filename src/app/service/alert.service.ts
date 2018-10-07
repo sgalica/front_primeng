@@ -20,7 +20,7 @@ export class AlertService {
         this.subject.next({ type: 'success', text: message });
         this.msgs = [];
         console.log("LOGGGGGGGGGGGGGGGGG",message);
-        this.msgs.push({severity:'success', summary:'Message de succès', detail: 'Utilisateur authentifié'});
+        this.msgs.push({severity:'success', summary:'Message de succès', detail: message});
         this.subject2.next(this.msgs);
 
     }

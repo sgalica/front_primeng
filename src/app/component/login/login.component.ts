@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {first} from 'rxjs/operators';
 import {AlertService} from '../../service/alert.service';
 import {AuthService} from '../../service/auth.service';
+import {ApiResponse} from "../../model/apiresponse";
 
 @Component({templateUrl: 'login.component.html'})
 export class LoginComponent implements OnInit {
@@ -12,6 +13,8 @@ export class LoginComponent implements OnInit {
     submitted = false;
     returnUrl: string;
     dialogVisible: boolean;
+    private apiresponse: ApiResponse;
+
 
     constructor(private formBuilder: FormBuilder,
                 private route: ActivatedRoute,
@@ -54,13 +57,17 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.alertService.success(data);
+                    console.log("data returned = ", data);
+
+                    this.alertService.success(data.message);
                     this.router.navigate([this.returnUrl]);
                     this.dialogVisible = false ;
                     this.loading = false;
 
                 },
                 error => {
+                    console.log("data returned = ", error);
+
                     this.alertService.error(error);
                     this.loading = false;
                 });

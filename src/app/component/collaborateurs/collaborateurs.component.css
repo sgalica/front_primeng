@@ -11,13 +11,17 @@ button {margin: 3px}
 }
 
 
-ui-datatable-data> tr> td {
+.ui-datatable-data> tr> td {
     border-collapse: collapse;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100px;
     border: 1px solid  #0C0213;
+}
+
+::ng-deep .ui-fileupload-choose{
+    overflow: visible;
 }
 
 
