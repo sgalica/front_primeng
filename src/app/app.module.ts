@@ -112,6 +112,8 @@ import {CollaborateurService} from './service/collaborateur.service';
 import {PrestationService} from "./service/prestation.service";
 import { NewsComponent } from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
+import {Data} from "./model/data";
+import {DataService} from "./service/data.service";
 
 
 export function tokenGetter() {
@@ -225,6 +227,7 @@ export function tokenGetter() {
         AuthGuard,
         AlertService,
         CollaborateurService,
+        DataService,
         PrestationService,
         AuthService,
         UserService, JwtHelperService,

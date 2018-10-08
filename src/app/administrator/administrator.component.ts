@@ -6,6 +6,10 @@ import {ApiResponse} from "../model/apiresponse";
 import {AccordionModule} from 'primeng/accordion';
 import {first} from "rxjs/operators";
 import {camelize} from "tslint/lib/utils";
+import {CollaborateurService} from "../service/collaborateur.service";
+import {AlertService} from "../service/alert.service";
+import {Router} from "@angular/router";
+import {DataService} from "../service/data.service";
 
 
 @Component({
@@ -38,7 +42,7 @@ export class AdministratorComponent implements OnInit {
     private apiresponse: ApiResponse;
     colsplice: any;
 
-    constructor() {
+    constructor(private dataService: DataService, private router: Router, private alertService: AlertService) {
     }
 
     ngOnInit() {
@@ -104,12 +108,12 @@ export class AdministratorComponent implements OnInit {
         let fileReader = new FileReader();
         fileReader.onload = (e) => {
             this.arrayBuffer = fileReader.result;
-            var data = new Uint8Array(this.arrayBuffer);
-            var arr = new Array();
-            for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-            var bstr = arr.join("");
+            const data = new Uint8Array(this.arrayBuffer);
+            const arr = [];
+            for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+            const bstr = arr.join("");
 
-            var workbook = XLSX.read(bstr, {type: "binary"});
+            const workbook = XLSX.read(bstr, {type: "binary"});
             Object.keys(workbook).forEach((x, y) => {
                 this.all_sheet_name.push(workbook.SheetNames[y]);
             });
@@ -121,14 +125,15 @@ export class AdministratorComponent implements OnInit {
                     this.alltable.push(XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
                 }
             );
+            //const camelCase = require('camelcase');
+            const camelize = require('camelize');
 
-            this.alltable.forEach(x => {this.columns.push(Object.keys(x[0]));
+            this.alltable.forEach(x => {this.columns.push(Object.keys(x[0]).map(x=> camelize(x)));
                 console.log("Object model ", x[0]);
             });
 
-            const camelCase = require('camelcase');
 
-            console.log("liste des colonnes ", this.columns.map(x=> camelize(x)));
+            console.log("liste des colonnes ", this.columns);
 
 
         };
@@ -137,7 +142,7 @@ export class AdministratorComponent implements OnInit {
 
     saveRefTable(table : number) {
         console.log("LOGGING:::::::::::::::::::::::");
-        this.collaborateurService.registerList(this.alltable[table])
+        this.dataService.registerList(this.alltable[table])
             .pipe(first())
             .subscribe(
                 data  => {this.apiresponse = data as ApiResponse ;
