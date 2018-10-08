@@ -5,6 +5,7 @@ import {Collaborateur} from "../model/collaborateur";
 import {ApiResponse} from "../model/apiresponse";
 import {AccordionModule} from 'primeng/accordion';
 import {first} from "rxjs/operators";
+import {camelize} from "tslint/lib/utils";
 
 
 @Component({
@@ -121,10 +122,13 @@ export class AdministratorComponent implements OnInit {
                 }
             );
 
-            this.alltable.forEach(x => this.columns.push(Object.keys(x[0])));
+            this.alltable.forEach(x => {this.columns.push(Object.keys(x[0]));
+                console.log("Object model ", x[0]);
+            });
 
+            const camelCase = require('camelcase');
 
-            console.log("liste des colonnes ", this.columns);
+            console.log("liste des colonnes ", this.columns.map(x=> camelize(x)));
 
 
         };
