@@ -1,11 +1,11 @@
 <p-toolbar>
-<!--    <div class="ui-toolbar-group-right">
+    <!--    <div class="ui-toolbar-group-right">
 
-        <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file"
-               accept=".xlsx">
-        <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
+            <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file"
+                   accept=".xlsx">
+            <button type="button" class="btn btn-info" (click)="Upload()">Upload</button>
 
-    </div>-->
+        </div>-->
 
     <div class="ui-toolbar-group-left">
 
@@ -16,11 +16,52 @@
 
         </p-fileUpload>
 
-    <button pButton type="button" label="Importer toutes les tables" icon="pi pi-upload"
-            class="ui-button-success" (click)="saveNewCollaborateur()"></button>
+        <button pButton type="button" label="Importer toutes les tables" icon="pi pi-upload"
+                class="ui-button-success" (click)="saveRefTable()"></button>
     </div>
 </p-toolbar>
 <br>
+
+<p-accordion [multiple]="true" *ngFor="let item of all_sheet_name; let i = index"  >
+    <p-accordionTab header="Godfather I">
+        <p-header class="" style="">
+
+            <div class="ui-toolbar-group-left" style="position:absolute;top:5%;left: 40px"><a>{{all_sheet_name[i]}}</a></div>
+            <div class="ui-toolbar-group-right" style="position:absolute;top:5%;right:10px">
+                <button pButton type="button" label="Importer la table" icon="pi pi-upload"
+                        class="ui-button-success" (click)="saveRefTable(i)"></button>
+            </div>
+        </p-header>
+
+        <p-table [style]="{'overflow':'auto!important'}" [resizableColumns]="true"
+                 columnResizeMode="expand" [responsive]="true"  [columns]="columns[i]" [value]="alltable[i]"
+                 [paginator]="true" [rows]="10">
+
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                        {{col}}
+                    </th>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+
+                    <td *ngFor="let col of columns">
+                        {{rowData[col]}}
+                    </td>
+                </tr>
+
+            </ng-template>
+        </p-table>
+    </p-accordionTab>
+
+
+</p-accordion>
+
+<!--
+
 <p-tabView>
     <p-tabPanel [header]="item" *ngFor="let item of all_sheet_name; let i = index" [selected]="i == 0">
         <p-table [style]="{'overflow':'auto!important'}" [resizableColumns]="true"
@@ -60,4 +101,5 @@
 </p-tabView>
 
 
+-->
 
