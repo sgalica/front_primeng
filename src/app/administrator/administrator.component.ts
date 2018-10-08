@@ -92,7 +92,11 @@ export class AdministratorComponent implements OnInit {
         this.file = event.target.files[0];
     }
 
-    Upload() {
+    Upload(event) {
+       //
+        //
+        this.file = event.files[0];
+
         let fileReader = new FileReader();
         fileReader.onload = (e) => {
             this.arrayBuffer = fileReader.result;
