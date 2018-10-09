@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import * as XLSX from 'ts-xlsx';
+import * as XLSX from 'xlsx';
 import {Message, SelectItem} from "primeng/api";
 import {Collaborateur} from "../model/collaborateur";
 import {ApiResponse} from "../model/apiresponse";
-import {AccordionModule} from 'primeng/accordion';
 import {first} from "rxjs/operators";
-import {camelize} from "tslint/lib/utils";
-import {CollaborateurService} from "../service/collaborateur.service";
 import {AlertService} from "../service/alert.service";
 import {Router} from "@angular/router";
 import {DataService} from "../service/data.service";
