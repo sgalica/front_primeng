@@ -33,5 +33,5 @@ button {margin: 3px}
 }
 
 ::ng-deep  .cta_collabs{
-    width: 200px ;
+    max-width: 200px ;
 }
