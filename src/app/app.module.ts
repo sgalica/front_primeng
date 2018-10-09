@@ -228,6 +228,7 @@ export function tokenGetter() {
         AlertService,
         CollaborateurService,
         DataService,
+
         PrestationService,
         AuthService,
         UserService, JwtHelperService,
