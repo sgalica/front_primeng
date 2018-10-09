@@ -29,6 +29,7 @@
     "camelize": "^1.0.0",
     "chart.js": "^2.7.2",
     "core-js": "2.5.7",
+    "fixed-ts-xlsx": "^3.0.3",
     "font-awesome": "4.7.0",
     "fullcalendar": "3.5.1",
     "intl": "1.2.5",

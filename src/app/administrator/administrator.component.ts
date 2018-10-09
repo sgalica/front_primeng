@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import * as XLSX from 'xlsx';
+import {read, utils} from 'ts-xlsx';
 import {Message, SelectItem} from "primeng/api";
 import {Collaborateur} from "../model/collaborateur";
 import {ApiResponse} from "../model/apiresponse";
@@ -110,7 +110,7 @@ export class AdministratorComponent implements OnInit {
             for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
             const bstr = arr.join("");
 
-            const workbook = XLSX.read(bstr, {type: "binary"});
+            const workbook = read(bstr, {type: "binary"});
             Object.keys(workbook).forEach((x, y) => {
                 this.all_sheet_name.push(workbook.SheetNames[y]);
             });
@@ -119,7 +119,7 @@ export class AdministratorComponent implements OnInit {
                     this.worksheet = workbook.Sheets[x];
                    // console.log("sheet keys ", XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
                     //this.columns.push(Object.values(XLSX.utils.sheet_to_json(this.worksheet, {raw: true})));
-                    this.alltable.push(XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
+                    this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: true}));
                 }
             );
             //const camelCase = require('camelcase');
