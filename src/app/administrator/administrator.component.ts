@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {read, utils} from 'ts-xlsx';
+import {read, utils} from 'xlsx';
 import {Message, SelectItem} from "primeng/api";
 import {Collaborateur} from "../model/collaborateur";
 import {ApiResponse} from "../model/apiresponse";
