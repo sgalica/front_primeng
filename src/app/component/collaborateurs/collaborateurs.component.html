@@ -26,9 +26,10 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
 
-            <td *ngFor="let col of cols" class="tablecol ui-resizable-column" pTooltip="{{col.field}}" tooltipPosition="bottom" > <!-- columns-->
-                {{col.field}} <!-- {{rowData[col.field]}} -->
+            <td *ngFor="let col of columns" class="tablecol ui-resizable-column" style="overflow:visible" > <!-- columns-->
+                <div class="linespace">&nbsp;</div><div class="content">{{rowData[col.field]}}</div>
             </td>
+
             <td [style]="{'max-width':'200px'}">
                 <div class="ui-toolbar-group-right">
                     <button pButton type="button" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom"></button>

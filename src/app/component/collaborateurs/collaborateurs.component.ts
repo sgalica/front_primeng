@@ -7,6 +7,7 @@ import {NewCollaborateurComponent} from "../newCollaborateur/newCollaborateur.co
 import {TableModule} from 'primeng/table';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
+import {camelize} from "tslint/lib/utils";
 
 @Component({
     selector: 'app-collaborateurs',
@@ -44,7 +45,7 @@ export class CollaborateursComponent implements OnInit {
             {header: 'Prénom', field: 'prenom'},
             {header: 'Tél personnel', field: 'tel_perso'},
             {header: 'Tél professionnel', field: 'tel_pro'},
-            {header: 'Mail Open', field: 'mail_open'},
+            {header: 'Mail Open', field: 'mailOpen'},
             {header: 'Mail SG', field: 'mail_sg'},
             {header: 'Catégorisation', field: 'code_categorisation'},
             {header: 'S/T', field: 'top_statut'},
@@ -132,8 +133,10 @@ export class CollaborateursComponent implements OnInit {
     }
 
     getDataRecordsArrayFromCSVFile(rows) {
+        const camelize = require('camelize');
         // on retire les noms de colonnes
         var keys = rows.shift().split(",");
+        keys = keys.map( x => camelize(x));
         // on cree un objet "map" avec des attirbuts qui corresondent aux colonnes du fichier CSV et on affecte chaques valeurs
         return rows.map(function (row) {
             return row.split(",").reduce(function (map, val, i) {

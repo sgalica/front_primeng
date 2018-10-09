@@ -16,15 +16,32 @@ th {
 
 
 /*body .ui-table .ui-datatable-data> tr> td {*/
-.tablecol {
+::ng-deep .tablecol {
+    position:relative;
+    white-space: nowrap;
     border-collapse: collapse;
     border: 1px solid  #0C0213;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    /*max-width: 100px;*/
 }
 
+::ng-deep td div.linespace {
+    display: inline-block;
+    width:0%;
+    overflow-x : hidden; text-overflow : ellipsis;
+}
+
+::ng-deep td div.content {
+    display: inline-block;
+    width:100%;
+    overflow-x : hidden; text-overflow : ellipsis;
+    border-radius:2px;
+}
+
+::ng-deep td div.content:hover {
+    position : absolute;
+    background: white;
+    overflow-x : visible;
+    z-index: 100;
+}
 
 
 ::ng-deep .importcsv {

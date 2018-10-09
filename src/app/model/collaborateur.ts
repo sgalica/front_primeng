@@ -5,7 +5,7 @@ export class Collaborateur {
      prenom               : any;
      tel_perso            : any;
      tel_pro              : any;
-     mail_open            : any;
+     mailOpen            : any;
      mail_sg              : any;
      code_categorisation  : any;
      top_statut           : any;
