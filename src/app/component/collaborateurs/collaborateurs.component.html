@@ -26,8 +26,8 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
 
-            <td *ngFor="let col of cols" class="tablecol ui-resizable-column" pTooltip="{{col.field}}" tooltipPosition="bottom" > <!-- columns-->
-                {{col.field}} <!-- {{rowData[col.field]}} -->
+            <td *ngFor="let col of cols" class="tablecol ui-resizable-column" pTooltip="{{rowData[col.field]}}" tooltipPosition="bottom" > <!-- columns-->
+                {{rowData[col.field]}}
             </td>
             <td [style]="{'max-width':'200px'}">
                 <div class="ui-toolbar-group-right">

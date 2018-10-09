@@ -3,6 +3,10 @@ import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {PrestationService} from '../../service/prestation.service';
 import {Prestation} from '../../model/prestation';
+import {ActivatedRoute, Params } from '@angular/router';
+import {CollaborateurService} from '../../service/collaborateur.service';
+import {Collaborateur} from '../../model/collaborateur';
+
 
 
 @Component({
@@ -29,7 +33,11 @@ export class PrestationsComponent implements OnInit {
 
     prestations: Prestation[] = [];
 
-    constructor( private prestationService: PrestationService) { }
+    employee_name= "";
+
+    employee : Collaborateur;
+
+    constructor( private prestationService: PrestationService, private employeeService : CollaborateurService, private route: ActivatedRoute) { }
 
     ngOnInit() {
 
@@ -40,32 +48,37 @@ export class PrestationsComponent implements OnInit {
         ];
         this.cols = [
 
-            {header: 'id_pres', field:'id_prestation'},
+/*            {header: 'Id', field:'id_prestation'},*/
+            {header: 'Début', field:'date_debut_prest'},
+            {header: 'Fin', field:'date_fin_prest'},
+            {header: 'ATG', field:'no_atg'},
+/*            {header: 'ATG', field:'top_atg_atu'},*/
+            {header: 'Département', field:'departement'},
+            {header: 'Pôle', field:'pole'},
+            {header: 'Domaine', field:'domaine'},
+            {header: 'Site', field:'site'},
+            {header: 'PU', field:'pu'},
+/*
             {header: 'no_cont', field:'no_contrat'},
             {header: 'id_pil', field:'id_pilot'},
-            {header: 'dep', field:'departement'},
-            {header: 'pole', field:'pole'},
-            {header: 'dom', field:'domaine'},
-            {header: 'site', field:'site'},
-            {header: 'atg', field:'no_atg'},
             {header: 'resp_p', field:'id_resp_pole'},
             {header: 'd_ordre', field:'id_don_ordre'},
-            {header: 'pu', field:'pu'},
-            {header: 'dateDprest', field:'date_debut_prest'},
-            {header: 'dateFprest', field:'date_fin_prest'},
             {header: 'etat', field:'etat_prest'},
             {header: 'site_sg', field:'site_sg'},
             {header: 'com_open', field:'id_commercial_open'},
-            {header: 'atg_atu', field:'top_atg_atu'},
+
             {header: 'date_c', field:'date_creation'},
             {header: 'user_c', field:'id_utilisateur_creation'},
             {header: 'date_m', field:'date_maj'},
             {header: 'user_m', field:'utilisateur_maj'},
-
+*/
         ];
 
-
-        this.loadAllPrestations();
+        let id = this.route.snapshot.params['idcollab'];
+        if (id==undefined || id=="" )
+            this.loadAllPrestations();
+        else
+            this.loadPrestationsCollab(id);
     }
 
     selectPrestation(event: Event, prestation: Prestation) {
@@ -91,8 +104,43 @@ export class PrestationsComponent implements OnInit {
     }
 
     loadAllPrestations() {
+        /* DUMMY !!! : */
+        prestation : Prestation;
+         let prestation = {
+             id_prestation:1, no_contrat:"no_contrat", id_pilot:"id_pilot", departement:"departement", pole:"pole", domaine:"domaine",
+             code_site:"code_site", no_atg:"no_atg", id_resp_pole:"id_resp_pole", id_don_ordre:"id_don_ordre",
+            pu:"pu",
+            date_debut_prest:"date_debut_prest",
+            date_fin_prest:"date_fin_prest",
+            etat_prest:"etat_prest",
+            site_sg:"site_sg",
+            id_commercial_open:"id_commercial_open",
+            top_atg_atu:"top_atg_atu",
+            date_creation:"date_creation",
+            id_utilisateur_creation:"id_utilisateur_creation",
+            date_maj:"date_maj",
+            utilisateur_maj:"utilisateur_maj",
+        }
+        this.prestations = [prestation];
+
+
         this.prestationService.getAll().pipe(first()).subscribe(prestations => {
             this.prestations = prestations;
         });
+    }
+
+
+    loadPrestationsCollab(idemployee : number) {
+        /*DUMMY : !!! */
+        this.employee_name="ME";
+        console.log("EMPLOYEE", this.employee_name );
+        this.loadAllPrestations();
+
+        this.employeeService.getById(idemployee).pipe(first()).subscribe(employee => {
+            //this.employee_name = employee.prenom + " " + employee.nom;
+        });
+        //this.prestationService.getAll().pipe(first()).subscribe(prestations => {
+        //    this.prestations = prestations;
+        //});
     }
 }

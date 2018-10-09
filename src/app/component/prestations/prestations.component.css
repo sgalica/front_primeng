@@ -1,1 +1,13 @@
 button {margin: 3px}
+
+th {
+    font-size : 0.9em;
+}
+
+.tablecol {
+    border-collapse: collapse;
+    border: 1px solid  #0C0213;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

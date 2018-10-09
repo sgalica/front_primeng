@@ -25,15 +25,14 @@
         <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
         <!--<i class="pi pi-bars"></i>-->
         </div>
-
-
 </p-toolbar>
 <div >
    <p></p>
 </div>
+
 <p-table #tt [columns]="cols" [value]="prestations" [paginator]="true" [rows]="10">
         <ng-template pTemplate="caption">
-        <div class="ui-toolbar-group-left">PRESTATIONS</div>
+        <div class="ui-toolbar-group-left">PRESTATIONS {{employee_name}}</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
         <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
     </ng-template>
@@ -43,20 +42,21 @@
             <th *ngFor="let col of cols">
                 {{col.header}}
             </th>
+            <th class="tablecolbody" style="border-top:none; background-color:#f5f5f5"></th>
         </tr>
-
     </ng-template>
+
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
 
-            <td *ngFor="let col of columns">
+            <td *ngFor="let col of columns" class="tablecol">
                 {{rowData[col.field]}}
             </td>
             <td>
                 <div class="ui-toolbar-group-right">
-                    <button pButton type="button" icon="pi pi-search"></button>
-                    <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
-                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
+                    <button pButton type="button" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom"></button>
+                    <button pButton type="button" icon="pi pi-calendar" class="ui-button-success" pTooltip="Historique" tooltipPosition="bottom"></button>
+                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger" pTooltip="Supprimer" tooltipPosition="bottom"></button>
                 </div>
             </td>
         </tr>
