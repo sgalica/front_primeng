@@ -64,11 +64,7 @@ import {
     TooltipModule,
     TreeModule,
     TreeTableModule,
-
 } from 'primeng/primeng';
-
-
-import {MessageModule} from 'primeng/message';
 
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
@@ -102,18 +98,17 @@ import {ErrorInterceptor} from './service/error.interceptor';
 import {AlertService} from './service/alert.service';
 import {UserService} from './service/user.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-// used to create fake backend
-
-
 import {PrestationsComponent} from './component/prestations/prestations.component';
 import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
 import {CollaborateurService} from './service/collaborateur.service';
 import {PrestationService} from "./service/prestation.service";
-import { NewsComponent } from './news/news.component';
+import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
-import {Data} from "./model/data";
 import {DataService} from "./service/data.service";
+import {AdminGuard} from "./service/admin.guard";
+
+// used to create fake backend
 
 
 export function tokenGetter() {
@@ -225,6 +220,7 @@ export function tokenGetter() {
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
         EventService,
         AuthGuard,
+        AdminGuard,
         AlertService,
         CollaborateurService,
         DataService,

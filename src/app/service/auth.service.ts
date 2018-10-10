@@ -3,8 +3,7 @@
 
 import {Injectable} from '@angular/core';
 import {JwtHelperService as _JwtHelperService} from '@auth0/angular-jwt';
-import {BehaviorSubject, Observable, Subject} from 'rxjs-compat/index';
-import {User} from '../model/user';
+import {Observable, Subject} from 'rxjs-compat/index';
 import {Router} from '@angular/router';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
@@ -22,6 +21,7 @@ export const JwtHelperService = {
 export class AuthService {
 
     static loggedIn = new Observable<boolean>(); // {1}
+    static admin = new Observable<boolean>(); // {1}
     itemValue = new Subject();
 
 
@@ -34,6 +34,12 @@ export class AuthService {
         AuthService.loggedIn = this.authGuard.isLoggedIn;
 
         return AuthService.loggedIn; // {2}
+    }
+
+  get isAdmin() {
+        AuthService.admin = this.authGuard.isAdmin;
+
+        return AuthService.admin; // {2}
     }
 
 

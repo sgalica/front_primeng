@@ -1,26 +1,23 @@
-/*
-import {
-    Injectable
-} from '@angular/core';
-import {
-    CanActivate,
-    Router
-} from '@angular/router';
+// src/app/auth/admin.guard.ts
+import {Injectable} from '@angular/core';
+import {CanActivate, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {AuthGuard} from "./auth.guard";
 
 @Injectable()
-export class AdminIsLoggedInGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 
-    constructor(private router: Router,private adminservice: AdminService) {}
+    constructor(
+        private auth: AuthGuard,
+        private router: Router
+    ) { }
 
-    canActivate() {
-        if (this.adminservice.AdminIsLoggedIn()) {
+    canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+        if (AuthGuard.isAdmin) {
             return true;
-        } else {
-            alert("U mag deze pagina niet bezichtigen");
-            this.router.navigate(['/']);
-            return false;
         }
+        this.router.navigate(['/']);
+        return false;
     }
 
 }
-*/

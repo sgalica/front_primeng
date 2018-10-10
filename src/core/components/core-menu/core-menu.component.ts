@@ -1,17 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { MenuItem } from 'primeng/primeng';
-import { AppComponent } from '../../../app/app.component';
+import {Component, Input, OnInit} from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MenuItem} from 'primeng/primeng';
+import {AppComponent} from '../../../app/app.component';
+import {AuthService} from "../../../app/service/auth.service";
+import {BehaviorSubject} from "../../../../node_modules/rxjs/Rx";
 
 @Component({
     selector: 'core-menu',
     template: `
-            <ul core-submenu [item]="model" root="true" class="layout-menu layout-main-menu clearfix"
-                [reset]="reset" visible="true" parentActive="true">
-            </ul>
+        <ul core-submenu [item]="model" root="true" class="layout-menu layout-main-menu clearfix"
+            [reset]="reset" visible="true" parentActive="true">
+        </ul>
     `
 })
 export class CoreMenuComponent implements OnInit {
+
+    isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
+
 
     @Input() reset: boolean;
 
@@ -23,19 +28,35 @@ export class CoreMenuComponent implements OnInit {
 
     version = 'v3';
 
-    constructor(public app: AppComponent) { }
+    constructor(public app: AppComponent, private authService: AuthService) {
+    }
 
     ngOnInit() {
         this.model = [
-            { label: 'Accueil', icon: 'fa fa-fw fa-home', routerLink: ['/accueil'] },
-            { label: 'Collaborateurs', icon: 'fa fa-fw fa-users', routerLink: ['/collaborateurs'] },
-            { label: 'Congés', icon: 'fa fa-fw fa-ban', routerLink: ['/conges'] },
-            { label: 'Annuaire', icon: 'fa fa-fw fa-phone-square', routerLink: ['/annuaire'] },
-            { label: 'Prestations', icon: 'fa fa-fw fa-check-square-o', routerLink: ['/prestations'] },
-            { label: 'Tableau de bord', icon: 'fa fa-fw fa-dashboard', routerLink: ['/tableaudebord'] },
-            { label: 'Réferenciel', icon: 'fa fa-fw fa-indent', routerLink: ['/referenciel'] },
-            { label: 'Administration', icon: 'fa fa-fw fa-cogs', routerLink: ['/administration'] }
+            {label: 'Accueil', icon: 'fa fa-fw fa-home', routerLink: [ '/accueil' ]},
+            {label: 'Collaborateurs', icon: 'fa fa-fw fa-users', routerLink: [ '/collaborateurs' ]},
+            {label: 'Congés', icon: 'fa fa-fw fa-ban', routerLink: [ '/conges' ]},
+            {label: 'Annuaire', icon: 'fa fa-fw fa-phone-square', routerLink: [ '/annuaire' ]},
+            {label: 'Prestations', icon: 'fa fa-fw fa-check-square-o', routerLink: [ '/prestations' ]},
+            {label: 'Tableau de bord', icon: 'fa fa-fw fa-dashboard', routerLink: [ '/tableaudebord' ]},
+            {label: 'Réferenciel', icon: 'fa fa-fw fa-indent', routerLink: [ '/referenciel' ]},
+            {label: 'Administration', icon: 'fa fa-fw fa-cogs', routerLink: [ '/administration' ]}
         ];
+
+        if (localStorage.getItem('currentUser')) {
+            this.authService.isAdmin.subscribe( (value) => {
+                this.isAdmin$.next( value);
+                console.log("Le Role detecté 1", this.isAdmin$.value);
+            }); // {2}
+            if (!this.isAdmin$) {
+                console.log("Le Role detecté 2", this.isAdmin$.value);
+                this.model.splice(6,1);
+            }
+
+            console.log("Le Role detecté 3", this.isAdmin$.value);
+
+        }
+
     }
 
     changeTheme(theme: string) {
@@ -90,18 +111,21 @@ export class CoreMenuComponent implements OnInit {
     /* tslint:enable:component-selector */
     template: `
         <ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
-            <li [ngClass]="{'active-menuitem': isActive(i)}" [class]="child.badgeStyleClass" *ngIf="child.visible === false ? false : true">
+            <li [ngClass]="{'active-menuitem': isActive(i)}" [class]="child.badgeStyleClass"
+                *ngIf="child.visible === false ? false : true">
                 <a [href]="child.url||'#'" (click)="itemClick($event,child,i)" (mouseenter)="onMouseEnter(i)"
                    class="ripplelink" *ngIf="!child.routerLink"
-                    [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
+                   [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
                     <i [ngClass]="child.icon"></i><span>{{child.label}}</span>
                     <i class="fa fa-fw fa-angle-down menuitem-toggle-icon" *ngIf="child.items"></i>
                     <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
                 </a>
 
-                <a (click)="itemClick($event,child,i)" (mouseenter)="onMouseEnter(i)" class="ripplelink" *ngIf="child.routerLink"
-                    [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink"
-                   [routerLinkActiveOptions]="{exact: true}" [attr.tabindex]="!visible ? '-1' : null" [attr.target]="child.target">
+                <a (click)="itemClick($event,child,i)" (mouseenter)="onMouseEnter(i)" class="ripplelink"
+                   *ngIf="child.routerLink"
+                   [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink"
+                   [routerLinkActiveOptions]="{exact: true}" [attr.tabindex]="!visible ? '-1' : null"
+                   [attr.target]="child.target">
                     <i [ngClass]="child.icon"></i><span>{{child.label}}</span>
                     <i class="fa fa-fw fa-angle-down menuitem-toggle-icon" *ngIf="child.items"></i>
                     <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
@@ -111,7 +135,8 @@ export class CoreMenuComponent implements OnInit {
                     <div class="layout-menu-tooltip-text">{{child.label}}</div>
                 </div>
                 <div class="submenu-arrow" *ngIf="child.items"></div>
-                <ul core-submenu [item]="child" *ngIf="child.items" [visible]="isActive(i)" [reset]="reset" [parentActive]="isActive(i)"
+                <ul core-submenu [item]="child" *ngIf="child.items" [visible]="isActive(i)" [reset]="reset"
+                    [parentActive]="isActive(i)"
                     [@children]="(app.isSlim()||app.isHorizontal())&&root ? isActive(i) ?
                      'visible' : 'hidden' : isActive(i) ? 'visibleAnimated' : 'hiddenAnimated'"></ul>
             </li>
@@ -150,7 +175,8 @@ export class CoreSubMenuComponent {
 
     activeIndex: number;
 
-    constructor(public app: AppComponent) { }
+    constructor(public app: AppComponent) {
+    }
 
     itemClick(event: Event, item: MenuItem, index: number) {
         if (this.root) {
@@ -168,7 +194,7 @@ export class CoreSubMenuComponent {
 
         // execute command
         if (item.command) {
-            item.command({ originalEvent: event, item: item });
+            item.command({originalEvent: event, item: item});
         }
 
         // prevent hash change
