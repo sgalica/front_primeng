@@ -138,11 +138,11 @@ export class PrestationsComponent implements OnInit {
 
         /*DUMMY : !!! */ // this.loadDummy(); this.employee_name = "dummyTEST_ME";
         // Get info collab
-/*        this.employeeService.getById(idemployee).pipe(first()).subscribe( p_employee  => {
+        this.employeeService.getById(idemployee).pipe(first()).subscribe( p_employee  => {
             this.employee = p_employee;
             this.employee_name = this.employee.prenom + " " + this.employee.nom;
         });
-*/
+
         this.prestationService.getPrestationsCollab(idemployee).pipe(first()).subscribe(prestations => {
             this.prestations = prestations;
         });
