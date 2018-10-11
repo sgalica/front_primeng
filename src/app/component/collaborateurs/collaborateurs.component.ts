@@ -5,7 +5,7 @@ import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
 import {NewCollaborateurComponent} from "../newCollaborateur/newCollaborateur.component";
 import {TableModule} from 'primeng/table';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 
 @Component({
@@ -32,8 +32,9 @@ export class CollaborateursComponent implements OnInit {
     sortOrder: number;
 
     collaborateurs: Collaborateur[] = [];
+    collaborateur : Collaborateur;
 
-    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService ) {
+    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute ) {
     }
 
     ngOnInit() {
@@ -59,7 +60,11 @@ export class CollaborateursComponent implements OnInit {
             {header: 'updated_by', field: 'updated_by'},*/
         ]
 
-        this.loadAllCollaborateurs();
+        let id = this.route.snapshot.params['id'];
+        if (id==undefined || id=="" )
+            this.loadAllCollaborateurs();
+        else
+            this.loadCollab(id);
     }
 
 
@@ -68,6 +73,13 @@ export class CollaborateursComponent implements OnInit {
             this.collaborateurs = collaborateurs;
         });
     }
+
+    loadCollab(id:number) {
+        this.collaborateurService.getById(id).pipe(first()).subscribe(collaborateur => {
+            this.collaborateur = collaborateur[0];
+        });
+    }
+
 
     afficherLaSaisie(event) {
         this.displayDialog = true;

@@ -14,7 +14,7 @@ export class CollaborateurService {
     }
 
     getById(id: number) {
-        return this.http.get(`/api/collaborateurs/` + id);
+        return this.http.get<Collaborateur>(`/api/collaborateurs/` + id);
     }
 
     registerList(collaborateurList: Array<Collaborateur>) {

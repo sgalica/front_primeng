@@ -49,9 +49,9 @@ export class PrestationsComponent implements OnInit {
         this.cols = [
 
 /*            {header: 'Id', field:'id_prestation'},*/
-            {header: 'Début', field:'date_debut_prest'},
-            {header: 'Fin', field:'date_fin_prest'},
-            {header: 'ATG', field:'no_atg'},
+            {header: 'Début', field:'dateDebutPrest'},
+            {header: 'Fin', field:'dateFinPrest'},
+            {header: 'ATG', field:'noAtg'},
 /*            {header: 'ATG', field:'top_atg_atu'},*/
             {header: 'Département', field:'departement'},
             {header: 'Pôle', field:'pole'},
@@ -59,26 +59,28 @@ export class PrestationsComponent implements OnInit {
             {header: 'Site', field:'site'},
             {header: 'PU', field:'pu'},
 /*
-            {header: 'no_cont', field:'no_contrat'},
-            {header: 'id_pil', field:'id_pilot'},
-            {header: 'resp_p', field:'id_resp_pole'},
-            {header: 'd_ordre', field:'id_don_ordre'},
-            {header: 'etat', field:'etat_prest'},
-            {header: 'site_sg', field:'site_sg'},
-            {header: 'com_open', field:'id_commercial_open'},
+            {header: 'no_cont', field:'noContrat'},
+            {header: 'id_pil', field:'idPilot'},
+            {header: 'resp_p', field:'idRespPole'},
+            {header: 'd_ordre', field:'idDonOrdre'},
+            {header: 'etat', field:'etatPrest'},
+            {header: 'site_sg', field:'siteSg'},
+            {header: 'com_open', field:'idCommercialOpen'},
 
-            {header: 'date_c', field:'date_creation'},
-            {header: 'user_c', field:'id_utilisateur_creation'},
-            {header: 'date_m', field:'date_maj'},
-            {header: 'user_m', field:'utilisateur_maj'},
+            {header: 'date_c', field:'dateCreation'},
+            {header: 'user_c', field:'idUtilisateurCreation'},
+            {header: 'date_m', field:'dateMaj'},
+            {header: 'user_m', field:'utilisateurMaj'},
 */
         ];
 
         let id = this.route.snapshot.params['idcollab'];
         if (id==undefined || id=="" )
             this.loadAllPrestations();
-        else
-            this.loadPrestationsCollab(id);
+        else{
+            this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
+        }
+
     }
 
     selectPrestation(event: Event, prestation: Prestation) {
@@ -103,26 +105,28 @@ export class PrestationsComponent implements OnInit {
         this.selectedPrestation = null;
     }
 
-    loadAllPrestations() {
+    loadDummy () {
         /* DUMMY !!! : */
         prestation : Prestation;
-         let prestation = {
-             id_prestation:1, no_contrat:"no_contrat", id_pilot:"id_pilot", departement:"departement", pole:"pole", domaine:"domaine",
-             code_site:"code_site", no_atg:"no_atg", id_resp_pole:"id_resp_pole", id_don_ordre:"id_don_ordre",
+        let prestation = {
+            idPrestation:1, id:1, noContrat:1, idPilot:"1", departement:"departement", pole:"pole", domaine:"domaine",
+            codeSite:1, noAtg:1, idRespPole:1, idDonOrdre:1,
             pu:"pu",
-            date_debut_prest:"date_debut_prest",
-            date_fin_prest:"date_fin_prest",
-            etat_prest:"etat_prest",
-            site_sg:"site_sg",
-            id_commercial_open:"id_commercial_open",
-            top_atg_atu:"top_atg_atu",
-            date_creation:"date_creation",
-            id_utilisateur_creation:"id_utilisateur_creation",
-            date_maj:"date_maj",
-            utilisateur_maj:"utilisateur_maj",
+            dateDebutPrest:"2018-01-01",
+            dateFinPrest:"2018-01-02",
+            etatPrest:"etat_prest",
+            siteSg:"site_sg",
+            idCommercialOpen:1,
+            topAtgAtu:"top_atg_atu",
+            dateCreation:"2018-01-01",
+            idUtilisateurCreation:1,
+            dateMaj:"2018-01-02",
+            utilisateurMaj:1
         }
         this.prestations = [prestation];
+    }
 
+    loadAllPrestations() {
 
         this.prestationService.getAll().pipe(first()).subscribe(prestations => {
             this.prestations = prestations;
@@ -130,17 +134,17 @@ export class PrestationsComponent implements OnInit {
     }
 
 
-    loadPrestationsCollab(idemployee : number) {
-        /*DUMMY : !!! */
-        this.employee_name="ME";
-        console.log("EMPLOYEE", this.employee_name );
-        this.loadAllPrestations();
+    loadPrestationsCollab(idemployee : string) {
 
-        this.employeeService.getById(idemployee).pipe(first()).subscribe(employee => {
-            //this.employee_name = employee.prenom + " " + employee.nom;
+        /*DUMMY : !!! */ // this.loadDummy(); this.employee_name = "dummyTEST_ME";
+        // Get info collab
+/*        this.employeeService.getById(idemployee).pipe(first()).subscribe( p_employee  => {
+            this.employee = p_employee;
+            this.employee_name = this.employee.prenom + " " + this.employee.nom;
         });
-        //this.prestationService.getAll().pipe(first()).subscribe(prestations => {
-        //    this.prestations = prestations;
-        //});
+*/
+        this.prestationService.getPrestationsCollab(idemployee).pipe(first()).subscribe(prestations => {
+            this.prestations = prestations;
+        });
     }
 }

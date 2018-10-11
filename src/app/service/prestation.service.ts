@@ -10,12 +10,16 @@ export class PrestationService {
     constructor(private http: HttpClient) { }
 
     getAll() {
-
         return this.http.get<Prestation[]>(`/api/prestations/`);
     }
 
     getById(id: number) {
-        return this.http.get(`/api/prestations/` + id);
+        return this.http.get<Prestation>(`/api/prestations/` + id);
+    }
+
+    getPrestationsCollab(idcollab: string) {
+        return this.http.get<Prestation[]>(`/api/prestations/collab/` + idcollab);
+        //return this.http.get<Prestation[]>(`/api/collaborateurs/` + idcollab+ '/prestations');
     }
 
     register(prestation: Prestation) {
@@ -23,7 +27,7 @@ export class PrestationService {
     }
 
     update(prestation: Prestation) {
-        return this.http.put(`/api/prestations/` + prestation.id_prestation, prestation);
+        return this.http.put(`/api/prestations/` + prestation.idPrestation, prestation);
     }
 
     delete(id: number) {

@@ -1,23 +1,24 @@
 export class Prestation {
-    id_prestation;
-    no_contrat;
-    id_pilot;
-    departement;
-    pole;
-    domaine;
-    code_site;
-    no_atg;
-    id_resp_pole;
-    id_don_ordre;
-    pu;
-    date_debut_prest;
-    date_fin_prest;
-    etat_prest;
-    site_sg;
-    id_commercial_open;
-    top_atg_atu;
-    date_creation;
-    id_utilisateur_creation;
-    date_maj;
-    utilisateur_maj;
+    idPrestation: number;
+    id: number; //collab
+    noContrat : number ;
+    idPilot : string ;
+    departement : string;
+    pole : string;
+    domaine : string;
+    codeSite : number;
+    noAtg : number ;
+    idRespPole : number  ;
+    idDonOrdre : number ;
+    pu : string;
+    dateDebutPrest : any;
+    dateFinPrest : any ;
+    etatPrest : string;
+    siteSg : string;
+    idCommercialOpen : number;
+    topAtgAtu : string;
+    dateCreation  : any;
+    idUtilisateurCreation : number ;
+    dateMaj : any;
+    utilisateurMaj : number ;
 }
