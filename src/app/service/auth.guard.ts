@@ -77,10 +77,12 @@ export class AuthGuard implements CanActivate {
 
             } else {
                 AuthGuard.admin.next(false);
+                console.log("Le Role ADMIN est il present ? ",decodedToken.scopes.includes("ROLE_ADMIN"));
+
             }
 
 
         }
-        return AuthGuard.logged.asObservable();
+        return AuthGuard.admin.asObservable();
     }
 }

@@ -1,4 +1,15 @@
 <p-toolbar>
+
+
+
+    <div class="ui-toolbar-group-left">
+
+        <a style="padding-left: 10px" [routerLink]="['/register']" class="btn btn-link">Créer un utilisateur</a>
+    </div>
+</p-toolbar>
+<br>
+
+<p-toolbar>
     <!--    <div class="ui-toolbar-group-right">
 
             <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file"
@@ -21,6 +32,7 @@
     </div>
 </p-toolbar>
 <br>
+
 
 <p-accordion [multiple]="true" *ngFor="let item of all_sheet_name; let i = index"  >
     <p-accordionTab header="Godfather I">

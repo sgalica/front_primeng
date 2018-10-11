@@ -43,20 +43,15 @@ export class CoreMenuComponent implements OnInit {
             {label: 'Administration', icon: 'fa fa-fw fa-cogs', routerLink: [ '/administration' ]}
         ];
 
+
         if (localStorage.getItem('currentUser')) {
-            this.authService.isAdmin.subscribe( (value) => {
-                this.isAdmin$.next( value);
-                console.log("Le Role detecté 1", this.isAdmin$.value);
-            }); // {2}
-            if (!this.isAdmin$) {
-                console.log("Le Role detecté 2", this.isAdmin$.value);
-                this.model.splice(6,1);
+            this.authService.isAdmin.subscribe((value) => {
+                this.isAdmin$.next(value);
+            });
+            if (!this.isAdmin$.value) {
+                this.model.splice(7, 1);
             }
-
-            console.log("Le Role detecté 3", this.isAdmin$.value);
-
         }
-
     }
 
     changeTheme(theme: string) {

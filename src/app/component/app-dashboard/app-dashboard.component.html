@@ -15,37 +15,45 @@
                 <div routerLink="/collaborateurs" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
+                            <a>
                                 <img class="image" src="./assets/layout/images/icones/collaborateurs.png" title=""
                                      data-themekey="#">
                             </a>
                         </div>
                         <div class="card-legend">Collaborateurs</div>
-                        <div class="description"><div style="padding-top: 5px">Gérer les <br> collaborateurs et <br> mettre fin à une <br> mission</div></div>
+                        <div class="description">
+                            <div style="padding-top: 5px">Gérer les <br> collaborateurs et <br> mettre fin à une <br>
+                                mission
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div routerLink="/prestations" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
+                            <a>
                                 <img class="image" src="./assets/layout/images/icones/conges.png" title=""
                                      data-themekey="#">
                             </a>
                         </div>
                         <div class="card-legend">Congés</div>
-                        <div class="description"><div style="padding-top: 5px">Consulter les congés des collaborateurs</div></div>
+                        <div class="description">
+                            <div style="padding-top: 5px">Consulter les congés des collaborateurs</div>
+                        </div>
                     </div>
                 </div>
                 <div routerLink="/collaborateurs" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
+                            <a>
                                 <img class="image" src="./assets/layout/images/icones/annuaire.png" title=""
                                      data-themekey="#">
                             </a>
                         </div>
                         <div class="card-legend">Annuaire</div>
-                        <div class="description"><div style="padding-top: 5px">Contacter un collaborateur</div></div>
+                        <div class="description">
+                            <div style="padding-top: 5px">Contacter un collaborateur</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,35 +63,41 @@
                 <div routerLink="/prestations" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
+                            <a>
                                 <img class="image" src="./assets/layout/images/icones/prestation.png" title=""
                                      data-themekey="#">
                             </a>
                         </div>
                         <div class="card-legend">Prestations</div>
-                        <div class="description"><div style="padding-top: 5px">Gérer les prestations</div></div>
+                        <div class="description">
+                            <div style="padding-top: 5px">Gérer les prestations</div>
+                        </div>
                     </div>
                 </div>
                 <div routerLink="/collaborateurs" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
+                            <a>
                                 <img class="image" src="" title="" data-themekey="#">
                             </a>
                         </div>
                         <div class="card-legend"></div>
-                        <div class="description"><div style="padding-top: 5px"></div></div>
+                        <div class="description">
+                            <div style="padding-top: 5px"></div>
+                        </div>
                     </div>
                 </div>
                 <div routerLink="/collaborateurs" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
+                            <a>
                                 <img class="image" src="" title="" data-themekey="#">
                             </a>
                         </div>
                         <div class="card-legend"></div>
-                        <div class="description"><div style="padding-top: 5px"></div></div>
+                        <div class="description">
+                            <div style="padding-top: 5px"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,36 +106,46 @@
                 <div routerLink="collaborateurs" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
+                            <a>
                                 <img class="image" src="./assets/layout/images/icones/tableaudebord.png" title=""
                                      data-themekey="#">
                             </a>
                         </div>
                         <div class="card-legend">Tableau de bord</div>
-                        <div class="description"><div style="padding-top: 5px">Suivre le taux de soutraitance</div></div>
+                        <div class="description">
+                            <div style="padding-top: 5px">Suivre le taux de soutraitance</div>
+                        </div>
                     </div>
                 </div>
                 <div routerLink="collaborateurs" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
+                            <a>
                                 <img class="image" src="./assets/layout/images/icones/referenciel.png" title=""
                                      data-themekey="#">
                             </a>
                         </div>
                         <div class="card-legend">Référentiel</div>
-                        <div class="description"><div style="padding-top: 5px">Gérer les tables du référentiel</div></div>
+                        <div class="description">
+                            <div style="padding-top: 5px">Gérer les tables du référentiel</div>
+                        </div>
                     </div>
                 </div>
                 <div routerLink="collaborateurs" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a >
-                                <img class="image" src="./assets/layout/images/icones/administration.png" title="" data-themekey="#">
+                            <a *ngIf="isAdmin$ | async">
+                                <img class="image" src="./assets/layout/images/icones/administration.png" title=""
+                                     data-themekey="#">
+
+                                <div class="card-legend">Administrateur</div>
+                                <div class="description">
+                                    <div style="padding-top: 5px">Gérer les droits des utilisateurs et charger les
+                                        tables du référentiel
+                                    </div>
+                                </div>
                             </a>
                         </div>
-                        <div class="card-legend">Administrateur</div>
-                        <div class="description"><div style="padding-top: 5px">Gérer les droits des utilisateurs et charger les tables du référentiel</div></div>
                     </div>
                 </div>
             </div>
@@ -129,7 +153,8 @@
     </div>
     <div class="ui-g-12 ui-md-12" style="padding:0px 20px">
         <div class="panel-gray title" style="width:100%; text-align:center">
-            <span class=" white">Tableau de bord des Assistances Techniques de la SG au </span><p-calendar [(ngModel)]="at_date" [locale]="fr" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
+            <span class=" white">Tableau de bord des Assistances Techniques de la SG au </span>
+            <p-calendar [(ngModel)]="at_date" [locale]="fr" dateFormat="dd/mm/yy" [showIcon]="true"></p-calendar>
         </div>
     </div>
 </div>

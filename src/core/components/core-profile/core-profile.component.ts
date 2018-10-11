@@ -3,6 +3,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {User} from '../../../app/model/user';
 import {AuthService} from '../../../app/service/auth.service';
 import {first} from "rxjs/operators";
+import {BehaviorSubject} from "../../../../node_modules/rxjs/Rx";
 
 
 @Component({
@@ -25,6 +26,8 @@ import {first} from "rxjs/operators";
 })
 export class CoreProfileComponent implements OnInit {
 
+    isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
+
 
     active: boolean;
     currentUser: User;
@@ -42,7 +45,13 @@ export class CoreProfileComponent implements OnInit {
 
 
     ngOnInit(): void {
+
+
         if (localStorage.getItem('currentUser')) {
+            this.auth.isAdmin.subscribe((value) => {
+                this.isAdmin$.next(value);
+            });
+
             this.auth.getProfile().pipe(first()).subscribe(x => {
 
 

@@ -4,12 +4,17 @@
         <div class="idPhotoFrame" >
             <span style="line-height:45px; font-size:1.8em; color:white;" >{{firstLetter}}</span>
         </div>
-        <a style="text-transform: capitalize;margin-top: 10px;vertical-align:middle"  class="profile-name">{{currentUser.lastname}}
-            {{currentUser.firstname}} </a>
-        <i class="fa fa-fw fa-caret-down"></i>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix"></div>
+        <a style="text-transform: capitalize;margin-top: 10px;vertical-align:middle"  class="profile-name">
+            {{currentUser.lastname}}
+            {{currentUser.firstname}}
+        </a>
+        <p style="font-size:13px;text-transform: capitalize;text-align: right;margin: 0px" *ngIf="isAdmin$ | async"> Administrateur </p>
+        <p style="font-size:13px;text-transform: capitalize;text-align: right;margin: 0px" *ngIf="!(isAdmin$ | async)"> Chef de projet </p>
 
-    </a>
+        <i class="fa fa-fw fa-caret-down"></i>
+
+        <div class="ui-dialog-buttonpane ui-helper-clearfix"></div>
+     </a>
 </div>
 
 <ul id="profile-menu" class="layout-menu" [@menu]="active ? 'visible' : 'hidden'">

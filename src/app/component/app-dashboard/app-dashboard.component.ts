@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../../service/auth.service";
+import {BehaviorSubject} from "../../../../node_modules/rxjs/Rx";
 
 @Component({
     selector: 'app-dashboard',
@@ -10,6 +12,10 @@ export class AppDashboardComponent implements OnInit {
 
     at_date : String = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
     fr: any;
+    isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
+
+    constructor( private authService: AuthService) {
+    }
 
     ngOnInit(): void {
 
@@ -23,6 +29,13 @@ export class AppDashboardComponent implements OnInit {
             today: "Aujourd'hui",
             clear: 'Effacer'
         };
+
+        if (localStorage.getItem('currentUser')) {
+            this.authService.isAdmin.subscribe((value) => {
+                this.isAdmin$.next(value);
+            });
+        }
+
     }
 
 }
