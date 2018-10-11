@@ -8,7 +8,6 @@ import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
 
 
-
 @Component({
     selector: 'app-prestations',
     templateUrl: './prestations.component.html',
@@ -134,7 +133,7 @@ export class PrestationsComponent implements OnInit {
     }
 
 
-    loadPrestationsCollab(idemployee : string) {
+    loadPrestationsCollab(idemployee : number) {
 
         /*DUMMY : !!! */ // this.loadDummy(); this.employee_name = "dummyTEST_ME";
         // Get info collab
@@ -143,7 +142,7 @@ export class PrestationsComponent implements OnInit {
             this.employee_name = this.employee.prenom + " " + this.employee.nom;
         });
 
-        this.prestationService.getPrestationsCollab(idemployee).pipe(first()).subscribe(prestations => {
+        this.prestationService.getPrestationsCollab(idemployee.toString()).pipe(first()).subscribe(prestations => {
             this.prestations = prestations;
         });
     }
