@@ -65,6 +65,7 @@ export class CoreMenuComponent implements OnInit {
 
         this.theme = theme;
 
+        
     }
 
     changeLayout(layout: string, special?: boolean) {
