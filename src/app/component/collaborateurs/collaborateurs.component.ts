@@ -1,15 +1,11 @@
-import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
-import {camelize} from "tslint/lib/utils";
-import {dashCaseToCamelCase} from "@angular/compiler/src/util";
-import {camelCaseToDashCase} from "@angular/platform-browser/src/dom/util";
 import {ApiResponse} from "../../model/apiresponse";
-import {  ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -35,7 +31,7 @@ export class CollaborateursComponent implements OnInit {
 
     sortOrder: number;
 
-    collaborateurs: Collaborateur[] = [];
+    collaborateurs = [];
     private msgs: Message[];
     private selectedfile: any;
     private viewfile: boolean;

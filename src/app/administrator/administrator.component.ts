@@ -7,12 +7,14 @@ import {first} from "rxjs/operators";
 import {AlertService} from "../service/alert.service";
 import {Router} from "@angular/router";
 import {DataService} from "../service/data.service";
+import {UserService} from "../service/user.service";
+import {User} from "../model/user";
 
 
 @Component({
     selector: 'app-administrator',
     templateUrl: './administrator.component.html',
-    styleUrls: ['./administrator.component.css']
+    styleUrls: [ './administrator.component.css' ]
 })
 export class AdministratorComponent implements OnInit {
 
@@ -24,6 +26,8 @@ export class AdministratorComponent implements OnInit {
     sortOptions: SelectItem[];
 
     cols: any[];
+
+    allUsers: User[];
 
     sortKey: string;
 
@@ -39,7 +43,20 @@ export class AdministratorComponent implements OnInit {
     private apiresponse: ApiResponse;
     colsplice: any;
 
-    constructor(private dataService: DataService, private router: Router, private alertService: AlertService) {
+    arrayBuffer: any;
+    file: File;
+    all_sheet_name = [];
+    alltable = [];
+    columns = [];
+    private worksheet: any;
+    allUsersCols: string[];
+
+    myjson:any=JSON;
+
+    constructor(private dataService: DataService,
+                private router: Router,
+                private userService: UserService,
+                private alertService: AlertService) {
     }
 
     ngOnInit() {
@@ -83,41 +100,52 @@ export class AdministratorComponent implements OnInit {
             {header: 'statut_Collab', field: camelCase('statut_Collab')},
             {header: 'version_Collab', field: camelCase('version_Collab')}
         ];
+
+        this.getAllUsers();
+        console.log("La liste des users", this.allUsers);
+    }
+
+    getAllUsers() {
+        this.userService.getAll()
+            .pipe(first())
+            .subscribe(
+                data => { this.allUsers = data;
+                this.allUsersCols = Object.keys(data[0]);
+                console.log( this.allUsersCols);
+                },
+                error => {
+                    this.alertService.error(error);
+                });
     }
 
 
-    arrayBuffer: any;
-    file: File;
-    all_sheet_name = new Array();
-    alltable = new Array();
-    columns = new Array();
-    private worksheet: any;
+
 
     incomingfile(event) {
-        this.file = event.target.files[0];
+        this.file = event.target.files[ 0 ];
     }
 
     Upload(event) {
         //
         //
-        this.file = event.files[0];
+        this.file = event.files[ 0 ];
 
         let fileReader = new FileReader();
         fileReader.onload = (e) => {
             this.arrayBuffer = fileReader.result;
             const data = new Uint8Array(this.arrayBuffer);
             const arr = [];
-            for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+            for (let i = 0; i != data.length; ++i) arr[ i ] = String.fromCharCode(data[ i ]);
             const bstr = arr.join("");
 
             const workbook = read(bstr, {type: "binary"});
             Object.keys(workbook).forEach((x, y) => {
-                this.all_sheet_name.push(workbook.SheetNames[y]);
+                this.all_sheet_name.push(workbook.SheetNames[ y ]);
             });
 
             this.all_sheet_name.forEach(x => {
-                    this.worksheet = workbook.Sheets[x];
-                   // console.log("sheet keys ", XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
+                    this.worksheet = workbook.Sheets[ x ];
+                    // console.log("sheet keys ", XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
                     //this.columns.push(Object.values(XLSX.utils.sheet_to_json(this.worksheet, {raw: true})));
                     this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: true}));
                 }
@@ -125,8 +153,9 @@ export class AdministratorComponent implements OnInit {
             //const camelCase = require('camelcase');
             const camelize = require('camelize');
 
-            this.alltable.forEach(x => {this.columns.push(Object.keys(x[0]).map(x=> camelize(x)));
-                console.log("Object model ", x[0]);
+            this.alltable.forEach(x => {
+                this.columns.push(Object.keys(x[ 0 ]).map(x => camelize(x)));
+                console.log("Object model ", x[ 0 ]);
             });
 
 
@@ -137,12 +166,13 @@ export class AdministratorComponent implements OnInit {
         fileReader.readAsArrayBuffer(this.file);
     }
 
-    saveRefTable(table : number) {
+    saveRefTable(table: number) {
         console.log("LOGGING:::::::::::::::::::::::");
-        this.dataService.registerList(this.alltable[table])
+        this.dataService.registerList(this.alltable[ table ])
             .pipe(first())
             .subscribe(
-                data  => {this.apiresponse = data as ApiResponse ;
+                data => {
+                    this.apiresponse = data as ApiResponse;
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;

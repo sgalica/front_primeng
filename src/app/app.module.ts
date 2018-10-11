@@ -107,6 +107,7 @@ import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
 import {DataService} from "./service/data.service";
 import {AdminGuard} from "./service/admin.guard";
+import {NotFoundComponent} from './not-found/not-found.component';
 
 // used to create fake backend
 
@@ -215,6 +216,7 @@ export function tokenGetter() {
         PrestationsComponent,
         MenuComponent,
         NewsComponent,
+        NotFoundComponent,
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },

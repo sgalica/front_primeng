@@ -1,19 +1,19 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <p-dialog header="Register" [resizable]="false" visible="true" responsive="true" modal="true">
+    <p-dialog header="Création utilisateur" [resizable]="false" visible="true" responsive="true" modal="true">
         <div class=" form-group" style="margin-bottom: 16px;">
             <div class="ui-g-6">
                 <div class="ui-g">
 
                     <div class="ui-g-12">
-                        <label for="firstName">First Name</label>
+                        <label for="firstName">Prénom</label>
                     </div>
                     <div class="ui-g-12" style="margin-bottom:10px">
 
-                        <input type="text" formControlName="firstname" class="form-control"
+                        <input pInputText type="text" formControlName="firstname" class="form-control"
                                [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"/>
                     </div>
                     <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
-                        <div *ngIf="f.firstname.errors.required">First Name is required</div>
+                        <div *ngIf="f.firstname.errors.required">Le prénom est obligatoire</div>
                     </div>
                 </div>
 
@@ -24,14 +24,14 @@
                     <div class="ui-g-12">
 
 
-                        <label for="lastName">Last Name</label>
+                        <label for="lastName">Nom</label>
                     </div>
                     <div class="ui-g-12" style="margin-bottom:10px">
-                        <input type="text" formControlName="lastname" class="form-control"
+                        <input pInputText type="text" formControlName="lastname" class="form-control"
                                [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"/>
                     </div>
                     <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
-                        <div *ngIf="f.lastname.errors.required">Last Name is required</div>
+                        <div *ngIf="f.lastname.errors.required">Le nom est obligatoire</div>
                     </div>
                 </div>
 
@@ -41,14 +41,14 @@
                     <div class="ui-g-12">
 
 
-                        <label for="Username">User Name</label>
+                        <label for="Username">Nom d'utilisateur</label>
                     </div>
                     <div class="ui-g-12" style="margin-bottom:10px">
-                        <input type="text" formControlName="username" class="form-control"
+                        <input pInputText type="text" formControlName="username" class="form-control"
                                [ngClass]="{ 'is-invalid': submitted && f.username.errors }"/>
                     </div>
                     <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                        <div *ngIf="f.username.errors.required">Username is required</div>
+                        <div *ngIf="f.username.errors.required">Le nom d'utilisateur est obligatoire</div>
                     </div>
                 </div>
 
@@ -60,27 +60,27 @@
                         <label for="Email">Email</label>
                     </div>
                     <div class="ui-g-12" style="margin-bottom:10px">
-                        <input type="text" formControlName="email" class="form-control"
+                        <input pInputText type="text" formControlName="email" class="form-control"
                                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
                     </div>
                     <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                        <div *ngIf="f.email.errors.required">email is required</div>
+                        <div *ngIf="f.email.errors.required">L'email est obligatoire</div>
                     </div>
                 </div>
 
                 <div class="ui-g">
 
                     <div class="ui-g-12">
-                        <label for="Password">Password</label>
+                        <label for="Password">Mot de passe</label>
                     </div>
 
                     <div class="ui-g-12" style="margin-bottom:10px">
-                        <input type="password" formControlName="password" class="form-control"
+                        <input pInputText type="password" formControlName="password" class="form-control"
                                [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
                     </div>
                     <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                        <div *ngIf="f.password.errors.required">Password is required</div>
-                        <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        <div *ngIf="f.password.errors.required">Le mot de passe est obligatoire</div>
+                        <div *ngIf="f.password.errors.minlength">Le mot de passe doit avoir 6 caracteres minimum</div>
                     </div>
                 </div>
             </div>
@@ -89,10 +89,10 @@
         <p-footer>
             <div class="ui-dialog-buttonpane ui-helper-clearfix">
 
-                <button [disabled]="loading" class="btn btn-primary" label="Register" pButton></button>
+                <button [disabled]="loading" class="btn btn-primary" label="Créer l'utilisateur" pButton></button>
                 <img *ngIf="loading"
                      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
-                <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+                <a [routerLink]="['/administration']" class="btn btn-link"> Annuler </a>
             </div>
         </p-footer>
 
