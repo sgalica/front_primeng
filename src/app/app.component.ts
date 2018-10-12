@@ -3,6 +3,8 @@ import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/c
 import {ScrollPanel} from 'primeng/primeng';
 import {BehaviorSubject} from 'rxjs/Rx';
 import {AuthService} from './service/auth.service';
+import {versionLong} from '../_versions';
+
 
 enum MenuOrientation {
     STATIC,
@@ -17,6 +19,13 @@ enum MenuOrientation {
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit, OnInit {
+
+
+    //public version: string = environment.VERSION;
+
+    version = versionLong
+    date = new Date();
+
 
     isLoggedIn$ = new BehaviorSubject<boolean>(false); // {1}
 
