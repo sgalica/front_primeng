@@ -3,7 +3,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {User} from '../../../app/model/user';
 import {AuthService} from '../../../app/service/auth.service';
 import {first} from "rxjs/operators";
-import {BehaviorSubject} from "../../../../node_modules/rxjs/Rx";
+import {BehaviorSubject} from "rxjs/Rx";
 
 
 @Component({
