@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {versionLong} from "../../../_versions";
 
 @Component({
     selector: 'core-footer',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
     styleUrls: ['./core-footer.component.scss']
 })
 export class CoreFooterComponent {
+
+    version = versionLong
+    date = new Date();
+
 
 }
