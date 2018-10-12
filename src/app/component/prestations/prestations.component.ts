@@ -61,9 +61,9 @@ export class PrestationsComponent implements OnInit {
             {header: 'no_cont', field:'noContrat'},
             {header: 'id_pil', field:'idPilot'},
             {header: 'resp_p', field:'idRespPole'},
-            {header: 'd_ordre', field:'idDonOrdre'},
-            {header: 'etat', field:'etatPrest'},
-            {header: 'site_sg', field:'siteSg'},
+            {header: 'd_ordre', field:'idDonOrdre'},*/
+            {header: 'etat', field:'etatPrest'}
+/*          {header: 'site_sg', field:'siteSg'},
             {header: 'com_open', field:'idCommercialOpen'},
 
             {header: 'date_c', field:'dateCreation'},
@@ -128,7 +128,7 @@ export class PrestationsComponent implements OnInit {
     loadAllPrestations() {
 
         this.prestationService.getAll().pipe(first()).subscribe(prestations => {
-            this.prestations = prestations;
+            this.prestations = prestations.sort( this.orderDateDebutEtVersion );
         });
     }
 
@@ -143,7 +143,17 @@ export class PrestationsComponent implements OnInit {
         });
 
         this.prestationService.getPrestationsCollab(idemployee.toString()).pipe(first()).subscribe(prestations => {
-            this.prestations = prestations;
+            this.prestations = prestations.sort( this.orderDateDebutEtVersion );
         });
+    }
+
+    orderDateDebutEtVersion(a,b) {
+        let after=0;
+
+        after = a.dateDebutPrest > b.dateDebutPrest ? -1 : a.dateDebutPrest < b.dateDebutPrest ? 1 : 0;
+        if (after==0) {
+            after = a.etatPrest > b.etatPrest ? -1 : a.etatPrest < b.etatPrest ? 1 : 0;
+        }
+        return after;
     }
 }

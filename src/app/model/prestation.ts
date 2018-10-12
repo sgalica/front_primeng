@@ -1,6 +1,5 @@
 export class Prestation {
     idPrestation: number;
-    id: number; //collab
     noContrat : number ;
     idPilot : string ;
     departement : string;
