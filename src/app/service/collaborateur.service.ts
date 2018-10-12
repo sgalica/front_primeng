@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
-import { Collaborateur } from '../model/collaborateur';
-
+import {Collaborateur} from '../model/collaborateur';
 
 
 @Injectable()

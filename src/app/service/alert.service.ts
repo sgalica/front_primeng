@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {Observable, Subject} from 'rxjs';
 import {Message} from "primeng/api";
-import {MessageService} from "primeng/components/common/messageservice";
 
 @Injectable()
 export class AlertService {

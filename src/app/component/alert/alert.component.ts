@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
 
-import { AlertService } from '../../service/alert.service';
-import {MessageService} from "primeng/components/common/messageservice";
+import {AlertService} from '../../service/alert.service';
 import {Message} from "primeng/api";
 
 @Component({

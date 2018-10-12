@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
 import {
-    HttpRequest,
-    HttpResponse,
-    HttpHandler,
+    HTTP_INTERCEPTORS,
     HttpEvent,
+    HttpHandler,
     HttpInterceptor,
-    HTTP_INTERCEPTORS
+    HttpRequest,
+    HttpResponse
 } from '@angular/common/http';
 import {Observable, of, throwError} from 'rxjs';
-import {delay, mergeMap, materialize, dematerialize} from 'rxjs/operators';
+import {delay, dematerialize, materialize, mergeMap} from 'rxjs/operators';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {

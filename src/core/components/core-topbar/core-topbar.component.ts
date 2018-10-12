@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { AppComponent } from '../../../app/app.component';
+import {Component} from '@angular/core';
+import {AppComponent} from '../../../app/app.component';
 
 @Component({
     selector: 'core-topbar',

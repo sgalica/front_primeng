@@ -1,7 +1,7 @@
 ///<reference path="../../node_modules/rxjs/internal/BehaviorSubject.d.ts"/>
 import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ScrollPanel} from 'primeng/primeng';
-import {BehaviorSubject} from 'rxjs/Rx';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AuthService} from './service/auth.service';
 import {versionLong} from '../_versions';
 
