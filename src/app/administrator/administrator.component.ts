@@ -9,6 +9,7 @@ import {Router} from "@angular/router";
 import {DataService} from "../service/data.service";
 import {UserService} from "../service/user.service";
 import {User} from "../model/user";
+import {ReferentielService} from "../service/referentiel.service";
 
 
 @Component({
@@ -56,6 +57,7 @@ export class AdministratorComponent implements OnInit {
     constructor(private dataService: DataService,
                 private router: Router,
                 private userService: UserService,
+                private referentielService: ReferentielService,
                 private alertService: AlertService) {
     }
 
@@ -168,11 +170,11 @@ export class AdministratorComponent implements OnInit {
 
     saveRefTable(table: number) {
         console.log("LOGGING:::::::::::::::::::::::");
-        this.dataService.registerList(this.alltable[ table ])
+        this.referentielService.createList(this.alltable[ table ])
             .pipe(first())
             .subscribe(
                 data => {
-                    this.apiresponse = data as ApiResponse;
+                    //this.apiresponse = data as ApiResponse;
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;

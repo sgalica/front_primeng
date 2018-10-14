@@ -6,6 +6,7 @@ import {Collaborateur} from '../../model/collaborateur';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
+import {CollService} from "../../service/coll.service";
 
 
 @Component({
@@ -40,7 +41,10 @@ export class CollaborateursComponent implements OnInit {
     private apiresponse: ApiResponse;
     colsplice: any;
 
-    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService) {
+    constructor(private collaborateurService: CollaborateurService,
+                private collService: CollService,
+                private router: Router,
+                private alertService: AlertService) {
     }
 
 
@@ -105,10 +109,11 @@ export class CollaborateursComponent implements OnInit {
 
     saveNewCollaborateur() {
         console.log("LOGGING:::::::::::::::::::::::");
-        this.collaborateurService.registerList(this.importedCollabs)
+        this.collService.createList(this.importedCollabs)
             .pipe(first())
             .subscribe(
-                data  => {this.apiresponse = data as ApiResponse ;
+                data  => {
+                    this.apiresponse = data as ApiResponse ;
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;

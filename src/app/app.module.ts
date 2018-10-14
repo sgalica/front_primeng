@@ -108,6 +108,10 @@ import {AdministratorComponent} from "./administrator/administrator.component";
 import {DataService} from "./service/data.service";
 import {AdminGuard} from "./service/admin.guard";
 import {NotFoundComponent} from './not-found/not-found.component';
+import {ResourceService} from "./service/resource.service";
+import {ReferentielService} from "./service/referentiel.service";
+import {MissionService} from "./service/mission.service";
+import {CollService} from "./service/coll.service";
 
 // used to create fake backend
 
@@ -226,7 +230,10 @@ export function tokenGetter() {
         AlertService,
         CollaborateurService,
         DataService,
-
+        ResourceService,
+        ReferentielService,
+        MissionService,
+        CollService,
         PrestationService,
         AuthService,
         UserService, JwtHelperService,
