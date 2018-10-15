@@ -1,9 +1,9 @@
 ///<reference path="../../node_modules/rxjs/internal/BehaviorSubject.d.ts"/>
 import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ScrollPanel} from 'primeng/primeng';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AuthService} from './service/auth.service';
 import {versionLong} from '../_versions';
+import {Subject} from "rxjs";
 
 
 enum MenuOrientation {
@@ -27,9 +27,9 @@ export class AppComponent implements AfterViewInit, OnInit {
     date = new Date();
 
 
-    isLoggedIn$ = new BehaviorSubject<boolean>(false); // {1}
+    //isLoggedIn$ = new BehaviorSubject<boolean>(false); // {1}
 
-     //isLoggedIn$: Observable<boolean> = false;                  // {1}
+     private isLoggedIn$: Subject<boolean> ;                  // {1}
 
 
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
