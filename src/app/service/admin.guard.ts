@@ -4,20 +4,18 @@ import {CanActivate, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthGuard} from "./auth.guard";
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {BehaviorSubject} from "../../../node_modules/rxjs/Rx";
 
 @Injectable()
 export class AdminGuard implements CanActivate {
     private token: string;
 
-    static admin = new BehaviorSubject<boolean>(false); // {1}
 
     constructor(
         private router: Router
     ) { }
 
     canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-        if (AdminGuard.admin) {
+        if (this.isAdmin) {
             return true;
         }
         this.router.navigate(['/']);
