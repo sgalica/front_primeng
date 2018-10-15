@@ -1,3 +1,4 @@
+/*
 // src/app/auth/admin.guard.ts
 import {Injectable} from '@angular/core';
 import {CanActivate, Router} from '@angular/router';
@@ -51,3 +52,4 @@ export class AdminGuard implements CanActivate {
     }
 
 }
+*/

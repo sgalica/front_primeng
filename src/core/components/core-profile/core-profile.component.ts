@@ -3,7 +3,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {User} from '../../../app/model/user';
 import {AuthService} from '../../../app/service/auth.service';
 import {first} from "rxjs/operators";
-import {Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 
 @Component({
@@ -26,7 +26,7 @@ import {Subject} from "rxjs";
 })
 export class CoreProfileComponent implements OnInit {
 
-    isAdmin$ = new Subject<boolean>(); // {1}
+    isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
 
 
     active: boolean;

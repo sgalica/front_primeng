@@ -8,7 +8,7 @@ import {AuthGuard} from './service/auth.guard';
 import {CollaborateursComponent} from './component/collaborateurs/collaborateurs.component';
 import {PrestationsComponent} from './component/prestations/prestations.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
-import {AdminGuard} from "./service/admin.guard";
+//import {AdminGuard} from "./service/admin.guard";
 
 
 export const routes: Routes = [
@@ -21,7 +21,8 @@ export const routes: Routes = [
     {path: 'collaborateurs', component: CollaborateursComponent, canActivate: [AuthGuard]},
     {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]},
 
-    {path: 'administration', component: AdministratorComponent, canActivate: [AuthGuard , AdminGuard]},
+    //{path: 'administration', component: AdministratorComponent, canActivate: [AuthGuard , AdminGuard]},
+    {path: 'administration', component: AdministratorComponent, canActivate: [AuthGuard]},
 
     { path: '**', redirectTo: '' }
      //{ path: '**', component: NotFoundComponent }
