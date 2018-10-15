@@ -9,7 +9,7 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 export class AuthGuard implements CanActivate {
 
     static logged = new BehaviorSubject<boolean>(false); // {1}
-    admin = new BehaviorSubject<boolean>(false); // {1}
+    static admin = new BehaviorSubject<boolean>(false); // {1}
 
     token: any;
 
@@ -72,17 +72,17 @@ export class AuthGuard implements CanActivate {
             console.log("USER ROLE admin :::::::::::::::::::::", decodedToken.scopes);
 
             if (decodedToken.scopes.includes("ROLE_ADMIN")){
-                this.admin.next(true);
+                AuthGuard.admin.next(true);
                 console.log("Le Role ADMIN est il present ? ",decodedToken.scopes.includes("ROLE_ADMIN"));
 
             } else {
-                this.admin.next(false);
+                AuthGuard.admin.next(false);
                 console.log("Le Role ADMIN est il present ? ",decodedToken.scopes.includes("ROLE_ADMIN"));
 
             }
 
 
         }
-        return this.admin.asObservable();
+        return AuthGuard.admin.asObservable();
     }
 }
