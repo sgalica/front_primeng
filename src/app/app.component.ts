@@ -29,7 +29,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     //isLoggedIn$ = new BehaviorSubject<boolean>(false); // {1}
 
-     private isLoggedIn$: Subject<boolean> ;                  // {1}
+     isLoggedIn$: Subject<boolean>  ;                  // {1}
 
 
     layoutMode: MenuOrientation = MenuOrientation.STATIC;
