@@ -44,7 +44,7 @@
     "quill": "1.1.8",
     "rxjs": "6.2.2",
     "rxjs-compat": "^6.3.2",
-    "systemjs": "^0.19.47",
+    "systemjs": "^0.19.27",
     "ts-xlsx": "0.0.11",
     "web-animations-js": "2.3.1",
     "webpack": "^4.19.1",
