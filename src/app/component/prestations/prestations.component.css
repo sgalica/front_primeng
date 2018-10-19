@@ -4,6 +4,11 @@ th {
     font-size : 0.9em;
 }
 
+th input {
+    width: 100%;
+}
+
+
 .tablecol {
     border-collapse: collapse;
     border: 1px solid  #0C0213;

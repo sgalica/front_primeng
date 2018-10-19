@@ -21,7 +21,7 @@ export const routes: Routes = [
     {path: 'collaborateurs/:id', component: CollaborateursComponent},
     {path: 'newCollaborateur', component: NewCollaborateurComponent, canActivate: [AuthGuard]},
     {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]},
-    {path: 'prestations/:idcollab', component: PrestationsComponent, canActivate: [AuthGuard]},
+    {path: 'prestations/collab/:idcollab', component: PrestationsComponent, canActivate: [AuthGuard]},
 
     {path: 'administration', component: PrestationsComponent, canActivate: [AuthGuard]}
 

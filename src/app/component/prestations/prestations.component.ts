@@ -3,9 +3,10 @@ import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {PrestationService} from '../../service/prestation.service';
 import {Prestation} from '../../model/prestation';
-import {ActivatedRoute, Params } from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
+import {AlertService} from "../../service/alert.service";
 
 
 @Component({
@@ -15,72 +16,84 @@ import {Collaborateur} from '../../model/collaborateur';
 })
 export class PrestationsComponent implements OnInit {
 
-
-    selectedPrestation: Prestation;
-
+    selectedPrestation: Prestation = new Prestation;
     displayDialog: boolean;
-
-    sortOptions: SelectItem[];
-
     cols :any[];
-
-    sortKey: string;
-
-    sortField: string;
-
-    sortOrder: number;
-
     prestations: Prestation[] = [];
-
-    employee_name= "";
-
+    employee_name : string = "";
     employee : Collaborateur;
+    missions : {label :string, value : number}[];
+    status : SelectItem[];
 
-    constructor( private prestationService: PrestationService, private employeeService : CollaborateurService, private route: ActivatedRoute) { }
+    //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
+
+    constructor( private prestationService: PrestationService, private employeeService : CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute) { }
 
     ngOnInit() {
 
-        this.sortOptions = [
-            {label: 'Newest First', value: '!nom'},
-            {label: 'Oldest First', value: 'prenom'},
-            {label: 'Brand', value: 'brand'}
-        ];
-        this.cols = [
-
-/*            {header: 'Id', field:'id_prestation'},*/
-            {header: 'Début', field:'dateDebutPrest'},
-            {header: 'Fin', field:'dateFinPrest'},
-            {header: 'ATG', field:'noAtg'},
-/*            {header: 'ATG', field:'top_atg_atu'},*/
-            {header: 'Département', field:'departement'},
-            {header: 'Pôle', field:'pole'},
-            {header: 'Domaine', field:'domaine'},
-            {header: 'Site', field:'site'},
-            {header: 'PU', field:'pu'},
-/*
-            {header: 'no_cont', field:'noContrat'},
-            {header: 'id_pil', field:'idPilot'},
-            {header: 'resp_p', field:'idRespPole'},
-            {header: 'd_ordre', field:'idDonOrdre'},*/
-            {header: 'etat', field:'etatPrest'}
-/*          {header: 'site_sg', field:'siteSg'},
-            {header: 'com_open', field:'idCommercialOpen'},
-
-            {header: 'date_c', field:'dateCreation'},
-            {header: 'user_c', field:'idUtilisateurCreation'},
-            {header: 'date_m', field:'dateMaj'},
-            {header: 'user_m', field:'utilisateurMaj'},
-*/
-        ];
-
+        //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'prenom'}, {label: 'Brand', value: 'brand'}        ];
         let id = this.route.snapshot.params['idcollab'];
+
+        this.cols=[];
+        if (id==undefined || id=="" )
+            Array.prototype.push.apply(this.cols,[{header:'Identifiant Pilote', field:'prestIdPilote'} ]); //
+
+        Array.prototype.push.apply(this.cols, [
+//            {header: 'Id', field:'prestId'},
+//            {header: 'Id Mission', field:'prestIdMission'},
+//            {header: 'Contrat', field:'prestContrat'},
+            {header: 'Début', field:'prestDateDebut'},
+            {header: 'Fin', field:'prestDateFin'},
+            {header: 'ATG', field:'prestATG'},
+            {header: 'Département', field:'prestDepartement'},
+            {header: 'Pôle', field:'prestPole'},
+            {header: 'Domaine', field:'prestDomaine'},
+            {header: 'Site', field:'prestSite'},
+            {header: 'PU', field:'prestPU'},
+
+//            {header: 'Resp. Pôle', field:'prestRespPoleSG'},
+//            {header: 'd_ordre', field:'prestDonneurOrdreSG'},
+            {header: 'Type', field:'prestType'},
+            {header: 'Version', field:'prestVersion'},
+            {header: 'Statut', field:'prestStatut'}
+/*            {header: 'com_open', field:'prestCommercialOPEN'},
+
+            {header: 'date_c', field:'prestDateCreation'},
+            {header: 'user_c', field:'prestUserCreation'},
+            {header: 'date_m', field:'prestDateMaj'},
+            {header: 'user_m', field:'prestUserMaj'},
+*/       ]);
+
         if (id==undefined || id=="" )
             this.loadAllPrestations();
         else{
             this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
         }
 
+        this.displayDialog = false;
+
+        this.missions = [
+            {label: 'Aubi', value: 1},
+            {label: 'Bamz', value: 2},
+            {label: 'Fita', value: 3},
+            {label: 'Forud', value: 4},
+            {label: 'Honada', value: 5},
+            {label: 'Jagar', value: 6},
+            {label: 'Mercedes', value: 7},
+            {label: 'Renaud', value: 8},
+            {label: 'Vewa', value: 9},
+            {label: 'Vovo', value: 10}
+        ];
+
+        this.status = [
+            {label: 'Tous', value: ''},
+            {label: 'En cours', value: 'E'},
+            {label: 'Terminée', value: 'T'},
+            {label: 'Supprimée', value: 'S'}
+        ];
+
     }
+
 
     selectPrestation(event: Event, prestation: Prestation) {
         this.selectedPrestation = prestation;
@@ -88,7 +101,33 @@ export class PrestationsComponent implements OnInit {
         event.preventDefault();
     }
 
-    onSortChange(event) {
+    savePrestation(event: Event, prestation: Prestation) {
+        this.prestationService.save(prestation)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    // To do : message save ok
+                    //this.router.navigate(["/prestations"]);
+                },
+                error => {
+                    this.alertService.error(error);
+                });
+    }
+
+    deletePrestation(event: Event, id : number) {
+        this.prestationService.delete(id)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    // To do : hide row
+                },
+                error => {
+                    this.alertService.error(error);
+                });
+    }
+
+
+    /*onSortChange(event) {
         const field = event.field;
 
         if (field.indexOf('!') === 0) {
@@ -98,62 +137,48 @@ export class PrestationsComponent implements OnInit {
             this.sortOrder = 1;
             this.sortField = field;
         }
-    }
+    }*/
 
     onDialogHide() {
         this.selectedPrestation = null;
     }
 
-    loadDummy () {
-        /* DUMMY !!! : */
-        prestation : Prestation;
-        let prestation = {
-            idPrestation:1, id:1, noContrat:1, idPilot:"1", departement:"departement", pole:"pole", domaine:"domaine",
-            codeSite:1, noAtg:1, idRespPole:1, idDonOrdre:1,
-            pu:"pu",
-            dateDebutPrest:"2018-01-01",
-            dateFinPrest:"2018-01-02",
-            etatPrest:"etat_prest",
-            siteSg:"site_sg",
-            idCommercialOpen:1,
-            topAtgAtu:"top_atg_atu",
-            dateCreation:"2018-01-01",
-            idUtilisateurCreation:1,
-            dateMaj:"2018-01-02",
-            utilisateurMaj:1
-        }
-        this.prestations = [prestation];
-    }
 
     loadAllPrestations() {
 
         this.prestationService.getAll().pipe(first()).subscribe(prestations => {
             this.prestations = prestations.sort( this.orderDateDebutEtVersion );
+            this.prestations.map(x => x.prestIdPilote = x.collaborateur.trigOpen);
         });
     }
 
 
-    loadPrestationsCollab(idemployee : number) {
+    loadPrestationsCollab(idemployee) {
 
-        /*DUMMY : !!! */ // this.loadDummy(); this.employee_name = "dummyTEST_ME";
-        // Get info collab
+        // Get collab info
         this.employeeService.getById(idemployee).pipe(first()).subscribe( p_employee  => {
             this.employee = p_employee;
             this.employee_name = this.employee.prenom + " " + this.employee.nom;
+            this.prestations = p_employee.prestations;
+            this.prestations.sort( this.orderDateDebutEtVersion );
         });
-
-        this.prestationService.getPrestationsCollab(idemployee.toString()).pipe(first()).subscribe(prestations => {
-            this.prestations = prestations.sort( this.orderDateDebutEtVersion );
-        });
+        // ... et ses prestations
+        //this.prestationService.getPrestationsCollab(idemployee).pipe(first()).subscribe(prestations => {
+        //    this.prestations = prestations;
+        //});
     }
 
+
+    // Tri sur datedebut (desc) et etat (desc)
     orderDateDebutEtVersion(a,b) {
         let after=0;
 
-        after = a.dateDebutPrest > b.dateDebutPrest ? -1 : a.dateDebutPrest < b.dateDebutPrest ? 1 : 0;
+        after = a.prestDateDebut > b.prestDateDebut ? -1 : a.prestDateDebut < b.prestDateDebut ? 1 : 0;
         if (after==0) {
-            after = a.etatPrest > b.etatPrest ? -1 : a.etatPrest < b.etatPrest ? 1 : 0;
+            after = a.prestVersion > b.prestVersion ? -1 : a.prestVersion < b.prestVersion ? 1 : 0;
         }
         return after;
     }
+
+
 }

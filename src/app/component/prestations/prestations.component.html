@@ -1,24 +1,4 @@
-<!--<div *ngFor="let jugador of jugadores">
-  <div class="col-sm-4 col-md-4 col-lg-4">
-    &lt;!&ndash; <div *ngIf="jugador.estado as true"> &ndash;&gt;
-      <div class="well">
-          <h1 class="text-warning">{{jugador.nombre}}</h1>
-          <p><span class="label label-default">Disponible</span>
-          </p>
-          <ul class="list-group">
-              <li class="list-group-item"><b>Edad:</b> {{jugador.edad}}</li>
-              <li class="list-group-item"><b>Apodo:</b> {{jugador.apodo}}</li>
-              <li class="list-group-item"><b>Posicion:</b> {{jugador.posicion}}</li>
-                <li class="list-group-item"><b>Estado:</b> {{jugador.estado}}</li>
-              <li class="list-group-item">
-                  <img src="../../assets/images/{{jugador.foto}}" alt="Sin foto" />
-              </li>
-          </ul>
-          <button *ngIf="jugador.estado as true" class="btn btn-primary btn-sm">Ver</button>
-      </div>
-    &lt;!&ndash; </div> &ndash;&gt;
-  </div>
-</div>-->
+
 <p-toolbar>
        <div class="ui-toolbar-group-right">
         <button pButton type="button" label="New" icon="pi pi-plus"></button>
@@ -30,23 +10,39 @@
    <p></p>
 </div>
 
-<p-table #tt [columns]="cols" [value]="prestations" [paginator]="true" [rows]="10">
+<p-table #pt [columns]="cols" [value]="prestations" [paginator]="true" [rows]="10">
         <ng-template pTemplate="caption">
         <div class="ui-toolbar-group-left">PRESTATIONS {{employee_name}}</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="tt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        <input type="text" pInputText size="50" placeholder="Global Filter" (input)="pt.filterGlobal($event.target.value, 'contains')" style="width:auto">
     </ng-template>
 
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of cols">
-                {{col.header}}
-            </th>
+            <th *ngFor="let col of cols">{{col.header}}</th>
             <th class="tablecolbody" style="border-top:none; background-color:#f5f5f5"></th>
+        </tr>
+
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input *ngSwitchCase="'prestIdPilote'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestDateDebut'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestDateFin'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestATG'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestDepartement'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestPole'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestDomaine'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestSite'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestPU'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestType'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <input *ngSwitchCase="'prestVersion'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+                <p-dropdown *ngSwitchCase="'prestStatut'" [options]="status" [style]="{'width':'auto', 'min-width':'auto'}" [showClear]="true" (onChange)="pt.filter($event.value, col.field, 'equals')"></p-dropdown>
+            </th>
         </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
+
         <tr [pSelectableRow]="rowData">
 
             <td *ngFor="let col of columns" class="tablecol">
@@ -54,7 +50,7 @@
             </td>
             <td>
                 <div class="ui-toolbar-group-right">
-                    <button pButton type="button" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom"></button>
+                    <button pButton type="button" (click)="selectPrestation($event, rowData)" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom"></button>
                     <button pButton type="button" icon="pi pi-calendar" class="ui-button-success" pTooltip="Historique" tooltipPosition="bottom"></button>
                     <button pButton type="button" icon="pi pi-times" class="ui-button-danger" pTooltip="Supprimer" tooltipPosition="bottom"></button>
                 </div>
@@ -63,106 +59,283 @@
 
     </ng-template>
 </p-table>
-<!--<p-dataView #dv1 [style]="{'padding': '20px'}" [value]="prestations" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="nom"-->
-            <!--[sortField]="sortField" [sortOrder]="sortOrder">-->
-    <!--<p-header>-->
-
-        <!--<div class="ui-helper-clearfix">-->
-            <!--<div class="ui-g">-->
-                <!--<div class="ui-g-12 ui-md-4">-->
-                    <!--<p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"-->
-                                <!--(onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>-->
-                <!--</div>-->
-                <!--<div class="ui-g-6 ui-md-4 filter-container">-->
-                    <!--<div style="position:relative">-->
-                        <!--<input type="search" pInputText placeholder="Search by brand" (keyup)="dv1.filter($event.target.value)">-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="ui-g-6 ui-md-4" style="text-align:right">-->
-                    <!--<p-dataViewLayoutOptions></p-dataViewLayoutOptions>-->
-                <!--</div>-->
-
-            <!--</div>-->
-        <!--</div>-->
-    <!--</p-header>-->
-    <!--<ng-template let-prestation pTemplate="listItem">-->
-        <!--<div class="ui-g" style="border: 1px solid #d9d9d9">-->
 
 
 
-            <!--<div class="ui-g-10 ui-md-9 car-details">-->
-                <!--<div class="ui-g-1 ui-sm-6">id_prestation:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.id_prestation}}</b></div>-->
+<p-dialog header="Prestation" [(visible)]="displayDialog" [responsive]="true" [modal]="true" >
 
-                <!--<div class="ui-g-1 ui-sm-6">no_contrat:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.no_contrat}}</b></div>-->
+    <!--span class="ui-inputgroup-addon">Identifiant</span>
+    <input type="text" pInputText placeholder="identifiant" value="{{selectedPrestation.prestId}}"-->
+    <div class="ui-g ui-fluid">
 
-                <!--<div class="ui-g-1 ui-sm-6">id_pilot:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.id_pilot}}</b></div>-->
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Mission :</span>
+                <p-dropdown [options]="missions" [(ngModel)]="selectedPrestation.prestIdMission" [style]="{'width':'150px'}" filter="true">
+                    <ng-template let-item pTemplate="selectedItem">
+                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                    </ng-template>
+                    <ng-template let-mission pTemplate="item">
+                        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                            <div style="font-size:14px;float:right;margin-top:4px">{{mission.label}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
 
-                <!--<div class="ui-g-1 ui-sm-6">departement:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.departement}}</b></div>-->
+                <input type=number pInputText placeholder="Mission" value="{{selectedPrestation.prestIdMission}}">
+            </div>
+        </div>
 
-                <!--<div class="ui-g-1 ui-sm-6">pole:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.pole}}</b></div>-->
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Contrat :</span>
+                <input type="text" pInputText placeholder="Contrat" value="{{selectedPrestation.prestContrat}}">
+            </div>
+        </div>
 
-                <!--<div class="ui-g-1 ui-sm-6">domaine:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.domaine}}</b></div>-->
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Id pilote :</span>
+                <input type="text" pInputText placeholder="Trigramme open" value="{{selectedPrestation.prestIdPilote}}">
+            </div>
+        </div>
 
-                <!--<div class="ui-g-1 ui-sm-6">code_site:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.code_site}}</b></div>-->
+    </div>
+    <div class="ui-g ui-fluid">
 
-                <!--<div class="ui-g-1 ui-sm-6">no_atg:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.no_atg}}</b></div>-->
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Département :</span>
+                <input type="text" pInputText placeholder="Département" value="{{selectedPrestation.prestDepartement}}">
+            </div>
+        </div>
 
-                <!--<div class="ui-g-1 ui-sm-6">id_resp_pole:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.id_resp_pole}}</b></div>-->
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Pôle :</span>
+                <input type="text" pInputText placeholder="Pôle" value="{{selectedPrestation.prestPole}}">
+            </div>.
+        </div>
 
-                <!--<div class="ui-g-1 ui-sm-6">id_don_ordre:</div>-->
-                <!--<div class="ui-g-1 ui-sm-6"><b>{{prestation.id_don_ordre}}</b></div>-->
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Domaine :</span>
+                <input type="text" pInputText placeholder="Domaine" value="{{selectedPrestation.prestDomaine}}">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">ATG :</span>
+                <input type="text" pInputText placeholder="ATG" value="{{selectedPrestation.prestATG}}">
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Début :</span>
+                <input type="text" pInputText placeholder="Date" value="{{selectedPrestation.prestDateDebut}}">
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Fin :</span>
+                <input type="text" pInputText placeholder="Date" value="{{selectedPrestation.prestDateFin}}">
+            </div>
+        </div>
+
+    </div>
+    <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">PU :</span>
+                <input type="text" pInputText placeholder="PU" value="{{selectedPrestation.prestPU}}">
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Site :</span>
+                <input type="text" pInputText placeholder="Site" value="{{selectedPrestation.prestSite}}">
+            </div>
+        </div>
 
 
-            <!--</div>-->
-            <!--<div class="ui-g-1 ui-md-2 search-icon">-->
-                <!--<button pButton type="button" icon="pi pi-search" (click)="selectPrestation($event, prestation)"></button>-->
-                <!--<button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>-->
-                <!--<button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>-->
-            <!--</div>-->
-        <!--</div>-->
+    </div>
+    <div class="ui-g ui-fluid">
 
-    <!--</ng-template>-->
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Resp. Pôle SG :</span>
+                <input type="text" pInputText placeholder="Nom responsable pôle SG" value="{{selectedPrestation.prestRespPoleSG}}">
+            </div>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Donneur d'ordre SG :</span>
+                <input type="text" pInputText placeholder="Donneur d'ordre SG" value="{{selectedPrestation.prestDonneurOrdreSG}}">
+            </div>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Commercial Open :</span>
+                <input type="text" pInputText placeholder="Nom Commercial Open" value="{{selectedPrestation.prestCommercialOPEN}}">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Type :</span>
+                <input type="text" pInputText placeholder="Type" value="{{selectedPrestation.prestType}}">
+            </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">Version :</span>
+                <input type="text" pInputText placeholder="categorisation" value="{{selectedPrestation.prestVersion}}">
+            </div>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+            <span class="ui-inputgroup-addon">Statut :</span>
+            <p-dropdown [options]="status" [(ngModel)]="selectedPrestation.prestStatut" placeholder="" [showClear]="true"></p-dropdown>
+        </div>
+
+    </div>
+
+    <div class="ui-g ui-fluid">
+
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">MAJ :</span>
+                <span>Créée le {{selectedPrestation.prestDateCreation}} par {{selectedPrestation.prestUserCreation}}, modifiée le {{selectedPrestation.prestDateMaj}} par {{selectedPrestation.prestUserMaj}}</span>
+            </div>
+        </div>
+
+    </div>
 
 
-    <!--<ng-template let-prestation pTemplate="gridItem">-->
-        <!--<div style="padding:.5em" class="ui-g-6 ui-md-2">-->
-            <!--<p-panel [header]="prestation.vin" [style]="{'text-align':'center'}">-->
-                <!--<img src="assets/showcase/images/demo/car/{{prestation.brand}}.png" width="120">-->
-                <!--<div class="car-detail">{{prestation.id_prestation}} - {{prestation.no_contrat}}</div>-->
-                <!--<hr class="ui-widget-content" style="border-top:0">-->
-                <!--<button pButton type="button" icon="pi pi-search" (click)="selectedPrestation($event, prestation)"-->
-                        <!--style="margin-top:0"></button>-->
-            <!--</p-panel>-->
-        <!--</div>-->
 
-    <!--</ng-template>-->
-<!--</p-dataView>-->
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button pButton type="button" label="Enregistrer" icon="pi pi-upload"
+                    class="ui-button-success"
+                    (click)="savePrestation()"></button>
+        </div>
+    </p-footer>
 
+</p-dialog>
+
+
+
+<!--<p-dataView #dv1 [style]="{'padding': '20px'}" [value]="prestations" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="nom"
+[sortField]="sortField" [sortOrder]="sortOrder">
+<p-header>
+
+<div class="ui-helper-clearfix">
+<div class="ui-g">
+<div class="ui-g-12 ui-md-4">
+<p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By"
+(onChange)="onSortChange($event)" [autoWidth]="false" [style]="{'min-width':'15em'}"></p-dropdown>
+</div>
+<div class="ui-g-6 ui-md-4 filter-container">
+<div style="position:relative">
+<input type="search" pInputText placeholder="Search by brand" (keyup)="dv1.filter($event.target.value)">
+</div>
+</div>
+<div class="ui-g-6 ui-md-4" style="text-align:right">
+<p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+</div>
+
+</div>
+</div>
+</p-header>
+<ng-template let-prestation pTemplate="listItem">
+<div class="ui-g" style="border: 1px solid #d9d9d9">
+
+<div class="ui-g-10 ui-md-9 car-details">
+<div class="ui-g-1 ui-sm-6">id_prestation:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.id_prestation}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">no_contrat:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.no_contrat}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">id_pilot:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.id_pilot}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">departement:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.departement}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">pole:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.pole}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">domaine:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.domaine}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">code_site:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.code_site}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">no_atg:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.no_atg}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">id_resp_pole:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.id_resp_pole}}</b></div>
+
+<div class="ui-g-1 ui-sm-6">id_don_ordre:</div>
+<div class="ui-g-1 ui-sm-6"><b>{{prestation.id_don_ordre}}</b></div>
+
+
+</div>
+<div class="ui-g-1 ui-md-2 search-icon">
+<button pButton type="button" icon="pi pi-search" (click)="selectPrestation($event, prestation)"></button>
+<button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
+<button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
+</div>
+</div>
+
+</ng-template>
+
+
+<ng-template let-prestation pTemplate="gridItem">
+<div style="padding:.5em" class="ui-g-6 ui-md-2">
+<p-panel [header]="prestation.vin" [style]="{'text-align':'center'}">
+<img src="assets/showcase/images/demo/car/{{prestation.brand}}.png" width="120">
+<div class="car-detail">{{prestation.id_prestation}} - {{prestation.no_contrat}}</div>
+<hr class="ui-widget-content" style="border-top:0">
+<button pButton type="button" icon="pi pi-search" (click)="selectedPrestation($event, prestation)"
+style="margin-top:0"></button>
+</p-panel>
+</div>
+
+</ng-template>
+</p-dataView>-->
+
+<!--
 <p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
           width="225" (onAfterHide)="onDialogHide()">
     <div class="ui-g" *ngIf="selectedPrestation">
         <div class="ui-g-12" style="text-align:center">
             <img src="assets/showcase/images/demo/car/{{selectedPrestation.id_prestation}}.png">
         </div>
-        <div class="ui-g-4">Vin:</div>
+        <div class="ui-g-4">Contrat :</div>
         <div class="ui-g-8">{{selectedPrestation.no_contrat}}</div>
 
-        <div class="ui-g-4">Brand:</div>
+        <div class="ui-g-4">ID pilot:</div>
         <div class="ui-g-8">{{selectedPrestation.id_pilot}}</div>
 
-        <div class="ui-g-4">Year:</div>
+        <div class="ui-g-4">Département:</div>
         <div class="ui-g-8">{{selectedPrestation.departement}}</div>
 
-        <div class="ui-g-4">Color:</div>
+        <div class="ui-g-4">Site:</div>
         <div class="ui-g-8">{{selectedPrestation.code_site}}</div>
     </div>
-</p-dialog>
+</p-dialog>-->
