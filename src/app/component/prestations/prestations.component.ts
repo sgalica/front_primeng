@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {PrestationService} from '../../service/prestation.service';
@@ -7,7 +7,13 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
 import {AlertService} from "../../service/alert.service";
+import {DataTable} from "primeng/primeng";
 
+interface SelectedPrestas {
+    trigcollab: string;
+    statut: string;
+    version: string;
+}
 
 @Component({
     selector: 'app-prestations',
@@ -16,57 +22,87 @@ import {AlertService} from "../../service/alert.service";
 })
 export class PrestationsComponent implements OnInit {
 
+    @ViewChild(('pt')) pt: DataTable;
+
+    // Liste
+    prestations: Prestation[] = [];
+    cols: any[];
+
+    // Collaborateur
+    employee_name: string = "";
+    employee: Collaborateur;
+
+    // Fiche/Detail
     selectedPrestation: Prestation = new Prestation;
     displayDialog: boolean;
-    cols :any[];
-    prestations: Prestation[] = [];
-    employee_name : string = "";
-    employee : Collaborateur;
-    missions : {label :string, value : number}[];
-    status : SelectItem[];
+
+    // Références
+    missions: { label: string, value: number }[];
+    status: SelectItem[];
+    versions: SelectItem[];
+
+    // Filter
+    selectedPrestas: SelectedPrestas = new class implements SelectedPrestas {
+        statut: string;
+        version: string;
+        trigcollab: string;
+    };
+
 
     //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
 
-    constructor( private prestationService: PrestationService, private employeeService : CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute) { }
+
+    constructor(private prestationService: PrestationService, private employeeService: CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute) {
+    }
 
     ngOnInit() {
 
         //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'prenom'}, {label: 'Brand', value: 'brand'}        ];
+
+        // ID
         let id = this.route.snapshot.params['idcollab'];
 
-        this.cols=[];
-        if (id==undefined || id=="" )
-            Array.prototype.push.apply(this.cols,[{header:'Identifiant Pilote', field:'prestIdPilote'} ]); //
+        // Cols depending on ID
+        this.cols = [];
+        if (id == undefined || id == "")
+            Array.prototype.push.apply(this.cols, [{header: 'Identifiant Pilote', field: 'prestIdPilote'}]); //
 
         Array.prototype.push.apply(this.cols, [
 //            {header: 'Id', field:'prestId'},
 //            {header: 'Id Mission', field:'prestIdMission'},
 //            {header: 'Contrat', field:'prestContrat'},
-            {header: 'Début', field:'prestDateDebut'},
-            {header: 'Fin', field:'prestDateFin'},
-            {header: 'ATG', field:'prestATG'},
-            {header: 'Département', field:'prestDepartement'},
-            {header: 'Pôle', field:'prestPole'},
-            {header: 'Domaine', field:'prestDomaine'},
-            {header: 'Site', field:'prestSite'},
-            {header: 'PU', field:'prestPU'},
+            {header: 'Début', field: 'prestDateDebut'},
+            {header: 'Fin', field: 'prestDateFin'},
+            {header: 'ATG', field: 'prestATG'},
+            {header: 'Département', field: 'prestDepartement'},
+            {header: 'Pôle', field: 'prestPole'},
+            {header: 'Domaine', field: 'prestDomaine'},
+            {header: 'Site', field: 'prestSite'},
+            {header: 'PU', field: 'prestPU'},
 
 //            {header: 'Resp. Pôle', field:'prestRespPoleSG'},
 //            {header: 'd_ordre', field:'prestDonneurOrdreSG'},
-            {header: 'Type', field:'prestType'},
-            {header: 'Version', field:'prestVersion'},
-            {header: 'Statut', field:'prestStatut'}
-/*            {header: 'com_open', field:'prestCommercialOPEN'},
+            {header: 'Type', field: 'prestType'},
+            {header: 'Version', field: 'prestVersion'},
+            {header: 'Statut', field: 'prestStatut'}
+            /*            {header: 'com_open', field:'prestCommercialOPEN'},
 
-            {header: 'date_c', field:'prestDateCreation'},
-            {header: 'user_c', field:'prestUserCreation'},
-            {header: 'date_m', field:'prestDateMaj'},
-            {header: 'user_m', field:'prestUserMaj'},
-*/       ]);
+                        {header: 'date_c', field:'prestDateCreation'},
+                        {header: 'user_c', field:'prestUserCreation'},
+                        {header: 'date_m', field:'prestDateMaj'},
+                        {header: 'user_m', field:'prestUserMaj'},
+            */]);
 
-        if (id==undefined || id=="" )
+
+        if (id == undefined || id == "") {
+            // Filter
+            this.selectedPrestas.version = "A";
+            this.selectedPrestas.statut = "E";
+            this.selectedPrestas.trigcollab = ""; //tsc
+
             this.loadAllPrestations();
-        else{
+        }
+        else {
             this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
         }
 
@@ -91,6 +127,11 @@ export class PrestationsComponent implements OnInit {
             {label: 'Terminée', value: 'T'},
             {label: 'Supprimée', value: 'S'}
         ];
+        this.versions = [
+            {label: 'Tous', value: ''},
+            {label: 'Actuelle', value: 'A'},
+            {label: 'Anciennes', value: 'H'},
+        ];
 
     }
 
@@ -114,17 +155,29 @@ export class PrestationsComponent implements OnInit {
                 });
     }
 
-    deletePrestation(event: Event, id : number) {
-        this.prestationService.delete(id)
+    deletePrestation(event: Event, prestation: Prestation) {
+        prestation.prestStatut = (prestation.prestStatut = "S") ? "E" : "S";
+
+        this.prestationService.save(prestation)
             .pipe(first())
             .subscribe(
                 data => {
-                    // To do : hide row
                 },
                 error => {
                     this.alertService.error(error);
                 });
     }
+
+  /*  deletePrestation(event: Event, id: number) {
+        this.prestationService.delete(id)
+            .pipe(first())
+            .subscribe(
+                data => {
+                },
+                error => {
+                    this.alertService.error(error);
+                });
+    }*/
 
 
     /*onSortChange(event) {
@@ -147,8 +200,15 @@ export class PrestationsComponent implements OnInit {
     loadAllPrestations() {
 
         this.prestationService.getAll().pipe(first()).subscribe(prestations => {
-            this.prestations = prestations.sort( this.orderDateDebutEtVersion );
-            this.prestations.map(x => x.prestIdPilote = x.collaborateur.trigOpen);
+
+            this.prestations = prestations.sort(this.orderDateDebutEtVersion);
+
+            this.prestations.map(x => {
+                x.prestIdPilote = x.collaborateur.trigOpen;
+            });
+
+            this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');
+            this.pt.filter(this.selectedPrestas.version, 'prestVersionActuelle', 'equals');
         });
     }
 
@@ -156,11 +216,12 @@ export class PrestationsComponent implements OnInit {
     loadPrestationsCollab(idemployee) {
 
         // Get collab info
-        this.employeeService.getById(idemployee).pipe(first()).subscribe( p_employee  => {
+        this.employeeService.getById(idemployee).pipe(first()).subscribe(p_employee => {
             this.employee = p_employee;
             this.employee_name = this.employee.prenom + " " + this.employee.nom;
             this.prestations = p_employee.prestations;
-            this.prestations.sort( this.orderDateDebutEtVersion );
+
+            this.prestations.sort(this.orderDateDebutEtVersion);
         });
         // ... et ses prestations
         //this.prestationService.getPrestationsCollab(idemployee).pipe(first()).subscribe(prestations => {
@@ -170,11 +231,11 @@ export class PrestationsComponent implements OnInit {
 
 
     // Tri sur datedebut (desc) et etat (desc)
-    orderDateDebutEtVersion(a,b) {
-        let after=0;
+    orderDateDebutEtVersion(a, b) {
+        let after = 0;
 
         after = a.prestDateDebut > b.prestDateDebut ? -1 : a.prestDateDebut < b.prestDateDebut ? 1 : 0;
-        if (after==0) {
+        if (after == 0) {
             after = a.prestVersion > b.prestVersion ? -1 : a.prestVersion < b.prestVersion ? 1 : 0;
         }
         return after;

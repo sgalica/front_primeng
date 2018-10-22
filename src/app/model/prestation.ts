@@ -2,7 +2,9 @@ import {Collaborateur} from "./collaborateur";
 
 export class Prestation {
 
-    prestId: number;
+    prestId: number; // réf. unique
+    prestIdFirst : number; // Réf. de la mission (l'enregistrement de l'historique de la mission avec n° version 1)
+    prestVersionActuelle : string; // A=Actuelle, H=Historique
     prestIdMission : number;
     prestContrat : string ;
     prestIdPilote : string ;
