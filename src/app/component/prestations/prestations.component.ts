@@ -41,7 +41,7 @@ export class PrestationsComponent implements OnInit {
     status: SelectItem[];
     versions: SelectItem[];
 
-    // Filter
+    // Sélection / filtre
     selectedPrestas: SelectedPrestas = new class implements SelectedPrestas {
         statut: string;
         version: string;
@@ -52,7 +52,8 @@ export class PrestationsComponent implements OnInit {
     //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
 
 
-    constructor(private prestationService: PrestationService, private employeeService: CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute) {
+    constructor(private prestationService: PrestationService, private employeeService: CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute)
+    {
     }
 
     ngOnInit() {
@@ -68,36 +69,36 @@ export class PrestationsComponent implements OnInit {
             Array.prototype.push.apply(this.cols, [{header: 'Identifiant Pilote', field: 'prestIdPilote'}]); //
 
         Array.prototype.push.apply(this.cols, [
-//            {header: 'Id', field:'prestId'},
-//            {header: 'Id Mission', field:'prestIdMission'},
-//            {header: 'Contrat', field:'prestContrat'},
+//          {header: 'Id', field:'prestId'},
+//          {header: 'Id Mission', field:'prestIdMission'},
             {header: 'Début', field: 'prestDateDebut'},
             {header: 'Fin', field: 'prestDateFin'},
+            {header: 'Contrat', field: 'prestContrat'},
             {header: 'ATG', field: 'prestATG'},
             {header: 'Département', field: 'prestDepartement'},
             {header: 'Pôle', field: 'prestPole'},
             {header: 'Domaine', field: 'prestDomaine'},
             {header: 'Site', field: 'prestSite'},
             {header: 'PU', field: 'prestPU'},
-
-//            {header: 'Resp. Pôle', field:'prestRespPoleSG'},
-//            {header: 'd_ordre', field:'prestDonneurOrdreSG'},
+//          {header: 'Resp. Pôle', field:'prestRespPoleSG'},
+//          {header: 'd_ordre', field:'prestDonneurOrdreSG'},
             {header: 'Type', field: 'prestType'},
-            {header: 'Version', field: 'prestVersion'},
-            {header: 'Statut', field: 'prestStatut'}
-            /*            {header: 'com_open', field:'prestCommercialOPEN'},
+            {header: 'Statut', field: 'prestStatut'},
+            {header: 'Version', field: 'prestVersion'}
+/*          {header: 'com_open', field:'prestCommercialOPEN'},
 
-                        {header: 'date_c', field:'prestDateCreation'},
-                        {header: 'user_c', field:'prestUserCreation'},
-                        {header: 'date_m', field:'prestDateMaj'},
-                        {header: 'user_m', field:'prestUserMaj'},
-            */]);
+            {header: 'date_c', field:'prestDateCreation'},
+            {header: 'user_c', field:'prestUserCreation'},
+            {header: 'date_m', field:'prestDateMaj'},
+            {header: 'user_m', field:'prestUserMaj'},
+*/
+        ]);
 
 
         if (id == undefined || id == "") {
             // Filter
             this.selectedPrestas.version = "A";
-            this.selectedPrestas.statut = "E";
+            this.selectedPrestas.statut = "";
             this.selectedPrestas.trigcollab = ""; //tsc
 
             this.loadAllPrestations();
@@ -129,8 +130,8 @@ export class PrestationsComponent implements OnInit {
         ];
         this.versions = [
             {label: 'Tous', value: ''},
-            {label: 'Actuelle', value: 'A'},
-            {label: 'Anciennes', value: 'H'},
+            {label: 'Actuelle', value: 'A'}
+            //{label: 'Anciennes', value: 'H'},
         ];
 
     }
@@ -156,7 +157,7 @@ export class PrestationsComponent implements OnInit {
     }
 
     deletePrestation(event: Event, prestation: Prestation) {
-        prestation.prestStatut = (prestation.prestStatut = "S") ? "E" : "S";
+        prestation.prestStatut = (prestation.prestStatut == "S") ? "E" : "S";
 
         this.prestationService.save(prestation)
             .pipe(first())

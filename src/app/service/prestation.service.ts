@@ -31,7 +31,7 @@ export class PrestationService {
     }
 
     update(prestation: Prestation) {
-        return this.http.put(`/api/prestations/` + prestation.prestId, prestation);
+        return this.http.put(`/api/prestations`, prestation); //+ prestation.prestId
     }
 
     delete(id: number) {
