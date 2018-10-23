@@ -236,6 +236,9 @@ export function tokenGetter() {
         // provider used to create fake backend
         // fakeBackendProvider
     ],
+    entryComponents: [AppDashboardComponent],
+
+
     bootstrap: [AppComponent]
 })
 export class AppModule {

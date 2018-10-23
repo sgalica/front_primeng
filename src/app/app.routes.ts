@@ -24,7 +24,8 @@ export const routes: Routes = [
     //{path: 'administration', component: AdministratorComponent, canActivate: [AuthGuard , AdminGuard]},
     {path: 'administration', component: AdministratorComponent, canActivate: [AuthGuard]},
 
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: '' },
+    { path: 'error', redirectTo: '' }
      //{ path: '**', component: NotFoundComponent }
 
 
