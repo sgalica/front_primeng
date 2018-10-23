@@ -123,15 +123,14 @@ export class PrestationsComponent implements OnInit {
         ];
 
         this.status = [
-            {label: 'Tous', value: ''},
+            {label: 'Toutes', value: ''},
             {label: 'En cours', value: 'E'},
             {label: 'Terminée', value: 'T'},
             {label: 'Supprimée', value: 'S'}
         ];
         this.versions = [
             {label: 'Tous', value: ''},
-            {label: 'Actuelle', value: 'A'}
-            //{label: 'Anciennes', value: 'H'},
+            {label: 'Dernière', value: 'A'}
         ];
 
     }
