@@ -8,7 +8,7 @@ export class MissionService extends ResourceService<Mission> {
     constructor(httpClient: HttpClient) {
         super(
             httpClient,
-            '/api',
-            'mission');
+            'api',
+            'missions');
     }
 }

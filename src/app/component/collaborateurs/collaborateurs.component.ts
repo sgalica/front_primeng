@@ -1,12 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {CollaborateurService} from '../../service/collaborateur.service';
+import {CollaborateurService} from '../../service/collaborateur2.service';
 import {Collaborateur} from '../../model/collaborateur';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
-import {CollService} from "../../service/coll.service";
 
 
 @Component({
@@ -42,7 +41,6 @@ export class CollaborateursComponent implements OnInit {
     colsplice: any;
 
     constructor(private collaborateurService: CollaborateurService,
-                private collService: CollService,
                 private router: Router,
                 private alertService: AlertService) {
     }
@@ -98,7 +96,7 @@ export class CollaborateursComponent implements OnInit {
 
     loadAllCollaborateurs() {
 
-        this.collaborateurService.getAll().pipe(first()).subscribe(collaborateurs => {
+        this.collaborateurService.list().pipe(first()).subscribe(collaborateurs => {
             this.collaborateurs = collaborateurs;
         });
     }
@@ -109,7 +107,7 @@ export class CollaborateursComponent implements OnInit {
 
     saveNewCollaborateur() {
         console.log("LOGGING:::::::::::::::::::::::");
-        this.collService.createList(this.importedCollabs)
+        this.collaborateurService.createList(this.importedCollabs)
             .pipe(first())
             .subscribe(
                 data  => {
