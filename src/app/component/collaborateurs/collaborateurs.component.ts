@@ -1,11 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {SelectItem} from 'primeng/api';
+import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
-import {NewCollaborateurComponent} from "../newCollaborateur/newCollaborateur.component";
-import {TableModule} from 'primeng/table';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
 
@@ -17,7 +15,6 @@ import {ApiResponse} from "../../model/apiresponse";
 })
 export class CollaborateursComponent implements OnInit {
 
-    newcollaborateur: NewCollaborateurComponent;
 
     selectedCollaborateur: Collaborateur;
 
@@ -35,7 +32,6 @@ export class CollaborateursComponent implements OnInit {
 
     collaborateurs: Collaborateur[] = [];
     collaborateur : Collaborateur;
-    collaborateurs = [];
     private msgs: Message[];
     private selectedfile: any;
     private viewfile: boolean;

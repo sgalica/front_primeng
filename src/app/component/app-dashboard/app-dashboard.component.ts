@@ -8,8 +8,6 @@ import {BehaviorSubject} from "../../../../node_modules/rxjs/Rx";
     styleUrls: ['./app-dashboard.component.scss']
 })
 export class AppDashboardComponent implements OnInit {
-    at_date : String = "01/01/0001";
-
 
     at_date : String = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
     fr: any;

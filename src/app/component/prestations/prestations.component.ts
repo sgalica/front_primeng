@@ -3,7 +3,7 @@ import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {PrestationService} from '../../service/prestation.service';
 import {Prestation} from '../../model/prestation';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
 import {AlertService} from "../../service/alert.service";
@@ -52,9 +52,12 @@ export class PrestationsComponent implements OnInit {
     //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
 
 
-    constructor(private prestationService: PrestationService, private employeeService: CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute)
-    {
-    }
+    constructor(
+                private prestationService: PrestationService,
+                private employeeService: CollaborateurService,
+                private router: Router,
+                private alertService: AlertService,
+                private route: ActivatedRoute) {}
 
     ngOnInit() {
 
