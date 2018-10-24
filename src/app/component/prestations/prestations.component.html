@@ -46,7 +46,7 @@
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
 
-        <tr [pSelectableRow]="rowData" >
+        <tr [pSelectableRow]="rowData" [ngClass]="'Statut'+rowData['prestStatut']" >
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" class="tablecol" [ngSwitch]="col.field">

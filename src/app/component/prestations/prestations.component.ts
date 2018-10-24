@@ -48,6 +48,7 @@ export class PrestationsComponent implements OnInit {
         trigcollab: string;
     };
 
+    rowcolors : {};
 
     //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
 
@@ -106,7 +107,7 @@ export class PrestationsComponent implements OnInit {
         else {
             this.selectedPrestas.statut = "";
             this.selectedPrestas.version = "";
-            //this.selectedPrestas.trigcollab = ""; //tsc
+             //this.selectedPrestas.trigcollab = ""; //tsc
             this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
         }
 
@@ -136,6 +137,9 @@ export class PrestationsComponent implements OnInit {
             {label: 'Dernière', value: 'A'}
         ];
 
+        this.rowcolors = {
+            "E" : "rgba(rgba(250,200,240,1))", "T":"rgba(200,200,200,0.2)"
+        }
     }
 
 
@@ -253,6 +257,6 @@ export class PrestationsComponent implements OnInit {
         }
         else {
             this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');
-        }
+         }
     }
 }

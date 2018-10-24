@@ -12,4 +12,26 @@ th input {    width: 100%;}
     text-overflow: ellipsis;
 }
 
+body table tbody > tr.StatutE  {  /*.ng-star-inserted*/
+    background-color : rgba(250,200,240,1);
+}
+tr.StatutE {
+    background-color : rgba(250,200,240,0.5);
+}
 
+tr.StatutT {
+    background-color : rgba(200,200,200,0.2);
+}
+body .ui-table .ui-table-tbody > tr.StatutS {
+    background-color : rgba(200,250,240,0.2);
+}
+
+body .ui-table .ui-table-tbody tr:nth-child(even).StatutE {
+    background-color : rgba(200,150,190,0.3);
+}
+body .ui-table .ui-table-tbody tr:nth-child(even).StatutT {
+    background-color : rgba(150,150,150,0.3);
+}
+body .ui-table .ui-table-tbody tr:nth-child(even).StatutS {
+    background-color : rgba(150,200,190,0.3);
+}
