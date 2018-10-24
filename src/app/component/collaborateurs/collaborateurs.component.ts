@@ -1,9 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Message, SelectItem} from 'primeng/api';
+import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
-import {Router} from "@angular/router";
+import {NewCollaborateurComponent} from "../newCollaborateur/newCollaborateur.component";
+import {TableModule} from 'primeng/table';
+import {ActivatedRoute, Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
 
@@ -15,7 +17,7 @@ import {ApiResponse} from "../../model/apiresponse";
 })
 export class CollaborateursComponent implements OnInit {
 
-
+    newcollaborateur: NewCollaborateurComponent;
 
     selectedCollaborateur: Collaborateur;
 
@@ -31,6 +33,8 @@ export class CollaborateursComponent implements OnInit {
 
     sortOrder: number;
 
+    collaborateurs: Collaborateur[] = [];
+    collaborateur : Collaborateur;
     collaborateurs = [];
     private msgs: Message[];
     private selectedfile: any;
@@ -189,10 +193,12 @@ export class CollaborateursComponent implements OnInit {
         return file.name.endsWith(".csv");
     }
 
+
     fileReset() {
         this.fileImportInput.nativeElement.value = "";
         this.csvRecords = [];
     }
+
 
     onSelectImage(files: any) {
 

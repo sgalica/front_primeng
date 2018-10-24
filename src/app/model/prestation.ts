@@ -1,23 +1,32 @@
+import {Collaborateur} from "./collaborateur";
+
 export class Prestation {
-    id_prestation;
-    no_contrat;
-    id_pilot;
-    departement;
-    pole;
-    domaine;
-    code_site;
-    no_atg;
-    id_resp_pole;
-    id_don_ordre;
-    pu;
-    date_debut_prest;
-    date_fin_prest;
-    etat_prest;
-    site_sg;
-    id_commercial_open;
-    top_atg_atu;
-    date_creation;
-    id_utilisateur_creation;
-    date_maj;
-    utilisateur_maj;
+
+    prestId: number; // réf. unique
+    prestIdFirst : number; // Réf. de la mission (l'enregistrement de l'historique de la mission avec n° version 1)
+    prestVersionActuelle : string; // A=Actuelle, H=Historique
+    prestIdMission : number;
+    prestContrat : string ;
+    prestIdPilote : string ;
+    prestDepartement : string;
+    prestPole : string;
+    prestDomaine : string;
+    prestATG : string ;
+    prestDateDebut : any;
+    prestDateFin : any ;
+    prestPU : string;
+    prestSite : string;
+    prestRespPoleSG : string;
+    prestDonneurOrdreSG : string;
+    prestCommercialOPEN : string;
+    prestType : string;
+    prestVersion : number;
+    prestStatut : string;
+
+    collaborateur : Collaborateur;
+
+    prestDateCreation  : any;
+    prestUserCreation : string ;
+    prestDateMaj : any;
+    prestUserMaj : string ;
 }

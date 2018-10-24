@@ -1,5 +1,9 @@
 button {margin: 3px}
 
+th {
+    font-size : 0.9em;
+}
+
 
 .import-collabs> tr> td {
     border-collapse: collapse;
@@ -11,8 +15,10 @@ button {margin: 3px}
 }
 
 
-.ui-datatable-data> tr> td {
+/*body .ui-table .ui-datatable-data> tr> td {*/
+.tablecol {
     border-collapse: collapse;
+    border: 1px solid  #0C0213;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
