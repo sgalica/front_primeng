@@ -37,9 +37,9 @@
                 <input *ngSwitchCase="'prestSite'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
                 <input *ngSwitchCase="'prestPU'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
                 <input *ngSwitchCase="'prestType'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
-                <p-dropdown *ngSwitchCase="'prestVersion'" [options]="versions" [(ngModel)]="selectedPrestas.version" [style]="{'width':'auto', 'min-width':'auto'}" [showClear]="true" (onChange)="pt.filter($event.value, 'prestVersionActuelle', 'equals')"></p-dropdown>
+                <p-dropdown *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.statut" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-dropdown>
+                <p-dropdown *ngSwitchCase="'prestVersion'" [options]="versions" [(ngModel)]="selectedPrestas.version" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-dropdown>
                 <!--input *ngSwitchCase="'prestVersion'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)"-->
-                <p-dropdown *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.statut" [style]="{'width':'auto', 'min-width':'auto'}" [showClear]="true" (onChange)="pt.filter($event.value, col.field, 'equals')"></p-dropdown>
             </th>
         </tr>
     </ng-template>

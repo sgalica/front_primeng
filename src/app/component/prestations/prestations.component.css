@@ -12,20 +12,4 @@ th input {    width: 100%;}
     text-overflow: ellipsis;
 }
 
-.link {
-    display:inline-block;
-    padding-left:3px;
-    height: 100%;
-    width:100%;
-}
 
-.link div {
-    height: 100%;
-    width:100%;
-
-}
-
-.link :hover {
-    background-color : rgba(150,200,200,0.5);
-    color : white;
-}

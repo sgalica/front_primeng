@@ -97,13 +97,16 @@ export class PrestationsComponent implements OnInit {
 
         if (id == undefined || id == "") {
             // Filter
-            this.selectedPrestas.version = "A";
             this.selectedPrestas.statut = "";
+            this.selectedPrestas.version = "A";
             this.selectedPrestas.trigcollab = ""; //tsc
 
             this.loadAllPrestations();
         }
         else {
+            this.selectedPrestas.statut = "";
+            this.selectedPrestas.version = "";
+            //this.selectedPrestas.trigcollab = ""; //tsc
             this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
         }
 
@@ -207,8 +210,7 @@ export class PrestationsComponent implements OnInit {
                 x.prestIdPilote = x.collaborateur.trigOpen;
             });
 
-            this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');
-            this.pt.filter(this.selectedPrestas.version, 'prestVersionActuelle', 'equals');
+            this.filterVersions();
         });
     }
 
@@ -242,4 +244,15 @@ export class PrestationsComponent implements OnInit {
     }
 
 
+    filterVersions() { // fields : prestStatut, prestVersionActuelle
+
+        var status: string[];
+        if (this.selectedPrestas.statut=="") {
+            status = (this.selectedPrestas.version == "") ? ['E','T','S','A'] : ['E','T','S'];
+            this.pt.filter(status, 'prestStatut', 'in');
+        }
+        else {
+            this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');
+        }
+    }
 }
