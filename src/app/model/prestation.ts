@@ -20,8 +20,8 @@ export class Prestation {
     prestDonneurOrdreSG : string;
     prestCommercialOPEN : string;
     prestType : string;
-    prestVersion : number;
     prestStatut : string;
+    prestVersion : number;
 
     collaborateur : Collaborateur;
 

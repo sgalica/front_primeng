@@ -48,6 +48,7 @@ export class PrestationsComponent implements OnInit {
         trigcollab: string;
     };
 
+    rowcolors : {};
 
     //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
 
@@ -100,13 +101,16 @@ export class PrestationsComponent implements OnInit {
 
         if (id == undefined || id == "") {
             // Filter
-            this.selectedPrestas.version = "A";
             this.selectedPrestas.statut = "";
+            this.selectedPrestas.version = "A";
             this.selectedPrestas.trigcollab = ""; //tsc
 
             this.loadAllPrestations();
         }
         else {
+            this.selectedPrestas.statut = "";
+            this.selectedPrestas.version = "";
+             //this.selectedPrestas.trigcollab = ""; //tsc
             this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
         }
 
@@ -126,17 +130,19 @@ export class PrestationsComponent implements OnInit {
         ];
 
         this.status = [
-            {label: 'Tous', value: ''},
+            {label: 'Toutes', value: ''},
             {label: 'En cours', value: 'E'},
             {label: 'Terminée', value: 'T'},
             {label: 'Supprimée', value: 'S'}
         ];
         this.versions = [
             {label: 'Tous', value: ''},
-            {label: 'Actuelle', value: 'A'}
-            //{label: 'Anciennes', value: 'H'},
+            {label: 'Dernière', value: 'A'}
         ];
 
+        this.rowcolors = {
+            "E" : "rgba(rgba(250,200,240,1))", "T":"rgba(200,200,200,0.2)"
+        }
     }
 
 
@@ -211,8 +217,7 @@ export class PrestationsComponent implements OnInit {
                 x.prestIdPilote = x.collaborateur.trigOpen;
             });
 
-            this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');
-            this.pt.filter(this.selectedPrestas.version, 'prestVersionActuelle', 'equals');
+            this.filterVersions();
         });
     }
 
@@ -246,4 +251,15 @@ export class PrestationsComponent implements OnInit {
     }
 
 
+    filterVersions() { // fields : prestStatut, prestVersionActuelle
+
+        var status: string[];
+        if (this.selectedPrestas.statut=="") {
+            status = (this.selectedPrestas.version == "") ? ['E','T','S','A'] : ['E','T','S'];
+            this.pt.filter(status, 'prestStatut', 'in');
+        }
+        else {
+            this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');
+         }
+    }
 }
