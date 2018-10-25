@@ -1,0 +1,9 @@
+#profile-menu{
+    background-color: rgba(0, 0, 0, 0.07)
+}
+
+div{color: #fff}
+
+.idPhotoFrame {
+    height : 45px; width : 45px; float: right; background-color:#00a6dd; border-radius:27px; text-align:center; margin-left: 15px;
+}

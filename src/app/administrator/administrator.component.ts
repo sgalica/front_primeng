@@ -6,10 +6,10 @@ import {ApiResponse} from "../model/apiresponse";
 import {first} from "rxjs/operators";
 import {AlertService} from "../service/alert.service";
 import {Router} from "@angular/router";
-import {DataService} from "../service/data.service";
 import {UserService} from "../service/user.service";
 import {User} from "../model/user";
 import {ReferentielService} from "../service/referentiel.service";
+import {Data} from "../model/data";
 
 
 @Component({
@@ -54,7 +54,7 @@ export class AdministratorComponent implements OnInit {
 
     myjson:any=JSON;
 
-    constructor(private dataService: DataService,
+    constructor(
                 private router: Router,
                 private userService: UserService,
                 private referentielService: ReferentielService,
@@ -168,8 +168,34 @@ export class AdministratorComponent implements OnInit {
         fileReader.readAsArrayBuffer(this.file);
     }
 
+    getModelMatch(T){
+        debugger;
+
+        T={
+            contrat: "ATG-000111",
+            dateMaj: 36526,
+            dateCréation: 36526,
+            numeroAtg  : "ATG-000666-0",
+            trigrammeMaj: "SBA16490",
+            trigrammeCréation: "SBA16490"};
+        console.log(T);
+
+        var constructor;
+        var data = new Data;
+        Object.values(data).forEach(x => {
+            debugger;
+            if (x.constructor == T.constructor){x=T}else x=null;
+
+            console.log("name of the property" ,x);
+
+        });
+
+        return constructor;
+    }
+
     saveRefTable(table: number) {
-        console.log("LOGGING:::::::::::::::::::::::");
+        var cons = this.getModelMatch(this.alltable[ table ][0]);
+        console.log("LOGGING:::::::::::::::::::::::", cons);
         this.referentielService.createList(this.alltable[ table ])
             .pipe(first())
             .subscribe(

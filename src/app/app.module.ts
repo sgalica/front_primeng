@@ -105,7 +105,6 @@ import {CollaborateurService} from './service/collaborateur.service';
 import {PrestationService} from "./service/prestation.service";
 import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
-import {DataService} from "./service/data.service";
 // import {AdminGuard} from "./service/admin.guard";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {ResourceService} from "./service/resource.service";
@@ -229,7 +228,6 @@ export function tokenGetter() {
         //AdminGuard,
         AlertService,
         CollaborateurService,
-        DataService,
         ResourceService,
         ReferentielService,
         MissionService,

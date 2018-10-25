@@ -1,5 +1,11 @@
 export class Data {
 
+    collaborateur?: Collab = new Collab();
+    mission?: Mission = new Mission();
+    prestation?: Prestation = new Prestation();
+    numAtg?:NumAtg = new NumAtg();
+
+
 }
 
 

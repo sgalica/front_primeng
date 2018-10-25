@@ -16,9 +16,24 @@
             <li #profile class="profile-item" *ngIf="app.profileMode==='top'||app.isHorizontal()" [ngClass]="{'active-top-menu':app.activeTopbarItem === profile}">
 
                 <a href="#" (click)="app.onTopbarItemClick($event,profile)">
-                    <img class="profile-image" src="assets/layout/images/avatar.png" />
-                    <span class="topbar-item-name">Isabel Lopez</span>
-                    <span class="topbar-item-role">Marketing</span>
+
+                    <div class="profile" [ngClass]="{'profile-expanded':active}" >
+                        <a href="#" (click)="onClick($event)">
+                            <div class="idPhotoFrame" >
+                                <span style="line-height:45px; font-size:1.8em; color:white;" >{{firstLetter}}</span>
+                            </div>
+                            <a style="text-transform: capitalize;margin-top: 10px;vertical-align:middle"  class="profile-name">
+                                {{currentUser.lastname}}
+                                {{currentUser.firstname}}
+                            </a>
+                            <p style="font-size:13px;text-transform: capitalize;text-align: right;margin: 0px" *ngIf="isAdmin$ | async"> Administrateur </p>
+                            <p style="font-size:13px;text-transform: capitalize;text-align: right;margin: 0px" *ngIf="!(isAdmin$ | async)"> Chef de projet </p>
+
+                            <i class="fa fa-fw fa-caret-down"></i>
+
+                            <div class="ui-dialog-buttonpane ui-helper-clearfix"></div>
+                        </a>
+                    </div>
                 </a>
 
                 <ul class="layout-menu fadeInDown">
