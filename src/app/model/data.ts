@@ -1,4 +1,10 @@
 export class Data {
+
+}
+
+
+export class Collab {
+
     id: any;
     trig_open: any;
     nom: any;
@@ -20,18 +26,9 @@ export class Data {
     updated_by: any;
 }
 
-
-export class Collab {
-
-    trigramme: any;
-    stt: any;
-    archiverCollab: any;
-    versionCollab: any;
-    preEmbauche: any;
-}
-
 export class Mission {
 
+    id: any;
     identifiantMission: any;
     identifiantPilote: any;
     dateDebutSg: any;
@@ -47,7 +44,7 @@ export class Mission {
 }
 
 export class Prestation {
-
+    id: any;
     idPrestation: any;
     idMission: any;
     contratDAppli: any;
@@ -73,7 +70,7 @@ export class Prestation {
 }
 
 export class NumAtg {
-
+    id: any;
     numeroAtg: any;
     contrat: any;
     dateCréation: any;
@@ -83,13 +80,14 @@ export class NumAtg {
 }
 
 export class SocieteStt {
-
+    id: any;
     codeSociétéStt: any;
     libelléSociétéStt: any;
 }
 
 export class ContactsStt {
 
+    id: any;
     codeStt: any;
     nomContact: any;
     dateCréation: any;
@@ -100,6 +98,7 @@ export class ContactsStt {
 
 export class Contrat {
 
+    id: any;
     contratAppli: any;
     dateCréation: any;
     trigrammeCréation: any;
@@ -110,6 +109,7 @@ export class Contrat {
 
 export class Dpt {
 
+    id: any;
     codeDépartement: any;
     dateCréation: any;
     trigrammeCréation: any;
@@ -119,6 +119,7 @@ export class Dpt {
 
 export class Pole {
 
+    id: any;
     codePole: any;
     responsableDePole: any;
     dateCréation: any;
@@ -129,6 +130,7 @@ export class Pole {
 
 export class Domaine {
 
+    id: any;
     codeDomaine: any;
     dateCréation: any;
     trigrammeCréation: any;
@@ -137,6 +139,8 @@ export class Domaine {
 }
 
 export class Site {
+    id: any;
+
 
     codeSite: any;
     libelléSite: any;
@@ -144,4 +148,20 @@ export class Site {
     trigrammeCréation: any;
     dateMaj: any;
     trigrammeMaj: any;
+}
+
+
+export class Referentiel {
+    id: any;
+    // site: Site[];
+    // domaine: Domaine[];
+    // pole: Pole[];
+    // dpt: Dpt[];
+    // contrat: Contrat[];
+    // contactStt: ContactsStt[];
+    // societeStt: SocieteStt[];
+    // numAtg: NumAtg[];
+    prestation: Prestation[];
+    // mission: Mission[];
+
 }

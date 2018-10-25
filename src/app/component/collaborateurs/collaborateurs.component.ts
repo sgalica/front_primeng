@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {CollaborateurService} from '../../service/collaborateur.service';
+import {CollaborateurService} from '../../service/collaborateur2.service';
 import {Collaborateur} from '../../model/collaborateur';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
@@ -40,7 +40,9 @@ export class CollaborateursComponent implements OnInit {
     private apiresponse: ApiResponse;
     colsplice: any;
 
-    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService) {
+    constructor(private collaborateurService: CollaborateurService,
+                private router: Router,
+                private alertService: AlertService) {
     }
 
 
@@ -94,7 +96,7 @@ export class CollaborateursComponent implements OnInit {
 
     loadAllCollaborateurs() {
 
-        this.collaborateurService.getAll().pipe(first()).subscribe(collaborateurs => {
+        this.collaborateurService.list().pipe(first()).subscribe(collaborateurs => {
             this.collaborateurs = collaborateurs;
         });
     }
@@ -105,10 +107,11 @@ export class CollaborateursComponent implements OnInit {
 
     saveNewCollaborateur() {
         console.log("LOGGING:::::::::::::::::::::::");
-        this.collaborateurService.registerList(this.importedCollabs)
+        this.collaborateurService.createList(this.importedCollabs)
             .pipe(first())
             .subscribe(
-                data  => {this.apiresponse = data as ApiResponse ;
+                data  => {
+                    this.apiresponse = data as ApiResponse ;
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;
