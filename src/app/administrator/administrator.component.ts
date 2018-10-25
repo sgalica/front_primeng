@@ -182,10 +182,13 @@ export class AdministratorComponent implements OnInit {
 
         var constructor;
         var data = new Data;
-        Object.values(data).forEach(x => {
+        Object.values(data).forEach(x => {try {
             debugger;
-            if (x.constructor == T.constructor){x=T}else x=null;
-
+            Object.keys(T).forEach(y=> console.log( x.hasOwnProperty(y)))
+           // x = new x.constructor(T)  ;
+        }catch (e) {
+            x=null;
+        }
             console.log("name of the property" ,x);
 
         });
