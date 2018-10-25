@@ -4,9 +4,6 @@
                 (click)="afficherLaSaisie($event)"></button>
 
     </div>
-
-
-
 </p-toolbar>
 <br>
 
@@ -14,7 +11,7 @@
     <ng-template pTemplate="caption">
         <div class="ui-toolbar-group-left">La liste des collaborateurs</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="search" pInputText size="50" placeholder="Global Filter"
+        <input type="search" pInputText size="50" placeholder="Chercher dans la liste"
                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
         <div class="ui-toolbar-group-right">
             <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"

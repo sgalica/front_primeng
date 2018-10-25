@@ -27,6 +27,7 @@ export class PrestationsComponent implements OnInit {
     // Liste
     prestations: Prestation[] = [];
     cols: any[];
+    selectedColumns: any[];
 
     // Collaborateur
     employee_name: string = "";
@@ -89,28 +90,31 @@ export class PrestationsComponent implements OnInit {
             {header: 'Type', field: 'prestType'},
             {header: 'Statut', field: 'prestStatut'},
             {header: 'Version', field: 'prestVersion'}
-/*          {header: 'com_open', field:'prestCommercialOPEN'},
+            /*          {header: 'com_open', field:'prestCommercialOPEN'},
 
-            {header: 'date_c', field:'prestDateCreation'},
-            {header: 'user_c', field:'prestUserCreation'},
-            {header: 'date_m', field:'prestDateMaj'},
-            {header: 'user_m', field:'prestUserMaj'},
-*/
+                        {header: 'date_c', field:'prestDateCreation'},
+                        {header: 'user_c', field:'prestUserCreation'},
+                        {header: 'date_m', field:'prestDateMaj'},
+                        {header: 'user_m', field:'prestUserMaj'},
+            */
         ]);
 
+        //this.selectedColumns=[]; Array.prototype.push.apply(this.selectedColumns, this.cols);
+        this.selectedColumns= this.cols;
 
+        // Filter statut
         if (id == undefined || id == "") {
             // Filter
             this.selectedPrestas.statut = "";
-            this.selectedPrestas.version = "A";
+            this.selectedPrestas.version = "";
             this.selectedPrestas.trigcollab = ""; //tsc
 
             this.loadAllPrestations();
         }
         else {
             this.selectedPrestas.statut = "";
-            this.selectedPrestas.version = "";
-             //this.selectedPrestas.trigcollab = ""; //tsc
+            this.selectedPrestas.version = "H";
+             //this.selectedPrestas.trigcollab = "";
             this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
         }
 
@@ -130,15 +134,16 @@ export class PrestationsComponent implements OnInit {
         ];
 
         this.status = [
-            {label: 'Toutes', value: ''},
+            {label: 'Tous', value: ''},
             {label: 'En cours', value: 'E'},
-            {label: 'Terminée', value: 'T'},
-            {label: 'Supprimée', value: 'S'}
+            {label: 'Terminé', value: 'T'},
+            {label: 'Supprimé', value: 'S'}
         ];
         this.versions = [
-            {label: 'Tous', value: ''},
-            {label: 'Dernière', value: 'A'}
+            {label: 'Historique', value: 'H'},
+            {label: 'Dernière', value: ''}
         ];
+        let showHistSelect=false;
 
         this.rowcolors = {
             "E" : "rgba(rgba(250,200,240,1))", "T":"rgba(200,200,200,0.2)"
@@ -232,6 +237,9 @@ export class PrestationsComponent implements OnInit {
 
             this.prestations.sort(this.orderDateDebutEtVersion);
         });
+
+        this.filterVersions();
+
         // ... et ses prestations
         //this.prestationService.getPrestationsCollab(idemployee).pipe(first()).subscribe(prestations => {
         //    this.prestations = prestations;
@@ -251,15 +259,24 @@ export class PrestationsComponent implements OnInit {
     }
 
 
-    filterVersions() { // fields : prestStatut, prestVersionActuelle
+    filterVersions() {
+        // Si E T ou S pas d'historique, si affichage complète (E T et S) également affichage Historique si coché.
 
         var status: string[];
+        var statushist: string[];
         if (this.selectedPrestas.statut=="") {
-            status = (this.selectedPrestas.version == "") ? ['E','T','S','A'] : ['E','T','S'];
-            this.pt.filter(status, 'prestStatut', 'in');
+            status = ['E', 'T', 'S'];
+            if (this.selectedPrestas.version != "") {
+                //statushist=Array.from(status,x=>x+'A');
+                //Array.prototype.push.apply(status, statushist);
+                Array.prototype.push.apply(status, ['A']);
+            }
         }
         else {
-            this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');
-         }
+            status=[this.selectedPrestas.statut];
+        }
+
+        this.pt.filter(status, 'prestStatut', 'in');
+
     }
 }
