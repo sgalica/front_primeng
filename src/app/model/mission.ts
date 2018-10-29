@@ -6,8 +6,8 @@ export class Mission {
     dateA3Ans: any;
     derogation: any;
     StatutMission: any;
-    dateCréation: any;
-    trigrammeCréation: any;
+    dateCreation: any;
+    trigrammeCreation: any;
     dateMAJ: any;
     trigrammeMAJ: any;
     localisation: any;

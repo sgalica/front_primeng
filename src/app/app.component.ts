@@ -4,6 +4,7 @@ import {ScrollPanel} from 'primeng/primeng';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AuthService} from './service/auth.service';
 import {versionLong} from '../_versions';
+import {Data} from "./model/data";
 
 
 enum MenuOrientation {
@@ -70,9 +71,63 @@ export class AppComponent implements AfterViewInit, OnInit {
         */
          this.authService.isLoggedIn.subscribe(async(value) => this.isLoggedIn$.next(await value)); // {2}
 
-
+//this.getModelMatch(0);
     }
 
+    getModelMatch(T) {
+        debugger;
+
+        T = {
+            contrat: "ATG-000111",
+            dateMaj: 36526,
+            dateCreation: 36526,
+            numeroAtg: "ATG-000666-0",
+            trigrammeMaj: "SBA16490",
+            trigrammeCreation: "SBA16490"
+        };
+        console.log(T);
+
+        var constructor;
+        var data = new Data;
+        var obj;
+        Object.values(data).forEach(x => {
+            obj = new x.constructor();
+
+            debugger;
+            var acc = Object.entries(T).reduce((accumulator, currentValue) => {
+                // console.log(x.hasOwnProperty(currentValue));
+                console.log("currentValue = ",currentValue[0]);
+                console.log("accumulator = ", accumulator);
+
+                if (accumulator && x.hasOwnProperty(currentValue[0])) {
+
+                    Object.defineProperty(obj, currentValue[0], {
+                        enumerable: false,
+                        configurable: false,
+                        writable: false,
+                        value: currentValue[1]
+                    });
+                    // obj.constructor.argumentscurrentValue[0] = T.currentValue[1];
+
+                    console.log("notre nouvel obj = ", obj);
+
+                    return x.hasOwnProperty(currentValue[0]);
+                }
+                else {
+                    return false;
+                }
+
+
+            }, true);
+            console.log("accumulateur", acc);
+
+
+            console.log("name of the property", x);
+
+        });
+
+        return obj;
+    }
 
     ngAfterViewInit() {
 

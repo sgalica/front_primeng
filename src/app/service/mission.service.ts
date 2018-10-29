@@ -1,7 +1,7 @@
 import {ResourceService} from "./resource.service";
-import {Mission} from "../model/data";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
+import {Mission} from "../model/mission";
 
 @Injectable()
 export class MissionService extends ResourceService<Mission> {

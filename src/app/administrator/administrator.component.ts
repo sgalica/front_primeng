@@ -37,28 +37,26 @@ export class AdministratorComponent implements OnInit {
     sortOrder: number;
 
     collaborateurs: Collaborateur[] = [];
-    private msgs: Message[];
-    private selectedfile: any;
-    private viewfile: boolean;
     selectedColumns: any[];
-    private apiresponse: ApiResponse;
     colsplice: any;
-
     arrayBuffer: any;
     file: File;
     all_sheet_name = [];
     alltable = [];
     columns = [];
-    private worksheet: any;
     allUsersCols: string[];
-
-    myjson:any=JSON;
+    myjson: any = JSON;
+    private msgs: Message[];
+    private selectedfile: any;
+    private viewfile: boolean;
+    private apiresponse: ApiResponse;
+    private worksheet: any;
 
     constructor(
-                private router: Router,
-                private userService: UserService,
-                private referentielService: ReferentielService,
-                private alertService: AlertService) {
+        private router: Router,
+        private userService: UserService,
+        private referentielService: ReferentielService,
+        private alertService: AlertService) {
     }
 
     ngOnInit() {
@@ -111,16 +109,15 @@ export class AdministratorComponent implements OnInit {
         this.userService.getAll()
             .pipe(first())
             .subscribe(
-                data => { this.allUsers = data;
-                this.allUsersCols = Object.keys(data[0]);
-                console.log( this.allUsersCols);
+                data => {
+                    this.allUsers = data;
+                    this.allUsersCols = Object.keys(data[ 0 ]);
+                    console.log(this.allUsersCols);
                 },
                 error => {
                     this.alertService.error(error);
                 });
     }
-
-
 
 
     incomingfile(event) {
@@ -153,13 +150,43 @@ export class AdministratorComponent implements OnInit {
                 }
             );
             //const camelCase = require('camelcase');
-            const camelize = require('camelize');
+            // const camelize = require('camelize');
+            const camelize = require('camelcase-object-deep');
+
+            var alltablecamel = [];
 
             this.alltable.forEach(x => {
-                this.columns.push(Object.keys(x[ 0 ]).map(x => camelize(x)));
+                var temp = [];
+                console.log("current ", x);
+//.filter((y, index) => index == 0)
+                console.log("loggggggg", Object.values(x)
+                    .map((x) => {
+                        //var rObj = {};
+                        //rObj[ cle ] = camelize(valeur);
+                        //return rObj;
+                        debugger;
+                        return camelize(x);
+                    }));
+                temp.push(Object.values(x)
+                    .map((x) => {
+                        //var rObj = {};
+                        //rObj[ cle ] = camelize(valeur);
+                        //return rObj;
+                        debugger;
+                        return camelize(x);
+                    })
+                );
+
+                // temp.push(Object.keys(x).filter((y,index)=> index !== 0));
+                alltablecamel.push(temp);
+                Object.keys(x[ 0 ]).map(y => camelize(y));
+                this.columns.push(Object.keys(x[ 0 ]).map(z => camelize(z)));
                 console.log("Object model ", x[ 0 ]);
+                console.log("Object model camelized ", temp);
             });
 
+            console.log("All camelized ", alltablecamel);
+            console.log("All std ", this.alltable);
 
             console.log("liste des colonnes ", this.columns);
 
@@ -168,36 +195,61 @@ export class AdministratorComponent implements OnInit {
         fileReader.readAsArrayBuffer(this.file);
     }
 
-    getModelMatch(T){
-        debugger;
+    getModelMatch(T) {
 
-        T={
-            contrat: "ATG-000111",
-            dateMaj: 36526,
-            dateCréation: 36526,
-            numeroAtg  : "ATG-000666-0",
-            trigrammeMaj: "SBA16490",
-            trigrammeCréation: "SBA16490"};
+        /* T = {
+             contrat: "ATG-000111",
+             dateMaj: 36526,
+             dateCreation: 36526,
+             numeroAtg: "ATG-000666-0",
+             trigrammeMaj: "SBA16490",
+             trigrammeCreation: "SBA16490"
+         };*/
         console.log(T);
 
         var constructor;
         var data = new Data;
-        Object.values(data).forEach(x => {try {
-            debugger;
-            Object.keys(T).forEach(y=> console.log( x.hasOwnProperty(y)))
-           // x = new x.constructor(T)  ;
-        }catch (e) {
-            x=null;
-        }
-            console.log("name of the property" ,x);
+        var obj;
+        Object.values(data).forEach(x => {
+            obj = new x.constructor();
+
+            var acc = Object.entries(T).reduce((accumulator, currentValue) => {
+                // console.log(x.hasOwnProperty(currentValue));
+                console.log("currentValue = ", currentValue[ 0 ]);
+                console.log("accumulator = ", accumulator);
+
+                if (accumulator && x.hasOwnProperty(currentValue[ 0 ])) {
+
+                    Object.defineProperty(obj, currentValue[ 0 ], {
+                        enumerable: false,
+                        configurable: false,
+                        writable: false,
+                        value: currentValue[ 1 ]
+                    });
+                    // obj.constructor.argumentscurrentValue[0] = T.currentValue[1];
+
+                    console.log("notre nouvel obj = ", obj);
+
+                    return x.hasOwnProperty(currentValue[ 0 ]);
+                }
+                else {
+                    return false;
+                }
+
+
+            }, true);
+            console.log("accumulateur", acc);
+
+
+            console.log("name of the property", x);
 
         });
 
-        return constructor;
+        return obj;
     }
 
     saveRefTable(table: number) {
-        var cons = this.getModelMatch(this.alltable[ table ][0]);
+        var cons = this.getModelMatch(this.alltable[ table ][ 0 ]);
         console.log("LOGGING:::::::::::::::::::::::", cons);
         this.referentielService.createList(this.alltable[ table ])
             .pipe(first())
