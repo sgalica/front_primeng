@@ -4,10 +4,10 @@ import {Prestation} from "./prestation";
 
 export class Data {
 
-    collaborateur?: Collaborateur = new Collaborateur();
-    mission?: Mission = new Mission();
-    prestation?: Prestation = new Prestation();
-    numAtg?:NumAtg = new NumAtg();
+    collaborateur: Collaborateur = new Collaborateur();
+    mission: Mission = new Mission();
+    prestation: Prestation = new Prestation();
+    numAtg:NumAtg = new NumAtg();
     societeStt:SocieteStt = new SocieteStt();
     contactsStt:ContactsStt = new ContactsStt();
     dpt:Dpt= new Dpt();
@@ -21,68 +21,68 @@ export class Data {
 
 /*export class Collab {
 
-    id: any;
-    trig_open: any;
-    nom: any;
-    prenom: any;
-    tel_perso: any;
-    tel_pro: any;
-    mail_open: any;
-    mail_sg: any;
-    code_categorisation: any;
-    top_statut: any;
-    statut_Collab: any;
-    version_Collab: any;
-    societe_stt: any;
-    pre_embauche: any;
-    date_embauche: any;
-    created_at: any;
-    created_by: any;
-    updated_at: any;
-    updated_by: any;
+    id: any = 0;
+    trig_open: any = 0;
+    nom: any = 0;
+    prenom: any = 0;
+    tel_perso: any = 0;
+    tel_pro: any = 0;
+    mail_open: any = 0;
+    mail_sg: any = 0;
+    code_categorisation: any = 0;
+    top_statut: any = 0;
+    statut_Collab: any = 0;
+    version_Collab: any = 0;
+    societe_stt: any = 0;
+    pre_embauche: any = 0;
+    date_embauche: any = 0;
+    created_at: any = 0;
+    created_by: any = 0;
+    updated_at: any = 0;
+    updated_by: any = 0;
 }*/
 /*
 export class Mission {
 
-    id: any;
-    identifiantMission: any;
-    identifiantPilote: any;
-    dateDebutSg: any;
-    dateA3Ans: any;
-    derogation: any;
-    statutMission: any;
-    dateCreation: any;
-    trigrammeCreation: any;
-    dateMaj: any;
-    trigrammeMaj: any;
-    localisation: any;
-    commercialOpen: any;
+    id: any = 0;
+    identifiantMission: any = 0;
+    identifiantPilote: any = 0;
+    dateDebutSg: any = 0;
+    dateA3Ans: any = 0;
+    derogation: any = 0;
+    statutMission: any = 0;
+    dateCreation: any = 0;
+    trigrammeCreation: any = 0;
+    dateMaj: any = 0;
+    trigrammeMaj: any = 0;
+    localisation: any = 0;
+    commercialOpen: any = 0;
 }*/
 /*
 export class Prestation {
-    id: any;
-    idPrestation: any;
-    idMission: any;
-    contratDAppli: any;
-    identifiantPilote: any;
-    equipeDepartement: any;/!**!/
-    equipePole: any;
-    equipeDomaine: any;
-    numeroAtg: any;
-    dateDebutPrestation: any;
-    dateFinPrestation: any;
-    numeroPu: any;
-    localisation: any;
-    responsableDePole: any;
-    donneurDOrdre: any;
-    commercialOpen: any;
-    versionPrestation: any;
-    topAtg: any;
-    statutMission: any;
-    dateCreationPrestation: any;
-    utilisateurCreation: any;
-    dateMajPrestation: any;
-    utilisateurMaj: any;
+    id: any = 0;
+    idPrestation: any = 0;
+    idMission: any = 0;
+    contratDAppli: any = 0;
+    identifiantPilote: any = 0;
+    equipeDepartement: any = 0;/!**!/
+    equipePole: any = 0;
+    equipeDomaine: any = 0;
+    numeroAtg: any = 0;
+    dateDebutPrestation: any = 0;
+    dateFinPrestation: any = 0;
+    numeroPu: any = 0;
+    localisation: any = 0;
+    responsableDePole: any = 0;
+    donneurDOrdre: any = 0;
+    commercialOpen: any = 0;
+    versionPrestation: any = 0;
+    topAtg: any = 0;
+    statutMission: any = 0;
+    dateCreationPrestation: any = 0;
+    utilisateurCreation: any = 0;
+    dateMajPrestation: any = 0;
+    utilisateurMaj: any = 0;
 }*/
 
 export class NumAtg {
@@ -96,79 +96,79 @@ export class NumAtg {
 }
 
 export class SocieteStt {
-    id: any;
-    codeSocieteStt: any;
-    libelleSocieteStt: any;
+    id: any = 0;
+    codeSocieteStt: any = 0;
+    libelleSocieteStt: any = 0;
 }
 
 export class ContactsStt {
 
-    id: any;
-    codeStt: any;
-    nomContact: any;
-    dateCreation: any;
-    trigrammeCreation: any;
-    dateMaj: any;
-    trigrammeMaj: any;
+    id: any = 0;
+    codeStt: any = 0;
+    nomContact: any = 0;
+    dateCreation: any = 0;
+    trigrammeCreation: any = 0;
+    dateMaj: any = 0;
+    trigrammeMaj: any = 0;
 }
 
 export class Contrat {
 
-    id: any;
-    contratAppli: any;
-    dateCreation: any;
-    trigrammeCreation: any;
-    dateMaj: any;
-    trigrammeMaj: any;
-    departement: any;
+    id: any = 0;
+    contratAppli: any = 0;
+    dateCreation: any = 0;
+    trigrammeCreation: any = 0;
+    dateMaj: any = 0;
+    trigrammeMaj: any = 0;
+    departement: any = 0;
 }
 
 export class Dpt {
 
-    id: any;
-    codeDepartement: any;
-    dateCreation: any;
-    trigrammeCreation: any;
-    dateMaj: any;
-    trigrammeMaj: any;
+    id: any = 0;
+    codeDepartement: any = 0;
+    dateCreation: any = 0;
+    trigrammeCreation: any = 0;
+    dateMaj: any = 0;
+    trigrammeMaj: any = 0;
 }
 
 export class Pole {
 
-    id: any;
-    codePole: any;
-    responsableDePole: any;
-    dateCreation: any;
-    trigrammeCreation: any;
-    dateMaj: any;
-    trigrammeMaj: any;
+    id: any = 0;
+    codePole: any = 0;
+    responsableDePole: any = 0;
+    dateCreation: any = 0;
+    trigrammeCreation: any = 0;
+    dateMaj: any = 0;
+    trigrammeMaj: any = 0;
 }
 
 export class Domaine {
 
-    id: any;
-    codeDomaine: any;
-    dateCreation: any;
-    trigrammeCreation: any;
-    dateMaj: any;
-    trigrammeMaj: any;
+    id: any = 0;
+    codeDomaine: any = 0;
+    dateCreation: any = 0;
+    trigrammeCreation: any = 0;
+    dateMaj: any = 0;
+    trigrammeMaj: any = 0;
 }
 
 export class Site {
-    id: any;
+    id: any = 0;
 
 
-    codeSite: any;
-    libelleSite: any;
-    dateCreation: any;
-    trigrammeCreation: any;
-    dateMaj: any;
-    trigrammeMaj: any;
+    codeSite: any = 0;
+    libelleSite: any = 0;
+    dateCreation: any = 0;
+    trigrammeCreation: any = 0;
+    dateMaj: any = 0;
+    trigrammeMaj: any = 0;
 }
 
 
 export class Referentiel {
-    id: any;
+    id: any = 0;
     // site: Site[];
     // domaine: Domaine[];
     // pole: Pole[];

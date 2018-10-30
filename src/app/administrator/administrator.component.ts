@@ -192,13 +192,17 @@ export class AdministratorComponent implements OnInit {
          };*/
         console.log(T);
 
-        var constructor;
-        var data = new Data;
+        //var constructor;
+        debugger;
+        const data = new Data();
         var obj;
-        Object.values(data).forEach(x => {
-            obj = new x.constructor();
+        for(let x of Object.values(data)){
+            debugger;
+
+            var temp = new x.constructor;
 
             var acc = Object.entries(T).reduce((accumulator, currentValue) => {
+                debugger;
                 // console.log(x.hasOwnProperty(currentValue));
                 console.log("currentValue = ", currentValue[ 0 ]);
                 console.log("accumulator = ", accumulator);
@@ -225,11 +229,13 @@ export class AdministratorComponent implements OnInit {
             }, true);
             console.log("accumulateur", acc);
 
+            if (acc){ obj = temp ;         console.log("This Object match with model : ", obj.constructor.toString()); break;
+            }
 
             console.log("name of the property", x);
+        };
 
-        });
-
+        //alert("This Object match with model : " + obj.constructor.toString());
         return obj;
     }
 
