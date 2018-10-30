@@ -149,46 +149,31 @@ export class AdministratorComponent implements OnInit {
                     this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: true}));
                 }
             );
-            //const camelCase = require('camelcase');
-            // const camelize = require('camelize');
+
             const camelize = require('camelcase-object-deep');
 
-            var alltablecamel = [];
+            var temp = [];
 
+            // formate le nom des colonnes au format Camel
             this.alltable.forEach(x => {
-                var temp = [];
-                console.log("current ", x);
-//.filter((y, index) => index == 0)
-                console.log("loggggggg", Object.values(x)
-                    .map((x) => {
-                        //var rObj = {};
-                        //rObj[ cle ] = camelize(valeur);
-                        //return rObj;
-                        debugger;
-                        return camelize(x);
-                    }));
+
                 temp.push(Object.values(x)
                     .map((x) => {
-                        //var rObj = {};
-                        //rObj[ cle ] = camelize(valeur);
-                        //return rObj;
-                        debugger;
                         return camelize(x);
                     })
                 );
 
-                // temp.push(Object.keys(x).filter((y,index)=> index !== 0));
-                alltablecamel.push(temp);
+                // formate le nom des colonnes au format Camel
                 Object.keys(x[ 0 ]).map(y => camelize(y));
                 this.columns.push(Object.keys(x[ 0 ]).map(z => camelize(z)));
-                console.log("Object model ", x[ 0 ]);
-                console.log("Object model camelized ", temp);
             });
 
-            console.log("All camelized ", alltablecamel);
-            console.log("All std ", this.alltable);
 
+            console.log("Object model camelized ", temp);
+            console.log("Object model standard", this.alltable);
             console.log("liste des colonnes ", this.columns);
+            // on met a jour l'objet avec
+            this.alltable = temp;
 
 
         };
