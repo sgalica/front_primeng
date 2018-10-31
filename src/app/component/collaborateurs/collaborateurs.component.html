@@ -17,9 +17,9 @@
         <input type="search" pInputText size="50" placeholder="Global Filter"
                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
         <div class="ui-toolbar-group-right">
-            <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"
+            <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="entete"
                            selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
-                           defaultLabel="Choose Columns"></p-multiSelect>
+                           defaultLabel="Choisir une colonne"></p-multiSelect>
         </div>
     </ng-template>
 

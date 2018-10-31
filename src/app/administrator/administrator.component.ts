@@ -151,6 +151,10 @@ export class AdministratorComponent implements OnInit {
             );
 
             const camelize = require('camelcase-object-deep');
+            //const camelCase = require('camel-case');
+            const camelCase = require('camelize');
+            var changeCase = require('change-case');
+
 
             var temp = [];
 
@@ -158,21 +162,24 @@ export class AdministratorComponent implements OnInit {
             this.alltable.forEach(x => {
 
                 temp.push(Object.values(x)
-                    .map((x) => {
-                        return camelize(x);
+                    .map((y) => {
+                        return camelize(y);
                     })
                 );
 
                 // formate le nom des colonnes au format Camel
-                Object.keys(x[ 0 ]).map(y => camelize(y));
-                this.columns.push(Object.keys(x[ 0 ]).map(z => camelize(z)));
+                //Object.keys(x[ 0 ]).map(y => camelize(y));
+                // this.columns.push(Object.keys(x[0]).map((z) => {
+                //     return changeCase.camelCase(z);
+                // }));
             });
-
+            temp.forEach(x =>
+                this.columns.push(Object.keys(x[ 0 ])));
 
             console.log("Object model camelized ", temp);
             console.log("Object model standard", this.alltable);
             console.log("liste des colonnes ", this.columns);
-            // on met a jour l'objet avec
+            // on met a jour l'objet avec des colonnes camelisées
             this.alltable = temp;
 
 
@@ -190,35 +197,32 @@ export class AdministratorComponent implements OnInit {
              trigrammeMaj: "SBA16490",
              trigrammeCreation: "SBA16490"
          };*/
-        console.log(T);
+        console.log("Objet a tester", T[ 0 ]);
 
         //var constructor;
-        debugger;
         const data = new Data();
         var obj;
-        for(let x of Object.values(data)){
-            debugger;
+        for (let x of Object.values(data)) {
 
             var temp = new x.constructor;
 
-            var acc = Object.entries(T).reduce((accumulator, currentValue) => {
-                debugger;
+            var acc = Object.entries(T[ 0 ]).reduce((accumulator, currentValue) => {
                 // console.log(x.hasOwnProperty(currentValue));
                 console.log("currentValue = ", currentValue[ 0 ]);
                 console.log("accumulator = ", accumulator);
 
                 if (accumulator && x.hasOwnProperty(currentValue[ 0 ])) {
 
-                    Object.defineProperty(obj, currentValue[ 0 ], {
-                        enumerable: false,
-                        configurable: false,
-                        writable: false,
-                        value: currentValue[ 1 ]
-                    });
-                    // obj.constructor.argumentscurrentValue[0] = T.currentValue[1];
+                    /* Object.defineProperty(temp, currentValue[ 0 ], {
+                         enumerable: false,
+                         configurable: false,
+                         writable: false,
+                         value: currentValue[ 1 ]
+                     });
+                     // obj.constructor.argumentscurrentValue[0] = T.currentValue[1];
 
-                    console.log("notre nouvel obj = ", obj);
-
+                     console.log("notre nouvel obj = ", temp);
+ */
                     return x.hasOwnProperty(currentValue[ 0 ]);
                 }
                 else {
@@ -227,22 +231,64 @@ export class AdministratorComponent implements OnInit {
 
 
             }, true);
-            console.log("accumulateur", acc);
 
-            if (acc){ obj = temp ;         console.log("This Object match with model : ", obj.constructor.toString()); break;
+            console.log("accumulateur", acc);
+            // On arrete la recherche du model si un des models match avec l'objet JSON
+            if (acc) {
+                obj = temp;
+                console.log("This Object match with model : ", obj);
+                break;
             }
 
             console.log("name of the property", x);
-        };
+        }
 
-        //alert("This Object match with model : " + obj.constructor.toString());
         return obj;
     }
 
+    convertJsonToModel(object: any, model: any) {
+        var convertedJson = [];
+        Object.values(object).forEach(x => {
+
+            debugger;
+
+            var temp = new model.constructor;
+
+            var acc = Object.entries(x).forEach((currentValue) => {
+                debugger;
+                // console.log(x.hasOwnProperty(currentValue));
+                console.log("currentValue = ", currentValue[ 0 ]);
+
+                Object.defineProperty(temp, currentValue[ 0 ], {
+                    enumerable: false,
+                    configurable: false,
+                    writable: false,
+                    value: currentValue[ 1 ]
+                });
+                // obj.constructor.argumentscurrentValue[0] = T.currentValue[1];
+
+                console.log("notre nouvel obj = ", temp);
+
+
+            });
+
+            convertedJson.push(temp);
+
+
+            console.log("convertedJson = ", convertedJson);
+
+        });
+        return convertedJson;
+    }
+
     saveRefTable(table: number) {
-        var cons = this.getModelMatch(this.alltable[ table ][ 0 ]);
-        console.log("LOGGING:::::::::::::::::::::::", cons);
-        this.referentielService.createList(this.alltable[ table ])
+        var cons = this.getModelMatch(table);
+        console.log("LOGGING table:::::::::::::::::::::::", table);
+        console.log("LOGGING cons :::::::::::::::::::::::", cons);
+        var convertedJson = this.convertJsonToModel(table, cons);
+        console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
+
+        this.referentielService.createList(convertedJson)
             .pipe(first())
             .subscribe(
                 data => {
