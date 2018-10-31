@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {PrestationService} from '../../service/prestation.service';
@@ -8,11 +8,12 @@ import {CollaborateurService} from '../../service/collaborateur.service';
 import {Collaborateur} from '../../model/collaborateur';
 import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
+import {DatePipe} from "@angular/common";
 
-interface SelectedPrestas {
-    trigcollab: string;
-    statut: string;
-    version: string;
+interface filteritem {
+    selected: string[];
+    values: SelectItem[];
+    keys : string[];
 }
 
 @Component({
@@ -20,9 +21,16 @@ interface SelectedPrestas {
     templateUrl: './prestations.component.html',
     styleUrls: ['./prestations.component.css']
 })
-export class PrestationsComponent implements OnInit {
+export class PrestationsComponent implements OnInit, OnChanges {
 
-    @ViewChild(('pt')) pt: DataTable;
+    @Input()
+    collab: Collaborateur;
+
+    @ViewChild(('pt'))
+    pt: DataTable;
+
+    modeCollab : boolean=false;
+
 
     // Liste
     prestations: Prestation[] = [];
@@ -30,66 +38,66 @@ export class PrestationsComponent implements OnInit {
     selectedColumns: any[];
 
     // Collaborateur
+    id : string;
     employee_name: string = "";
     employee: Collaborateur;
 
     // Fiche/Detail
-    selectedPrestation: Prestation = new Prestation;
-    displayDialog: boolean;
+    selectedPrestation: Prestation;// = new Prestation;
+    displayDialogPresta: boolean = false;
 
     // Références
     missions: { label: string, value: number }[];
-    status: SelectItem[];
-    versions: SelectItem[];
+    allstatus:{ label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"},{value: "S",label:"Supprimées"},{value: "A",label:"Archivées"} ];
 
-    // Sélection / filtre
-    selectedPrestas: SelectedPrestas = new class implements SelectedPrestas {
-        statut: string;
-        version: string;
-        trigcollab: string;
-    };
+    filteritem : {selected:any, values:SelectItem[], keys:string[], type:string, filtercond:string };
+    filtres : filteritem[] = [];
+    coldefs : {header:string, field:string, filtertype:string, filtercond:string }[];
+    showHistSelect : boolean = false;
 
     rowcolors : {};
 
     //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
 
 
-    constructor(
-                private prestationService: PrestationService,
-                private employeeService: CollaborateurService,
-                private router: Router,
-                private alertService: AlertService,
-                private route: ActivatedRoute) {}
+    constructor(private prestationService: PrestationService, private employeeService: CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute, private datePipe:DatePipe) {}
+
+
 
     ngOnInit() {
 
+        // MODE ALL or COLLAB
         //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'prenom'}, {label: 'Brand', value: 'brand'}        ];
+        if (this.route.snapshot.url[0].path==("prestations") ) {
+             this.loadAllPrestations();
+            //if this.route.snapshot.params['idcollab']; this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
+        }
+        // Prestations from collab
+        else {
+            this.modeCollab = true;
+        }
 
-        // ID
-        let id = this.route.snapshot.params['idcollab'];
-
+        // Columns
         // Cols depending on ID
-        this.cols = [];
-        if (id == undefined || id == "")
-            Array.prototype.push.apply(this.cols, [{header: 'Identifiant Pilote', field: 'prestIdPilote'}]); //
-
-        Array.prototype.push.apply(this.cols, [
+        this.coldefs = [];
+        Array.prototype.push.apply(this.coldefs, [
 //          {header: 'Id', field:'prestId'},
 //          {header: 'Id Mission', field:'prestIdMission'},
-            {header: 'Début', field: 'prestDateDebut'},
-            {header: 'Fin', field: 'prestDateFin'},
-            {header: 'Contrat', field: 'prestContrat'},
-            {header: 'ATG', field: 'prestATG'},
-            {header: 'Département', field: 'prestDepartement'},
-            {header: 'Pôle', field: 'prestPole'},
-            {header: 'Domaine', field: 'prestDomaine'},
-            {header: 'Site', field: 'prestSite'},
-            {header: 'PU', field: 'prestPU'},
+            {header: 'Identifiant Pilote', field: 'prestIdCollab', filtertype : "liste" },
+            {header: 'Début', field: 'prestDateDebut', filtertype : "date", filtercond:"gte"},
+            {header: 'Fin', field: 'prestDateFin', filtertype : "date", filtercond:"lte"},
+            {header: 'Contrat', field: 'prestContrat', filtertype : "liste"},
+            {header: 'ATG', field: 'prestATG', filtertype : "liste"},
+            {header: 'Département', field: 'prestDepartement', filtertype : "liste"},
+            {header: 'Pôle', field: 'prestPole', filtertype : "liste"},
+            {header: 'Domaine', field: 'prestDomaine', filtertype : "liste"},
+            {header: 'Site', field: 'prestSite', filtertype : "liste"},
+            {header: 'PU', field: 'prestPU', filtertype : "liste"},
 //          {header: 'Resp. Pôle', field:'prestRespPoleSG'},
 //          {header: 'd_ordre', field:'prestDonneurOrdreSG'},
-            {header: 'Type', field: 'prestType'},
-            {header: 'Statut', field: 'prestStatut'},
-            {header: 'Version', field: 'prestVersion'}
+            {header: 'Type', field: 'prestType', filtertype : "liste"},
+            {header: 'Statut', field: 'prestStatut', filtertype : "liste"},
+            {header: 'Version', field: 'prestVersion', filtertype : ""}
             /*          {header: 'com_open', field:'prestCommercialOPEN'},
 
                         {header: 'date_c', field:'prestDateCreation'},
@@ -99,27 +107,12 @@ export class PrestationsComponent implements OnInit {
             */
         ]);
 
-        //this.selectedColumns=[]; Array.prototype.push.apply(this.selectedColumns, this.cols);
-        this.selectedColumns= this.cols;
+        this.selectColumns();
 
-        // Filter statut
-        if (id == undefined || id == "") {
-            // Filter
-            this.selectedPrestas.statut = "";
-            this.selectedPrestas.version = "";
-            this.selectedPrestas.trigcollab = ""; //tsc
+        this.initFilters();
+        this.displayDialogPresta = false;
 
-            this.loadAllPrestations();
-        }
-        else {
-            this.selectedPrestas.statut = "";
-            this.selectedPrestas.version = "H";
-             //this.selectedPrestas.trigcollab = "";
-            this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
-        }
-
-        this.displayDialog = false;
-
+        // Missions
         this.missions = [
             {label: 'Aubi', value: 1},
             {label: 'Bamz', value: 2},
@@ -133,27 +126,57 @@ export class PrestationsComponent implements OnInit {
             {label: 'Vovo', value: 10}
         ];
 
-        this.status = [
-            {label: 'Tous', value: ''},
-            {label: 'En cours', value: 'E'},
-            {label: 'Terminé', value: 'T'},
-            {label: 'Supprimé', value: 'S'}
-        ];
-        this.versions = [
-            {label: 'Historique', value: 'H'},
-            {label: 'Dernière', value: ''}
-        ];
-        let showHistSelect=false;
-
-        this.rowcolors = {
-            "E" : "rgba(rgba(250,200,240,1))", "T":"rgba(200,200,200,0.2)"
-        }
+         // Presentation
+        this.rowcolors = {"E" : "rgba(rgba(250,200,240,1))", "T" : "rgba(200,200,200,0.2)"  }
     }
 
 
+    showCollab() {
+        this.id = this.collab.trigOpen;
+        this.employee_name = this.collab.prenom + " " + this.collab.nom;
+    }
+
+    selectPrestations(param_prestations : Prestation[]) {
+        this.prestations = param_prestations;
+        this.orderfilterPrestations();
+    }
+
+    orderfilterPrestations() {
+
+        this.prestations.sort(this.orderDateDebutEtVersion);
+
+        //this.filterVersions();
+    }
+
+
+    selectColumns() {
+
+        this.cols = [];
+        this.coldefs.forEach(x => {
+            var addcol : boolean = true;
+            // Cols depending on ID
+            if (x.field=="prestIdCollab") {
+                if (this.modeCollab)
+                    addcol=false;
+            }
+            if (addcol)
+                Array.prototype.push.apply(this.cols, [{header: x.header, field: x.field}]);
+        });
+
+        this.selectedColumns = this.cols;
+    }
+
+    initFilters() {
+        // Create filterliste
+        this.coldefs.forEach(x => {
+            var filteritem = (x.filtertype == "liste") ? {selected:[], values:[], keys:[], filtertype : x.filtertype, filtercond:x.filtercond} : {selected:"", values:[], keys:[], filtertype : x.filtertype, filtercond:x.filtercond };
+            this.filtres[x.field] = filteritem;
+        });
+    };
+
     selectPrestation(event: Event, prestation: Prestation) {
         this.selectedPrestation = prestation;
-        this.displayDialog = true;
+        this.displayDialogPresta = true;
         event.preventDefault();
     }
 
@@ -183,7 +206,7 @@ export class PrestationsComponent implements OnInit {
                 });
     }
 
-  /*  deletePrestation(event: Event, id: number) {
+    /*  deletePrestation(event: Event, id: number) {
         this.prestationService.delete(id)
             .pipe(first())
             .subscribe(
@@ -193,7 +216,6 @@ export class PrestationsComponent implements OnInit {
                     this.alertService.error(error);
                 });
     }*/
-
 
     /*onSortChange(event) {
         const field = event.field;
@@ -211,19 +233,80 @@ export class PrestationsComponent implements OnInit {
         this.selectedPrestation = null;
     }
 
-
     loadAllPrestations() {
 
         this.prestationService.getAll().pipe(first()).subscribe(prestations => {
-
             this.prestations = prestations.sort(this.orderDateDebutEtVersion);
-
-            this.prestations.map(x => {
-                x.prestIdPilote = x.collaborateur.trigOpen;
-            });
-
+            this.updateFilters();
             this.filterVersions();
         });
+    }
+
+
+    updateFilters() {
+
+        this.showHistSelect=false;
+        this.initFilters();
+
+
+        // prestIdCollab, prestDateDebut, prestDateFin, prestContrat, prestATG, prestDepartement, prestPole, prestDomaine, prestSite, prestPU, prestType, prestStatut, prestVersion
+        var labels : string[]=[];
+        this.prestations.forEach(x => {
+
+                // Retrieve trigramme (done here to avoid double mapping)
+                x.prestIdCollab = x.collaborateur.trigOpen;
+
+                // Get keys
+                for (var column in this.filtres) {
+                    switch (column) {
+                        case "prestIdCollab" :
+                            this.filtres[column].keys[x.prestIdCollab] = x.prestIdCollab;
+                            labels[x.prestIdCollab]= x.prestIdCollab + " ("+x.collaborateur.nom+ " "+x.collaborateur.prenom+")";
+                        break;
+                        default : this.filtres[column].keys[x[column]]="";
+                    }
+                }
+        });
+
+
+        let selectitems : SelectItem[] = [];
+        for (var column in this.filtres) {
+            selectitems = [];
+            var selectitem = "";
+            var col_sort = [];
+            switch (column) {
+
+                case "prestStatut" :
+                    // Add labels ordered as E, T, S, A
+                    for (var i in this.allstatus) {
+                        if ( this.filtres[column].keys.indexOf(this.allstatus[i].value)==-1)
+                            selectitems.push({label: this.allstatus[i].label, value:this.allstatus[i].value});
+                    }
+
+                // Version
+                // this.filtres["prestVersion"] = {selected : "", values:[ {label: 'Historique', value: 'H'},  {label: 'Dernière', value: ''} ], keys:[] };
+                    break;
+
+                default : // prestIdCollab, prestContrat, prestATG, prestDepartement, prestPole, prestDomaine, prestSite, prestPU, prestType
+                    // Sort
+                    for (var key in this.filtres[column].keys) {
+                        col_sort.push(key);
+                    }
+                    col_sort.sort();
+
+                    // Add to liste
+                    for (var k in col_sort) {
+                        //if ( this.filtres[column].keys.indexOf(col_sort[k])==-1)
+                        var label = (column=="prestIdCollab") ? labels[col_sort[k]] : col_sort[k];
+                        selectitems.push({label: label, value: col_sort[k]});
+                    }
+                    break;
+            }
+
+            this.filtres[column].values = selectitems;
+        }
+        console.log("LES FILTRES", this.filtres);
+
     }
 
 
@@ -240,10 +323,6 @@ export class PrestationsComponent implements OnInit {
 
         this.filterVersions();
 
-        // ... et ses prestations
-        //this.prestationService.getPrestationsCollab(idemployee).pipe(first()).subscribe(prestations => {
-        //    this.prestations = prestations;
-        //});
     }
 
 
@@ -262,8 +341,13 @@ export class PrestationsComponent implements OnInit {
     filterVersions() {
         // Si E T ou S pas d'historique, si affichage complète (E T et S) également affichage Historique si coché.
 
-        var status: string[];
         var statushist: string[];
+
+        // Multiselect
+        var status: string[] = this.filtres["prestStatut"].selected; // this.selectedPrestas.status;
+
+        /*
+        // Combo : si pas de sélection : afficher tout
         if (this.selectedPrestas.statut=="") {
             status = ['E', 'T', 'S'];
             if (this.selectedPrestas.version != "") {
@@ -274,9 +358,32 @@ export class PrestationsComponent implements OnInit {
         }
         else {
             status=[this.selectedPrestas.statut];
-        }
+        }*/
 
         this.pt.filter(status, 'prestStatut', 'in');
 
     }
+
+
+    pt_filter(field:string) {
+
+        var value = this.filtres[field].selected;
+        if (this.filtres[field].filtertype=="date") {
+            value=this.datePipe.transform(value, 'yyyy-MM-dd');
+        }
+
+        this.pt.filter(value, field, this.filtres[field].filtercond);
+
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+         for (let propName in changes) {
+
+            if (propName == "collab") {
+                //let curVal= changes[propName].currentValue;
+                //this.showCollab();
+            }
+        }
+    }
+
 }

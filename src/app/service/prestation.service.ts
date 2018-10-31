@@ -16,9 +16,8 @@ export class PrestationService {
         return this.http.get<Prestation>(`/api/prestations/` + id);
     }
 
-    getPrestationsCollab(idcollab: number) {
-        return this.http.get<Prestation[]>(`/api/prestations/collab/` + idcollab);
-        //return this.http.get<Prestation[]>(`/api/collaborateurs/` + idcollab+ '/prestations');
+    getPrestationsCollab(idcollab: string) {
+       // return this.http.get<Prestation[]>(`/api/prestations/collab/` + idcollab);
     }
 
     save(prestation: Prestation) {

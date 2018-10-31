@@ -6,7 +6,8 @@ export class Prestation {
     prestId : number; // Réf. de la prestation
     prestIdMission : number;
     prestContrat : string ;
-    prestIdPilote : string ; // Filled from collaborateur
+    prestIdPilote : string ; // Filled from collaborateur for display
+    prestIdCollab : string;
     prestDepartement : string;
     prestPole : string;
     prestDomaine : string;

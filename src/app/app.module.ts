@@ -108,6 +108,8 @@ import {AdministratorComponent} from "./administrator/administrator.component";
 import {DataService} from "./service/data.service";
 // import {AdminGuard} from "./service/admin.guard";
 import {NotFoundComponent} from './not-found/not-found.component';
+import {AdDirective} from "./component/prestations/prestas_collab.component";
+import {DatePipe} from "@angular/common";
 
 // used to create fake backend
 
@@ -217,6 +219,7 @@ export function tokenGetter() {
         MenuComponent,
         NewsComponent,
         NotFoundComponent,
+        AdDirective
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -233,6 +236,7 @@ export function tokenGetter() {
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
 
+        DatePipe
         // provider used to create fake backend
         // fakeBackendProvider
     ],
