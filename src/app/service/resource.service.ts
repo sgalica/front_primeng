@@ -11,7 +11,7 @@ class Resource {
 export class ResourceService<T extends Resource> {
     constructor(
         private http: HttpClient,
-        private url: string,
+        private url: string ,
         private endpoint: string) {}
 
     public create(item: T) {
@@ -21,6 +21,7 @@ export class ResourceService<T extends Resource> {
     }
 
     public createList(items: T[]){
+        debugger
         return this.http
             .post(`${this.url}/${this.endpoint}/`, items)
 

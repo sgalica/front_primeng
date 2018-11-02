@@ -10,7 +10,11 @@ import {UserService} from "../service/user.service";
 import {User} from "../model/user";
 import {ReferentielService} from "../service/referentiel.service";
 import {Data} from "../model/data";
+import {DataService} from "../service/data.service";
 
+class Resource {
+    id: number
+}
 
 @Component({
     selector: 'app-administrator',
@@ -54,6 +58,7 @@ export class AdministratorComponent implements OnInit {
 
     constructor(
         private router: Router,
+        private serviceMatcher: DataService,
         private userService: UserService,
         private referentielService: ReferentielService,
         private alertService: AlertService) {
@@ -250,12 +255,10 @@ export class AdministratorComponent implements OnInit {
         var convertedJson = [];
         Object.values(object).forEach(x => {
 
-            debugger;
 
             var temp = new model.constructor;
 
             var acc = Object.entries(x).forEach((currentValue) => {
-                debugger;
                 // console.log(x.hasOwnProperty(currentValue));
                 console.log("currentValue = ", currentValue[ 0 ]);
 
@@ -281,6 +284,8 @@ export class AdministratorComponent implements OnInit {
         return convertedJson;
     }
 
+
+
     saveRefTable(table: number) {
         var cons = this.getModelMatch(table);
         console.log("LOGGING table:::::::::::::::::::::::", table);
@@ -288,8 +293,12 @@ export class AdministratorComponent implements OnInit {
         var convertedJson = this.convertJsonToModel(table, cons);
         console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
 
-        this.referentielService.createList(convertedJson)
-            .pipe(first())
+        const temp = this.serviceMatcher.serviceMatch(cons);
+
+
+        //this.referentielService.createList(convertedJson)
+        temp.createList(convertedJson)
+            .pipe()
             .subscribe(
                 data => {
                     //this.apiresponse = data as ApiResponse;

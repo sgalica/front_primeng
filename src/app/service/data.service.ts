@@ -1,23 +1,34 @@
-/*
 ///<reference path="collaborateur2.service.ts"/>
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {MissionService} from "./mission.service";
+import {ResourceService} from "./resource.service";
+import {NumAtgService} from "./numatg.service";
 
-import {Data} from '../model/data';
-import {CollaborateurService} from "./collaborateur2.service";
-import {UserService} from "./user.service";
 
+class Resource {
+    id: number
+}
 
 @Injectable()
-export class DataService {
+export class DataService  {
     constructor(
-        private collaborateurService: CollaborateurService,
-    ) { }
+        private numAtgService: NumAtgService,
+        private missionService: MissionService ) { }
 
-    saveCollaborateur() {
-        return this.collaborateurService;
+    public serviceMatch(object : any) : ResourceService<Resource>{
+        var service;
+
+        if (object.constructor.name === "NumAtg") {
+            console.log("NumAtg match");
+            return this.numAtgService;
+        } else if (object.constructor.name == "Mission") {
+
+            console.log("Mission match");
+            return this.missionService;
+        }
+
     }
 
 
 }
-/!**!/*/
+

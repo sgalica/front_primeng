@@ -111,6 +111,8 @@ import {ResourceService} from "./service/resource.service";
 import {ReferentielService} from "./service/referentiel.service";
 import {MissionService} from "./service/mission.service";
 import {CollService} from "./service/coll.service";
+import {DataService} from "./service/data.service";
+import {NumAtgService} from "./service/numatg.service";
 
 // used to create fake backend
 
@@ -229,7 +231,9 @@ export function tokenGetter() {
         AlertService,
         CollaborateurService,
         ResourceService,
+        DataService,
         ReferentielService,
+        NumAtgService,
         MissionService,
         CollService,
         PrestationService,
