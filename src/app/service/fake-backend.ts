@@ -1,3 +1,4 @@
+/*
 import {Injectable} from '@angular/core';
 import {
     HTTP_INTERCEPTORS,
@@ -149,3 +150,4 @@ export let fakeBackendProvider = {
     useClass: FakeBackendInterceptor,
     multi: true
 };
+*/

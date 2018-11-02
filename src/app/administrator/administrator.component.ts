@@ -167,8 +167,19 @@ export class AdministratorComponent implements OnInit {
             this.alltable.forEach(x => {
 
                 temp.push(Object.values(x)
-                    .map((y) => {
-                        return camelize(y);
+                    .map((x) => {
+                        console.log("avant mutation",x);
+                        //if(y==0)x.forEach((a,i)=> {if(i==0) Object.defineProperty(Object.prototype,'id',)})
+
+                        Object.keys(x).map((id,i) => {
+                            if(i==0) {
+                                x[`id`] = x[id];
+                                delete x[id];}
+                        });
+                        console.log("aprés mutation",x);
+
+
+                        return camelize(x);
                     })
                 );
 
@@ -252,7 +263,7 @@ export class AdministratorComponent implements OnInit {
     }
 
     convertJsonToModel(object: any, model: any) {
-        var convertedJson = [];
+        var jsonToConvert = [];
         Object.values(object).forEach(x => {
 
 
@@ -275,13 +286,18 @@ export class AdministratorComponent implements OnInit {
 
             });
 
-            convertedJson.push(temp);
+            jsonToConvert.push(temp);
 
 
-            console.log("convertedJson = ", convertedJson);
 
         });
-        return convertedJson;
+
+        console.log("convertedJson = ", jsonToConvert);
+        debugger
+        jsonToConvert.splice(-1, 1);
+        console.log("convertedJson = ", jsonToConvert);
+
+        return jsonToConvert;
     }
 
 
@@ -291,14 +307,14 @@ export class AdministratorComponent implements OnInit {
         console.log("LOGGING table:::::::::::::::::::::::", table);
         console.log("LOGGING cons :::::::::::::::::::::::", cons);
         var convertedJson = this.convertJsonToModel(table, cons);
-        console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
 
-        const temp = this.serviceMatcher.serviceMatch(cons);
+       // const temp = this.serviceMatcher.serviceMatch(cons);
+        console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
 
 
         //this.referentielService.createList(convertedJson)
-        temp.createList(convertedJson)
-            .pipe()
+        this.serviceMatcher.serviceMatch(convertedJson[0]).createList(convertedJson)
+            .pipe(first())
             .subscribe(
                 data => {
                     //this.apiresponse = data as ApiResponse;

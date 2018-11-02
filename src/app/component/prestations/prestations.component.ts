@@ -4,7 +4,7 @@ import {first} from 'rxjs/operators';
 import {PrestationService} from '../../service/prestation.service';
 import {Prestation} from '../../model/prestation';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CollaborateurService} from '../../service/collaborateur.service';
+import {CollaborateurService} from '../../service/collaborateurBis.service';
 import {Collaborateur} from '../../model/collaborateur';
 import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";

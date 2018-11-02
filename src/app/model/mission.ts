@@ -1,6 +1,5 @@
 export class Mission {
     id: any = 0;
-    identifiantMission: any = 0;
     identifiantPilote: any = 0;
     dateDebutSg: any = 0;
     dateA3Ans: any = 0;

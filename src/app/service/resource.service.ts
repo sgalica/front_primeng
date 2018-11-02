@@ -1,11 +1,8 @@
 import {Observable} from "rxjs/Rx";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
+import {Resource} from "../model/resource";
 
-
-class Resource {
-    id: number
-}
 
 @Injectable()
 export class ResourceService<T extends Resource> {
@@ -14,20 +11,20 @@ export class ResourceService<T extends Resource> {
         private url: string ,
         private endpoint: string) {}
 
-    public create(item: T) {
+    create(item: T) {
         return this.http
             .post(`${this.url}/${this.endpoint}/1`, item)
             .map(data => data as T);
     }
 
-    public createList(items: T[]){
-        debugger
+     createList(items: T[]){
+        debugger;
         return this.http
             .post(`${this.url}/${this.endpoint}/`, items)
 
     }
 
-    public update(item: T): Observable<T> {
+    update(item: T): Observable<T> {
         return this.http
             .put<T>(`${this.url}/${this.endpoint}/${item.id}`,  item)
             .map(data => data as T);
@@ -50,7 +47,7 @@ export class ResourceService<T extends Resource> {
             .delete(`${this.url}/${this.endpoint}/${id}`);
     }
 
-    private convertData(data: any): T[] {
+    convertData(data: any): T[] {
         return data.map(item => item);
     }
 }
