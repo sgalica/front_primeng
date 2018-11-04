@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="service matcher ok">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/app/service/datas.service.ts" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change beforePath="$PROJECT_DIR$/src/_versions.ts" afterPath="$PROJECT_DIR$/src/_versions.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/administrator/administrator.component.html" afterPath="$PROJECT_DIR$/src/app/administrator/administrator.component.html" />
+      <change beforePath="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" afterPath="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.component.ts" afterPath="$PROJECT_DIR$/src/app/app.component.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/app/app.module.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" />
+      <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/collaborateur.ts" afterPath="$PROJECT_DIR$/src/app/model/collaborateur.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/data.ts" afterPath="$PROJECT_DIR$/src/app/model/referentiel.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/mission.ts" afterPath="$PROJECT_DIR$/src/app/model/mission.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/prestation.ts" afterPath="$PROJECT_DIR$/src/app/model/prestation.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/auth.guard.ts" afterPath="$PROJECT_DIR$/src/app/service/auth.guard.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/data.service.ts" afterPath="$PROJECT_DIR$/src/app/service/data.service.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/mission.service.ts" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/numatg.service.ts" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/referentiel.service.ts" afterPath="$PROJECT_DIR$/src/app/service/referentiel.service.ts" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/resource.service.ts" afterPath="$PROJECT_DIR$/src/app/service/resource.service.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -394,7 +410,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="administrator.component.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="administrator.component.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
@@ -410,7 +426,7 @@
         <entry file="file://$PROJECT_DIR$/src/app/model/mission.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="6" column="23" lean-forward="true" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+              <caret line="6" column="23" lean-forward="false" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -442,21 +458,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.component.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/app.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="102">
+              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+              <folding>
+                <element signature="e#77#162#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="auth.guard.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/service/auth.guard.ts">
+      <file leaf-file-name="atg-app-client.iml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/atg-app-client.iml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -651,9 +669,9 @@
     </packageJsonPaths>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="54" />
+    <option name="y" value="205" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
@@ -683,61 +701,6 @@
             <path>
               <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
               <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="administrator" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="collaborateurs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="prestations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atg-app-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atg-app-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -805,6 +768,18 @@
     </option>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
     <configuration name="ATG_npm" type="js.build_tools.npm" factoryName="npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -923,14 +898,7 @@
       <workItem from="1540383634709" duration="4413000" />
       <workItem from="1540469688655" duration="13121000" />
       <workItem from="1540805733986" duration="69512000" />
-      <workItem from="1541299519085" duration="556000" />
-    </task>
-    <task id="LOCAL-00028" summary="camelcase data + import csv">
-      <created>1538694852317</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1538694852317</updated>
+      <workItem from="1541299519085" duration="1052000" />
     </task>
     <task id="LOCAL-00029" summary="css optimisations">
       <created>1538727610328</created>
@@ -1268,11 +1236,18 @@
       <option name="project" value="LOCAL" />
       <updated>1541160213160</updated>
     </task>
-    <option name="localTasksCounter" value="77" />
+    <task id="LOCAL-00077" summary="service matcher v3">
+      <created>1541300107467</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1541300107468</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="662842000" />
+    <option name="totallyTimeSpent" value="663338000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1284,7 +1259,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="54" y="205" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1292,10 +1267,10 @@
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21536796" sideWeight="0.5042644" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21536796" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21536796" sideWeight="0.49573562" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.4968017" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1352,7 +1327,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="message success managed 11 straight foward method to fix ts-xlsx import" />
     <MESSAGE value="message success managed 12 straight foward method to fix ts-xlsx import" />
     <MESSAGE value="juste need an npm install to fix xlsx issue" />
     <MESSAGE value="Admin content management" />
@@ -1377,7 +1351,8 @@
     <MESSAGE value="model detection" />
     <MESSAGE value="model detection v2" />
     <MESSAGE value="service matcher ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="service matcher ok" />
+    <MESSAGE value="service matcher v3" />
+    <option name="LAST_COMMIT_MESSAGE" value="service matcher v3" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1387,16 +1362,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="82" column="73" lean-forward="false" selection-start-line="82" selection-start-column="73" selection-end-line="82" selection-end-column="73" />
-          <folding>
-            <element signature="n#p-tabPanel#0;n#p-tabView#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
@@ -1415,7 +1380,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#48#89#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1465,6 +1432,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208199">
           <caret line="12247" column="72" lean-forward="false" selection-start-line="12247" selection-start-column="72" selection-end-line="12247" selection-end-column="72" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1570,6 +1538,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="179">
           <caret line="45" column="7" lean-forward="false" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1699,16 +1668,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
-          <folding>
-            <element signature="n#p-tabPanel#0;n#p-tabView#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/service/referentiel.service.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
@@ -1722,7 +1681,7 @@
     <entry file="file://$PROJECT_DIR$/src/app/model/mission.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="23" lean-forward="true" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+          <caret line="6" column="23" lean-forward="false" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -1751,9 +1710,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/app.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+        <state relative-caret-position="102">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding>
+            <element signature="e#77#162#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/atg-app-client.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="72" column="12" lean-forward="false" selection-start-line="72" selection-start-column="12" selection-end-line="72" selection-end-column="12" />
+          <folding>
+            <element signature="n#p-tabPanel#0;n#p-tabView#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

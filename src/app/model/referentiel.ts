@@ -2,19 +2,20 @@ import {Collaborateur} from "./collaborateur";
 import {Mission} from "./mission";
 import {Prestation} from "./prestation";
 
-export class Data {
+export class Referentiel {
 
+    id: any;
     collaborateur: Collaborateur = new Collaborateur();
     mission: Mission = new Mission();
     prestation: Prestation = new Prestation();
-    numAtg:NumAtg = new NumAtg();
-    societeStt:SocieteStt = new SocieteStt();
-    contactsStt:ContactsStt = new ContactsStt();
-    dpt:Dpt= new Dpt();
+    numAtg: NumAtg = new NumAtg();
+    societeStt: SocieteStt = new SocieteStt();
+    contactsStt: ContactsStt = new ContactsStt();
+    dpt: Departement = new Departement();
     contrat: Contrat = new Contrat();
-    pole:Pole= new Pole();
-    domaine:Domaine = new Domaine();
-    site:Site =  new Site();
+    pole: Pole = new Pole();
+    domaine: Domaine = new Domaine();
+    site: Site = new Site();
 
 }
 
@@ -58,6 +59,7 @@ export class Mission {
     localisation: any = 0;
     commercialOpen: any = 0;
 }*/
+
 /*
 export class Prestation {
     id: any = 0;
@@ -104,8 +106,12 @@ export class SocieteStt {
 export class ContactsStt {
 
     id: any = 0;
+    codeContact: any = 0;
     codeStt: any = 0;
     nomContact: any = 0;
+    adresseMail: any = 0;
+    telephonePortable: any = 0;
+    telephoneFixe: any = 0;
     dateCreation: any = 0;
     trigrammeCreation: any = 0;
     dateMaj: any = 0;
@@ -116,6 +122,9 @@ export class Contrat {
 
     id: any = 0;
     contratAppli: any = 0;
+    debutContrat: any = 0;
+    finContrat: any = 0;
+
     dateCreation: any = 0;
     trigrammeCreation: any = 0;
     dateMaj: any = 0;
@@ -123,10 +132,11 @@ export class Contrat {
     departement: any = 0;
 }
 
-export class Dpt {
+export class Departement {
 
     id: any = 0;
     codeDepartement: any = 0;
+    topETeamETech: any = 0;
     dateCreation: any = 0;
     trigrammeCreation: any = 0;
     dateMaj: any = 0;
@@ -137,6 +147,7 @@ export class Pole {
 
     id: any = 0;
     codePole: any = 0;
+    codeDepartement: any = 0;
     responsableDePole: any = 0;
     dateCreation: any = 0;
     trigrammeCreation: any = 0;
@@ -148,6 +159,7 @@ export class Domaine {
 
     id: any = 0;
     codeDomaine: any = 0;
+    codePoleParent: any = 0;
     dateCreation: any = 0;
     trigrammeCreation: any = 0;
     dateMaj: any = 0;
@@ -156,8 +168,6 @@ export class Domaine {
 
 export class Site {
     id: any = 0;
-
-
     codeSite: any = 0;
     libelleSite: any = 0;
     dateCreation: any = 0;
@@ -166,18 +176,3 @@ export class Site {
     trigrammeMaj: any = 0;
 }
 
-
-export class Referentiel {
-    id: any = 0;
-    // site: Site[];
-    // domaine: Domaine[];
-    // pole: Pole[];
-    // dpt: Dpt[];
-    // contrat: Contrat[];
-    // contactStt: ContactsStt[];
-    // societeStt: SocieteStt[];
-    // numAtg: NumAtg[];
-    prestation: Prestation[];
-    // mission: Mission[];
-
-}

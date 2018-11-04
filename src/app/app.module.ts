@@ -102,17 +102,26 @@ import {PrestationsComponent} from './component/prestations/prestations.componen
 import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
 import {CollaborateurService} from './service/collaborateur.service';
-import {PrestationService} from "./service/prestation.service";
 import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
 // import {AdminGuard} from "./service/admin.guard";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {ResourceService} from "./service/resource.service";
 import {ReferentielService} from "./service/referentiel.service";
-import {MissionService} from "./service/mission.service";
 import {CollService} from "./service/coll.service";
 import {DataService} from "./service/data.service";
-import {NumAtgService} from "./service/numatg.service";
+import {
+    ContactsSttService,
+    ContratService,
+    DepartementService,
+    DomaineService,
+    MissionService,
+    NumAtgService,
+    PoleService,
+    PrestationService,
+    SiteService,
+    SocieteSttService
+} from "./service/datas.service";
 
 // used to create fake backend
 
@@ -238,6 +247,18 @@ export function tokenGetter() {
         CollService,
         PrestationService,
         AuthService,
+        NumAtgService,
+        CollaborateurService,
+        ContactsSttService,
+        PoleService,
+        DomaineService,
+        ContratService,
+        DepartementService,
+        SocieteSttService,
+        PrestationService,
+        SiteService,
+        MissionService,
+
         UserService, JwtHelperService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

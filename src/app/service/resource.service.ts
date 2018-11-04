@@ -6,6 +6,9 @@ import {Resource} from "../model/resource";
 
 @Injectable()
 export class ResourceService<T extends Resource> {
+
+    listData:any;
+
     constructor(
         private http: HttpClient,
         private url: string ,
@@ -18,9 +21,9 @@ export class ResourceService<T extends Resource> {
     }
 
      createList(items: T[]){
-        debugger;
+
         return this.http
-            .post(`${this.url}/${this.endpoint}/`, items)
+            .post(`${this.url}/${this.endpoint}/`,items)
 
     }
 
@@ -39,7 +42,7 @@ export class ResourceService<T extends Resource> {
     list(): Observable<T[]> {
         return this.http
             .get(`${this.url}/${this.endpoint}`)
-            .map((data: any) => this.convertData(data.items));
+            .map((data: any) =>  data as T[]);
     }
 
     delete(id: number) {
@@ -47,7 +50,7 @@ export class ResourceService<T extends Resource> {
             .delete(`${this.url}/${this.endpoint}/${id}`);
     }
 
-    convertData(data: any): T[] {
+   /* convertData(data: any): T[] {
         return data.map(item => item);
-    }
+    }*/
 }

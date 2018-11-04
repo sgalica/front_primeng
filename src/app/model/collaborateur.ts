@@ -2,7 +2,7 @@ import {Prestation} from "./prestation";
 
 export class Collaborateur {
      id                   : any = 0;
-     trigOpen            : any = 0;
+     trigramme            : any = 0;
      nom                  : any = 0;
      prenom               : any = 0;
      telPerso            : any = 0;

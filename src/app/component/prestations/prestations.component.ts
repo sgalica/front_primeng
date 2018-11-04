@@ -208,7 +208,7 @@ export class PrestationsComponent implements OnInit {
             this.prestations = prestations.sort(this.orderDateDebutEtVersion);
 
             this.prestations.map(x => {
-                x.prestIdPilote = x.collaborateur.trigOpen;
+                x.prestIdPilote = x.collaborateur.trigramme;
             });
 
             this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');

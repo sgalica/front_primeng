@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/atf_front_primeng.iml" filepath="$PROJECT_DIR$/atf_front_primeng.iml" />
+      <module fileurl="file://$PROJECT_DIR$/atg-app-client.iml" filepath="$PROJECT_DIR$/atg-app-client.iml" />
     </modules>
   </component>
 </project>

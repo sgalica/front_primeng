@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {read, utils} from 'ts-xlsx';
+import {read, utils} from 'xlsx';
 import {Message, SelectItem} from "primeng/api";
 import {Collaborateur} from "../model/collaborateur";
 import {ApiResponse} from "../model/apiresponse";
@@ -9,8 +9,9 @@ import {Router} from "@angular/router";
 import {UserService} from "../service/user.service";
 import {User} from "../model/user";
 import {ReferentielService} from "../service/referentiel.service";
-import {Data} from "../model/data";
+import {Referentiel} from "../model/referentiel";
 import {DataService} from "../service/data.service";
+import {MissionService} from "../service/datas.service";
 
 class Resource {
     id: number
@@ -19,7 +20,7 @@ class Resource {
 @Component({
     selector: 'app-administrator',
     templateUrl: './administrator.component.html',
-    styleUrls: [ './administrator.component.css' ]
+    styleUrls: ['./administrator.component.css']
 })
 export class AdministratorComponent implements OnInit {
 
@@ -56,12 +57,12 @@ export class AdministratorComponent implements OnInit {
     private apiresponse: ApiResponse;
     private worksheet: any;
 
-    constructor(
-        private router: Router,
-        private serviceMatcher: DataService,
-        private userService: UserService,
-        private referentielService: ReferentielService,
-        private alertService: AlertService) {
+    constructor(private router: Router,
+                private dataService: DataService,
+                private userService: UserService,
+                private missionService: MissionService,
+                private referentielService: ReferentielService,
+                private alertService: AlertService) {
     }
 
     ngOnInit() {
@@ -116,7 +117,7 @@ export class AdministratorComponent implements OnInit {
             .subscribe(
                 data => {
                     this.allUsers = data;
-                    this.allUsersCols = Object.keys(data[ 0 ]);
+                    this.allUsersCols = Object.keys(data[0]);
                     console.log(this.allUsersCols);
                 },
                 error => {
@@ -126,34 +127,35 @@ export class AdministratorComponent implements OnInit {
 
 
     incomingfile(event) {
-        this.file = event.target.files[ 0 ];
+        this.file = event.target.files[0];
     }
 
     Upload(event) {
         //
         //
-        this.file = event.files[ 0 ];
+        this.file = event.files[0];
 
         let fileReader = new FileReader();
         fileReader.onload = (e) => {
             this.arrayBuffer = fileReader.result;
             const data = new Uint8Array(this.arrayBuffer);
             const arr = [];
-            for (let i = 0; i != data.length; ++i) arr[ i ] = String.fromCharCode(data[ i ]);
+            for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
             const bstr = arr.join("");
 
             const workbook = read(bstr, {type: "binary"});
             Object.keys(workbook).forEach((x, y) => {
-                this.all_sheet_name.push(workbook.SheetNames[ y ]);
+                this.all_sheet_name.push(workbook.SheetNames[y]);
             });
 
             this.all_sheet_name.forEach(x => {
-                    this.worksheet = workbook.Sheets[ x ];
+                    this.worksheet = workbook.Sheets[x];
                     // console.log("sheet keys ", XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
                     //this.columns.push(Object.values(XLSX.utils.sheet_to_json(this.worksheet, {raw: true})));
-                    this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: true}));
+                    this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: true, defval: null, blankrows: false}));
                 }
             );
+            console.log("alltable", this.alltable);
 
             const camelize = require('camelcase-object-deep');
             //const camelCase = require('camel-case');
@@ -167,20 +169,29 @@ export class AdministratorComponent implements OnInit {
             this.alltable.forEach(x => {
 
                 temp.push(Object.values(x)
-                    .map((x) => {
-                        console.log("avant mutation",x);
+                    .map((y) => {
+                        console.log("avant mutation", JSON.stringify(y));
                         //if(y==0)x.forEach((a,i)=> {if(i==0) Object.defineProperty(Object.prototype,'id',)})
 
-                        Object.keys(x).map((id,i) => {
-                            if(i==0) {
-                                x[`id`] = x[id];
-                                delete x[id];}
+                        Object.keys(y).map((id, i) => {
+                            if (i == 0) {
+                                y[`id`] = y[id];
+                                //delete y[id];
+                            }
+                            /*if (!(/^[a-zA-Z0-9_]*$/.test(y[id])) || /null/.test(y[id])) {
+                                console.log("a supprimer", JSON.stringify(y[id]));
+
+                                delete y[id];
+                                delete y[`id`];
+                            }*/
                         });
-                        console.log("aprés mutation",x);
 
 
-                        return camelize(x);
-                    })
+                        console.log("aprés mutation",y);
+
+
+                        return camelize(y);
+                    }).filter(z=> !/null/.test(z[`id`]))
                 );
 
                 // formate le nom des colonnes au format Camel
@@ -189,8 +200,10 @@ export class AdministratorComponent implements OnInit {
                 //     return changeCase.camelCase(z);
                 // }));
             });
+            console.log("Avant camel",temp);
+
             temp.forEach(x =>
-                this.columns.push(Object.keys(x[ 0 ])));
+                this.columns.push(Object.keys(x[0])));
 
             console.log("Object model camelized ", temp);
             console.log("Object model standard", this.alltable);
@@ -213,21 +226,21 @@ export class AdministratorComponent implements OnInit {
              trigrammeMaj: "SBA16490",
              trigrammeCreation: "SBA16490"
          };*/
-        console.log("Objet a tester", T[ 0 ]);
+        console.log("Objet a tester", T[0]);
 
         //var constructor;
-        const data = new Data();
-        var obj;
-        for (let x of Object.values(data)) {
+        const referentiel = new Referentiel();
+        let obj;
+        for (let x of Object.values(referentiel)) {
 
-            var temp = new x.constructor;
+            const temp = new x.constructor;
 
-            var acc = Object.entries(T[ 0 ]).reduce((accumulator, currentValue) => {
-                // console.log(x.hasOwnProperty(currentValue));
-                console.log("currentValue = ", currentValue[ 0 ]);
+            const acc = Object.entries(T[0]).reduce((accumulator, currentValue) => {
+                console.log("Object to test",x);
+                console.log("currentValue = ", currentValue[0]);
                 console.log("accumulator = ", accumulator);
 
-                if (accumulator && x.hasOwnProperty(currentValue[ 0 ])) {
+                if (accumulator && x.hasOwnProperty(currentValue[0])) {
 
                     /* Object.defineProperty(temp, currentValue[ 0 ], {
                          enumerable: false,
@@ -239,7 +252,7 @@ export class AdministratorComponent implements OnInit {
 
                      console.log("notre nouvel obj = ", temp);
  */
-                    return x.hasOwnProperty(currentValue[ 0 ]);
+                    return x.hasOwnProperty(currentValue[0]);
                 }
                 else {
                     return false;
@@ -263,21 +276,20 @@ export class AdministratorComponent implements OnInit {
     }
 
     convertJsonToModel(object: any, model: any) {
-        var jsonToConvert = [];
+        const jsonToConvert = [];
         Object.values(object).forEach(x => {
 
 
-            var temp = new model.constructor;
+            const temp = new model.constructor;
 
-            var acc = Object.entries(x).forEach((currentValue) => {
+            const acc = Object.entries(x).forEach((currentValue) => {
                 // console.log(x.hasOwnProperty(currentValue));
-                console.log("currentValue = ", currentValue[ 0 ]);
+                console.log("currentValue = ", currentValue[0]);
+                if (currentValue[1] === undefined) currentValue[1] = null;
 
-                Object.defineProperty(temp, currentValue[ 0 ], {
-                    enumerable: false,
-                    configurable: false,
+                Object.defineProperty(temp, currentValue[0], {
                     writable: false,
-                    value: currentValue[ 1 ]
+                    value: currentValue[1]
                 });
                 // obj.constructor.argumentscurrentValue[0] = T.currentValue[1];
 
@@ -289,35 +301,39 @@ export class AdministratorComponent implements OnInit {
             jsonToConvert.push(temp);
 
 
-
         });
 
         console.log("convertedJson = ", jsonToConvert);
-        debugger
-        jsonToConvert.splice(-1, 1);
+
+        //jsonToConvert.splice(-1, 1);
         console.log("convertedJson = ", jsonToConvert);
 
         return jsonToConvert;
     }
+    saveAllRefTable(referenciel:any){
 
 
+    }
 
-    saveRefTable(table: number) {
-        var cons = this.getModelMatch(table);
+    saveRefTable(table: any, all: boolean) {
+        const cons = this.getModelMatch(table);
         console.log("LOGGING table:::::::::::::::::::::::", table);
         console.log("LOGGING cons :::::::::::::::::::::::", cons);
-        var convertedJson = this.convertJsonToModel(table, cons);
-
-       // const temp = this.serviceMatcher.serviceMatch(cons);
+        const convertedJson = this.convertJsonToModel(table, cons);
+        const temp = convertedJson.map(x => JSON.stringify(x));
         console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
+        console.log("LOGGING temp :::::::::::::::::::::::", temp);
 
 
+        // const temp = this.serviceMatcher.getServiceMatch(cons);
+        //console.log("LOGGING res :::::::::::::::::::::::", res);
         //this.referentielService.createList(convertedJson)
-        this.serviceMatcher.serviceMatch(convertedJson[0]).createList(convertedJson)
+        this.dataService.getServiceMatch(convertedJson[0]).createList(convertedJson)
+        //this.missionService.createList(convertedJson)
             .pipe(first())
             .subscribe(
                 data => {
-                    //this.apiresponse = data as ApiResponse;
+                    this.apiresponse = data as ApiResponse;
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;

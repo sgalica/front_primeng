@@ -1,7 +1,7 @@
-import {Referentiel} from "../model/data";
 import {ResourceService} from "./resource.service";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
+import {Referentiel} from "../model/referentiel";
 
 @Injectable()
 export class ReferentielService extends ResourceService<Referentiel> {

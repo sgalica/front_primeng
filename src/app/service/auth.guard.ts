@@ -28,7 +28,6 @@ export class AuthGuard implements CanActivate {
 
     verifyLogin(url): boolean {
 
-        // debugger
         if (!AuthGuard.logged.getValue()) {
             this.router.navigate([ '/login' ]);
             return false;

@@ -31,12 +31,12 @@ export class CollaborateursComponent implements OnInit {
     sortOrder: number;
 
     collaborateurs: Collaborateur[] = [];
-    collaborateur : Collaborateur;
+    collaborateur: Collaborateur;
     private msgs: Message[];
     private selectedfile: any;
     private viewfile: boolean;
     private columns: any;
-     selectedColumns: any[];
+    selectedColumns: any[];
     private apiresponse: ApiResponse;
     colsplice: any;
 
@@ -52,53 +52,60 @@ export class CollaborateursComponent implements OnInit {
         this.loadAllCollaborateurs();
 
         this.cols = [
-            {header: 'trig_open'      , field: camelCase('trig_open')},
-            {header: 'nom'            , field: camelCase('nom')},
-            {header: 'prenom'         , field: camelCase('prenom')},
-            {header: 'tel_perso'      , field: camelCase('tel_perso')},
-            {header: 'tel_pro'        , field: camelCase('tel_pro')},
-            {header: 'mail_open'      , field: camelCase('mail_open')},
-            {header: 'mail_sg'        , field: camelCase('mail_sg')},
-            {header: 'categorisation' , field: camelCase('code_categorisation')},
-            {header: 'top_statut'     , field: camelCase('top_statut')},
-            {header: 'statut_Collab'  , field: camelCase('statut_Collab')},
-            {header: 'version_Collab' , field: camelCase('version_Collab')},
-            {header: 'societe_stt'    , field: camelCase('societe_stt')},
-            {header: 'pre_embauche '  , field: camelCase('pre_embauche')},
-            {header: 'date_embauche'  , field: camelCase('date_embauche')},
-            {header: 'created_at'     , field: camelCase('created_at')},
-            {header: 'created_by'     , field: camelCase('created_by')},
-            {header: 'updated_at'     , field: camelCase('updated_at')},
-            {header: 'updated_by'     , field: camelCase('updated_by')}
+            {header: 'trig_open', field: camelCase('trig_open')},
+            {header: 'nom', field: camelCase('nom')},
+            {header: 'prenom', field: camelCase('prenom')},
+            {header: 'tel_perso', field: camelCase('tel_perso')},
+            {header: 'tel_pro', field: camelCase('tel_pro')},
+            {header: 'mail_open', field: camelCase('mail_open')},
+            {header: 'mail_sg', field: camelCase('mail_sg')},
+            {header: 'categorisation', field: camelCase('code_categorisation')},
+            {header: 'top_statut', field: camelCase('top_statut')},
+            {header: 'statut_Collab', field: camelCase('statut_Collab')},
+            {header: 'version_Collab', field: camelCase('version_Collab')},
+            {header: 'societe_stt', field: camelCase('societe_stt')},
+            {header: 'pre_embauche ', field: camelCase('pre_embauche')},
+            {header: 'date_embauche', field: camelCase('date_embauche')},
+            {header: 'created_at', field: camelCase('created_at')},
+            {header: 'created_by', field: camelCase('created_by')},
+            {header: 'updated_at', field: camelCase('updated_at')},
+            {header: 'updated_by', field: camelCase('updated_by')}
 
         ];
 
         console.log(this.selectedColumns);
 
         this.selectedColumns = [
-            {header: 'trig_open'      , field: camelCase('trig_open')},
-            {header: 'nom'            , field: camelCase('nom')},
-            {header: 'prenom'         , field: camelCase('prenom')},
-            {header: 'tel_perso'      , field: camelCase('tel_perso')},
-            {header: 'tel_pro'        , field: camelCase('tel_pro')},
-            {header: 'mail_open'      , field: camelCase('mail_open')},
-            {header: 'mail_sg'        , field: camelCase('mail_sg')},
-            {header: 'categorisation' , field: camelCase('code_categorisation')},
-            {header: 'top_statut'     , field: camelCase('top_statut')},
-            {header: 'statut_Collab'  , field: camelCase('statut_Collab')},
-            {header: 'version_Collab' , field: camelCase('version_Collab')}
-            ];
+            {header: 'trig_open', field: camelCase('trig_open')},
+            {header: 'nom', field: camelCase('nom')},
+            {header: 'prenom', field: camelCase('prenom')},
+            {header: 'tel_perso', field: camelCase('tel_perso')},
+            {header: 'tel_pro', field: camelCase('tel_pro')},
+            {header: 'mail_open', field: camelCase('mail_open')},
+            {header: 'mail_sg', field: camelCase('mail_sg')},
+            {header: 'categorisation', field: camelCase('code_categorisation')},
+            {header: 'top_statut', field: camelCase('top_statut')},
+            {header: 'statut_Collab', field: camelCase('statut_Collab')},
+            {header: 'version_Collab', field: camelCase('version_Collab')}
+        ];
         // this.colsplice = this.selectedColumns;
         // this.colsplice.splice(1,10);
     }
 
 
-
     loadAllCollaborateurs() {
 
-        this.collaborateurService.list().pipe(first()).subscribe(collaborateurs => {
-            this.collaborateurs = collaborateurs;
-        });
+        this.collaborateurService.list()
+            .pipe(first())
+            .subscribe(
+                collaborateurs => {
+                    this.collaborateurs = collaborateurs;
+                },
+                error => {
+                    console.log("data returned = ", error);
+
+                    this.alertService.error(error);
+                });
     }
 
     afficherLaSaisie(event) {
@@ -110,8 +117,8 @@ export class CollaborateursComponent implements OnInit {
         this.collaborateurService.createList(this.importedCollabs)
             .pipe(first())
             .subscribe(
-                data  => {
-                    this.apiresponse = data as ApiResponse ;
+                data => {
+                    this.apiresponse = data as ApiResponse;
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;
@@ -119,7 +126,7 @@ export class CollaborateursComponent implements OnInit {
                     this.router.routeReuseStrategy.shouldReuseRoute = function () {
                         return false;
                     };
-                    },
+                },
                 error => {
                     console.log("data returned = ", error);
 
@@ -140,8 +147,6 @@ export class CollaborateursComponent implements OnInit {
     uploadedFiles: any[] = [];
 
 
-
-
     onUpload(event: any): void {
         var filecontent = event.files[0];
         this.selectedfile = filecontent;
@@ -152,9 +157,9 @@ export class CollaborateursComponent implements OnInit {
                 let csvRecordsArray = contents.split(/\r\n|\n/);
 
                 this.csvRecords = this.getDataRecordsArrayFromCSVFile(csvRecordsArray);
-               this.importedCollabs = this.csvRecords;
-              //  this.importedCollabs = contents;
-               // console.log("content cdv ", contents);
+                this.importedCollabs = this.csvRecords;
+                //  this.importedCollabs = contents;
+                // console.log("content cdv ", contents);
             }
             Reader.readAsText(filecontent);
         } else {
@@ -168,14 +173,13 @@ export class CollaborateursComponent implements OnInit {
     }
 
 
-
     getDataRecordsArrayFromCSVFile(rows) {
         const camelCase = require('camelcase');
         // on retire les noms de colonnes
         var keys = rows.shift().split(",");
 
         // camel case all keys for sending to back
-        keys = keys.map(x =>  camelCase(x));
+        keys = keys.map(x => camelCase(x));
 
         this.columns = keys;
         // on cree un objet "map" avec des attirbuts qui corresondent aux colonnes du fichier CSV et on affecte chaques valeurs
