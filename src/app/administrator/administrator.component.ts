@@ -1,17 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {read, utils} from 'xlsx';
 import {Message, SelectItem} from "primeng/api";
-import {Collaborateur} from "../model/collaborateur";
 import {ApiResponse} from "../model/apiresponse";
 import {first} from "rxjs/operators";
 import {AlertService} from "../service/alert.service";
 import {Router} from "@angular/router";
 import {UserService} from "../service/user.service";
 import {User} from "../model/user";
-import {ReferentielService} from "../service/referentiel.service";
-import {Referentiel} from "../model/referentiel";
+import {Collaborateur, Referenciel} from "../model/referenciel";
 import {DataService} from "../service/data.service";
-import {MissionService} from "../service/datas.service";
+import {MissionService, ReferencielService} from "../service/datas.service";
 
 class Resource {
     id: number
@@ -61,7 +59,7 @@ export class AdministratorComponent implements OnInit {
                 private dataService: DataService,
                 private userService: UserService,
                 private missionService: MissionService,
-                private referentielService: ReferentielService,
+                private referencielService: ReferencielService,
                 private alertService: AlertService) {
     }
 
@@ -187,11 +185,11 @@ export class AdministratorComponent implements OnInit {
                         });
 
 
-                        console.log("aprés mutation",y);
+                        console.log("aprés mutation", y);
 
 
                         return camelize(y);
-                    }).filter(z=> !/null/.test(z[`id`]))
+                    }).filter(z => !/null/.test(z[`id`]))
                 );
 
                 // formate le nom des colonnes au format Camel
@@ -200,7 +198,7 @@ export class AdministratorComponent implements OnInit {
                 //     return changeCase.camelCase(z);
                 // }));
             });
-            console.log("Avant camel",temp);
+            console.log("Avant camel", temp);
 
             temp.forEach(x =>
                 this.columns.push(Object.keys(x[0])));
@@ -229,29 +227,19 @@ export class AdministratorComponent implements OnInit {
         console.log("Objet a tester", T[0]);
 
         //var constructor;
-        const referentiel = new Referentiel();
+        const referenciel = new Referenciel();
         let obj;
-        for (let x of Object.values(referentiel)) {
+        for (let x of Object.values(referenciel)) {
 
             const temp = new x.constructor;
 
             const acc = Object.entries(T[0]).reduce((accumulator, currentValue) => {
-                console.log("Object to test",x);
+                console.log("Object to test", x);
                 console.log("currentValue = ", currentValue[0]);
                 console.log("accumulator = ", accumulator);
 
                 if (accumulator && x.hasOwnProperty(currentValue[0])) {
 
-                    /* Object.defineProperty(temp, currentValue[ 0 ], {
-                         enumerable: false,
-                         configurable: false,
-                         writable: false,
-                         value: currentValue[ 1 ]
-                     });
-                     // obj.constructor.argumentscurrentValue[0] = T.currentValue[1];
-
-                     console.log("notre nouvel obj = ", temp);
- */
                     return x.hasOwnProperty(currentValue[0]);
                 }
                 else {
@@ -310,24 +298,29 @@ export class AdministratorComponent implements OnInit {
 
         return jsonToConvert;
     }
-    saveAllRefTable(referenciel:any){
+
+    saveAllRefTable(referenciel: any) {
 
 
     }
 
     saveRefTable(table: any, all: boolean) {
-        const cons = this.getModelMatch(table);
-        console.log("LOGGING table:::::::::::::::::::::::", table);
-        console.log("LOGGING cons :::::::::::::::::::::::", cons);
-        const convertedJson = this.convertJsonToModel(table, cons);
-        const temp = convertedJson.map(x => JSON.stringify(x));
-        console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
-        console.log("LOGGING temp :::::::::::::::::::::::", temp);
+        let convertedJson: any;
+        if (!all) {
+            const cons = this.getModelMatch(table);
+            console.log("LOGGING table:::::::::::::::::::::::", table);
+            console.log("LOGGING cons :::::::::::::::::::::::", cons);
+            convertedJson = this.convertJsonToModel(table, cons);
+            const temp = convertedJson.map(x => JSON.stringify(x));
+            console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
+            console.log("LOGGING temp :::::::::::::::::::::::", temp);
 
-
+        } else {
+            convertedJson = table
+        }
         // const temp = this.serviceMatcher.getServiceMatch(cons);
         //console.log("LOGGING res :::::::::::::::::::::::", res);
-        //this.referentielService.createList(convertedJson)
+        //this.ReferencielService.createList(convertedJson)
         this.dataService.getServiceMatch(convertedJson[0]).createList(convertedJson)
         //this.missionService.createList(convertedJson)
             .pipe(first())

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {PrestationService} from '../../service/prestation.service';
-import {Prestation} from '../../model/prestation';
+import {Prestation} from '../../model/_prtation';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CollaborateurService} from '../../service/collaborateurBis.service';
 import {Collaborateur} from '../../model/collaborateur';

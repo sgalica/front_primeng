@@ -2,8 +2,8 @@
 import {Injectable} from '@angular/core';
 import {ResourceService} from "./resource.service";
 import {CollaborateurService} from "./collaborateur.service";
-import {ContactsStt, Contrat, Departement, Domaine, Pole, Site, SocieteStt} from "../model/referentiel";
-import {Prestation} from "../model/prestation";
+import {ContactsStt, Contrat, Departement, Domaine, Pole, Site, SocieteStt} from "../model/referenciel";
+import {Prestation} from "../model/_prtation";
 import {
     ContactsSttService,
     ContratService,
@@ -13,6 +13,7 @@ import {
     NumAtgService,
     PoleService,
     PrestationService,
+    ReferencielService,
     SiteService,
     SocieteSttService
 } from "./datas.service";
@@ -21,6 +22,7 @@ import {
 @Injectable()
 export class DataService {
     constructor(private numAtgService: NumAtgService,
+                private referencielService: ReferencielService,
                 private collaborateurService: CollaborateurService,
                 private contactsSttService: ContactsSttService,
                 private poleService: PoleService,
@@ -78,6 +80,10 @@ export class DataService {
 
             console.log("SocieteStt match");
             return this.societeSttService;
+        }else if (object.constructor.name == "Referenciel") {
+
+            console.log("Referenciel match");
+            return this.referencielService;
         }
 
     }

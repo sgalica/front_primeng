@@ -1,4 +1,4 @@
-import {Collaborateur} from "./collaborateur";
+import {Collaborateur} from "./referenciel";
 
 export class Prestation {
 

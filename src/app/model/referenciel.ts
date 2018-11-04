@@ -1,8 +1,5 @@
-import {Collaborateur} from "./collaborateur";
-import {Mission} from "./mission";
-import {Prestation} from "./prestation";
 
-export class Referentiel {
+export class Referenciel {
 
     id: any;
     collaborateur: Collaborateur = new Collaborateur();
@@ -18,6 +15,50 @@ export class Referentiel {
     site: Site = new Site();
 
 }
+
+export class Collaborateur {
+    id                   : any = 0;
+    trigramme            : any = 0;
+    nom                  : any = 0;
+    prenom               : any = 0;
+    telPerso            : any = 0;
+    telPro              : any = 0;
+    mailOpen            : any = 0;
+    mailSg              : any = 0;
+    codeCategorisation  : any = 0;
+    topStatut           : any = 0;
+    statutCollab        : any = 0;
+    versionCollab       : any = 0;
+    societeStt          : any = 0;
+    preEmbauche         : any = 0;
+    dateEmbauche        : any = 0;
+
+    prestations          : Prestation[];
+
+/*    createdAt           : any = 0;
+    createdBy           : any = 0;
+    updatedAt           : any = 0;
+    updatedBy           : any = 0;*/
+}
+
+
+export class Mission {
+    id: any = 0;
+    identifiantMission: any = 0;
+    identifiantPilote: any = 0;
+    dateDebutSg: any = 0;
+    dateFinSg: any = 0;
+    dateA3Ans: any = 0;
+    derogation: any = 0;
+    statutMission: any = 0;
+    dateCreation: any = 0;
+    trigrammeCreation: any = 0;
+    dateMaj: any = 0;
+    trigrammeMaj: any = 0;
+    localisation: any = 0;
+    commercialOpen: any = 0;
+}
+
 
 
 /*export class Collab {
@@ -59,33 +100,34 @@ export class Mission {
     localisation: any = 0;
     commercialOpen: any = 0;
 }*/
-
-/*
 export class Prestation {
-    id: any = 0;
-    idPrestation: any = 0;
-    idMission: any = 0;
-    contratDAppli: any = 0;
-    identifiantPilote: any = 0;
-    equipeDepartement: any = 0;/!**!/
-    equipePole: any = 0;
-    equipeDomaine: any = 0;
-    numeroAtg: any = 0;
-    dateDebutPrestation: any = 0;
-    dateFinPrestation: any = 0;
-    numeroPu: any = 0;
-    localisation: any = 0;
-    responsableDePole: any = 0;
-    donneurDOrdre: any = 0;
-    commercialOpen: any = 0;
-    versionPrestation: any = 0;
-    topAtg: any = 0;
-    statutMission: any = 0;
-    dateCreationPrestation: any = 0;
-    utilisateurCreation: any = 0;
-    dateMajPrestation: any = 0;
-    utilisateurMaj: any = 0;
-}*/
+
+    id : any = 0 ;
+    idPrestation : any = 0 ;
+    idMission : any = 0 ;
+    contratDAppli : any = 0 ;
+    identifiantPilote : any = 0 ;
+    equipeDepartement : any = 0 ;
+    equipePole : any = 0 ;
+    equipeDomaine : any = 0 ;
+    numeroAtg : any = 0 ;
+    dateDebutPrestation : any = 0 ;
+    dateFinPrestation : any = 0 ;
+    numeroPu : any = 0 ;
+    localisation : any = 0 ;
+    responsableDePole : any = 0 ;
+    donneurDOrdre : any = 0 ;
+    commercialOpen : any = 0 ;
+    versionPrestation : any = 0 ;
+    topAtg : any = 0 ;
+    statutMission : any = 0 ;
+    dateCreationPrestation : any = 0 ;
+    utilisateurCreation : any = 0 ;
+    dateMajPrestation : any = 0 ;
+    utilisateurMaj : any = 0 ;
+    collaborateur : Collaborateur;
+
+}
 
 export class NumAtg {
     id: any = 0;

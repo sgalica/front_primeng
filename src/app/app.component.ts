@@ -23,7 +23,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     //public version: string = environment.VERSION;
 
-    version = versionLong
+    version = versionLong;
     date = new Date();
 
 
@@ -70,7 +70,6 @@ export class AppComponent implements AfterViewInit, OnInit {
         */
          this.authService.isLoggedIn.subscribe(async(value) => this.isLoggedIn$.next(await value)); // {2}
 
-//this.getModelMatch(0);
     }
 
 

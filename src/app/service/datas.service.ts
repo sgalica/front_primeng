@@ -1,9 +1,19 @@
 ///<reference path="collaborateur.service.ts"/>
 import {Injectable} from '@angular/core';
 import {ResourceService} from "./resource.service";
-import {ContactsStt, Contrat, Departement, Domaine, NumAtg, Pole, Site, SocieteStt} from "../model/referentiel";
+import {
+    ContactsStt,
+    Contrat,
+    Departement,
+    Domaine,
+    NumAtg,
+    Pole,
+    Referenciel,
+    Site,
+    SocieteStt
+} from "../model/referenciel";
 import {HttpClient} from "@angular/common/http";
-import {Prestation} from "../model/prestation";
+import {Prestation} from "../model/_prtation";
 import {Mission} from "../model/mission";
 
 @Injectable()
@@ -13,6 +23,16 @@ export class ContactsSttService extends ResourceService<ContactsStt> {
             httpClient,
             'api',
             'contactsstts');
+    }
+}
+
+@Injectable()
+export class ReferencielService extends ResourceService<Referenciel> {
+    constructor(httpClient: HttpClient) {
+        super(
+            httpClient,
+            'api',
+            'referenciels');
     }
 }
 

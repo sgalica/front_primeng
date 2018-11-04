@@ -107,7 +107,6 @@ import {AdministratorComponent} from "./administrator/administrator.component";
 // import {AdminGuard} from "./service/admin.guard";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {ResourceService} from "./service/resource.service";
-import {ReferentielService} from "./service/referentiel.service";
 import {CollService} from "./service/coll.service";
 import {DataService} from "./service/data.service";
 import {
@@ -119,6 +118,7 @@ import {
     NumAtgService,
     PoleService,
     PrestationService,
+    ReferencielService,
     SiteService,
     SocieteSttService
 } from "./service/datas.service";
@@ -241,7 +241,7 @@ export function tokenGetter() {
         CollaborateurService,
         ResourceService,
         DataService,
-        ReferentielService,
+        ReferencielService,
         NumAtgService,
         MissionService,
         CollService,
@@ -258,8 +258,8 @@ export function tokenGetter() {
         PrestationService,
         SiteService,
         MissionService,
-
-        UserService, JwtHelperService,
+        UserService,
+        JwtHelperService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
 
