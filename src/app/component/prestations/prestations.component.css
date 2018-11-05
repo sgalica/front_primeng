@@ -12,6 +12,14 @@ th input {    width: 100%;}
     text-overflow: ellipsis;
 }
 
+
+p-calendar input {
+/*    display:inline-block;
+    width:100%;*/
+    text-overflow: ellipsis;
+}
+
+
 body table tbody > tr.StatutE  {  /*.ng-star-inserted*/
     background-color : rgba(250,200,240,1);
 }

@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, OnInit, ViewChild} from '@angular/core';
+import {Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
@@ -43,6 +43,7 @@ export class CollaborateursComponent implements OnInit {
     @ViewChild(PrestationsComponent)
     private prestasComponent : PrestationsComponent ;
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
+    @ViewChild('bPrestas') bPrestas:ElementRef;
 
 
     constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService, private componentFactoryResolver: ComponentFactoryResolver) {
@@ -138,6 +139,14 @@ export class CollaborateursComponent implements OnInit {
     selectCollaborateur(event: Event, collaborateur: Collaborateur) {
         this.selectedCollaborateur = collaborateur;
         this.displayDialog = true;
+
+        // Prestas
+        this.prestasComponent.collab=this.selectedCollaborateur;
+        this.prestasComponent.showCollab();
+        this.prestasComponent.prestations = this.selectedCollaborateur.prestations;
+        //this.prestasComponent.selectPrestations(this.selectedCollaborateur.prestations);
+        this.prestasComponent.orderfilterPrestations();
+
         event.preventDefault();
     }
 
@@ -153,11 +162,6 @@ export class CollaborateursComponent implements OnInit {
     }*/
 
     showPrestations() {
-        this.prestasComponent.collab=this.selectedCollaborateur;
-        this.prestasComponent.showCollab();
-        this.prestasComponent.prestations = this.selectedCollaborateur.prestations;
-        //this.prestasComponent.selectPrestations(this.selectedCollaborateur.prestations);
-        this.prestasComponent.orderfilterPrestations();
 
         // Dynamic way
         //(<PrestationsComponent>this.componentRef.instance).collab = this.selectedCollaborateur;
@@ -165,6 +169,12 @@ export class CollaborateursComponent implements OnInit {
         //(<PrestationsComponent>this.componentRef.instance).showCollab(); //ngOnInit();
         //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
         this.showPrestas = (this.showPrestas=="none") ? "block" : "none";
+        //debugger;
+       // var newlabel = (this.showPrestas=="none") ? ["Visualiser les prestations"] : ["Masquer les prestations"];
+       // if (this.bPrestas != undefined)
+       //     this.bPrestas.nativeElement.setAttribute("labels", newlabel );
+
+        this.prestasComponent.updateFilters();
     }
 
     /************************************************************************************************************/

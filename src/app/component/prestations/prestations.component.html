@@ -1,4 +1,8 @@
-
+<style>
+    .ui-calendar {
+        width:100%;
+    }
+</style>
 <p-toolbar>
        <div class="ui-toolbar-group-right">
         <button pButton type="button" label="Nouvelle prestation" icon="pi pi-plus"></button>
@@ -35,11 +39,20 @@
         <!-- FILTRES -->
         <tr>
             <th *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
-                <p-multiSelect  *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="pt.filter($event.value, col.field, 'in')"></p-multiSelect>
+                <p-multiSelect  *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'max-width':'100%', 'min-width':'auto'}" (onChange)="pt.filter($event.value, col.field, 'in')">
+                    <ng-template let-items pTemplate="selectedItems">
+                        <span *ngIf="items.length>1" [style]="{'text-overflow':'ellipsis'}">{{items.length}} sélectionnés</span>
+                        <span *ngIf="items.length==1" [style]="{'text-overflow':'ellipsis'}">{{items[0]}}</span>
+                        <span *ngIf="items.length==0" [style]="{'text-overflow':'ellipsis'}">Sélectionnez</span>
+                    </ng-template>
+                </p-multiSelect>
                 <!--  <input          *ngSwitchCase="'value'" pInputText type="text" (input)="pt_filter( col.field);"> pt.filter($event.value, col.field, col.filterMatchMode)-->
-<!--
-                <p-calendar     *ngSwitchCase="'date'" [(ngModel)]="filtres[col.field].selected" [showIcon]="true" dateFormat="yy-mm-dd" (onSelect)="pt_filter(col.field);"></p-calendar>
--->
+                <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
+                    <p-calendar     [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true" dateFormat="yy-mm-dd" [locale]="fr" (onSelect)="pt_filter(col.field);" (onClearClick)="pt_filter(col.field);" [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}" [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                        <p-header *ngIf="col.field=='prestDateDebut'">A partir de : </p-header>
+                        <p-header *ngIf="col.field=='prestDateFin'">Jusqu'au : </p-header>
+                    </p-calendar>
+                </div>
             </th>
 
             <!--th *ngFor="let col of columns" [ngSwitch]="col.field">

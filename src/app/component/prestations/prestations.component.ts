@@ -48,7 +48,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     // Références
     missions: { label: string, value: number }[];
-    allstatus:{ label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"},{value: "S",label:"Supprimées"},{value: "A",label:"Archivées"} ];
+    allstatus: { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
 
     filteritem : {selected:any, values:SelectItem[], keys:string[], type:string, filtercond:string };
     filtres : filteritem[] = [];
@@ -57,6 +57,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     rowcolors : {};
 
+    fr:any;
     //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
 
 
@@ -125,6 +126,16 @@ export class PrestationsComponent implements OnInit, OnChanges {
             {label: 'Vewa', value: 9},
             {label: 'Vovo', value: 10}
         ];
+        this.fr = {
+            firstDayOfWeek: 1,
+            dayNames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+            dayNamesShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+            dayNamesMin: ["di","Lu","Ma","Me","Je","Ve","Sa"],
+            monthNames: [ "Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre" ],
+            monthNamesShort: [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jui","Jui", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+            today: 'Aujourd\'hui',
+            clear: 'Effacer'
+        };
 
          // Presentation
         this.rowcolors = {"E" : "rgba(rgba(250,200,240,1))", "T" : "rgba(200,200,200,0.2)"  }
@@ -244,7 +255,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
 
     updateFilters() {
-
         this.showHistSelect=false;
         this.initFilters();
 
@@ -253,15 +263,17 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var labels : string[]=[];
         this.prestations.forEach(x => {
 
-                // Retrieve trigramme (done here to avoid double mapping)
-                x.prestIdCollab = x.collaborateur.trigOpen;
+                // Retrieve trigramme if acces by table presta (done here to avoid double foreach)
+                if (x.collaborateur!=undefined)
+                    x.prestIdCollab = x.collaborateur.trigOpen;
 
                 // Get keys
                 for (var column in this.filtres) {
                     switch (column) {
                         case "prestIdCollab" :
                             this.filtres[column].keys[x.prestIdCollab] = x.prestIdCollab;
-                            labels[x.prestIdCollab]= x.prestIdCollab + " ("+x.collaborateur.nom+ " "+x.collaborateur.prenom+")";
+                            labels[x.prestIdCollab]= x.prestIdCollab ;
+                            if (x.collaborateur!=undefined) labels[x.prestIdCollab] += " ("+x.collaborateur.nom+ " "+x.collaborateur.prenom+")";
                         break;
                         default : this.filtres[column].keys[x[column]]="";
                     }
@@ -277,10 +289,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
             switch (column) {
 
                 case "prestStatut" :
+                    var statusdispos = this.allstatus;
+                    //if (!this.modeCollab) statusdispos.splice(3,1);
                     // Add labels ordered as E, T, S, A
-                    for (var i in this.allstatus) {
-                        if ( this.filtres[column].keys.indexOf(this.allstatus[i].value)==-1)
-                            selectitems.push({label: this.allstatus[i].label, value:this.allstatus[i].value});
+                    for (var i in statusdispos) {
+                        if ( this.filtres[column].keys.indexOf(statusdispos[i].value)==-1)
+                            selectitems.push({label: statusdispos[i].label, value:statusdispos[i].value});
                     }
 
                 // Version
@@ -305,7 +319,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             this.filtres[column].values = selectitems;
         }
-        console.log("LES FILTRES", this.filtres);
+        //console.log("LES FILTRES", this.filtres);
 
     }
 
