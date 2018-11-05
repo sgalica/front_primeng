@@ -1,17 +1,16 @@
-///<reference path="collaborateur.service.ts"/>
 import {Injectable} from '@angular/core';
 import {ResourceService} from "./resource.service";
-import {CollaborateurService} from "./collaborateur.service";
-import {ContactsStt, Contrat, Departement, Domaine, Pole, Site, SocieteStt} from "../model/referenciel";
-import {Prestation} from "../model/_prtation";
+import {ContactsStt, Contrat, Site, SocieteStt} from "../model/referenciel";
 import {
+    CategorieService,
+    CollaborateurService,
+    CommercialOpenService,
     ContactsSttService,
     ContratService,
-    DepartementService,
-    DomaineService,
+    DonneurOrdreService,
+    EquipeService,
     MissionService,
     NumAtgService,
-    PoleService,
     PrestationService,
     ReferencielService,
     SiteService,
@@ -25,13 +24,15 @@ export class DataService {
                 private referencielService: ReferencielService,
                 private collaborateurService: CollaborateurService,
                 private contactsSttService: ContactsSttService,
-                private poleService: PoleService,
-                private domaineService: DomaineService,
                 private contratService: ContratService,
-                private departementService: DepartementService,
                 private societeSttService: SocieteSttService,
                 private prestationService: PrestationService,
+                private equipeService: EquipeService,
+                private donneurOrdreService: DonneurOrdreService,
+                private commercialOpenService: CommercialOpenService,
+                private categorieService: CategorieService,
                 private siteService: SiteService,
+
                 private missionService: MissionService) {
     }
 
@@ -56,18 +57,22 @@ export class DataService {
 
             console.log("Contrat match");
             return this.contratService;
-        } else if (object.constructor.name == "Departement") {
+        } else if (object.constructor.name == "Equipe") {
 
             console.log("Departement match");
-            return this.departementService;
-        } else if (object.constructor.name == "Domaine") {
+            return this.equipeService;
+        } else if (object.constructor.name == "Categorie") {
 
             console.log("Domaine match");
-            return this.domaineService;
-        } else if (object.constructor.name == "Pole") {
+            return this.categorieService;
+        } else if (object.constructor.name == "DonneurOrdre") {
 
             console.log("Pole match");
-            return this.poleService;
+            return this.donneurOrdreService;
+        }else if (object.constructor.name == "CommercialOpen") {
+
+            console.log("Pole match");
+            return this.commercialOpenService;
         } else if (object.constructor.name == "Prestation") {
 
             console.log("Prestation match");

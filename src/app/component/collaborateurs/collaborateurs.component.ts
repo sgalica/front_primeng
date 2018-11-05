@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {CollaborateurService} from '../../service/collaborateur.service';
-import {Collaborateur} from '../../model/collaborateur';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
+import {Collaborateur} from "../../model/referenciel";
+import {CollaborateurService} from "../../service/datas.service";
 
 
 @Component({

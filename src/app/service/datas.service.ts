@@ -1,20 +1,21 @@
-///<reference path="collaborateur.service.ts"/>
 import {Injectable} from '@angular/core';
 import {ResourceService} from "./resource.service";
 import {
+    Categorie,
+    Collaborateur,
+    CommercialOpen,
     ContactsStt,
     Contrat,
-    Departement,
-    Domaine,
+    DonneurOrdre,
+    Equipe,
+    Mission,
     NumAtg,
-    Pole,
+    Prestation,
     Referenciel,
     Site,
     SocieteStt
 } from "../model/referenciel";
 import {HttpClient} from "@angular/common/http";
-import {Prestation} from "../model/_prtation";
-import {Mission} from "../model/mission";
 
 @Injectable()
 export class ContactsSttService extends ResourceService<ContactsStt> {
@@ -23,6 +24,32 @@ export class ContactsSttService extends ResourceService<ContactsStt> {
             httpClient,
             'api',
             'contactsstts');
+    }
+}@Injectable()
+export class DonneurOrdreService extends ResourceService<DonneurOrdre> {
+    constructor(httpClient: HttpClient) {
+        super(
+            httpClient,
+            'api',
+            'donneurordres');
+    }
+}@Injectable()
+export class CommercialOpenService extends ResourceService<CommercialOpen> {
+    constructor(httpClient: HttpClient) {
+        super(
+            httpClient,
+            'api',
+            'commercialopens');
+    }
+}
+
+@Injectable()
+export class CollaborateurService extends ResourceService<Collaborateur> {
+    constructor(httpClient: HttpClient) {
+        super(
+            httpClient,
+            'api',
+            'collaborateurs');
     }
 }
 
@@ -66,12 +93,12 @@ export class NumAtgService extends ResourceService<NumAtg> {
 }
 
 @Injectable()
-export class PoleService extends ResourceService<Pole> {
+export class EquipeService extends ResourceService<Equipe> {
     constructor(httpClient: HttpClient) {
         super(
             httpClient,
             'api',
-            'poles');
+            'equipes');
     }
 }
 
@@ -94,23 +121,15 @@ export class ContratService extends ResourceService<Contrat> {
     }
 }
 @Injectable()
-export class DomaineService extends ResourceService<Domaine> {
+export class CategorieService extends ResourceService<Categorie> {
     constructor(httpClient: HttpClient) {
         super(
             httpClient,
             'api',
-            'domaines');
+            'categories');
     }
 }
-@Injectable()
-export class DepartementService extends ResourceService<Departement> {
-    constructor(httpClient: HttpClient) {
-        super(
-            httpClient,
-            'api',
-            'departements');
-    }
-}
+
 @Injectable()
 export class SocieteSttService extends ResourceService<SocieteStt> {
     constructor(httpClient: HttpClient) {

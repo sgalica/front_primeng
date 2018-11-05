@@ -1,13 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {PrestationService} from '../../service/prestation.service';
-import {Prestation} from '../../model/_prtation';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CollaborateurService} from '../../service/collaborateurBis.service';
-import {Collaborateur} from '../../model/collaborateur';
 import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
+import {Collaborateur, Prestation} from "../../model/referenciel";
+import {CollaborateurService, PrestationService} from "../../service/datas.service";
 
 interface SelectedPrestas {
     trigcollab: string;
@@ -69,25 +67,25 @@ export class PrestationsComponent implements OnInit {
         // Cols depending on ID
         this.cols = [];
         if (id == undefined || id == "")
-            Array.prototype.push.apply(this.cols, [{header: 'Identifiant Pilote', field: 'prestIdPilote'}]); //
+            Array.prototype.push.apply(this.cols, [{header: 'Identifiant Pilote', field: 'identifiantPilote'}]); //
 
         Array.prototype.push.apply(this.cols, [
 //          {header: 'Id', field:'prestId'},
 //          {header: 'Id Mission', field:'prestIdMission'},
-            {header: 'Début', field: 'prestDateDebut'},
-            {header: 'Fin', field: 'prestDateFin'},
-            {header: 'Contrat', field: 'prestContrat'},
-            {header: 'ATG', field: 'prestATG'},
-            {header: 'Département', field: 'prestDepartement'},
-            {header: 'Pôle', field: 'prestPole'},
-            {header: 'Domaine', field: 'prestDomaine'},
-            {header: 'Site', field: 'prestSite'},
-            {header: 'PU', field: 'prestPU'},
+            {header: 'Début', field: 'dateDebutPrestation'},
+            {header: 'Fin', field: 'dateFinPrestation'},
+            {header: 'Contrat', field: 'contratDAppli'},
+            {header: 'ATG', field: 'numeroAtg'},
+            {header: 'Département', field: 'equipeDepartement'},
+            {header: 'Pôle', field: 'equipePole'},
+            {header: 'Domaine', field: 'equipeDomaine'},
+            {header: 'Site', field: 'localisation'},
+            {header: 'PU', field: 'numeroPu'},
 //          {header: 'Resp. Pôle', field:'prestRespPoleSG'},
 //          {header: 'd_ordre', field:'prestDonneurOrdreSG'},
-            {header: 'Type', field: 'prestType'},
-            {header: 'Statut', field: 'prestStatut'},
-            {header: 'Version', field: 'prestVersion'}
+ //           {header: 'Type', field: 'prestType'},
+            {header: 'Statut', field: 'statutMission'},
+            {header: 'Version', field: 'versionPrestation'}
 /*          {header: 'com_open', field:'prestCommercialOPEN'},
 
             {header: 'date_c', field:'prestDateCreation'},
@@ -112,30 +110,6 @@ export class PrestationsComponent implements OnInit {
 
         this.displayDialog = false;
 
-        this.missions = [
-            {label: 'Aubi', value: 1},
-            {label: 'Bamz', value: 2},
-            {label: 'Fita', value: 3},
-            {label: 'Forud', value: 4},
-            {label: 'Honada', value: 5},
-            {label: 'Jagar', value: 6},
-            {label: 'Mercedes', value: 7},
-            {label: 'Renaud', value: 8},
-            {label: 'Vewa', value: 9},
-            {label: 'Vovo', value: 10}
-        ];
-
-        this.status = [
-            {label: 'Tous', value: ''},
-            {label: 'En cours', value: 'E'},
-            {label: 'Terminée', value: 'T'},
-            {label: 'Supprimée', value: 'S'}
-        ];
-        this.versions = [
-            {label: 'Tous', value: ''},
-            {label: 'Actuelle', value: 'A'}
-            //{label: 'Anciennes', value: 'H'},
-        ];
 
     }
 
@@ -147,7 +121,7 @@ export class PrestationsComponent implements OnInit {
     }
 
     savePrestation(event: Event, prestation: Prestation) {
-        this.prestationService.save(prestation)
+        this.prestationService.create(prestation)
             .pipe(first())
             .subscribe(
                 data => {
@@ -160,9 +134,9 @@ export class PrestationsComponent implements OnInit {
     }
 
     deletePrestation(event: Event, prestation: Prestation) {
-        prestation.prestStatut = (prestation.prestStatut == "S") ? "E" : "S";
+        prestation.statutMission = (prestation.statutMission == "S") ? "E" : "S";
 
-        this.prestationService.save(prestation)
+        this.prestationService.create(prestation)
             .pipe(first())
             .subscribe(
                 data => {
@@ -203,12 +177,12 @@ export class PrestationsComponent implements OnInit {
 
     loadAllPrestations() {
 
-        this.prestationService.getAll().pipe(first()).subscribe(prestations => {
+        this.prestationService.list().pipe(first()).subscribe(prestations => {
 
             this.prestations = prestations.sort(this.orderDateDebutEtVersion);
 
             this.prestations.map(x => {
-                x.prestIdPilote = x.collaborateur.trigramme;
+                x.identifiantPilote = x.collaborateur.trigramme;
             });
 
             this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');
@@ -220,7 +194,7 @@ export class PrestationsComponent implements OnInit {
     loadPrestationsCollab(idemployee) {
 
         // Get collab info
-        this.employeeService.getById(idemployee).pipe(first()).subscribe(p_employee => {
+        this.employeeService.read(idemployee).pipe(first()).subscribe(p_employee => {
             this.employee = p_employee;
             this.employee_name = this.employee.prenom + " " + this.employee.nom;
             this.prestations = p_employee.prestations;
@@ -238,9 +212,9 @@ export class PrestationsComponent implements OnInit {
     orderDateDebutEtVersion(a, b) {
         let after = 0;
 
-        after = a.prestDateDebut > b.prestDateDebut ? -1 : a.prestDateDebut < b.prestDateDebut ? 1 : 0;
+        after = a.dateDebutPrestation > b.dateDebutPrestation ? -1 : a.dateDebutPrestation < b.dateDebutPrestation ? 1 : 0;
         if (after == 0) {
-            after = a.prestVersion > b.prestVersion ? -1 : a.prestVersion < b.prestVersion ? 1 : 0;
+            after = a.versionPrestation > b.versionPrestation ? -1 : a.versionPrestation < b.versionPrestation ? 1 : 0;
         }
         return after;
     }

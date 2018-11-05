@@ -101,22 +101,22 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PrestationsComponent} from './component/prestations/prestations.component';
 import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
-import {CollaborateurService} from './service/collaborateur.service';
 import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
 // import {AdminGuard} from "./service/admin.guard";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {ResourceService} from "./service/resource.service";
-import {CollService} from "./service/coll.service";
 import {DataService} from "./service/data.service";
 import {
+    CategorieService,
+    CollaborateurService,
+    CommercialOpenService,
     ContactsSttService,
     ContratService,
-    DepartementService,
-    DomaineService,
+    DonneurOrdreService,
+    EquipeService,
     MissionService,
     NumAtgService,
-    PoleService,
     PrestationService,
     ReferencielService,
     SiteService,
@@ -244,18 +244,17 @@ export function tokenGetter() {
         ReferencielService,
         NumAtgService,
         MissionService,
-        CollService,
         PrestationService,
         AuthService,
         NumAtgService,
-        CollaborateurService,
         ContactsSttService,
-        PoleService,
-        DomaineService,
         ContratService,
-        DepartementService,
         SocieteSttService,
         PrestationService,
+        EquipeService,
+        DonneurOrdreService,
+        CategorieService,
+        CommercialOpenService,
         SiteService,
         MissionService,
         UserService,

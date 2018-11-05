@@ -189,7 +189,8 @@ export class AdministratorComponent implements OnInit {
 
 
                         return camelize(y);
-                    }).filter(z => !/null/.test(z[`id`]))
+
+                    })
                 );
 
                 // formate le nom des colonnes au format Camel
