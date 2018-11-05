@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="models updated with v4 test datas">
+    <list default="true" id="993f3f3a-0350-45ad-b530-5a263638e7e6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/administrator/administrator.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/administrator/administrator.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_versions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/_versions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestas_collab.component.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -302,17 +304,17 @@
     <session id="-1775702951">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
-          <entry key="project.open.time.1" value="1" />
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.15" value="1" />
           <entry key="project.open.time.18" value="1" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="Angular2LanguageService" value="4" />
+          <entry key="Angular2LanguageService" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -322,7 +324,7 @@
           <entry key="html" value="5" />
           <entry key="mission" value="1" />
           <entry key="sql" value="1" />
-          <entry key="ts" value="69" />
+          <entry key="ts" value="72" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -331,13 +333,13 @@
           <entry key="Database Element" value="2" />
           <entry key="HTML" value="5" />
           <entry key="Scratch" value="1" />
-          <entry key="TypeScript" value="69" />
+          <entry key="TypeScript" value="72" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="45" />
-          <entry key="ts" value="4885" />
+          <entry key="ts" value="4965" />
           <entry key="txt" value="121" />
         </counts>
       </usages-collector>
@@ -345,7 +347,7 @@
         <counts>
           <entry key="HTML" value="45" />
           <entry key="PLAIN_TEXT" value="121" />
-          <entry key="TypeScript" value="4885" />
+          <entry key="TypeScript" value="4965" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -360,31 +362,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/service/data.service.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="46" column="38" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/model/referenciel.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="82" column="20" selection-start-line="82" selection-start-column="4" selection-end-line="82" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-624">
-              <caret line="141" column="25" lean-forward="true" selection-start-line="141" selection-start-column="25" selection-end-line="141" selection-end-column="25" />
+            <state relative-caret-position="274">
+              <caret line="266" column="22" selection-start-line="266" selection-start-column="22" selection-end-line="266" selection-end-column="22" />
               <folding>
-                <element signature="e#0#59#0" expanded="true" />
+                <element signature="e#0#92#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/model/apiresponse.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="14" selection-start-column="14" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.spec.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#0#73#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -393,8 +397,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="324" column="29" lean-forward="true" selection-start-line="324" selection-start-column="29" selection-end-line="324" selection-end-column="29" />
+            <state relative-caret-position="340">
+              <caret line="331" column="58" lean-forward="true" selection-start-line="331" selection-start-column="58" selection-end-line="331" selection-end-column="58" />
               <folding>
                 <element signature="n#!!block;n#getModelMatch#0;n#AdministratorComponent#0" />
               </folding>
@@ -414,8 +418,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="78" column="62" lean-forward="true" selection-start-line="78" selection-start-column="62" selection-end-line="78" selection-end-column="62" />
+            <state relative-caret-position="544">
+              <caret line="78" column="62" selection-start-line="78" selection-start-column="62" selection-end-line="78" selection-end-column="62" />
               <folding>
                 <element signature="n#p-tabPanel#0;n#p-tabView#0;n#!!top" />
                 <element signature="n#style#0;n#div#0;n#p-header#0;n#p-accordionTab#0;n#p-accordion#0;n#p-tabPanel#1;n#p-tabView#0;n#!!top" expanded="true" />
@@ -433,7 +437,7 @@
         <entry file="file://$PROJECT_DIR$/src/app/app.routes.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="374">
-              <caret line="22" column="24" lean-forward="true" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="40" />
+              <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="40" />
               <folding>
                 <element signature="e#0#53#0" expanded="true" />
               </folding>
@@ -444,8 +448,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/service/datas.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="25" column="21" lean-forward="true" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+            <state relative-caret-position="425">
+              <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -456,8 +460,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="256" column="29" selection-start-line="256" selection-start-column="29" selection-end-line="256" selection-end-column="29" />
+            <state relative-caret-position="331">
+              <caret line="258" column="17" selection-start-line="258" selection-start-column="17" selection-end-line="258" selection-end-column="17" />
               <folding>
                 <element signature="e#0#1375#0" expanded="true" />
                 <element signature="e#3145#3211#0" expanded="true" />
@@ -600,10 +604,10 @@
         <option value="$PROJECT_DIR$/src/app/model/referenciel2.ts" />
         <option value="$PROJECT_DIR$/src/app/service/datas.service.ts" />
         <option value="$PROJECT_DIR$/src/app/service/data.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/src/app/model/referenciel.ts" />
         <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" />
         <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.html" />
+        <option value="$PROJECT_DIR$/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" />
       </list>
     </option>
@@ -644,14 +648,15 @@
     <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectReloadState">
+    <option name="STATE" value="1" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -726,6 +731,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -736,7 +743,7 @@
     <property name="SearchEverywhereHistoryKey" value="SystemJS.&#9;FILE&#9;file://C:/Users/fbo14041/WebstormProjects/atg-app-client/node_modules/@angular/core/src/linker/system_js_ng_module_factory_loader.d.ts&#10;app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541434743148" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541434921820" />
     <property name="database.console.LAST_STATE" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../atg-app-server" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -760,19 +767,19 @@
     <property name="typescript-compiler-editor-notification" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\assets\demo\images\slides" />
-      <recent name="C:\Users\UNIK\WebstormProjects\ATG_avalon_theme\src\app\components" />
-      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\assets\layout\images\icones" />
-      <recent name="C:\Users\UNIK\WebstormProjects\atf_front_primeng\src\app\model" />
-      <recent name="C:\Users\UNIK\WebstormProjects\atf_front_primeng\src\app\domain" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\fbo14041\IdeaProjects\atf_front_primeng\src\app\model" />
       <recent name="C:\Users\fbo14041\IdeaProjects\atf_front_primeng\src\app\service" />
       <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\assets\layout\images" />
       <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\app\service" />
       <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\app\model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\assets\demo\images\slides" />
+      <recent name="C:\Users\UNIK\WebstormProjects\ATG_avalon_theme\src\app\components" />
+      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\assets\layout\images\icones" />
+      <recent name="C:\Users\UNIK\WebstormProjects\atf_front_primeng\src\app\model" />
+      <recent name="C:\Users\UNIK\WebstormProjects\atf_front_primeng\src\app\domain" />
     </key>
   </component>
   <component name="RestServicesNavigator">
@@ -812,7 +819,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="" />
+      <changelist id="993f3f3a-0350-45ad-b530-5a263638e7e6" name="Default Changelist" comment="" />
       <created>1505196646403</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -912,6 +919,7 @@
       <workItem from="1540805733986" duration="73892000" />
       <workItem from="1541413995305" duration="1944000" />
       <workItem from="1541415975993" duration="8041000" />
+      <workItem from="1541435024109" duration="646000" />
     </task>
     <task id="LOCAL-00030" summary="message success managed">
       <created>1538913936235</created>
@@ -1260,7 +1268,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="627761000" />
+    <option name="totallyTimeSpent" value="628414000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1275,7 +1283,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31982943" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32356077" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="3" />
@@ -1286,7 +1294,7 @@
       <window_info id="Learn" order="8" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" weight="0.32827735" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49840087" visible="true" weight="0.32827735" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1409,12 +1417,6 @@
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/atg-app-client.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tsconfig.spec.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/tsconfig.app.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1577,16 +1579,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/referenciel.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="121" column="17" selection-start-line="121" selection-start-column="4" selection-end-line="121" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/data2.service.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/service/data2.service.ts" />
     <entry file="file://$PROJECT_DIR$/src/app/model/resource.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -1594,44 +1587,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="78" column="62" lean-forward="true" selection-start-line="78" selection-start-column="62" selection-end-line="78" selection-end-column="62" />
-          <folding>
-            <element signature="n#p-tabPanel#0;n#p-tabView#0;n#!!top" />
-            <element signature="n#style#0;n#div#0;n#p-header#0;n#p-accordionTab#0;n#p-accordion#0;n#p-tabPanel#1;n#p-tabView#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="324" column="29" lean-forward="true" selection-start-line="324" selection-start-column="29" selection-end-line="324" selection-end-column="29" />
-          <folding>
-            <element signature="n#!!block;n#getModelMatch#0;n#AdministratorComponent#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/datas.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="25" column="21" lean-forward="true" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/service/data.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
+        <state relative-caret-position="493">
           <caret line="46" column="38" selection-start-line="46" selection-start-column="24" selection-end-line="46" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/model/referenciel.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1394">
+          <caret line="82" column="20" selection-start-line="82" selection-start-column="4" selection-end-line="82" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -1642,10 +1608,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="78" column="62" selection-start-line="78" selection-start-column="62" selection-end-line="78" selection-end-column="62" />
+          <folding>
+            <element signature="n#p-tabPanel#0;n#p-tabView#0;n#!!top" />
+            <element signature="n#style#0;n#div#0;n#p-header#0;n#p-accordionTab#0;n#p-accordion#0;n#p-tabPanel#1;n#p-tabView#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/app.routes.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/service/datas.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="256" column="29" selection-start-line="256" selection-start-column="29" selection-end-line="256" selection-end-column="29" />
+        <state relative-caret-position="331">
+          <caret line="258" column="17" selection-start-line="258" selection-start-column="17" selection-end-line="258" selection-end-column="17" />
           <folding>
             <element signature="e#0#1375#0" expanded="true" />
             <element signature="e#3145#3211#0" expanded="true" />
@@ -1653,29 +1653,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/app.routes.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.spec.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="24" lean-forward="true" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="40" />
+        <state>
           <folding>
-            <element signature="e#0#53#0" expanded="true" />
+            <element signature="e#0#73#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/referenciel.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestas_collab.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="82" column="20" selection-start-line="82" selection-start-column="4" selection-end-line="82" selection-end-column="20" />
+        <state relative-caret-position="85">
+          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/model/apiresponse.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="14" selection-start-column="14" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="331" column="58" lean-forward="true" selection-start-line="331" selection-start-column="58" selection-end-line="331" selection-end-column="58" />
+          <folding>
+            <element signature="n#!!block;n#getModelMatch#0;n#AdministratorComponent#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-624">
-          <caret line="141" column="25" lean-forward="true" selection-start-line="141" selection-start-column="25" selection-end-line="141" selection-end-column="25" />
+        <state relative-caret-position="274">
+          <caret line="266" column="22" selection-start-line="266" selection-start-column="22" selection-end-line="266" selection-end-column="22" />
           <folding>
-            <element signature="e#0#59#0" expanded="true" />
+            <element signature="e#0#92#0" expanded="true" />
           </folding>
         </state>
       </provider>

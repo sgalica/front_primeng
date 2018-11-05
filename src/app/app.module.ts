@@ -122,6 +122,7 @@ import {
     SiteService,
     SocieteSttService
 } from "./service/datas.service";
+import {DatePipe} from "@angular/common";
 
 // used to create fake backend
 
@@ -255,6 +256,7 @@ export function tokenGetter() {
         DonneurOrdreService,
         CategorieService,
         CommercialOpenService,
+        DatePipe,
         SiteService,
         MissionService,
         UserService,
