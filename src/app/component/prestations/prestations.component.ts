@@ -134,7 +134,7 @@ export class PrestationsComponent implements OnInit {
     }
 
     deletePrestation(event: Event, prestation: Prestation) {
-        prestation.statutMission = (prestation.statutMission == "S") ? "E" : "S";
+        prestation.statutPrestation = (prestation.statutPrestation == "S") ? "E" : "S";
 
         this.prestationService.create(prestation)
             .pipe(first())
@@ -182,7 +182,7 @@ export class PrestationsComponent implements OnInit {
             this.prestations = prestations.sort(this.orderDateDebutEtVersion);
 
             this.prestations.map(x => {
-                x.identifiantPilote = x.collaborateur.trigramme;
+                x.trigramme = x.collaborateur.trigramme;
             });
 
             this.pt.filter(this.selectedPrestas.statut, 'prestStatut', 'equals');

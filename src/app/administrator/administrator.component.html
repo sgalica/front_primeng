@@ -1,10 +1,9 @@
-
 <p-tabView>
     <p-tabPanel header="Utilisateurs">
         <p-toolbar>
             <div class="ui-toolbar-group-left">
                 <button pButton type="button" label="Créer un utilisateur" icon="pi pi-fw pi-user-plus"
-                        class="ui-button-success"  [routerLink]="['/register']" ></button>
+                        class="ui-button-success" [routerLink]="['/register']"></button>
             </div>
         </p-toolbar>
         <br>
@@ -12,13 +11,13 @@
                  columnResizeMode="expand" [responsive]="true" #tt [columns]="allUsersCols" [value]="allUsers"
                  [paginator]="true" [rows]="10">
 
-        <!--    <ng-template pTemplate="caption">
-                <div style="text-align:left">
-                    <p-multiSelect [options]="allUsersCols" [(ngModel)]="allUsers" optionLabel="header"
-                                   selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
-                                   defaultLabel="Choose Columns"></p-multiSelect>
-                </div>
-            </ng-template>-->
+            <!--    <ng-template pTemplate="caption">
+                    <div style="text-align:left">
+                        <p-multiSelect [options]="allUsersCols" [(ngModel)]="allUsers" optionLabel="header"
+                                       selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
+                                       defaultLabel="Choose Columns"></p-multiSelect>
+                    </div>
+                </ng-template>-->
 
             <ng-template pTemplate="header" let-columns>
                 <tr>
@@ -32,7 +31,7 @@
                 <tr [pSelectableRow]="rowData">
 
                     <td *ngFor="let col of columns">
-                        <a *ngIf="col=='roles'" ><a *ngFor="let obj of rowData[col]">{{obj.name}} </a></a>
+                        <a *ngIf="col=='roles'"><a *ngFor="let obj of rowData[col]">{{obj.name}} </a></a>
                         <a *ngIf="col!=='roles'">{{rowData[col]}}</a>
                     </td>
                     <td class="cta_collabs">
@@ -73,11 +72,12 @@
         <br>
 
 
-        <p-accordion [multiple]="true" *ngFor="let item of all_sheet_name; let i = index"  >
+        <p-accordion [multiple]="true" *ngFor="let item of all_sheet_name; let i = index">
             <p-accordionTab header="">
                 <p-header class="" style="">
 
-                    <div class="ui-toolbar-group-left" style="position:absolute;top:5%;left: 40px"><a>{{all_sheet_name[i]}}</a></div>
+                    <div class="ui-toolbar-group-left" style="position:absolute;top:5%;left: 40px"><a>{{all_sheet_name[i]}}</a>
+                    </div>
                     <div class="ui-toolbar-group-right" style="position:absolute;top:5%;right:10px">
                         <button pButton type="button" label="Importer la table" icon="pi pi-upload"
                                 class="ui-button-success" (click)="saveRefTable(alltable[i],false)"></button>
@@ -85,7 +85,7 @@
                 </p-header>
 
                 <p-table [style]="{'overflow':'auto!important'}" [resizableColumns]="true"
-                         columnResizeMode="expand" [responsive]="true"  [columns]="columns[i]" [value]="alltable[i]"
+                         columnResizeMode="expand" [responsive]="true" [columns]="columns[i]" [value]="alltable[i]"
                          [paginator]="true" [rows]="10">
 
                     <ng-template pTemplate="header" let-columns>
@@ -109,15 +109,10 @@
             </p-accordionTab>
 
 
-        </p-accordion>    </p-tabPanel>
+        </p-accordion>
+    </p-tabPanel>
 
 </p-tabView>
-
-
-
-
-
-
 
 
 <!--
