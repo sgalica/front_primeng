@@ -2,11 +2,7 @@
     <div class="ui-toolbar-group-right">
         <button pButton type="button" label="Nouveau collaborateur" icon="pi pi-plus"
                 (click)="afficherLaSaisie($event)"></button>
-
     </div>
-
-
-
 </p-toolbar>
 <br>
 
@@ -14,7 +10,7 @@
     <ng-template pTemplate="caption">
         <div class="ui-toolbar-group-left">La liste des collaborateurs</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="search" pInputText size="50" placeholder="Global Filter"
+        <input type="search" pInputText size="50" placeholder="Chercher dans la liste"
                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
         <div class="ui-toolbar-group-right">
             <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="entete"
@@ -42,7 +38,7 @@
             </td>
             <td class="cta_collabs">
                 <div class="ui-toolbar-group-right">
-                    <button pButton type="button" icon="pi pi-search"></button>
+                    <button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, rowData)"></button>
                     <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
                     <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
                 </div>
@@ -52,9 +48,9 @@
     </ng-template>
 </p-table>
 
-<p-dialog header="Nouveau collaborateur" [(visible)]="displayDialog" [responsive]="true" [modal]="true"
-          [styleClass]="'importcsv'">
 
+
+<p-dialog header="{{title}}" [(visible)]="displayDialog" [responsive]="true" [modal]="true" [styleClass]="'importcsv'">
 
     <p-tabView>
         <p-tabPanel header="création" leftIcon="pi pi-calendar">
@@ -132,13 +128,23 @@
                     </div>
                 </div>
             </div>
+
+            <!-- PRESTATIONS -->
+            <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
+            <div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div>
+            <!-- Dynamic way : ng-template ad-host></ng-template-->
+
+            <!-- FOOTER -->
             <p-footer>
                 <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                    <button pButton type="button" label="Créer les collaborateurs" icon="pi pi-upload"
-                            class="ui-button-success"
+                    <button pButton type="button" label="Créer les collaborateurs" icon="pi pi-upload" class="ui-button-success"
                             (click)="saveNewCollaborateur()"></button>
+
+                    <button #bPrestas pButton type="button" label="Visualiser les prestations" class="ui-button-success"
+                            (click)="showPrestations()"></button>
                 </div>
             </p-footer>
+
         </p-tabPanel>
         <p-tabPanel header="Importer" leftIcon="pi pi-inbox">
 

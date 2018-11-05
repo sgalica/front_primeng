@@ -1,4 +1,8 @@
-
+<style>
+    .ui-calendar {
+        width:100%;
+    }
+</style>
 <p-toolbar>
        <div class="ui-toolbar-group-right">
         <button pButton type="button" label="Nouvelle prestation" icon="pi pi-plus"></button>
@@ -10,23 +14,49 @@
    <p></p>
 </div>
 
-<p-table #pt [columns]="cols" [value]="prestations" [paginator]="true" [rows]="10">
+<p-table #pt [columns]="selectedColumns" [value]="prestations" [paginator]="true" [rows]="10">
 
     <ng-template pTemplate="caption">
         <div class="ui-toolbar-group-left">PRESTATIONS {{employee_name}}</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="text" pInputText size="50" placeholder="Rechercher dans la liste" (input)="pt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        <input type="text" pInputText size="50" placeholder="Chercher dans la liste" (input)="pt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+
+        <div class="ui-toolbar-group-right">
+            <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"
+                           selectedItemsLabel="{0} colonnes sélectionnées" [style]="{minWidth: '200px'}"
+                           defaultLabel="Choix des colonnes"></p-multiSelect>
+        </div>
     </ng-template>
 
     <ng-template pTemplate="header" let-columns>
-        <tr>
-            <th *ngFor="let col of cols">{{col.header}}</th>
-            <th style="border-top:none; background-color:#f5f5f5; width:120px"></th>
-        </tr>
 
         <tr>
-            <th *ngFor="let col of columns" [ngSwitch]="col.field">
-                <input *ngSwitchCase="'prestIdPilote'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
+            <th *ngFor="let col of columns">{{col.header}}</th>
+            <th style="border-top:none; background-color:#f5f5f5; width:140px"></th>
+        </tr>
+
+
+        <!-- FILTRES -->
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
+                <p-multiSelect  *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'max-width':'100%', 'min-width':'auto'}" (onChange)="pt.filter($event.value, col.field, 'in')">
+                    <ng-template let-items pTemplate="selectedItems">
+                        <span *ngIf="items.length>1" [style]="{'text-overflow':'ellipsis'}">{{items.length}} sélectionnés</span>
+                        <span *ngIf="items.length==1" [style]="{'text-overflow':'ellipsis'}">{{items[0]}}</span>
+                        <span *ngIf="items.length==0" [style]="{'text-overflow':'ellipsis'}">Sélectionnez</span>
+                    </ng-template>
+                </p-multiSelect>
+                <!--  <input          *ngSwitchCase="'value'" pInputText type="text" (input)="pt_filter( col.field);"> pt.filter($event.value, col.field, col.filterMatchMode)-->
+                <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
+                    <p-calendar     [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true" dateFormat="yy-mm-dd" [locale]="fr" (onSelect)="pt_filter(col.field);" (onClearClick)="pt_filter(col.field);" [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}" [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                        <p-header *ngIf="col.field=='prestDateDebut'">A partir de : </p-header>
+                        <p-header *ngIf="col.field=='prestDateFin'">Jusqu'au : </p-header>
+                    </p-calendar>
+                </div>
+            </th>
+
+            <!--th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <p-multiSelect *ngSwitchCase="'prestIdCollab'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="this.pt.filter($event.target.value, col.field, 'in');"></p-multiSelect>
                 <input *ngSwitchCase="'prestDateDebut'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
                 <input *ngSwitchCase="'prestDateFin'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
                 <input *ngSwitchCase="'prestContrat'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
@@ -36,11 +66,14 @@
                 <input *ngSwitchCase="'prestDomaine'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
                 <input *ngSwitchCase="'prestSite'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
                 <input *ngSwitchCase="'prestPU'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
-                <input *ngSwitchCase="'prestType'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
-                <p-dropdown *ngSwitchCase="'prestVersion'" [options]="versions" [(ngModel)]="selectedPrestas.version" [style]="{'width':'auto', 'min-width':'auto'}" [showClear]="true" (onChange)="pt.filter($event.value, 'prestVersionActuelle', 'equals')"></p-dropdown>
-                <!--input *ngSwitchCase="'prestVersion'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)"-->
-                <p-dropdown *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.statut" [style]="{'width':'auto', 'min-width':'auto'}" [showClear]="true" (onChange)="pt.filter($event.value, col.field, 'equals')"></p-dropdown>
-            </th>
+                <input *ngSwitchCase="'prestType'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)"-->
+                    <!--p-dropdown *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.statut" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-dropdown-->
+                    <!--p-multiSelect *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.status" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-multiSelect-->
+                <!--p-multiSelect *ngSwitchCase="'prestStatut'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-multiSelect-->
+
+                <!--div *ngSwitchCase="'prestVersion'"><p-dropdown *ngIf="showHistSelect" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-dropdown></div-->
+                    <!--input *ngSwitchCase="'prestVersion'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)"-->
+            <!--/th-->
         </tr>
     </ng-template>
 
@@ -49,9 +82,9 @@
         <tr [pSelectableRow]="rowData" >
 
             <!-- DataRows -->
-            <td *ngFor="let col of columns"  >
-                <!--<a *ngSwitchCase="'prestIdPilote'" routerLink="/prestations/collab/{{rowData['collaborateur'].id}}">{{rowData['collaborateur'].trigramme}}</a>-->
-                <span >{{rowData[col.field]}}</span>
+            <td *ngFor="let col of columns">
+                <!--<a *ngSwitchCase="'prestIdCollab'" routerLink="/prestations/collab/{{rowData['collaborateur'].id}}">{{rowData['collaborateur'].trigOpen}}</a>-->
+                <span>{{rowData[col.field]}}</span>
             </td>
 
 
@@ -64,14 +97,12 @@
             </td>
         </tr>
 
-
-
     </ng-template>
 </p-table>
 
 
 
-<p-dialog header="Prestation" [(visible)]="displayDialog" [responsive]="true" [modal]="true" >
+<p-dialog *ngIf="displayDialogPresta" header="Prestation"  [(visible)]="displayDialogPresta" [responsive]="true" [modal]="true" >
 
     <!--span class="ui-inputgroup-addon">Identifiant</span>
     <input type="text" pInputText placeholder="identifiant" value="{{selectedPrestation.prestId}}"-->
@@ -105,7 +136,7 @@
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Id pilote :</span>
-                <input type="text" pInputText placeholder="Trigramme open" value="{{selectedPrestation.prestIdPilote}}">
+                <input type="text" pInputText placeholder="Trigramme open" value="{{selectedPrestation.prestIdCollab}}">
             </div>
         </div>
 
@@ -216,7 +247,7 @@
         </div>
         <div class="ui-g-12 ui-md-4">
             <span class="ui-inputgroup-addon">Statut :</span>
-            <p-dropdown [options]="status" [(ngModel)]="selectedPrestation.prestStatut" placeholder="" [showClear]="true"></p-dropdown>
+            <p-dropdown [options]="allstatus" [(ngModel)]="filtres['prestStatut'].selected" placeholder="" [showClear]="true"></p-dropdown>
         </div>
 
     </div>
