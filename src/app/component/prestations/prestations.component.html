@@ -1,17 +1,17 @@
 <style>
     .ui-calendar {
-        width:100%;
+        width: 100%;
     }
 </style>
 <p-toolbar>
-       <div class="ui-toolbar-group-right">
+    <div class="ui-toolbar-group-right">
         <button pButton type="button" label="Nouvelle prestation" icon="pi pi-plus"></button>
         <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
         <!--<i class="pi pi-bars"></i>-->
-        </div>
+    </div>
 </p-toolbar>
-<div >
-   <p></p>
+<div>
+    <p></p>
 </div>
 
 <p-table #pt [columns]="selectedColumns" [value]="prestations" [paginator]="true" [rows]="10">
@@ -19,7 +19,8 @@
     <ng-template pTemplate="caption">
         <div class="ui-toolbar-group-left">PRESTATIONS {{employee_name}}</div>
         <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="text" pInputText size="50" placeholder="Chercher dans la liste" (input)="pt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        <input type="text" pInputText size="50" placeholder="Chercher dans la liste"
+               (input)="pt.filterGlobal($event.target.value, 'contains')" style="width:auto">
 
         <div class="ui-toolbar-group-right">
             <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"
@@ -39,18 +40,27 @@
         <!-- FILTRES -->
         <tr>
             <th *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
-                <p-multiSelect  *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'max-width':'100%', 'min-width':'auto'}" (onChange)="pt.filter($event.value, col.field, 'in')">
-                    <ng-template let-items pTemplate="selectedItems">
+                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values"
+                               [(ngModel)]="filtres[col.field].selected"
+                               [style]="{'max-width':'100%', 'min-width':'auto'}"
+                               (onChange)="pt.filter($event.value, col.field, 'in')"
+                               selectedItemsLabel="{0} sélectionnées"
+                                maxSelectedLabels="1"
+                >
+                   <!-- <ng-template let-items pTemplate="selectedItems">
                         <span *ngIf="items.length>1" [style]="{'text-overflow':'ellipsis'}">{{items.length}} sélectionnés</span>
                         <span *ngIf="items.length==1" [style]="{'text-overflow':'ellipsis'}">{{items[0]}}</span>
                         <span *ngIf="items.length==0" [style]="{'text-overflow':'ellipsis'}">Sélectionnez</span>
-                    </ng-template>
+                    </ng-template>-->
                 </p-multiSelect>
-                <!--  <input          *ngSwitchCase="'value'" pInputText type="text" (input)="pt_filter( col.field);"> pt.filter($event.value, col.field, col.filterMatchMode)-->
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
-                    <p-calendar     [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true" dateFormat="yy-mm-dd" [locale]="fr" (onSelect)="pt_filter(col.field);" (onClearClick)="pt_filter(col.field);" [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}" [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
-                        <p-header *ngIf="col.field=='prestDateDebut'">A partir de : </p-header>
-                        <p-header *ngIf="col.field=='prestDateFin'">Jusqu'au : </p-header>
+                    <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
+                                dateFormat="yy-mm-dd" [locale]="fr" (onSelect)="pt_filter(col.field);"
+                                (onClearClick)="pt_filter(col.field);"
+                                [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
+                                [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                        <p-header *ngIf="col.field=='dateDebutPrestation'">A partir de :</p-header>
+                        <p-header *ngIf="col.field=='dateFinPrestation'">Jusqu'au :</p-header>
                     </p-calendar>
                 </div>
             </th>
@@ -67,32 +77,34 @@
                 <input *ngSwitchCase="'prestSite'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
                 <input *ngSwitchCase="'prestPU'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
                 <input *ngSwitchCase="'prestType'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)"-->
-                    <!--p-dropdown *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.statut" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-dropdown-->
-                    <!--p-multiSelect *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.status" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-multiSelect-->
-                <!--p-multiSelect *ngSwitchCase="'prestStatut'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-multiSelect-->
+            <!--p-dropdown *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.statut" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-dropdown-->
+            <!--p-multiSelect *ngSwitchCase="'prestStatut'" [options]="status" [(ngModel)]="selectedPrestas.status" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-multiSelect-->
+            <!--p-multiSelect *ngSwitchCase="'prestStatut'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-multiSelect-->
 
-                <!--div *ngSwitchCase="'prestVersion'"><p-dropdown *ngIf="showHistSelect" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-dropdown></div-->
-                    <!--input *ngSwitchCase="'prestVersion'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)"-->
+            <!--div *ngSwitchCase="'prestVersion'"><p-dropdown *ngIf="showHistSelect" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="filterVersions()"></p-dropdown></div-->
+            <!--input *ngSwitchCase="'prestVersion'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)"-->
             <!--/th-->
         </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
 
-        <tr [pSelectableRow]="rowData" >
+        <tr [pSelectableRow]="rowData">
 
             <!-- DataRows -->
             <td *ngFor="let col of columns">
-                <!--<a *ngSwitchCase="'prestIdCollab'" routerLink="/prestations/collab/{{rowData['collaborateur'].id}}">{{rowData['collaborateur'].trigOpen}}</a>-->
                 <span>{{rowData[col.field]}}</span>
             </td>
 
 
             <td>
                 <div class="ui-toolbar-group-right">
-                    <button pButton type="button" (click)="selectPrestation($event, rowData)" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom"></button>
-                    <button pButton type="button" icon="pi pi-calendar" class="ui-button-success" pTooltip="Historique" tooltipPosition="bottom"></button>
-                    <button pButton type="button" (click)="deletePrestation($event, rowData)" icon="pi pi-times" class="ui-button-danger" pTooltip="Supprimer" tooltipPosition="bottom"></button>
+                    <button pButton type="button" (click)="selectPrestation($event, rowData)" icon="pi pi-search"
+                            pTooltip="Voir" tooltipPosition="bottom"></button>
+                    <button pButton type="button" icon="pi pi-calendar" class="ui-button-success" pTooltip="Historique"
+                            tooltipPosition="bottom"></button>
+                    <button pButton type="button" (click)="deletePrestation($event, rowData)" icon="pi pi-times"
+                            class="ui-button-danger" pTooltip="Supprimer" tooltipPosition="bottom"></button>
                 </div>
             </td>
         </tr>
@@ -101,8 +113,8 @@
 </p-table>
 
 
-
-<p-dialog *ngIf="displayDialogPresta" header="Prestation"  [(visible)]="displayDialogPresta" [responsive]="true" [modal]="true" >
+<p-dialog *ngIf="displayDialogPresta" header="Prestation" [(visible)]="displayDialogPresta" [responsive]="true"
+          [modal]="true">
 
     <!--span class="ui-inputgroup-addon">Identifiant</span>
     <input type="text" pInputText placeholder="identifiant" value="{{selectedPrestation.prestId}}"-->
@@ -111,7 +123,8 @@
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Mission :</span>
-                <p-dropdown [options]="missions" [(ngModel)]="selectedPrestation.prestIdMission" [style]="{'width':'150px'}" filter="true">
+                <p-dropdown [options]="missions" [(ngModel)]="selectedPrestation.identifiantMission"
+                            [style]="{'width':'150px'}" filter="true">
                     <ng-template let-item pTemplate="selectedItem">
                         <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
                     </ng-template>
@@ -122,21 +135,21 @@
                     </ng-template>
                 </p-dropdown>
 
-                <input type=number pInputText placeholder="Mission" value="{{selectedPrestation.prestIdMission}}">
+                <input type=number pInputText placeholder="Mission" value="{{selectedPrestation.identifiantMission}}">
             </div>
         </div>
 
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Contrat :</span>
-                <input type="text" pInputText placeholder="Contrat" value="{{selectedPrestation.prestContrat}}">
+                <input type="text" pInputText placeholder="Contrat" value="{{selectedPrestation.contratAppli}}">
             </div>
         </div>
 
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Id pilote :</span>
-                <input type="text" pInputText placeholder="Trigramme open" value="{{selectedPrestation.prestIdCollab}}">
+                <input type="text" pInputText placeholder="Trigramme open" value="{{selectedPrestation.trigramme}}">
             </div>
         </div>
 
@@ -146,21 +159,22 @@
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Département :</span>
-                <input type="text" pInputText placeholder="Département" value="{{selectedPrestation.prestDepartement}}">
+                <input type="text" pInputText placeholder="Département" value="{{selectedPrestation.departement}}">
             </div>
         </div>
 
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Pôle :</span>
-                <input type="text" pInputText placeholder="Pôle" value="{{selectedPrestation.prestPole}}">
-            </div>.
+                <input type="text" pInputText placeholder="Pôle" value="{{selectedPrestation.pole}}">
+            </div>
+            .
         </div>
 
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Domaine :</span>
-                <input type="text" pInputText placeholder="Domaine" value="{{selectedPrestation.prestDomaine}}">
+                <input type="text" pInputText placeholder="Domaine" value="{{selectedPrestation.domaine}}">
             </div>
         </div>
 
@@ -171,21 +185,21 @@
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">ATG :</span>
-                <input type="text" pInputText placeholder="ATG" value="{{selectedPrestation.prestATG}}">
+                <input type="text" pInputText placeholder="ATG" value="{{selectedPrestation.topAtg}}">
             </div>
         </div>
 
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Début :</span>
-                <input type="text" pInputText placeholder="Date" value="{{selectedPrestation.prestDateDebut}}">
+                <input type="text" pInputText placeholder="Date" value="{{selectedPrestation.dateDebutPrestation}}">
             </div>
         </div>
 
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Fin :</span>
-                <input type="text" pInputText placeholder="Date" value="{{selectedPrestation.prestDateFin}}">
+                <input type="text" pInputText placeholder="Date" value="{{selectedPrestation.dateFinPrestation}}">
             </div>
         </div>
 
@@ -195,14 +209,14 @@
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">PU :</span>
-                <input type="text" pInputText placeholder="PU" value="{{selectedPrestation.prestPU}}">
+                <input type="text" pInputText placeholder="PU" value="{{selectedPrestation.numeroPu}}">
             </div>
         </div>
 
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Site :</span>
-                <input type="text" pInputText placeholder="Site" value="{{selectedPrestation.prestSite}}">
+                <input type="text" pInputText placeholder="Site" value="{{selectedPrestation.localisation}}">
             </div>
         </div>
 
@@ -213,19 +227,22 @@
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Resp. Pôle SG :</span>
-                <input type="text" pInputText placeholder="Nom responsable pôle SG" value="{{selectedPrestation.prestRespPoleSG}}">
+                <input type="text" pInputText placeholder="Nom responsable pôle SG"
+                       value="{{selectedPrestation.responsablePole}}">
             </div>
         </div>
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Donneur d'ordre SG :</span>
-                <input type="text" pInputText placeholder="Donneur d'ordre SG" value="{{selectedPrestation.prestDonneurOrdreSG}}">
+                <input type="text" pInputText placeholder="Donneur d'ordre SG"
+                       value="{{selectedPrestation.donneurOrdre}}">
             </div>
         </div>
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Commercial Open :</span>
-                <input type="text" pInputText placeholder="Nom Commercial Open" value="{{selectedPrestation.prestCommercialOPEN}}">
+                <input type="text" pInputText placeholder="Nom Commercial Open"
+                       value="{{selectedPrestation.commercialOpen}}">
             </div>
         </div>
 
@@ -235,19 +252,21 @@
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Type :</span>
-                <input type="text" pInputText placeholder="Type" value="{{selectedPrestation.prestType}}">
+                <input type="text" pInputText placeholder="Type" value="{{selectedPrestation.statutPrestation}}">
             </div>
         </div>
 
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">Version :</span>
-                <input type="text" pInputText placeholder="categorisation" value="{{selectedPrestation.prestVersion}}">
+                <input type="text" pInputText placeholder="categorisation"
+                       value="{{selectedPrestation.versionPrestation}}">
             </div>
         </div>
         <div class="ui-g-12 ui-md-4">
             <span class="ui-inputgroup-addon">Statut :</span>
-            <p-dropdown [options]="allstatus" [(ngModel)]="filtres['prestStatut'].selected" placeholder="" [showClear]="true"></p-dropdown>
+            <p-dropdown [options]="allstatus" [(ngModel)]="filtres['prestStatut'].selected" placeholder=""
+                        [showClear]="true"></p-dropdown>
         </div>
 
     </div>
@@ -257,12 +276,11 @@
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">MAJ :</span>
-                <span>Créée le {{selectedPrestation.prestDateCreation}} par {{selectedPrestation.prestUserCreation}}, modifiée le {{selectedPrestation.prestDateMaj}} par {{selectedPrestation.prestUserMaj}}</span>
+                <span>Créée le {{selectedPrestation.createdAt}} par {{selectedPrestation.createdBy}}, modifiée le {{selectedPrestation.updatedAt}} par {{selectedPrestation.updatedBy}}</span>
             </div>
         </div>
 
     </div>
-
 
 
     <p-footer>
@@ -274,7 +292,6 @@
     </p-footer>
 
 </p-dialog>
-
 
 
 <!--<p-dataView #dv1 [style]="{'padding': '20px'}" [value]="prestations" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="nom"

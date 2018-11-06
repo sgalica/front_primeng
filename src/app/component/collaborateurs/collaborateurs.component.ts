@@ -52,41 +52,41 @@ export class CollaborateursComponent implements OnInit {
         this.loadAllCollaborateurs();
 
         this.cols = [
-            {header: 'trig_open', field: camelCase('trig_open')},
-            {header: 'nom', field: camelCase('nom')},
-            {header: 'prenom', field: camelCase('prenom')},
-            {header: 'tel_perso', field: camelCase('tel_perso')},
-            {header: 'tel_pro', field: camelCase('tel_pro')},
-            {header: 'mail_open', field: camelCase('mail_open')},
-            {header: 'mail_sg', field: camelCase('mail_sg')},
-            {header: 'categorisation', field: camelCase('code_categorisation')},
-            {header: 'top_statut', field: camelCase('top_statut')},
-            {header: 'statut_Collab', field: camelCase('statut_Collab')},
-            {header: 'version_Collab', field: camelCase('version_Collab')},
-            {header: 'societe_stt', field: camelCase('societe_stt')},
-            {header: 'pre_embauche ', field: camelCase('pre_embauche')},
-            {header: 'date_embauche', field: camelCase('date_embauche')},
-            {header: 'created_at', field: camelCase('created_at')},
-            {header: 'created_by', field: camelCase('created_by')},
-            {header: 'updated_at', field: camelCase('updated_at')},
-            {header: 'updated_by', field: camelCase('updated_by')}
+            {header: 'Trigramme OPEN', field: camelCase('trigramme')},
+            {header: 'Nom', field: camelCase('nom')},
+            {header: 'Prenom', field: camelCase('prenom')},
+            {header: 'Tel perso', field: camelCase('tel_perso')},
+            {header: 'Tel pro', field: camelCase('tel_pro')},
+            {header: 'Mail OPEN', field: camelCase('mail_open')},
+            {header: 'Mail SG', field: camelCase('mail_sg')},
+            {header: 'Catégorie', field: camelCase('code_categorisation')},
+            {header: 'Sous-traitance', field: camelCase('stt')},
+            {header: 'Societe sous-traitance', field: camelCase('societe_stt')},
+            {header: 'Statut', field: camelCase('statut_Collab')},
+            {header: 'Version', field: camelCase('version_Collab')},
+            {header: 'Pré-embauche ', field: camelCase('pre_embauche')},
+            {header: 'Date d\'embauche', field: camelCase('date_embauche_open')},
+            {header: 'Date de création', field: camelCase('created_at')},
+            {header: 'Créé par', field: camelCase('created_by')},
+            {header: 'Date de mise a jour', field: camelCase('updated_at')},
+            {header: 'Modifié par', field: camelCase('updated_by')}
 
         ];
 
         console.log(this.selectedColumns);
 
         this.selectedColumns = [
-            {header: 'trig_open', field: camelCase('trig_open')},
-            {header: 'nom', field: camelCase('nom')},
-            {header: 'prenom', field: camelCase('prenom')},
-            {header: 'tel_perso', field: camelCase('tel_perso')},
-            {header: 'tel_pro', field: camelCase('tel_pro')},
-            {header: 'mail_open', field: camelCase('mail_open')},
-            {header: 'mail_sg', field: camelCase('mail_sg')},
+            {header: 'Trigramme', field: camelCase('trigramme')},
+            {header: 'Nom', field: camelCase('nom')},
+            {header: 'Prenom', field: camelCase('prenom')},
+            {header: 'Tel perso', field: camelCase('tel_perso')},
+            {header: 'Tel pro', field: camelCase('tel_pro')},
+            {header: 'Mail OPEN', field: camelCase('mail_open')},
+            {header: 'Mail SG', field: camelCase('mail_sg')},
             {header: 'categorisation', field: camelCase('code_categorisation')},
-            {header: 'top_statut', field: camelCase('top_statut')},
-            {header: 'statut_Collab', field: camelCase('statut_Collab')},
-            {header: 'version_Collab', field: camelCase('version_Collab')}
+            {header: 'Sous-traitance', field: camelCase('top_statut')},
+            {header: 'Statut', field: camelCase('statut_Collab')},
+            {header: 'Version', field: camelCase('version_Collab')}
         ];
         // this.colsplice = this.selectedColumns;
         // this.colsplice.splice(1,10);

@@ -65,7 +65,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
     //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
 
 
-    constructor(private prestationService: PrestationService, private employeeService: CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute, private datePipe: DatePipe) {
+    constructor(private prestationService: PrestationService,
+                private employeeService: CollaborateurService,
+                private router: Router,
+                private alertService: AlertService,
+                private route: ActivatedRoute,
+                private datePipe: DatePipe) {
     }
 
 
@@ -77,11 +82,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
             console.log("on appel toute les prestation");
             this.loadAllPrestations();
             //if this.route.snapshot.params['idcollab']; this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
+
         }
         // Prestations from collab
         else {
             this.modeCollab = true;
         }
+
+
+
 
         // Columns
         // Cols depending on ID
@@ -89,21 +98,21 @@ export class PrestationsComponent implements OnInit, OnChanges {
         Array.prototype.push.apply(this.coldefs, [
 //          {header: 'Id', field:'prestId'},
 //          {header: 'Id Mission', field:'prestIdMission'},
-            {header: 'Identifiant Pilote', field: 'prestIdCollab', filtertype: "liste"},
-            {header: 'Début', field: 'prestDateDebut', filtertype: "date", filtercond: "gte"},
-            {header: 'Fin', field: 'prestDateFin', filtertype: "date", filtercond: "lte"},
-            {header: 'Contrat', field: 'prestContrat', filtertype: "liste"},
-            {header: 'ATG', field: 'prestATG', filtertype: "liste"},
-            {header: 'Département', field: 'prestDepartement', filtertype: "liste"},
-            {header: 'Pôle', field: 'prestPole', filtertype: "liste"},
-            {header: 'Domaine', field: 'prestDomaine', filtertype: "liste"},
-            {header: 'Site', field: 'prestSite', filtertype: "liste"},
-            {header: 'PU', field: 'prestPU', filtertype: "liste"},
+            {header: 'Identifiant Pilote', field: 'identifiantPrestation', filtertype: "liste"},
+            {header: 'Début', field: 'dateDebutPrestation', filtertype: "date", filtercond: "gte"},
+            {header: 'Fin', field: 'dateFinPrestation', filtertype: "date", filtercond: "lte"},
+            {header: 'Contrat', field: 'contratAppli', filtertype: "liste"},
+            {header: 'ATG', field: 'numeroAtg', filtertype: "liste"},
+            {header: 'Département', field: 'departement', filtertype: "liste"},
+            {header: 'Pôle', field: 'pole', filtertype: "liste"},
+            {header: 'Domaine', field: 'domaine', filtertype: "liste"},
+            {header: 'Site', field: 'localisation', filtertype: "liste"},
+            {header: 'PU', field: 'numeroPu', filtertype: "liste"},
 //          {header: 'Resp. Pôle', field:'prestRespPoleSG'},
 //          {header: 'd_ordre', field:'prestDonneurOrdreSG'},
-            {header: 'Type', field: 'prestType', filtertype: "liste"},
-            {header: 'Statut', field: 'prestStatut', filtertype: "liste"},
-            {header: 'Version', field: 'prestVersion', filtertype: ""}
+             {header: 'Type', field: 'topAtg', filtertype: "liste"},
+            {header: 'Statut', field: 'statutPrestation', filtertype: "liste"},
+            {header: 'Version', field: 'versionPrestation', filtertype: ""}
             /*          {header: 'com_open', field:'prestCommercialOPEN'},
 
                         {header: 'date_c', field:'prestDateCreation'},
@@ -118,19 +127,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.initFilters();
         this.displayDialogPresta = false;
 
-        // Missions
-        this.missions = [
-            {label: 'Aubi', value: 1},
-            {label: 'Bamz', value: 2},
-            {label: 'Fita', value: 3},
-            {label: 'Forud', value: 4},
-            {label: 'Honada', value: 5},
-            {label: 'Jagar', value: 6},
-            {label: 'Mercedes', value: 7},
-            {label: 'Renaud', value: 8},
-            {label: 'Vewa', value: 9},
-            {label: 'Vovo', value: 10}
-        ];
         this.fr = {
             firstDayOfWeek: 1,
             dayNames: [ "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi" ],
@@ -171,7 +167,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.coldefs.forEach(x => {
             var addcol: boolean = true;
             // Cols depending on ID
-            if (x.field == "prestIdCollab") {
+            if (x.field == "trigramme") {
                 if (this.modeCollab)
                     addcol = false;
             }
@@ -194,6 +190,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
             } : {selected: "", values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond};
             this.filtres[ x.field ] = filteritem;
         });
+
+        console.log("LES FILTRES init", JSON.stringify( this.filtres ));
+
     };
 
     selectPrestation(event: Event, prestation: Prestation) {
@@ -260,6 +259,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.prestationService.list()
             .pipe(first())
             .subscribe(prestations => {
+                    var test = this.prestations;
+                    console.log(test);
                     this.prestations = prestations.sort(this.orderDateDebutEtVersion);
                     this.updateFilters();
                     this.filterVersions();
@@ -276,7 +277,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     updateFilters() {
         this.showHistSelect = false;
-        this.initFilters();
+        //this.initFilters();
 
 
         // prestIdCollab, prestDateDebut, prestDateFin, prestContrat, prestATG, prestDepartement, prestPole, prestDomaine, prestSite, prestPU, prestType, prestStatut, prestVersion
@@ -290,7 +291,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             // Get keys
             for (var column in this.filtres) {
                 switch (column) {
-                    case "prestIdCollab" :
+                    case "trigramme" :
                         this.filtres[ column ].keys[ x.trigramme ] = x.trigramme;
                         labels[ x.trigramme ] = x.trigramme;
                         if (x.collaborateur != undefined) labels[ x.trigramme ] += " (" + x.collaborateur.nom + " " + x.collaborateur.prenom + ")";
@@ -309,7 +310,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             var col_sort = [];
             switch (column) {
 
-                case "prestStatut" :
+                case "statutPrestation" :
                     var statusdispos = this.allstatus;
                     //if (!this.modeCollab) statusdispos.splice(3,1);
                     // Add labels ordered as E, T, S, A
@@ -325,14 +326,19 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 default : // prestIdCollab, prestContrat, prestATG, prestDepartement, prestPole, prestDomaine, prestSite, prestPU, prestType
                     // Sort
                     for (var key in this.filtres[ column ].keys) {
+
+                        console.log("coll_sort before = ", key , JSON.stringify(col_sort ));
                         col_sort.push(key);
+                        console.log("coll_sort after = ", key , JSON.stringify(col_sort) );
+
                     }
+                    //debugger;
                     col_sort.sort();
 
                     // Add to liste
                     for (var k in col_sort) {
                         //if ( this.filtres[column].keys.indexOf(col_sort[k])==-1)
-                        var label = (column == "prestIdCollab") ? labels[ col_sort[ k ] ] : col_sort[ k ];
+                        var label = (column == "trigramme") ? labels[ col_sort[ k ] ] : col_sort[ k ];
                         selectitems.push({label: label, value: col_sort[ k ]});
                     }
                     break;
@@ -340,7 +346,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             this.filtres[ column ].values = selectitems;
         }
-        //console.log("LES FILTRES", this.filtres);
+        console.log("LES FILTRES", this.filtres);
 
     }
 
@@ -365,9 +371,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
     orderDateDebutEtVersion(a, b) {
         let after = 0;
 
-        after = a.prestDateDebut > b.prestDateDebut ? -1 : a.prestDateDebut < b.prestDateDebut ? 1 : 0;
+        after = a.dateDebutPrestation > b.dateDebutPrestation ? -1 : a.dateDebutPrestation < b.dateDebutPrestation ? 1 : 0;
         if (after == 0) {
-            after = a.prestVersion > b.prestVersion ? -1 : a.prestVersion < b.prestVersion ? 1 : 0;
+            after = a.versionPrestation > b.versionPrestation ? -1 : a.versionPrestation < b.versionPrestation ? 1 : 0;
         }
         return after;
     }
@@ -379,7 +385,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var statushist: string[];
 
         // Multiselect
-        var status: string[] = this.filtres[ "prestStatut" ].selected; // this.selectedPrestas.status;
+        var status: string[] = this.filtres[ "statutPrestation" ].selected; // this.selectedPrestas.status;
 
         /*
         // Combo : si pas de sélection : afficher tout
@@ -395,7 +401,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             status=[this.selectedPrestas.statut];
         }*/
 
-        this.pt.filter(status, 'prestStatut', 'in');
+        this.pt.filter(status, 'statutPrestation', 'in');
 
     }
 

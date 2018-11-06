@@ -141,6 +141,7 @@ export function tokenGetter() {
                 blacklistedRoutes: ['localhost:3001/auth/']
             }
         }),
+
         ReactiveFormsModule,
         FormsModule,
         OrderListModule,
