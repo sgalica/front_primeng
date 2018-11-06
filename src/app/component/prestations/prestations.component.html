@@ -39,12 +39,12 @@
         <!-- FILTRES -->
         <tr>
             <th *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
-                <p-multiSelect  *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'max-width':'100%', 'min-width':'auto'}" (onChange)="pt.filter($event.value, col.field, 'in')">
-                    <ng-template let-items pTemplate="selectedItems">
+                <p-multiSelect  *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" selectedItemsLabel="{0} données sélectionnées" maxSelectedLabels="1" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'max-width':'100%', 'min-width':'auto'}" (onChange)="pt.filter($event.value, col.field, 'in')">
+                    <!--ng-template let-items pTemplate="selectedItems">
                         <span *ngIf="items.length>1" [style]="{'text-overflow':'ellipsis'}">{{items.length}} sélectionnés</span>
                         <span *ngIf="items.length==1" [style]="{'text-overflow':'ellipsis'}">{{items[0]}}</span>
                         <span *ngIf="items.length==0" [style]="{'text-overflow':'ellipsis'}">Sélectionnez</span>
-                    </ng-template>
+                    </ng-template-->
                 </p-multiSelect>
                 <!--  <input          *ngSwitchCase="'value'" pInputText type="text" (input)="pt_filter( col.field);"> pt.filter($event.value, col.field, col.filterMatchMode)-->
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">

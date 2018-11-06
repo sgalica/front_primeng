@@ -1,26 +1,26 @@
 import {Prestation} from "./prestation";
 
 export class Collaborateur {
-     id                   : any;
-     trigOpen            : any;
-     nom                  : any;
-     prenom               : any;
+     id                  : any;
+     trigramme           : any;
+     nom                 : any;
+     prenom              : any;
      telPerso            : any;
      telPro              : any;
      mailOpen            : any;
-     mailSg              : any;
-     codeCategorisation  : any;
-     topStatut           : any;
+     mailSG              : any;
+     categorisation      : any;
+     sT                  : any;
      statutCollab        : any;
      versionCollab       : any;
-     societeStt          : any;
-     pre_embauche         : any;
-     date_embauche        : any;
+     societeSTT          : any;
+     preEmbauche         : any;
+     dateEmbaucheOPEN    : any;
 
-     prestations          : Prestation[];
+     prestations         : Prestation[];
 
-     created_at           : any;
-     created_by           : any;
-     updated_at           : any;
-     updated_by           : any;
+     createdAt           : any;
+     createdBy           : any;
+     updatedAt           : any;
+     updatedBy           : any;
 }

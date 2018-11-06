@@ -113,19 +113,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.initFilters();
         this.displayDialogPresta = false;
 
-        // Missions
-        this.missions = [
-            {label: 'Aubi', value: 1},
-            {label: 'Bamz', value: 2},
-            {label: 'Fita', value: 3},
-            {label: 'Forud', value: 4},
-            {label: 'Honada', value: 5},
-            {label: 'Jagar', value: 6},
-            {label: 'Mercedes', value: 7},
-            {label: 'Renaud', value: 8},
-            {label: 'Vewa', value: 9},
-            {label: 'Vovo', value: 10}
-        ];
+
         this.fr = {
             firstDayOfWeek: 1,
             dayNames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
@@ -143,7 +131,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
 
     showCollab() {
-        this.id = this.collab.trigOpen;
+        this.id = this.collab.trigramme;
         this.employee_name = this.collab.prenom + " " + this.collab.nom;
     }
 
@@ -265,7 +253,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
                 // Retrieve trigramme if acces by table presta (done here to avoid double foreach)
                 if (x.collaborateur!=undefined)
-                    x.prestIdCollab = x.collaborateur.trigOpen;
+                    x.prestIdCollab = x.collaborateur.trigramme;
 
                 // Get keys
                 for (var column in this.filtres) {
@@ -319,7 +307,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             this.filtres[column].values = selectitems;
         }
-        //console.log("LES FILTRES", this.filtres);
+        console.log("LES FILTRES", this.filtres);
 
     }
 

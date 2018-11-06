@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/collaborateur.service';
@@ -7,7 +7,14 @@ import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
 import {PrestationsComponent} from "../prestations/prestations.component";
+import {DataTable} from "primeng/primeng";
+import {DatePipe} from "@angular/common";
 
+interface filteritem {
+    selected: string[];
+    values: SelectItem[];
+    keys : string[];
+}
 
 @Component({
     selector: 'app-collaborateurs',
@@ -17,22 +24,31 @@ import {PrestationsComponent} from "../prestations/prestations.component";
 export class CollaborateursComponent implements OnInit {
 
     title : string="Collaborateur";
+
+    @ViewChild(('dt'))
+    dt: DataTable;
+
+    // Liste
+    collaborateurs: Collaborateur[] = [];
+    cols: any[];
+    selectedColumns: any[];
+    filteritem : {selected:any, values:SelectItem[], keys:string[], type:string, filtercond:string };
+    filtres : filteritem[] = [];
+    coldefs : {header:string, field:string, filtertype:string, filtercond:string }[];
+    // sortOptions: SelectItem[]; sortKey: string; sortField: string; sortOrder: number;
+
+    // Fiche
+    selectedCollaborateur: Collaborateur;
     displayDialog: boolean = false;
 
-    sortOptions: SelectItem[];
-    cols: any[];
-    sortKey: string;
-    sortField: string;
-    sortOrder: number;
+    // Références
+    allstatus: { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
 
-    collaborateurs: Collaborateur[] = [];
-    selectedCollaborateur: Collaborateur;
 
     private msgs: Message[];
     private selectedfile: any;
     private viewfile: boolean;
     private columns: any;
-    selectedColumns: any[];
     private apiresponse: ApiResponse;
     colsplice: any;
 
@@ -43,43 +59,41 @@ export class CollaborateursComponent implements OnInit {
     @ViewChild(PrestationsComponent)
     private prestasComponent : PrestationsComponent ;
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
-    @ViewChild('bPrestas') bPrestas:ElementRef;
+    buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Masquer les prestations"]; idxBtnPrestations : number =0;
 
+    fr:any;
 
-    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService, private componentFactoryResolver: ComponentFactoryResolver) {
+    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService, private datePipe:DatePipe) {
     }
-
-
  /*   ngOnChanges(): void {
         const camelCase = require('camelcase');
         console.log("");
-     }
-*/
+ }*/
+
     ngOnInit() {
 
         const camelCase = require('camelcase');
         this.loadAllCollaborateurs();
 
-        this.cols = [
-            {header: 'trig_open', field: camelCase('trig_open')},
-            {header: 'nom', field: camelCase('nom')},
-            {header: 'prenom', field: camelCase('prenom')},
-            {header: 'tel_perso', field: camelCase('tel_perso')},
-            {header: 'tel_pro', field: camelCase('tel_pro')},
-            {header: 'mail_open', field: camelCase('mail_open')},
-            {header: 'mail_sg', field: camelCase('mail_sg')},
-            {header: 'categorisation', field: camelCase('code_categorisation')},
-            {header: 'top_statut', field: camelCase('top_statut')},
-            {header: 'statut_Collab', field: camelCase('statut_Collab')},
-            {header: 'version_Collab', field: camelCase('version_Collab')},
-            {header: 'societe_stt', field: camelCase('societe_stt')},
-            {header: 'pre_embauche ', field: camelCase('pre_embauche')},
-            {header: 'date_embauche', field: camelCase('date_embauche')},
-            {header: 'created_at', field: camelCase('created_at')},
-            {header: 'created_by', field: camelCase('created_by')},
-            {header: 'updated_at', field: camelCase('updated_at')},
-            {header: 'updated_by', field: camelCase('updated_by')}
-
+        this.coldefs = [
+            {header: 'Identifiant Pilot', field: camelCase('trigramme'), filtertype : "liste" },
+            {header: 'Nom', field: camelCase('nom'), filtertype : "liste"},
+            {header: 'Prénom', field: camelCase('prenom'), filtertype : "liste"},
+            {header: 'Tél personnel', field: camelCase('tel_perso'), filtertype : "liste"},
+            {header: 'Tél professionnel', field: camelCase('tel_pro'), filtertype : "liste"},
+            {header: 'Catégorie', field: camelCase('categorisation'), filtertype : "liste"},
+            {header: 'S/T', field: camelCase('sT'), filtertype : "liste"},
+            {header: 'Statut', field: camelCase('statut_collab'), filtertype : "liste"},
+            {header: 'Version', field: camelCase('version_collab'), filtertype : "liste"},
+            {header: 'Mail SG', field: camelCase('mail_sG'), filtertype : "liste"},
+            {header: 'Mail Open', field: camelCase('mail_open'), filtertype : "liste"},
+            {header: 'Société STT', field: camelCase('societe_sTT'), filtertype : "liste"},
+            {header: 'Pré embauche ', field: camelCase('pre_embauche'), filtertype : "liste"},
+            {header: 'Date embauche', field: camelCase('date_embauche'), filtertype : "liste"}
+            //{header: 'created_at', field: camelCase('created_at')},
+            //{header: 'created_by', field: camelCase('created_by')},
+            //{header: 'updated_at', field: camelCase('updated_at')},
+            //{header: 'updated_by', field: camelCase('updated_by')}
         ];
         this.selectedColumns = [
             {header: 'trig_open', field: camelCase('trig_open')},
@@ -169,10 +183,8 @@ export class CollaborateursComponent implements OnInit {
         //(<PrestationsComponent>this.componentRef.instance).showCollab(); //ngOnInit();
         //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
         this.showPrestas = (this.showPrestas=="none") ? "block" : "none";
-        //debugger;
-       // var newlabel = (this.showPrestas=="none") ? ["Visualiser les prestations"] : ["Masquer les prestations"];
-       // if (this.bPrestas != undefined)
-       //     this.bPrestas.nativeElement.setAttribute("labels", newlabel );
+
+        this.idxBtnPrestations = (this.idxBtnPrestations==0) ? 1 : 0;
 
         this.prestasComponent.updateFilters();
     }
