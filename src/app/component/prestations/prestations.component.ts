@@ -79,17 +79,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // MODE ALL or COLLAB
         //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'prenom'}, {label: 'Brand', value: 'brand'}        ];
         if (this.route.snapshot.url[ 0 ].path == ("prestations")) {
-            console.log("on appel toute les prestation");
             this.loadAllPrestations();
             //if this.route.snapshot.params['idcollab']; this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
-
         }
         // Prestations from collab
         else {
             this.modeCollab = true;
         }
-
-
 
 
         // Columns
@@ -159,7 +155,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         //this.filterVersions();
     }
-
 
     selectColumns() {
 
@@ -260,33 +255,37 @@ export class PrestationsComponent implements OnInit, OnChanges {
             .pipe(first())
             .subscribe(prestations => {
                     var test = this.prestations;
-                    console.log(test);
                     this.prestations = prestations.sort(this.orderDateDebutEtVersion);
                     this.updateFilters();
                     this.filterVersions();
-                    console.log("data returned = ", prestations);
                     //this.alertService.success(prestations);
                 },
                 error => {
-                    console.log("data returned = ", error);
-
+                    console.log("Erreur load prestations : ", error);
                     this.alertService.error(error);
                 });
     }
 
 
     updateFilters() {
+
         this.showHistSelect = false;
-        //this.initFilters();
+        this.initFilters();
 
 
         // prestIdCollab, prestDateDebut, prestDateFin, prestContrat, prestATG, prestDepartement, prestPole, prestDomaine, prestSite, prestPU, prestType, prestStatut, prestVersion
-        var labels: string[] = [];
+        var labels: string[] = [];  // Labels collabs
         this.prestations.forEach(x => {
 
             // Retrieve trigramme if acces by table presta (done here to avoid double foreach)
             if (x.collaborateur != undefined)
                 x.trigramme = x.collaborateur.trigramme;
+
+            // Format dates
+            //var date1 = this.datePipe.transform(x.dateDebutPrestation, 'yyyy-MM-dd');
+            //x.dateDebutPrestation = date1;
+            //var date2 = this.datePipe.transform(x.dateFinPrestation, 'yyyy-MM-dd');
+            //x.dateFinPrestation   = date2;
 
             // Get keys
             for (var column in this.filtres) {
@@ -302,6 +301,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             }
         });
 
+        debugger;
 
         let selectitems: SelectItem[] = [];
         for (var column in this.filtres) {
@@ -323,16 +323,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     // this.filtres["prestVersion"] = {selected : "", values:[ {label: 'Historique', value: 'H'},  {label: 'Dernière', value: ''} ], keys:[] };
                     break;
 
-                default : // prestIdCollab, prestContrat, prestATG, prestDepartement, prestPole, prestDomaine, prestSite, prestPU, prestType
+                default : // trigramme, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type
                     // Sort
                     for (var key in this.filtres[ column ].keys) {
-
-                        console.log("coll_sort before = ", key , JSON.stringify(col_sort ));
+                        //console.log("coll_sort before = ", key , JSON.stringify(col_sort ));
                         col_sort.push(key);
-                        console.log("coll_sort after = ", key , JSON.stringify(col_sort) );
-
+                        //console.log("coll_sort after = ", key , JSON.stringify(col_sort) );
                     }
-                    //debugger;
                     col_sort.sort();
 
                     // Add to liste
@@ -346,8 +343,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             this.filtres[ column ].values = selectitems;
         }
-        console.log("LES FILTRES", this.filtres);
-
+        //console.log("LES FILTRES", this.filtres);
     }
 
 

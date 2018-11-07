@@ -92,8 +92,9 @@
         <tr [pSelectableRow]="rowData">
 
             <!-- DataRows -->
-            <td *ngFor="let col of columns">
-                <span>{{rowData[col.field]}}</span>
+            <td *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
+                <span *ngSwitchCase="'date'">{{rowData[col.field] | date:'yyyy-MM-dd'}}</span>
+                <span *ngSwitchDefault>{{rowData[col.field]}}</span>
             </td>
 
 
