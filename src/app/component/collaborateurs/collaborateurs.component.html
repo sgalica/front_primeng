@@ -13,30 +13,56 @@
         <input type="search" pInputText size="50" placeholder="Chercher dans la liste"
                (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
         <div class="ui-toolbar-group-right">
-            <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="entete"
-                           selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}"
-                           defaultLabel="Choisir une colonne"></p-multiSelect>
+            <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"
+                           selectedItemsLabel="{0} colonnes sélectionnées" [style]="{minWidth: '200px'}"
+                           defaultLabel="Choix des colonnes"></p-multiSelect>
         </div>
     </ng-template>
 
-
+    <!-- HEADER -->
     <ng-template pTemplate="header" let-columns>
         <tr>
-            <th *ngFor="let col of columns">
-                {{col.header}}
-            </th>
+            <th *ngFor="let col of columns">{{col.header}}</th>
+            <th style="border-top:none; background-color:#f5f5f5; width:140px"></th>
         </tr>
 
+        <!-- FILTRES -->
+        <tr>
+            <th *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
+                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values"
+                               [(ngModel)]="filtres[col.field].selected"
+                               [style]="{'max-width':'100%', 'min-width':'auto'}"
+                               (onChange)="dt.filter($event.value, col.field, 'in')"
+                               selectedItemsLabel="{0} sélectionnées"
+                               maxSelectedLabels="1"
+                >
+                </p-multiSelect>
+                <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
+                    <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
+                                dateFormat="yy-mm-dd" [locale]="fr" (onSelect)="co_filter(col.field);"
+                                (onClearClick)="co_filter(col.field);"
+                                [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
+                                [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                    </p-calendar>
+                </div>
+            </th>
+
+        </tr>
     </ng-template>
 
 
+    <!-- BODY -->
     <ng-template pTemplate="body" let-rowData let-columns="columns">
         <tr [pSelectableRow]="rowData">
 
-            <td *ngFor="let col of columns">
-                {{rowData[col.field]}}
+            <!-- DataRows -->
+            <td *ngFor="let col of columns" class="tablecol">
+                <div>
+                    {{rowData[col.field]}}
+                </div>
             </td>
-            <td class="cta_collabs">
+
+            <td>
                 <div class="ui-toolbar-group-right">
                     <button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, rowData)"></button>
                     <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>

@@ -141,7 +141,7 @@ export class AdministratorComponent implements OnInit {
             for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
             const bstr = arr.join("");
 
-            const workbook = read(bstr, {type: "binary", cellDates: true, dateNF: 'yyyy/mm/dd;@'});
+            const workbook = read(bstr, {type: "binary", cellDates:true, dateNF: 'dd/mm/yyyy;@'});
             Object.keys(workbook).forEach((x, y) => {
                 this.all_sheet_name.push(workbook.SheetNames[y]);
             });
@@ -150,7 +150,7 @@ export class AdministratorComponent implements OnInit {
                     this.worksheet = workbook.Sheets[x];
                     // console.log("sheet keys ", XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
                     //this.columns.push(Object.values(XLSX.utils.sheet_to_json(this.worksheet, {raw: true})));
-                    this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: true, defval: null, blankrows: false}));
+                    this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: false, defval: null, blankrows: false, dateNF: 'dd/mm/yyyy;@'}));
                 }
             );
             console.log("alltable", this.alltable);

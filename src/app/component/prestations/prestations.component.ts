@@ -10,7 +10,7 @@ import {CollaborateurService, PrestationService} from "../../service/datas.servi
 import {ApiResponse} from "../../model/apiresponse";
 
 interface filteritem {
-    selected: string[];
+    selected: any;
     values: SelectItem[];
     keys: string[];
 }
@@ -266,7 +266,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 });
     }
 
-
     updateFilters() {
 
         this.showHistSelect = false;
@@ -296,12 +295,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
                         if (x.collaborateur != undefined) labels[ x.trigramme ] += " (" + x.collaborateur.nom + " " + x.collaborateur.prenom + ")";
                         break;
                     default :
-                        this.filtres[ column ].keys[ x[ column ] ] = "";
+                        var value = x[ column ];
+                        if (value !=undefined && value !=null && value!="")
+                            this.filtres[ column ].keys[ value ] = "";
                 }
             }
         });
-
-        debugger;
 
         let selectitems: SelectItem[] = [];
         for (var column in this.filtres) {
@@ -363,7 +362,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
 
-    // Tri sur datedebut (desc) et etat (desc)
+    // Tri sur datedebut (desc) et version (desc)
     orderDateDebutEtVersion(a, b) {
         let after = 0;
 

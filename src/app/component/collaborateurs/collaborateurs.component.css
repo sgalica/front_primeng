@@ -16,14 +16,21 @@ th {
 
 
 /*body .ui-table .ui-datatable-data> tr> td {*/
-.tablecol {
-    border-collapse: collapse;
-    border: 1px solid  #0C0213;
+.tablecol:hover{
+   /* padding-top: 0px;*/
+}
+
+.tablecol div {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100px;
-    border: 1px solid  #0C0213;
+}
+
+.tablecol:hover div {
+    background-color: white;
+    position :absolute;
+    padding : 2px 2px 2px 0px;
+    margin-top:-9px;
 }
 
 ::ng-deep .ui-fileupload-choose{
