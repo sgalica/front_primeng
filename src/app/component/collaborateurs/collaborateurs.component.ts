@@ -99,6 +99,8 @@ export class CollaborateursComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 collaborateurs => {
+                    console.log("data returned = ", collaborateurs);
+
                     this.collaborateurs = collaborateurs;
                 },
                 error => {
