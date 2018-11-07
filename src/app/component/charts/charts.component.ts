@@ -148,10 +148,14 @@ export class ChartsComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 prestations => {
+
                     console.log("data returned = ", prestations);
 
+                    this.calculeTauxStt(new Date, prestations);
+
                     this.prestations = prestations;
-                   // let monthDiff= d.getUTCMonth() - (count % 12);
+
+                     //this.prestations.filter( x => x.dateDebutPrestation<monthDiff && x.dateFinPrestation>monthDiff).map()
 
                     prestations.filter((a,b)=> a)
                 },
@@ -163,4 +167,22 @@ export class ChartsComponent implements OnInit {
     }
 
 
+    private calculeTauxStt(date:any,prestations : any) {
+        let currentMonth= date.getUTCMonth();
+        var firstDayOfMonth = new Date(date.getFullYear(),date.getUTCMonth(),1);
+
+        var nbreStt = 0;
+        var nbreTotal = prestations.filter( x => x.dateDebutPrestation<firstDayOfMonth && x.dateFinPrestation>firstDayOfMonth).reduce((accumulator, currentValue) => {
+            accumulator++;
+            if (currentValue.collaborateurs['Stt'] =='Oui'){nbreStt++}
+            return accumulator
+
+
+        }, 0);
+
+        console.log("Etude pour le mois :", firstDayOfMonth);
+        console.log("Le nombre de sous traitant =", nbreStt);
+        console.log("Le nombre de total de collaborateurs =", nbreTotal);
+        console.log("Le taux de soustraitance est =", nbreStt/nbreTotal);
+    }
 }
