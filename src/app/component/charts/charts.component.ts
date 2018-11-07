@@ -5,10 +5,25 @@ import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {Prestation} from "../../model/referenciel";
 
+export class ChartLine {
+
+    constructor(departement: any, tauxStt: any, nombreColl: any, dateRef: any) {
+        this.departement = departement;
+        this.tauxStt = tauxStt;
+        this.nombreColl = nombreColl;
+        this.dateRef = dateRef;
+    }
+
+    departement: any = 0;
+    tauxStt: any = 0;
+    nombreColl: any = 0;
+    dateRef: any = 0;
+}
+
 @Component({
-  selector: 'app-charts',
-  templateUrl: './charts.component.html',
-  styleUrls: ['./charts.component.css']
+    selector: 'app-charts',
+    templateUrl: './charts.component.html',
+    styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent implements OnInit {
 
@@ -34,17 +49,17 @@ export class ChartsComponent implements OnInit {
         this.loadAllPrestations();
 
         this.lineData = {
-            labels: [ 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
                     label: 'First Dataset',
-                    data: [ 59, 80, 81, 56, 55, 40],
+                    data: [59, 80, 81, 56, 55, 40],
                     fill: false,
                     borderColor: '#03A9F4'
                 },
                 {
                     label: 'Second Dataset',
-                    data: [ 48, 40, 19, 86, 27, 90],
+                    data: [48, 40, 19, 86, 27, 90],
                     fill: false,
                     borderColor: '#FFC107'
                 }
@@ -52,19 +67,19 @@ export class ChartsComponent implements OnInit {
         };
 
         this.barData = {
-            labels: [ 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: ['February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
                     label: 'My First dataset',
                     backgroundColor: '#03A9F4',
                     borderColor: '#03A9F4',
-                    data: [ 59, 80, 81, 56, 55, 40]
+                    data: [59, 80, 81, 56, 55, 40]
                 },
                 {
                     label: 'My Second dataset',
                     backgroundColor: '#FFC107',
                     borderColor: '#FFC107',
-                    data: [ 48, 40, 19, 86, 27, 90]
+                    data: [48, 40, 19, 86, 27, 90]
                 }
             ]
         };
@@ -155,9 +170,9 @@ export class ChartsComponent implements OnInit {
 
                     this.prestations = prestations;
 
-                     //this.prestations.filter( x => x.dateDebutPrestation<monthDiff && x.dateFinPrestation>monthDiff).map()
+                    //this.prestations.filter( x => x.dateDebutPrestation<monthDiff && x.dateFinPrestation>monthDiff).map()
 
-                    prestations.filter((a,b)=> a)
+                    prestations.filter((a, b) => a)
                 },
                 error => {
                     console.log("data returned = ", error);
@@ -167,22 +182,37 @@ export class ChartsComponent implements OnInit {
     }
 
 
-    private calculeTauxStt(date:any,prestations : any) {
-        let currentMonth= date.getUTCMonth();
-        var firstDayOfMonth = new Date(date.getFullYear(),date.getUTCMonth(),1);
+    private calculeTauxStt(date: any, prestations: any) {
+        var chartsLines = [];
+        let currentMonth = date.getUTCMonth();
+        var firstDayOfMonth = new Date(date.getFullYear(), date.getUTCMonth(), 1);
 
         var nbreStt = 0;
-        var nbreTotal = prestations.filter( x => x.dateDebutPrestation<firstDayOfMonth && x.dateFinPrestation>firstDayOfMonth).reduce((accumulator, currentValue) => {
+        var nbreTotal = prestations.forEach(w => {
+            chartsLines.filter(c => c.departement == w.departement).map(d => {
+                if (w.collaborateur['stt'] == 'Oui') d.tauxStt++;
+                d.nombreColl++
+            })
+            chartsLines.filter(c => c.departement !== w.departement).map(d => {
+                chartsLines.push(new ChartLine(w.departement, 0, 0, new Date()));
+                if (w.collaborateur['stt'] == 'Oui') d.tauxStt++;
+                d.nombreColl++
+            })
+
+        }).filter(x => new Date(x.dateDebutPrestation) < firstDayOfMonth && new Date(x.dateFinPrestation) > firstDayOfMonth).reduce((accumulator, currentValue) => {
             accumulator++;
-            if (currentValue.collaborateurs['Stt'] =='Oui'){nbreStt++}
+            if (currentValue.collaborateur['stt'] == 'Oui') {
+                nbreStt++
+            }
             return accumulator
 
 
         }, 0);
 
-        console.log("Etude pour le mois :", firstDayOfMonth);
+        //chartLine.push({"mois": firstDayOfMonth.getMonth(), "taux de Stt": nbreStt / nbreTotal * 100});
+        console.log("Etude pour le mois :", firstDayOfMonth.getMonth());
         console.log("Le nombre de sous traitant =", nbreStt);
         console.log("Le nombre de total de collaborateurs =", nbreTotal);
-        console.log("Le taux de soustraitance est =", nbreStt/nbreTotal);
+        console.log("Le taux de soustraitance est =", nbreStt / nbreTotal * 100);
     }
 }
