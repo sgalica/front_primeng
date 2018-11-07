@@ -141,7 +141,7 @@ export class AdministratorComponent implements OnInit {
             for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
             const bstr = arr.join("");
 
-            const workbook = read(bstr, {type: "binary"});
+            const workbook = read(bstr, {type: "binary", cellDates: true, dateNF: 'yyyy/mm/dd;@'});
             Object.keys(workbook).forEach((x, y) => {
                 this.all_sheet_name.push(workbook.SheetNames[y]);
             });

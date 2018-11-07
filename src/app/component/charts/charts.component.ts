@@ -1,4 +1,9 @@
 import {Component, OnInit} from '@angular/core';
+import {first} from "rxjs/operators";
+import {PrestationService} from "../../service/datas.service";
+import {Router} from "@angular/router";
+import {AlertService} from "../../service/alert.service";
+import {Prestation} from "../../model/referenciel";
 
 @Component({
   selector: 'app-charts',
@@ -16,8 +21,18 @@ export class ChartsComponent implements OnInit {
     polarData: any;
 
     radarData: any;
+    private prestations: Prestation[];
+
+    constructor(private prestationService: PrestationService,
+                private router: Router,
+                private alertService: AlertService) {
+    }
+
 
     ngOnInit() {
+
+        this.loadAllPrestations();
+
         this.lineData = {
             labels: [ 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
@@ -124,6 +139,27 @@ export class ChartsComponent implements OnInit {
                 }
             ]
         };
+    }
+
+
+    loadAllPrestations() {
+
+        this.prestationService.list()
+            .pipe(first())
+            .subscribe(
+                prestations => {
+                    console.log("data returned = ", prestations);
+
+                    this.prestations = prestations;
+                   // let monthDiff= d.getUTCMonth() - (count % 12);
+
+                    prestations.filter((a,b)=> a)
+                },
+                error => {
+                    console.log("data returned = ", error);
+
+                    this.alertService.error(error);
+                });
     }
 
 
