@@ -9,7 +9,7 @@ import {versionLong} from "../../../_versions";
 export class CoreFooterComponent {
 
     version = versionLong
-    date = new Date();
+    date1 = new Date();
 
 
 }

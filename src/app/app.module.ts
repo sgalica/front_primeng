@@ -66,7 +66,7 @@ import {
     TreeTableModule,
 } from 'primeng/primeng';
 
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutes} from './app.routes';
 
@@ -236,6 +236,8 @@ export function tokenGetter() {
     ],
     providers: [
         // { provide: LocationStrategy, useClass: HashLocationStrategy },
+
+            { provide: LOCALE_ID, useValue: "en-US" },
         EventService,
         AuthGuard,
         //AdminGuard,

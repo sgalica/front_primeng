@@ -39,7 +39,7 @@
                 </p-multiSelect>
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
                     <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="yy-mm-dd" [locale]="fr" (onSelect)="co_filter(col.field);"
+                                dateFormat="dd/mm/yy" [locale]="fr" (onSelect)="co_filter(col.field);"
                                 (onClearClick)="co_filter(col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
@@ -157,7 +157,7 @@
 
             <!-- PRESTATIONS -->
             <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
-            <div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div>
+            <!--div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div-->
             <!-- Dynamic way : ng-template ad-host></ng-template-->
 
             <!-- FOOTER -->

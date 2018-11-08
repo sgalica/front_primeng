@@ -232,13 +232,11 @@ export class CollaborateursComponent implements OnInit {
     }
 
     co_filter(field: string) {
-
         var value = this.filtres[ field ].selected;
         //if (this.filtres[ field ].filtertype == "date")
         //    value = this.datePipe.transform(value, 'yyyy-MM-dd');
 
         this.dt.filter(value, field, this.filtres[ field ].filtercond);
-
     }
 
     afficherLaSaisie(event) {
