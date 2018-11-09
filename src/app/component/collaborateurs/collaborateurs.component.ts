@@ -37,11 +37,12 @@ export class CollaborateursComponent implements OnInit {
     filteritem : {selected:any, values:SelectItem[], keys:string[], filtertype:string, filtercond:string };
     filtres : filteritem[] = [];
     coldefs : {header:string, field:any, filtertype:string, filtercond:string }[];
+    colsIndex : string[];
     showHistSelect: boolean = false;
     // sortOptions: SelectItem[]; sortKey: string; sortField: string; sortOrder: number;
 
     // Fiche
-    selectedCollaborateur: Collaborateur;
+    selectedCollaborateur: Collaborateur = new Collaborateur();
     displayDialog: boolean = false;
 
     // Références
@@ -53,7 +54,6 @@ export class CollaborateursComponent implements OnInit {
     private viewfile: boolean;
     private columns: any;
     private apiresponse: ApiResponse;
-    colsplice: any;
 
 
     // PRESTATIONS
@@ -66,12 +66,11 @@ export class CollaborateursComponent implements OnInit {
 
     fr:any;
 
+    FieldsFiches : any[];
+
     constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService, private datePipe:DatePipe) {
     }
- /*   ngOnChanges(): void {
-        const camelCase = require('camelcase');
-        console.log("");
- }*/
+    /*   ngOnChanges(): void { const camelCase = require('camelcase'); }*/
 
     ngOnInit() {
 
@@ -99,6 +98,14 @@ export class CollaborateursComponent implements OnInit {
         ];
 
         this.selectColumns();
+        this.createColsIndex();
+
+        this.FieldsFiches=[
+            {grp: "Collab", grplabel : "Informations collaborateur", fields : ["trigramme", "nom", "prenom", "categorisation", "stt"]},
+            {grp: "Mission", grplabel : "Informations Mission", fields : []},
+            {grp: "ST", grplabel : "Informations Sous-Traitance", fields : ["societeStt", "preEmbauche", "dateEmbaucheOpen"]},
+            {grp: "Contact", grplabel : "Informations de contact", fields : ["telPerso", "telPro", "mailOpen", "mailSg"]}
+        ];
 
         this.initFilters();
 
@@ -114,8 +121,9 @@ export class CollaborateursComponent implements OnInit {
         };
 
         this.loadAllCollaborateurs();
-        // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
 
+
+        // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
         // Prestations (dynamique) : this.loadPrestationComponent();
     }
 
@@ -131,7 +139,6 @@ export class CollaborateursComponent implements OnInit {
                     this.updateFilters();
                 },
                 error => {
-                    //console.log("data returned = ", error);
                     this.alertService.error(error);
                 });
     }
@@ -157,6 +164,13 @@ export class CollaborateursComponent implements OnInit {
         this.selectedColumns = this.cols;
     }
 
+    createColsIndex() {
+        this.colsIndex = [];
+        this.coldefs.forEach(x => {
+            this.colsIndex[x.field]=x.header;
+        });
+    }
+
     initFilters() {
         // Create filterliste
         this.coldefs.forEach(x => {
@@ -165,9 +179,6 @@ export class CollaborateursComponent implements OnInit {
             } : {selected: "", values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond};
             this.filtres[ x.field ] = filteritem;
         });
-
-        console.log("LES FILTRES init", JSON.stringify( this.filtres ));
-
     };
 
     updateFilters() {

@@ -114,174 +114,45 @@
 </p-table>
 
 
-<p-dialog *ngIf="displayDialogPresta" header="Prestation" [(visible)]="displayDialogPresta" [responsive]="true"
-          [modal]="true">
+<p-dialog header="Prestation" [(visible)]="displayDialogPresta" [responsive]="true" [modal]="true">
 
     <!--span class="ui-inputgroup-addon">Identifiant</span>
     <input type="text" pInputText placeholder="identifiant" value="{{selectedPrestation.prestId}}"-->
     <div class="ui-g ui-fluid">
 
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Mission :</span>
-                <p-dropdown [options]="missions" [(ngModel)]="selectedPrestation.identifiantMission"
-                            [style]="{'width':'150px'}" filter="true">
-                    <ng-template let-item pTemplate="selectedItem">
-                        <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
-                    </ng-template>
-                    <ng-template let-mission pTemplate="item">
-                        <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-                            <div style="font-size:14px;float:right;margin-top:4px">{{mission.label}}</div>
-                        </div>
-                    </ng-template>
-                </p-dropdown>
+        <p-fieldset *ngFor="let fiche of FieldsFiches" legend="{{fiche.grplabel}}" class="ui-g-12 ui-md-6">
+            <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field">
+                <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left'}">{{colsIndex[field]}} :</span>
 
-                <input type=number pInputText placeholder="Mission" value="{{selectedPrestation.identifiantMission}}">
+                    <!--input *ngSwitchCase="'collaborateur.nom'" type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedPrestation.collaborateur.nom">
+                    <input *ngSwitchCase="'collaborateur.prenom'" type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedPrestation['collaborateur'].prenom"-->
+                    <input *ngSwitchDefault type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedPrestation[field]">
+
             </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Contrat :</span>
-                <input type="text" pInputText placeholder="Contrat" value="{{selectedPrestation.contratAppli}}">
-            </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Id pilote :</span>
-                <input type="text" pInputText placeholder="Trigramme open" value="{{selectedPrestation.trigramme}}">
-            </div>
-        </div>
-
-    </div>
-    <div class="ui-g ui-fluid">
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Département :</span>
-                <input type="text" pInputText placeholder="Département" value="{{selectedPrestation.departement}}">
-            </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Pôle :</span>
-                <input type="text" pInputText placeholder="Pôle" value="{{selectedPrestation.pole}}">
-            </div>
-            .
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Domaine :</span>
-                <input type="text" pInputText placeholder="Domaine" value="{{selectedPrestation.domaine}}">
-            </div>
-        </div>
-
+        </p-fieldset>
     </div>
 
-    <div class="ui-g ui-fluid">
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">ATG :</span>
-                <input type="text" pInputText placeholder="ATG" value="{{selectedPrestation.topAtg}}">
+    <!--p-dropdown [options]="missions" [(ngModel)]="selectedPrestation.identifiantMission"
+                [style]="{'width':'150px'}" filter="true">
+        <ng-template let-item pTemplate="selectedItem">
+            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+        </ng-template>
+        <ng-template let-mission pTemplate="item">
+            <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                <div style="font-size:14px;float:right;margin-top:4px">{{mission.label}}</div>
             </div>
-        </div>
+        </ng-template>
+    </p-dropdown>
+    <input type=number pInputText placeholder="Mission" value="{{selectedPrestation.identifiantMission}}"-->
 
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Début :</span>
-                <input type="text" pInputText placeholder="Date" value="{{selectedPrestation.dateDebutPrestation}}">
-            </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Fin :</span>
-                <input type="text" pInputText placeholder="Date" value="{{selectedPrestation.dateFinPrestation}}">
-            </div>
-        </div>
-
-    </div>
-    <div class="ui-g ui-fluid">
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">PU :</span>
-                <input type="text" pInputText placeholder="PU" value="{{selectedPrestation.numeroPu}}">
-            </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Site :</span>
-                <input type="text" pInputText placeholder="Site" value="{{selectedPrestation.localisation}}">
-            </div>
-        </div>
-
-
-    </div>
-    <div class="ui-g ui-fluid">
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Resp. Pôle SG :</span>
-                <input type="text" pInputText placeholder="Nom responsable pôle SG"
-                       value="{{selectedPrestation.responsablePole}}">
-            </div>
-        </div>
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Donneur d'ordre SG :</span>
-                <input type="text" pInputText placeholder="Donneur d'ordre SG"
-                       value="{{selectedPrestation.donneurOrdre}}">
-            </div>
-        </div>
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Commercial Open :</span>
-                <input type="text" pInputText placeholder="Nom Commercial Open"
-                       value="{{selectedPrestation.commercialOpen}}">
-            </div>
-        </div>
-
-    </div>
-
-    <div class="ui-g ui-fluid">
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Type :</span>
-                <input type="text" pInputText placeholder="Type" value="{{selectedPrestation.statutPrestation}}">
-            </div>
-        </div>
-
-        <div class="ui-g-12 ui-md-4">
-            <div class="ui-inputgroup">
-                <span class="ui-inputgroup-addon">Version :</span>
-                <input type="text" pInputText placeholder="categorisation"
-                       value="{{selectedPrestation.versionPrestation}}">
-            </div>
-        </div>
-        <div class="ui-g-12 ui-md-4">
-            <span class="ui-inputgroup-addon">Statut :</span>
-            <p-dropdown [options]="allstatus" [(ngModel)]="filtres['prestStatut'].selected" placeholder=""
-                        [showClear]="true"></p-dropdown>
-        </div>
-
-    </div>
-
-    <div class="ui-g ui-fluid">
-
+    <!--div class="ui-g ui-fluid">
         <div class="ui-g-12 ui-md-4">
             <div class="ui-inputgroup">
                 <span class="ui-inputgroup-addon">MAJ :</span>
                 <span>Créée le {{selectedPrestation.createdAt}} par {{selectedPrestation.createdBy}}, modifiée le {{selectedPrestation.updatedAt}} par {{selectedPrestation.updatedBy}}</span>
             </div>
         </div>
-
-    </div>
+    </div-->
 
 
     <p-footer>

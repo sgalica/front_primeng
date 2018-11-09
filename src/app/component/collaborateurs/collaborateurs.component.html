@@ -76,104 +76,38 @@
 
 
 
+
+
 <p-dialog header="{{title}}" [(visible)]="displayDialog" [responsive]="true" [modal]="true" [styleClass]="'importcsv'">
 
-    <p-tabView>
-        <p-tabPanel header="création" leftIcon="pi pi-calendar">
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">id_pilot</span>
-                        <input type="text" pInputText placeholder="identifiant pilot">
-                    </div>
-                </div>
+        <div class="ui-g ui-fluid">
 
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">nom</span>
-                        <input type="text" pInputText placeholder="nom">
-                    </div>
+            <p-fieldset *ngFor="let fiche of FieldsFiches" legend="{{fiche.grplabel}}" class="ui-g-12 ui-md-6">
+                <div *ngFor="let field of fiche.fields" class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left'}">{{colsIndex[field]}} :</span>
+                    <input type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedCollaborateur[field]">
                 </div>
+            </p-fieldset>
+        </div>
 
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">prenom</span>
-                        <input type="text" pInputText placeholder="prenom">
-                    </div>
-                </div>
+        <!-- PRESTATIONS -->
+        <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
+        <div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div>
+        <!-- Dynamic way : ng-template ad-host></ng-template-->
+
+        <!-- FOOTER -->
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button pButton type="button" label="Créer les collaborateurs" icon="pi pi-upload" class="ui-button-success"
+                        (click)="saveNewCollaborateur()"></button>
+
+                <button pButton type="button" label="{{buttonPrestationsLabels[idxBtnPrestations]}}" class="ui-button-success"
+                        (click)="showPrestations()"></button>
             </div>
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">trig_open</span>
-                        <input type="text" pInputText placeholder="trigramme open">
-                    </div>
-                </div>
+        </p-footer>
 
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">tel_p</span>
-                        <input type="text" pInputText placeholder="telephone personnel">
-                    </div>
-                </div>
 
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">mail_op</span>
-                        <input type="text" pInputText placeholder="mail open">
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">mail_sg</span>
-                        <input type="text" pInputText placeholder="mail sociéte générale">
-                    </div>
-                </div>
-
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">code_cat</span>
-                        <input type="text" pInputText placeholder="categorisation">
-                    </div>
-                </div>
-
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">top_sta</span>
-                        <input type="text" pInputText placeholder="top statut">
-                    </div>
-                </div>
-            </div>
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">statut</span>
-                        <input type="text" pInputText placeholder="statut">
-                    </div>
-                </div>
-            </div>
-
-            <!-- PRESTATIONS -->
-            <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
-            <div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div>
-            <!-- Dynamic way : ng-template ad-host></ng-template-->
-
-            <!-- FOOTER -->
-            <p-footer>
-                <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                    <button pButton type="button" label="Créer les collaborateurs" icon="pi pi-upload" class="ui-button-success"
-                            (click)="saveNewCollaborateur()"></button>
-
-                    <button pButton type="button" label="{{buttonPrestationsLabels[idxBtnPrestations]}}" class="ui-button-success"
-                            (click)="showPrestations()"></button>
-                </div>
-            </p-footer>
-
-        </p-tabPanel>
-        <p-tabPanel header="Importer" leftIcon="pi pi-inbox">
-
+        <!--p-tabPanel header="Importer" leftIcon="pi pi-inbox">
 
             <p-table [style]="{'overflow':'auto!important'}" [resizableColumns]="true"
                      columnResizeMode="expand" [responsive]="true" #tt [columns]="selectedColumns" [value]="csvRecords"
@@ -219,7 +153,7 @@
 
         </p-tabPanel>
 
-    </p-tabView>
+    </p-tabView-->
 
 
 </p-dialog>

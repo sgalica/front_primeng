@@ -6,7 +6,6 @@ import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
 import {Collaborateur, Prestation} from "../../model/referenciel";
 import {CollaborateurService, PrestationService} from "../../service/datas.service";
-import {ApiResponse} from "../../model/apiresponse";
 import {DatePipe} from "@angular/common";
 
 interface filteritem {
@@ -35,6 +34,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
     prestations: Prestation[] = [];
     cols: any[];
     selectedColumns: any[];
+    filteritem: { selected: any, values: SelectItem[], keys: string[], type: string, filtercond: string };
+    filtres: filteritem[] = [];
+    coldefs: { header: string, field: string, filtertype: string, filtercond: string }[];
+    colsIndex : string[];
 
     // Collaborateur
     id: string;
@@ -42,22 +45,20 @@ export class PrestationsComponent implements OnInit, OnChanges {
     employee: Collaborateur;
 
     // Fiche/Detail
-    selectedPrestation: Prestation;// = new Prestation;
+    selectedPrestation: Prestation = new Prestation();
     displayDialogPresta: boolean = false;
 
     // Références
     missions: { label: string, value: number }[];
     allstatus: { label: string, value: string }[] = [ {value: "E", label: "En cours"}, { value: "T", label: "Terminées"}, {value: "S", label: "Supprimées"}, {value: "A", label: "Archivées"} ];
 
-    filteritem: { selected: any, values: SelectItem[], keys: string[], type: string, filtercond: string };
-    filtres: filteritem[] = [];
-    coldefs: { header: string, field: string, filtertype: string, filtercond: string }[];
     showHistSelect: boolean = false;
 
     rowcolors: {};
 
     fr: any;
-    private apiresponse: ApiResponse;
+
+    FieldsFiches : any[];
 
     //sortOptions: SelectItem[]; sortField: string; sortOrder: number;
 
@@ -75,21 +76,22 @@ export class PrestationsComponent implements OnInit, OnChanges {
         Array.prototype.push.apply(this.coldefs, [
 //          {header: 'Id', field:'prestId'},
 //          {header: 'Id Mission', field:'prestIdMission'}, identifiantPrestation
-            {header: 'Identifiant Pilote', field: 'trigramme', filtertype: "liste"},
-            {header: 'Début', field: 'dateDebutPrestation', filtertype: "date", filtercond: "gte"},
-            {header: 'Fin', field: 'dateFinPrestation', filtertype: "date", filtercond: "lte"},
-            {header: 'Contrat', field: 'contratAppli', filtertype: "liste"},
-            {header: 'ATG', field: 'numeroAtg', filtertype: "liste"},
-            {header: 'Département', field: 'departement', filtertype: "liste"},
-            {header: 'Pôle', field: 'pole', filtertype: "liste"},
-            {header: 'Domaine', field: 'domaine', filtertype: "liste"},
-            {header: 'Site', field: 'localisation', filtertype: "liste"},
-            {header: 'PU', field: 'numeroPu', filtertype: "liste"},
-//          {header: 'Resp. Pôle', field:'prestRespPoleSG'},
-//          {header: 'd_ordre', field:'prestDonneurOrdreSG'},
-            {header: 'Type', field: 'topAtg', filtertype: "liste"},
-            {header: 'Statut', field: 'statutPrestation', filtertype: "liste"},
-            {header: 'Version', field: 'versionPrestation', filtertype: ""}
+            {header: 'Identifiant Pilote',  field: 'trigramme', filtertype: "liste"},
+            {header: 'Début',               field: 'dateDebutPrestation', filtertype: "date", filtercond: "gte"},
+            {header: 'Fin',                 field: 'dateFinPrestation', filtertype: "date", filtercond: "lte"},
+            {header: 'Contrat',             field: 'contratAppli', filtertype: "liste"},
+            {header: 'ATG',                 field: 'numeroAtg', filtertype: "liste"},
+            {header: 'Département',         field: 'departement', filtertype: "liste"},
+            {header: 'Pôle',                field: 'pole', filtertype: "liste"},
+            {header: 'Domaine',             field: 'domaine', filtertype: "liste"},
+            {header: 'Site',                field: 'localisation', filtertype: "liste"},
+            {header: 'PU',                  field: 'numeroPu', filtertype: "liste"},
+            {header: 'Responsable de pôle', field: 'responsablePole', filtertype: "liste"},
+            {header: 'Donneur ordre SG',    field: 'donneurOrdre', filtertype: "liste"},
+            {header: 'Type',                field: 'topAtg', filtertype: "liste"},
+            {header: 'Statut',              field: 'statutPrestation', filtertype: "liste"},
+            {header: 'Nom prénom',          field: 'commercialOpen', filtertype: "liste"},
+            {header: 'Version',             field: 'versionPrestation', filtertype: ""}
             /*          {header: 'com_open', field:'prestCommercialOPEN'},
 
                         {header: 'date_c', field:'prestDateCreation'},
@@ -99,6 +101,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
         ]);
 
         this.selectColumns();
+        this.createColsIndex();
+        this.FieldsFiches=[
+            {grp: "Prestataire", grplabel : "Prestataire", fields : ["trigramme","collaborateur.nom", "collaborateur.prenom" ]}, //,
+            {grp: "Contrat", grplabel : "Contrat", fields : ["contratAppli"]}, //dateDebutContrat,  dateFinContrat
+            {grp: "Prestation", grplabel : "Prestation", fields : ["localisation","numeroAtg","departement","pole","domaine","numeroPu","dateDebutPrestation","dateFinPrestation","responsablePole","donneurOrdre" ]},
+            {grp: "Commercial", grplabel : "Commercial OPEN", fields : ["commercialOpen" ]} // mail, tel portable, tel fixe
+        ];
 
         this.initFilters();
         this.displayDialogPresta = false;
@@ -120,7 +129,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'prenom'}, {label: 'Brand', value: 'brand'}        ];
         //console.log("test:",this.route.snapshot.url[ 0 ].path == ("prestations"));
         if (this.route.snapshot.url[ 0 ].path == ("prestations")) {
-
             this.loadAllPrestations();
             //if this.route.snapshot.params['idcollab']; this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
         }
@@ -158,11 +166,24 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 if (this.modeCollab)
                     addcol = false;
             }
+            if (x.field == "responsablePole") addcol = false;
+            if (x.field == "donneurOrdre") addcol = false;
+            if (x.field == "commercialOpen") addcol = false;
             if (addcol)
                 Array.prototype.push.apply(this.cols, [ {header: x.header, field: x.field} ]);
         });
 
         this.selectedColumns = this.cols;
+    }
+
+    createColsIndex() {
+        this.colsIndex = [];
+        this.coldefs.forEach(x => {
+            this.colsIndex[x.field]=x.header;
+        });
+        //Libellés collaborateur
+        this.colsIndex["collaborateur.nom"]="Nom";
+        this.colsIndex["collaborateur.prenom"]="Prénom";
     }
 
     initFilters() {
