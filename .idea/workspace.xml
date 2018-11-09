@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/_versions.ts" afterPath="$PROJECT_DIR$/src/_versions.ts" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" afterPath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" afterPath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" />
-      <change beforePath="$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.html" afterPath="$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -373,7 +369,7 @@
         <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="246">
-              <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="32" selection-end-line="69" selection-end-column="32" />
+              <caret line="68" column="32" lean-forward="false" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
@@ -997,14 +993,7 @@
       <workItem from="1540805733986" duration="69512000" />
       <workItem from="1541299519085" duration="4298000" />
       <workItem from="1541326674831" duration="6218000" />
-      <workItem from="1541614991485" duration="33392000" />
-    </task>
-    <task id="LOCAL-00033" summary="message success managed">
-      <created>1539009018638</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1539009018638</updated>
+      <workItem from="1541614991485" duration="33410000" />
     </task>
     <task id="LOCAL-00034" summary="message success managed 2">
       <created>1539088741100</created>
@@ -1342,11 +1331,18 @@
       <option name="project" value="LOCAL" />
       <updated>1541632901976</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="soutraitance">
+      <created>1541722851914</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1541722851917</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="706194000" />
+    <option name="totallyTimeSpent" value="706212000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1456,7 +1452,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Admin content management 2" />
     <MESSAGE value="Admin content management 3 fix rxjs behaviorsubject" />
     <MESSAGE value="Admin content management 4 fix rxjs behaviorsubject" />
     <MESSAGE value="fix rxjs behaviorsubject" />
@@ -1481,7 +1476,8 @@
     <MESSAGE value="service matcher v4" />
     <MESSAGE value="chart line" />
     <MESSAGE value="fix menu link admin" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix menu link admin" />
+    <MESSAGE value="soutraitance" />
+    <option name="LAST_COMMIT_MESSAGE" value="soutraitance" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1827,7 +1823,7 @@
     <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
-          <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="32" selection-end-line="69" selection-end-column="32" />
+          <caret line="68" column="32" lean-forward="false" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
           </folding>
