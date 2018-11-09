@@ -4,7 +4,7 @@ import {PrestationService} from "../../service/datas.service";
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {Prestation} from "../../model/referenciel";
-import {Subject} from "rxjs/Rx";
+import {BehaviorSubject} from "rxjs";
 
 export class ChartLine {
 
@@ -24,7 +24,7 @@ export class ChartLine {
 @Component({
     selector: 'app-charts',
     templateUrl: './charts.component.html',
-    styleUrls: ['./charts.component.css']
+    styleUrls: [ './charts.component.css' ]
 })
 export class ChartsComponent implements OnInit {
 
@@ -32,7 +32,8 @@ export class ChartsComponent implements OnInit {
 
     barData: any;
 
-    allchartsSub = new Subject<ChartLine[]>();
+    allchartsSub = new BehaviorSubject<ChartLine[]>(null);
+
     allcharts = [];
 
 
@@ -63,37 +64,41 @@ export class ChartsComponent implements OnInit {
         let dataList = [];
         this.allchartsSub.subscribe(x => {
             console.log("zzzzzzzzzzzzz-----------------------------------------------zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz", x);
-            x.forEach(y => {
-                console.log("courbe", y);
-                Object.values(y[0]).filter((a, b) => b == 3).forEach(z => labelList.push(formatter.format(z as Date)))
-                let stt=[];
-                Object.values(y).forEach((curr) => stt.push(curr['tauxStt']/curr['nombreColl']*100))
-                console.log("stt", stt);
-                dataList.push({
-                    label: y['departement'],
-                    data: stt,
-                    fill: false,
-                    borderColor: '#03A9F4'
+
+            console.log("", JSON.stringify(x));
+            if (x != null || x != undefined && JSON.stringify(x) != "[[],[],[],[],[],[]]") {
+                x.forEach(y => {
+                    console.log("courbe", y);
+                    Object.values(y[ 0 ]).filter((a, b) => b == 3).forEach(z => labelList.push(formatter.format(z as Date)));
+                    let stt = [];
+                    Object.values(y).forEach((curr) => stt.push(curr[ 'tauxStt' ] / curr[ 'nombreColl' ] * 100));
+                    console.log("stt", stt);
+                    dataList.push({
+                        label: y[ 'departement' ],
+                        data: stt,
+                        fill: false,
+                        borderColor: '#03A9F4'
+                    })
+
+
                 })
-
-
-            })
-            console.log("labellist", labelList);
-            console.log("labellist", dataList);
+            }
+            console.log("labellist =", labelList);
+            console.log("datalist =", dataList);
 
 
             this.lineData = {
                 labels: labelList,
                 datasets: dataList
             };
-        })
+        });
 
 
         this.pieData = {
-            labels: ['A', 'B', 'C'],
+            labels: [ 'A', 'B', 'C' ],
             datasets: [
                 {
-                    data: [300, 50, 100],
+                    data: [ 300, 50, 100 ],
                     backgroundColor: [
                         '#FFC107',
                         '#03A9F4',
@@ -104,7 +109,7 @@ export class ChartsComponent implements OnInit {
                         '#81D4FA',
                         '#A5D6A7'
                     ]
-                }]
+                } ]
         };
 
 
@@ -137,7 +142,6 @@ export class ChartsComponent implements OnInit {
 
 
     private calculeTauxStt(date: any, prestations: any) {
-        debugger
         let currentMonth = date.getUTCMonth();
         for (let i = 0; i < 6; i++) {
             this.monthList.push(new Date(date.getFullYear(), currentMonth - i, 1));
@@ -155,7 +159,6 @@ export class ChartsComponent implements OnInit {
 
                 var temp;
                 console.log(chartsLines);
-                debugger;
 
                 /*                chartsLines.forEach(line => {
                                     if (line.departement == prestation.departement &&
@@ -191,8 +194,7 @@ export class ChartsComponent implements OnInit {
                     .map(d => {
                         console.log("*****<<", i, ">>********************************* ON A MET A JOUR CE DEPARTEMENT **********************************************", prestation.departement);
 
-                        debugger
-                        if (prestation.collaborateur['stt'] == 'Oui') d.tauxStt++;
+                        if (prestation.collaborateur[ 'stt' ] == 'Oui') d.tauxStt++;
                         d.nombreColl++;
                         temp = chartsLines;
 
@@ -202,8 +204,7 @@ export class ChartsComponent implements OnInit {
                     console.log("*****<<", i, ">>********************************* ON A TROUVE UN NOUVEAU DEPARTEMENT **********************************************", prestation.departement);
                     temp = chartsLines;
 
-                    debugger
-                    let tauxStt = (prestation.collaborateur['stt'] == 'Oui') ? 1 : 0;
+                    let tauxStt = (prestation.collaborateur[ 'stt' ] == 'Oui') ? 1 : 0;
 
                     temp.push(new ChartLine(prestation.departement, tauxStt, 1, month));
                 }
@@ -212,9 +213,8 @@ export class ChartsComponent implements OnInit {
                 if (chartsLines.length == 0) {
                     console.log("******<<", i, ">>******************************** ON A PAS ENCORE TROUVE DE DEPARTEMENT : INIT PREMIER **********************************************", prestation.departement);
 
-                    debugger;
                     temp = chartsLines;
-                    let tauxStt = (prestation.collaborateur['stt'] == 'Oui') ? 1 : 0;
+                    let tauxStt = (prestation.collaborateur[ 'stt' ] == 'Oui') ? 1 : 0;
 
                     temp.push(new ChartLine(prestation.departement, tauxStt, 1, month));
                 }
@@ -223,6 +223,61 @@ export class ChartsComponent implements OnInit {
             this.allcharts.push(chartsLines);
         });
 
+        let charts = [];
+        let chartList = [];
+        let allch = [];
+        let i = 0;
+        this.allcharts.forEach(x => {
+
+
+            Object.values(x).forEach(y => {
+                charts.push(y)
+            })
+
+        });
+
+        console.log("vvvvvvvvvvvvvvvvvvvvvvvvv charts = ", charts);
+
+        charts.forEach(line => {
+            if (allch.length == 0) {
+                chartList.push(line);
+                allch.push(chartList);
+            }
+            else if (allch.every(x => Object.values(x).every(y => y[ 'departement' ] != line.departement))) {
+                console.log("vvvvvvvvvvvvvvvvvvvvvvvvv Line = ", line.departement);
+
+                var temp = [];
+                temp.push(line);
+                allch.push(temp);
+            }
+            else allch
+                    .forEach((x, k) => {
+                        var temp2 = [];
+
+                        Object.values(x).forEach((y, j) => {
+                            debugger
+                            if (y[ 'departement' ] == line.departement && y[ 'dateRef' ] !== line.dateRef) {
+                                console.log("line.departement = ", line);
+                                console.log("y ['departement'] = ", y);
+                                console.log("j = ", j);
+                                //console.log("recap ", x);
+
+                                temp2.push(line);
+                                console.log("temp2 recap= ", temp2);
+
+                            }
+
+                        });
+                        console.log("temp2 = ", temp2);
+
+                        temp2.forEach(r=> x.push(r))
+                    })
+
+
+        });
+
+
+        console.log("XXXXXXXXXXXXXXX Toutes les courbes de soutraitance XXXXXXXXXXXXXXXXXXX ", allch);
         console.log("Toutes les courbes de soutraitance", this.allcharts);
 
         /*   //chartLine.push({"mois": firstDayOfMonth.getMonth(), "taux de Stt": nbreStt / nbreTotal * 100});
