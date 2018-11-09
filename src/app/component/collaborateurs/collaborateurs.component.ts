@@ -76,7 +76,6 @@ export class CollaborateursComponent implements OnInit {
     ngOnInit() {
 
         const camelCase = require('camelcase');
-        this.loadAllCollaborateurs();
 
         this.coldefs = [
             {header: 'Identifiant Pilot', field: camelCase('trigramme'), filtertype : "liste", filtercond:"" },
@@ -114,6 +113,7 @@ export class CollaborateursComponent implements OnInit {
             clear: 'Effacer'
         };
 
+        this.loadAllCollaborateurs();
         // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
 
         // Prestations (dynamique) : this.loadPrestationComponent();
@@ -128,12 +128,10 @@ export class CollaborateursComponent implements OnInit {
             .subscribe(
                 collaborateurs => {
                     this.collaborateurs = collaborateurs.sort(this.orderTrigrammeVersion);
-                    //debugger;
                     this.updateFilters();
                 },
                 error => {
                     //console.log("data returned = ", error);
-
                     this.alertService.error(error);
                 });
     }
@@ -189,8 +187,14 @@ export class CollaborateursComponent implements OnInit {
                         break;
                     default :
                         var value = row[ column ];
-                        if (value !=undefined && value !=null && value.trim()!="")
-                            this.filtres[ column ].keys[ value ] = "";
+                        if (value == undefined || value == null ) {
+                            row[column] = "";
+                        }
+                        else {
+                            row[column] = value.trim();
+                        }
+                        value = row[column];
+                        this.filtres[ column ].keys[ value ] = "";
                 }
             }
         });

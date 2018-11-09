@@ -7,6 +7,7 @@ import {DataTable} from "primeng/primeng";
 import {Collaborateur, Prestation} from "../../model/referenciel";
 import {CollaborateurService, PrestationService} from "../../service/datas.service";
 import {ApiResponse} from "../../model/apiresponse";
+import {DatePipe} from "@angular/common";
 
 interface filteritem {
     selected: any;
@@ -58,33 +59,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
     fr: any;
     private apiresponse: ApiResponse;
 
-    //sortOptions: SelectItem[];   sortField: string;    sortOrder: number;
+    //sortOptions: SelectItem[]; sortField: string; sortOrder: number;
 
 
-    constructor(private prestationService: PrestationService,
-                private employeeService: CollaborateurService,
-                private router: Router,
-                private alertService: AlertService,
-                private route: ActivatedRoute,
-                ) {
-    }
+    constructor(private prestationService: PrestationService, private employeeService: CollaborateurService, private router: Router, private alertService: AlertService, private route: ActivatedRoute, private datePipe:DatePipe ) {}
 
 
     ngOnInit() {
 
-        // MODE ALL or COLLAB
-        //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'prenom'}, {label: 'Brand', value: 'brand'}        ];
-        //console.log("test:",this.route.snapshot.url[ 0 ].path == ("prestations"));
-        if (this.route.snapshot.url[ 0 ].path == ("prestations")) {
-
-            this.loadAllPrestations();
-            //if this.route.snapshot.params['idcollab']; this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
-        }
-        // Prestations from collab
-        else {
-            this.modeCollab = true;
-        }
-
+        this.prestations = [];
 
         // Columns
         // Cols depending on ID
@@ -112,8 +95,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                         {header: 'date_c', field:'prestDateCreation'},
                         {header: 'user_c', field:'prestUserCreation'},
                         {header: 'date_m', field:'prestDateMaj'},
-                        {header: 'user_m', field:'prestUserMaj'},
-            */
+                        {header: 'user_m', field:'prestUserMaj'},   */
         ]);
 
         this.selectColumns();
@@ -134,8 +116,20 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // Presentation
         this.rowcolors = {"E": "rgba(rgba(250,200,240,1))", "T": "rgba(200,200,200,0.2)"}
-    }
+        // MODE ALL or COLLAB
+        //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'prenom'}, {label: 'Brand', value: 'brand'}        ];
+        //console.log("test:",this.route.snapshot.url[ 0 ].path == ("prestations"));
+        if (this.route.snapshot.url[ 0 ].path == ("prestations")) {
 
+            this.loadAllPrestations();
+            //if this.route.snapshot.params['idcollab']; this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
+        }
+        // Prestations from collab
+        else {
+            this.modeCollab = true;
+        }
+
+    }
 
     showCollab() {
         this.id = this.collab.trigramme;
@@ -174,18 +168,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
     initFilters() {
         // Create filterliste
         this.coldefs.forEach(x => {
-            var filteritem = (x.filtertype == "liste") ? {
-                selected: [],
-                values: [],
-                keys: [],
-                filtertype: x.filtertype,
-                filtercond: x.filtercond
-            } : {selected: "", values: "", keys: [], filtertype: x.filtertype, filtercond: x.filtercond};
+            var filteritem = (x.filtertype == "liste") ? { selected: [], values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond }
+            : {selected: 0, values: "", keys: [], filtertype: x.filtertype, filtercond: x.filtercond};
             this.filtres[ x.field ] = filteritem;
         });
-
-        console.log("LES FILTRES init", JSON.stringify( this.filtres ));
-
+        //console.log("LES FILTRES init", JSON.stringify( this.filtres ));
     };
 
     selectPrestation(event: Event, prestation: Prestation) {
@@ -248,14 +235,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     loadAllPrestations() {
-        console.log("Prestations from db:");
+        //console.log("Prestations from db:");
         this.prestationService.list()
             .pipe(first())
             .subscribe(prestations => {
-                    this.prestations = prestations.sort(this.orderDateDebutEtVersion);
+                    this.prestations = prestations;
                     this.updateFilters();
+                    this.prestations.sort(this.orderDateDebutEtVersion);
                     this.filterVersions();
-                    console.log("Prestations from db:",prestations);
                     //this.alertService.success(prestations);
                 },
                 error => {
@@ -269,7 +256,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.showHistSelect = false;
         this.initFilters();
 
-
         // trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version
         var labels: string[] = [];  // Labels collabs
         this.prestations.forEach(x => {
@@ -279,16 +265,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 x.trigramme = x.collaborateur.trigramme;
 
             // Format dates
-
-            var datestr = x.dateDebutPrestation; //dd/mm/yyyy
-            x.dateDebutPrestation = new Date(datestr);
-            datestr = x.dateFinPrestation; //dd/mm/yyyy
-            x.dateFinPrestation = new Date(datestr);
-
-            //var date1 = this.datePipe.transform(x.dateDebutPrestation, 'yyyy-MM-dd');
-            //x.dateDebutPrestation = date1;
-            //var date2 = this.datePipe.transform(x.dateFinPrestation, 'yyyy-MM-dd');
-            //x.dateFinPrestation   = date2;
+            var datearr = x.dateDebutPrestation.split("/"); //dd/mm/yyyy
+            x.dateDebutPrestation = new Date(datearr[2], datearr[1], datearr[0]);
+            datearr = x.dateFinPrestation.split("/");
+            x.dateFinPrestation = new Date(datearr[2], datearr[1], datearr[0]);
+            //x.dateDebutPrestation = this.datePipe.transform(x.dateDebutPrestation, 'yyyy-MM-dd');
 
             // >>>> Get keys <<<<<
             for (var column in this.filtres) {
@@ -305,11 +286,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
                         value = keyvalue;
                         break;
                 }
-                if (keyvalue !=undefined && keyvalue !=null && keyvalue.trim()!="")
-                    this.filtres[ column ].keys[ keyvalue ] = value;
+                //if (keyvalue != undefined && keyvalue != null )
+                this.filtres[ column ].keys[ keyvalue ] = value;
             }
         });
-
         let selectitems: SelectItem[] = [];
         for (var column in this.filtres) {
             selectitems = [];
@@ -337,9 +317,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 default : // trigramme, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type
                     // Sort
                     for (var key in this.filtres[ column ].keys) {
-                        //console.log("coll_sort before = ", key , JSON.stringify(col_sort ));
-                        col_sort.push(key);
-                        //console.log("coll_sort after = ", key , JSON.stringify(col_sort) );
+                        col_sort.push(key);  //console.log("coll_sort after = ", key , JSON.stringify(col_sort) );
                     }
                     col_sort.sort();
 
@@ -354,7 +332,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             this.filtres[ column ].values = selectitems;
         }
-        //console.log("LES FILTRES", this.filtres);
     }
 
 
@@ -377,16 +354,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
     // Tri sur datedebut (desc) et version (desc)
     orderDateDebutEtVersion(a, b) {
 
-        let after = 0;
         var datea = a.dateDebutPrestation;
         var dateb = b.dateDebutPrestation;
 
-        datea = datea.substr(6,4)+ datea.substr(3,2)+datea.substr(0,2);
-        dateb = dateb.substr(6,4)+ dateb.substr(3,2)+dateb.substr(0,2);
-        after  = datea > dateb ? -1 : datea < dateb ? 1 : 0;
-        if (after == 0) {
+        let after  = datea > dateb ? -1 : datea < dateb ? 1 : 0;
+
+        if (after == 0)
             after = a.versionPrestation > b.versionPrestation ? -1 : a.versionPrestation < b.versionPrestation ? 1 : 0;
-        }
+
         return after;
     }
 
@@ -419,9 +394,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
 
     pt_filter(field: string) {
-
         var value = this.filtres[ field ].selected;
-        // if (this.filtres[ field ].filtertype == "date") value = this.datePipe.transform(value, 'yyyy-MM-dd');
+        if (this.filtres[ field ].filtertype == "date") {
+        } //value = this.datePipe.transform(value, 'yyyy-MM-dd');
 
         this.pt.filter(value, field, this.filtres[ field ].filtercond);
     }

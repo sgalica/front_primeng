@@ -53,9 +53,10 @@
                         <span *ngIf="items.length==0" [style]="{'text-overflow':'ellipsis'}">Sélectionnez</span>
                     </ng-template>-->
                 </p-multiSelect>
+
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
                     <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="dd-MM-yyyy"  (onSelect)="pt_filter(col.field);"
+                                dateFormat="dd/mm/yy" (onSelect)="pt_filter(col.field);"
                                 (onClearClick)="pt_filter(col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
@@ -93,12 +94,9 @@
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
-
                 <span *ngSwitchCase="'date'">{{rowData[col.field] | date:"dd/MM/yyyy" }}</span>
-
                 <span *ngSwitchDefault>{{rowData[col.field]}}</span>
             </td>
-
 
             <td>
                 <div class="ui-toolbar-group-right">
