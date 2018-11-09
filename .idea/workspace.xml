@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" afterPath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -368,8 +369,8 @@
       <file leaf-file-name="charts.component.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="68" column="32" lean-forward="false" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
+            <state relative-caret-position="357">
+              <caret line="69" column="51" lean-forward="true" selection-start-line="69" selection-start-column="51" selection-end-line="69" selection-end-column="51" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
@@ -993,14 +994,7 @@
       <workItem from="1540805733986" duration="69512000" />
       <workItem from="1541299519085" duration="4298000" />
       <workItem from="1541326674831" duration="6218000" />
-      <workItem from="1541614991485" duration="33410000" />
-    </task>
-    <task id="LOCAL-00034" summary="message success managed 2">
-      <created>1539088741100</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1539088741100</updated>
+      <workItem from="1541614991485" duration="34554000" />
     </task>
     <task id="LOCAL-00035" summary="message success managed 2">
       <created>1539088958292</created>
@@ -1338,11 +1332,18 @@
       <option name="project" value="LOCAL" />
       <updated>1541722851917</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="soutraitance">
+      <created>1541722858837</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1541722858837</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="706212000" />
+    <option name="totallyTimeSpent" value="707356000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1822,8 +1823,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="68" column="32" lean-forward="false" selection-start-line="68" selection-start-column="32" selection-end-line="68" selection-end-column="32" />
+        <state relative-caret-position="357">
+          <caret line="69" column="51" lean-forward="true" selection-start-line="69" selection-start-column="51" selection-end-line="69" selection-end-column="51" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
           </folding>

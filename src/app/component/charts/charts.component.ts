@@ -66,50 +66,28 @@ export class ChartsComponent implements OnInit {
             x.forEach(y => {
                 console.log("courbe", y);
                 Object.values(y[0]).filter((a, b) => b == 3).forEach(z => labelList.push(formatter.format(z as Date)))
-                Object.values(y).forEach(z => labelList.push(formatter.format(z as Date)))
+                let stt=[];
+                Object.values(y).forEach((curr) => stt.push(curr['tauxStt']/curr['nombreColl']*100))
+                console.log("stt", stt);
+                dataList.push({
+                    label: y['departement'],
+                    data: stt,
+                    fill: false,
+                    borderColor: '#03A9F4'
+                })
 
 
             })
             console.log("labellist", labelList);
+            console.log("labellist", dataList);
+
+
             this.lineData = {
                 labels: labelList,
-                datasets: [
-                    {
-                        label: 'First Dataset',
-                        data: [
-
-
-                            80, 80, 81, 56, 55, 40],
-                        fill: false,
-                        borderColor: '#03A9F4'
-                    },
-                    {
-                        label: 'Second Dataset',
-                        data: [48, 40, 19, 86, 27, 90],
-                        fill: false,
-                        borderColor: '#FFC107'
-                    }
-                ]
+                datasets: dataList
             };
         })
 
-        this.barData = {
-            labels: ['February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'My First dataset',
-                    backgroundColor: '#03A9F4',
-                    borderColor: '#03A9F4',
-                    data: [59, 80, 81, 56, 55, 40]
-                },
-                {
-                    label: 'My Second dataset',
-                    backgroundColor: '#FFC107',
-                    borderColor: '#FFC107',
-                    data: [48, 40, 19, 86, 27, 90]
-                }
-            ]
-        };
 
         this.pieData = {
             labels: ['A', 'B', 'C'],
@@ -129,58 +107,7 @@ export class ChartsComponent implements OnInit {
                 }]
         };
 
-        this.polarData = {
-            datasets: [{
-                data: [
-                    11,
-                    16,
-                    7,
-                    3,
-                    14
-                ],
-                backgroundColor: [
-                    '#FFC107',
-                    '#03A9F4',
-                    '#4CAF50',
-                    '#E91E63',
-                    '#9C27B0'
-                ],
-                label: 'My dataset'
-            }],
-            labels: [
-                'Red',
-                'Green',
-                'Yellow',
-                'Grey',
-                'Blue'
-            ]
-        };
 
-        this.radarData = {
-            labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-            datasets: [
-                {
-                    label: 'My First dataset',
-                    backgroundColor: 'rgba(179,181,198,0.2)',
-                    borderColor: 'rgba(179,181,198,1)',
-                    pointBackgroundColor: 'rgba(179,181,198,1)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgba(179,181,198,1)',
-                    data: [65, 59, 90, 81, 56, 55, 40]
-                },
-                {
-                    label: 'My Second dataset',
-                    backgroundColor: 'rgba(255,99,132,0.2)',
-                    borderColor: 'rgba(255,99,132,1)',
-                    pointBackgroundColor: 'rgba(255,99,132,1)',
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgba(255,99,132,1)',
-                    data: [28, 48, 40, 19, 96, 27, 100]
-                }
-            ]
-        };
     }
 
 
