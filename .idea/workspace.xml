@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="soutraitance">
+    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" afterPath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts" afterPath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts" />
       <change beforePath="$PROJECT_DIR$/src/app/component/charts/charts.component.html" afterPath="$PROJECT_DIR$/src/app/component/charts/charts.component.html" />
       <change beforePath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" afterPath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" />
     </list>
@@ -372,8 +370,8 @@
       <file leaf-file-name="charts.component.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="68" column="37" lean-forward="true" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
+            <state relative-caret-position="276">
+              <caret line="106" column="16" lean-forward="true" selection-start-line="106" selection-start-column="16" selection-end-line="106" selection-end-column="16" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
@@ -384,8 +382,8 @@
       <file leaf-file-name="charts.component.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="21" lean-forward="true" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+            <state relative-caret-position="51">
+              <caret line="3" column="94" lean-forward="false" selection-start-line="3" selection-start-column="94" selection-end-line="3" selection-end-column="94" />
               <folding />
             </state>
           </provider>
@@ -1068,14 +1066,7 @@
       <workItem from="1540805733986" duration="69512000" />
       <workItem from="1541299519085" duration="4298000" />
       <workItem from="1541326674831" duration="6218000" />
-      <workItem from="1541614991485" duration="47774000" />
-    </task>
-    <task id="LOCAL-00036" summary="message success managed 3">
-      <created>1539089092886</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1539089092886</updated>
+      <workItem from="1541614991485" duration="52880000" />
     </task>
     <task id="LOCAL-00037" summary="message success managed 4">
       <created>1539090204211</created>
@@ -1413,11 +1404,18 @@
       <option name="project" value="LOCAL" />
       <updated>1541724005286</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="soutraitance fix graphe still fix date selection">
+      <created>1541825835433</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1541825835433</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="720576000" />
+    <option name="totallyTimeSpent" value="725682000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1527,7 +1525,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Admin content management 3 fix rxjs behaviorsubject" />
     <MESSAGE value="Admin content management 4 fix rxjs behaviorsubject" />
     <MESSAGE value="fix rxjs behaviorsubject" />
     <MESSAGE value="fix rxjs behaviorsubject 1" />
@@ -1552,7 +1549,8 @@
     <MESSAGE value="chart line" />
     <MESSAGE value="fix menu link admin" />
     <MESSAGE value="soutraitance" />
-    <option name="LAST_COMMIT_MESSAGE" value="soutraitance" />
+    <MESSAGE value="soutraitance fix graphe still fix date selection" />
+    <option name="LAST_COMMIT_MESSAGE" value="soutraitance fix graphe still fix date selection" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1891,16 +1889,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="21" lean-forward="true" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
+        <state relative-caret-position="51">
+          <caret line="3" column="94" lean-forward="false" selection-start-line="3" selection-start-column="94" selection-end-line="3" selection-end-column="94" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="68" column="37" lean-forward="true" selection-start-line="68" selection-start-column="37" selection-end-line="68" selection-end-column="37" />
+        <state relative-caret-position="276">
+          <caret line="106" column="16" lean-forward="true" selection-start-line="106" selection-start-column="16" selection-end-line="106" selection-end-column="16" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
           </folding>

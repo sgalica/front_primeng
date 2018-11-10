@@ -64,22 +64,48 @@ export class ChartsComponent implements OnInit {
 
 
         this.chart_date$.next(this.at_date$);
-        this.chart_date$.subscribe(x => {
 
-            this.loadAllPrestations()
-        })
+        this.loadAllPrestations()
+        this.extracted();
 
+
+        this.pieData = {
+            labels: ['A', 'B', 'C'],
+            datasets: [
+                {
+                    data: [300, 50, 100],
+                    backgroundColor: [
+                        '#FFC107',
+                        '#03A9F4',
+                        '#4CAF50'
+                    ],
+                    hoverBackgroundColor: [
+                        '#FFE082',
+                        '#81D4FA',
+                        '#A5D6A7'
+                    ]
+                }]
+        };
+
+
+    }
+
+    private extracted() {
         var formatter = new Intl.DateTimeFormat("fr", {month: "short"});
 
         // console.log("calc",JSON.stringify(this.allcharts));
-        let labelList = [];
-        let dataList = [];
-        this.allchartsSub.subscribe(x => {
-            console.log("zzzzzzzzzzzzz-----------------------------------------------zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz", x);
 
-            console.log("", JSON.stringify(x));
-            if (x != null || x != undefined && JSON.stringify(x) != "[[],[],[],[],[],[]]") {
-                x.forEach((y, i) => {
+        this.allchartsSub.subscribe(chartLine => {
+            this.lineData = [];
+
+            let labelList = [];
+            let dataList = [];
+            console.log("zzzzzzzzzzzzz-----------------------------------------------zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz", chartLine);
+
+            if (chartLine != null || chartLine != undefined && JSON.stringify(chartLine) != "[[],[],[],[],[],[]]") {
+                 labelList = [];
+                 dataList = [];
+                chartLine.forEach((y, i) => {
                     console.log("courbe", y);
                     console.log("courbe departement=", y[0].departement);
                     if (i == 0) Object.values(y).forEach(z => labelList.push(formatter.format(z.dateRef as Date)));
@@ -105,36 +131,23 @@ export class ChartsComponent implements OnInit {
                 datasets: dataList
             };
         });
-
-
-        this.pieData = {
-            labels: ['A', 'B', 'C'],
-            datasets: [
-                {
-                    data: [300, 50, 100],
-                    backgroundColor: [
-                        '#FFC107',
-                        '#03A9F4',
-                        '#4CAF50'
-                    ],
-                    hoverBackgroundColor: [
-                        '#FFE082',
-                        '#81D4FA',
-                        '#A5D6A7'
-                    ]
-                }]
-        };
-
-
     }
 
     update() {
+        debugger
+        console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+
         this.chart_date$.next(this.at_date$);
+
+        //this.loadAllPrestations();
+        this.extracted();
+
 
     }
 
 
     loadAllPrestations() {
+        this.prestations = [];
         this.chart_date$.subscribe(x => {
             debugger
 
@@ -149,9 +162,9 @@ export class ChartsComponent implements OnInit {
                         console.log('la date demandé', x)
 
 
+                        this.prestations = [];
                         this.prestations = prestations;
 
-                        //this.prestations.filter( x => x.dateDebutPrestation<monthDiff && x.dateFinPrestation>monthDiff).map()
 
                         prestations.filter((a, b) => a)
                     },
@@ -165,8 +178,11 @@ export class ChartsComponent implements OnInit {
 
 
     private calculeTauxStt(date: any, prestations: any) {
+        this.allchartsSub.next([]);
         let currentMonth = date.getUTCMonth();
+        this.monthList = [];
         for (let i = 0; i < 6; i++) {
+
             this.monthList.push(new Date(date.getFullYear(), currentMonth - i, 1));
         }
         const nbreStt = 0;
@@ -180,7 +196,7 @@ export class ChartsComponent implements OnInit {
 
             const nbreTotal = prestations.forEach((prestation, i) => {
 
-                var temp;
+                let temp;
                 console.log(chartsLines);
 
 
