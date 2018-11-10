@@ -24,9 +24,14 @@ export class ChartLine {
 @Component({
     selector: 'app-charts',
     templateUrl: './charts.component.html',
-    styleUrls: [ './charts.component.css' ]
+    styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent implements OnInit {
+
+
+    at_date$ = new Date();
+
+    public chart_date$ = new BehaviorSubject<Date>(this.at_date$);
 
     lineData: any;
 
@@ -39,6 +44,7 @@ export class ChartsComponent implements OnInit {
 
     monthList = [];
 
+    lineColor = ['#FF0000', '#01DF01', '#0040FF', '#FFFF00', '#00FFFF', '#6E6E6E'];
 
     pieData: any;
 
@@ -50,12 +56,18 @@ export class ChartsComponent implements OnInit {
     constructor(private prestationService: PrestationService,
                 private router: Router,
                 private alertService: AlertService) {
-        this.loadAllPrestations();
 
     }
 
 
     ngOnInit() {
+
+
+        this.chart_date$.next(this.at_date$);
+        this.chart_date$.subscribe(x => {
+
+            this.loadAllPrestations()
+        })
 
         var formatter = new Intl.DateTimeFormat("fr", {month: "short"});
 
@@ -67,17 +79,18 @@ export class ChartsComponent implements OnInit {
 
             console.log("", JSON.stringify(x));
             if (x != null || x != undefined && JSON.stringify(x) != "[[],[],[],[],[],[]]") {
-                x.forEach(y => {
+                x.forEach((y, i) => {
                     console.log("courbe", y);
-                    Object.values(y[ 0 ]).filter((a, b) => b == 3).forEach(z => labelList.push(formatter.format(z as Date)));
+                    console.log("courbe departement=", y[0].departement);
+                    if (i == 0) Object.values(y).forEach(z => labelList.push(formatter.format(z.dateRef as Date)));
                     let stt = [];
-                    Object.values(y).forEach((curr) => stt.push(curr[ 'tauxStt' ] / curr[ 'nombreColl' ] * 100));
+                    Object.values(y).forEach((curr) => stt.push(curr['tauxStt'] / curr['nombreColl'] * 100));
                     console.log("stt", stt);
                     dataList.push({
-                        label: y[ 'departement' ],
+                        label: y[0].departement,
                         data: stt,
                         fill: false,
-                        borderColor: '#03A9F4'
+                        borderColor: this.lineColor[i]
                     })
 
 
@@ -95,10 +108,10 @@ export class ChartsComponent implements OnInit {
 
 
         this.pieData = {
-            labels: [ 'A', 'B', 'C' ],
+            labels: ['A', 'B', 'C'],
             datasets: [
                 {
-                    data: [ 300, 50, 100 ],
+                    data: [300, 50, 100],
                     backgroundColor: [
                         '#FFC107',
                         '#03A9F4',
@@ -109,35 +122,45 @@ export class ChartsComponent implements OnInit {
                         '#81D4FA',
                         '#A5D6A7'
                     ]
-                } ]
+                }]
         };
 
 
     }
 
+    update() {
+        this.chart_date$.next(this.at_date$);
+
+    }
+
 
     loadAllPrestations() {
+        this.chart_date$.subscribe(x => {
+            debugger
 
-        this.prestationService.list()
-            .pipe(first())
-            .subscribe(
-                prestations => {
+            this.prestationService.list()
+                .pipe(first())
+                .subscribe(
+                    prestations => {
 
-                    console.log("data returned = ", prestations);
+                        console.log("data returned = ", prestations);
 
-                    this.calculeTauxStt(new Date, prestations);
+                        this.calculeTauxStt(x, prestations);
+                        console.log('la date demandé', x)
 
-                    this.prestations = prestations;
 
-                    //this.prestations.filter( x => x.dateDebutPrestation<monthDiff && x.dateFinPrestation>monthDiff).map()
+                        this.prestations = prestations;
 
-                    prestations.filter((a, b) => a)
-                },
-                error => {
-                    console.log("data returned = ", error);
+                        //this.prestations.filter( x => x.dateDebutPrestation<monthDiff && x.dateFinPrestation>monthDiff).map()
 
-                    this.alertService.error(error);
-                });
+                        prestations.filter((a, b) => a)
+                    },
+                    error => {
+                        console.log("data returned = ", error);
+
+                        this.alertService.error(error);
+                    });
+        });
     }
 
 
@@ -160,31 +183,6 @@ export class ChartsComponent implements OnInit {
                 var temp;
                 console.log(chartsLines);
 
-                /*                chartsLines.forEach(line => {
-                                    if (line.departement == prestation.departement &&
-                                        new Date(prestation.dateDebutPrestation) < month &&
-                                        new Date(prestation.dateFinPrestation) > month) {
-
-                                        console.log("*****<<", i, ">>********************************* ON A MET A JOUR CE DEPARTEMENT **********************************************", prestation.departement);
-
-                                        debugger
-                                        if (prestation.collaborateur['stt'] == 'Oui') line.tauxStt++;
-                                        line.nombreColl++;
-                                        temp = chartsLines;
-                                    }
-                                    else if (line => line.departement != prestation.departement) {
-                                        temp = chartsLines;
-
-                                        console.log("*****<<", i, ">>********************************* ON A TROUVE UN NOUVEAU DEPARTEMENT **********************************************", prestation.departement);
-
-                                        debugger
-                                        temp.push(new ChartLine(prestation.departement, 1, 1, month));
-                                        if (prestation.collaborateur['stt'] == 'Oui') line.tauxStt++;
-                                        line.nombreColl++;
-                                    }
-
-
-                                });*/
 
                 chartsLines
                     .filter(line =>
@@ -194,7 +192,7 @@ export class ChartsComponent implements OnInit {
                     .map(d => {
                         console.log("*****<<", i, ">>********************************* ON A MET A JOUR CE DEPARTEMENT **********************************************", prestation.departement);
 
-                        if (prestation.collaborateur[ 'stt' ] == 'Oui') d.tauxStt++;
+                        if (prestation.collaborateur['stt'] == 'Oui') d.tauxStt++;
                         d.nombreColl++;
                         temp = chartsLines;
 
@@ -204,7 +202,7 @@ export class ChartsComponent implements OnInit {
                     console.log("*****<<", i, ">>********************************* ON A TROUVE UN NOUVEAU DEPARTEMENT **********************************************", prestation.departement);
                     temp = chartsLines;
 
-                    let tauxStt = (prestation.collaborateur[ 'stt' ] == 'Oui') ? 1 : 0;
+                    let tauxStt = (prestation.collaborateur['stt'] == 'Oui') ? 1 : 0;
 
                     temp.push(new ChartLine(prestation.departement, tauxStt, 1, month));
                 }
@@ -214,7 +212,7 @@ export class ChartsComponent implements OnInit {
                     console.log("******<<", i, ">>******************************** ON A PAS ENCORE TROUVE DE DEPARTEMENT : INIT PREMIER **********************************************", prestation.departement);
 
                     temp = chartsLines;
-                    let tauxStt = (prestation.collaborateur[ 'stt' ] == 'Oui') ? 1 : 0;
+                    let tauxStt = (prestation.collaborateur['stt'] == 'Oui') ? 1 : 0;
 
                     temp.push(new ChartLine(prestation.departement, tauxStt, 1, month));
                 }
@@ -238,40 +236,31 @@ export class ChartsComponent implements OnInit {
 
         console.log("vvvvvvvvvvvvvvvvvvvvvvvvv charts = ", charts);
 
-        charts.forEach(line => {
+        charts.forEach((line) => {
             if (allch.length == 0) {
                 chartList.push(line);
                 allch.push(chartList);
             }
-            else if (allch.every(x => Object.values(x).every(y => y[ 'departement' ] != line.departement))) {
+            else if (allch.every((x, a, b) => Object.values(x).every(y => y['departement'] != line.departement))) {
                 console.log("vvvvvvvvvvvvvvvvvvvvvvvvv Line = ", line.departement);
+                console.log("line = ", line);
 
                 var temp = [];
                 temp.push(line);
                 allch.push(temp);
             }
-            else allch
-                    .forEach((x, k) => {
-                        var temp2 = [];
 
-                        Object.values(x).forEach((y, j) => {
-                            debugger
-                            if (y[ 'departement' ] == line.departement && y[ 'dateRef' ] !== line.dateRef) {
-                                console.log("line.departement = ", line);
-                                console.log("y ['departement'] = ", y);
-                                console.log("j = ", j);
-                                //console.log("recap ", x);
+            else if (allch
+                    .filter((x, a, b) => Object.values(x).every((y, e, f) => y['departement'] === line.departement))
+                    .forEach((a, b, c) => {
+                        a.push(line)
+                        console.log("line a = ", a);
+                        console.log("line b = ", b);
+                        console.log("line b = ", c);
+                    })) {
+                console.log("line xxxxxxxxxxxxxxxxxx = ", line);
 
-                                temp2.push(line);
-                                console.log("temp2 recap= ", temp2);
-
-                            }
-
-                        });
-                        console.log("temp2 = ", temp2);
-
-                        temp2.forEach(r=> x.push(r))
-                    })
+            }
 
 
         });
@@ -280,11 +269,6 @@ export class ChartsComponent implements OnInit {
         console.log("XXXXXXXXXXXXXXX Toutes les courbes de soutraitance XXXXXXXXXXXXXXXXXXX ", allch);
         console.log("Toutes les courbes de soutraitance", this.allcharts);
 
-        /*   //chartLine.push({"mois": firstDayOfMonth.getMonth(), "taux de Stt": nbreStt / nbreTotal * 100});
-           //console.log("Etude pour le mois :", firstDayOfMonth.getMonth());
-           console.log("Le nombre de sous traitant =", nbreStt);
-           console.log("Le nombre de total de collaborateurs =", nbreTotal);
-           console.log("Le taux de soustraitance est =", nbreStt / nbreTotal * 100);*/
-        return this.allchartsSub.next(this.allcharts);
+        return this.allchartsSub.next(allch);
     }
 }

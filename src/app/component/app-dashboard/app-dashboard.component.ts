@@ -9,7 +9,6 @@ import {BehaviorSubject} from "../../../../node_modules/rxjs/Rx";
 })
 export class AppDashboardComponent implements OnInit {
 
-    at_date : String = new Date().toJSON().slice(0,10).split('-').reverse().join('/');
     fr: any;
     isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
 
