@@ -140,11 +140,18 @@ export class AdministratorComponent implements OnInit {
             const arr = [];
             for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
             const bstr = arr.join("");
+           // console.log("xls", bstr);
 
             const workbook = read(bstr, {type: "binary", cellDates: true, dateNF: 'dd/mm/yyyy;@'});
-            Object.keys(workbook).forEach((x, y) => {
+            console.log("workbook", workbook);
+
+ /*           Object.keys(workbook).forEach((x, y) => {
                 this.all_sheet_name.push(workbook.SheetNames[y]);
-            });
+            });  */
+
+                this.all_sheet_name = workbook.SheetNames;
+            console.log("all_sheet_name", this.all_sheet_name);
+
 
             this.all_sheet_name.forEach(x => {
                     this.worksheet = workbook.Sheets[x];

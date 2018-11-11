@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/charts/charts.component.html" afterPath="$PROJECT_DIR$/src/app/component/charts/charts.component.html" />
+      <change beforePath="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" afterPath="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" />
       <change beforePath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" afterPath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -353,11 +353,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="administrator.component.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="administrator.component.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2572">
-              <caret line="233" column="51" lean-forward="false" selection-start-line="233" selection-start-column="51" selection-end-line="233" selection-end-column="51" />
+            <state relative-caret-position="515">
+              <caret line="151" column="57" lean-forward="false" selection-start-line="151" selection-start-column="57" selection-end-line="151" selection-end-column="57" />
               <folding>
                 <element signature="n#!!block;n#ngOnInit#0;n#AdministratorComponent#0" expanded="false" />
                 <element signature="n#!!block;n#getAllUsers#0;n#AdministratorComponent#0" expanded="false" />
@@ -367,11 +367,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="charts.component.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.d.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/xlsx/types/index.d.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="charts.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="96" column="68" lean-forward="false" selection-start-line="96" selection-start-column="68" selection-end-line="96" selection-end-column="68" />
+            <state relative-caret-position="832">
+              <caret line="135" column="38" lean-forward="false" selection-start-line="135" selection-start-column="29" selection-end-line="135" selection-end-column="38" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
@@ -557,12 +567,12 @@
         <option value="$PROJECT_DIR$/src/app/model/referenciel.ts" />
         <option value="$PROJECT_DIR$/src/app/model/resource.ts" />
         <option value="$PROJECT_DIR$/src/app/model/_prtation.ts" />
-        <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" />
         <option value="$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts" />
         <option value="$PROJECT_DIR$/src/app/component/charts/charts.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" />
       </list>
     </option>
   </component>
@@ -1066,14 +1076,7 @@
       <workItem from="1540805733986" duration="69512000" />
       <workItem from="1541299519085" duration="4298000" />
       <workItem from="1541326674831" duration="6218000" />
-      <workItem from="1541614991485" duration="61896000" />
-    </task>
-    <task id="LOCAL-00038" summary="message success managed 4">
-      <created>1539090334643</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1539090334643</updated>
+      <workItem from="1541614991485" duration="63787000" />
     </task>
     <task id="LOCAL-00039" summary="message success managed 5">
       <created>1539090413735</created>
@@ -1411,11 +1414,18 @@
       <option name="project" value="LOCAL" />
       <updated>1541830937457</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="tableau des soustraitance a la date demandé">
+      <created>1541928583679</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1541928583679</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="734698000" />
+    <option name="totallyTimeSpent" value="736589000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1444,7 +1454,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1590164" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1590164" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32949308" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1525,7 +1535,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Admin content management 4 fix rxjs behaviorsubject" />
     <MESSAGE value="fix rxjs behaviorsubject" />
     <MESSAGE value="fix rxjs behaviorsubject 1" />
     <MESSAGE value="fix rxjs behaviorsubject 2" />
@@ -1550,7 +1559,8 @@
     <MESSAGE value="fix menu link admin" />
     <MESSAGE value="soutraitance" />
     <MESSAGE value="soutraitance fix graphe still fix date selection" />
-    <option name="LAST_COMMIT_MESSAGE" value="soutraitance fix graphe still fix date selection" />
+    <MESSAGE value="tableau des soustraitance a la date demandé" />
+    <option name="LAST_COMMIT_MESSAGE" value="tableau des soustraitance a la date demandé" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1650,13 +1660,6 @@
         <state relative-caret-position="179">
           <caret line="45" column="7" lean-forward="false" selection-start-line="45" selection-start-column="7" selection-end-line="45" selection-end-column="7" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/xlsx/types/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="633" column="22" lean-forward="true" selection-start-line="633" selection-start-column="4" selection-end-line="633" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1827,18 +1830,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2572">
-          <caret line="233" column="51" lean-forward="false" selection-start-line="233" selection-start-column="51" selection-end-line="233" selection-end-column="51" />
-          <folding>
-            <element signature="n#!!block;n#ngOnInit#0;n#AdministratorComponent#0" expanded="false" />
-            <element signature="n#!!block;n#getAllUsers#0;n#AdministratorComponent#0" expanded="false" />
-            <element signature="n#!!block;n#incomingfile#0;n#AdministratorComponent#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="604">
@@ -1897,10 +1888,30 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="96" column="68" lean-forward="false" selection-start-line="96" selection-start-column="68" selection-end-line="96" selection-end-column="68" />
+        <state relative-caret-position="832">
+          <caret line="135" column="38" lean-forward="false" selection-start-line="135" selection-start-column="29" selection-end-line="135" selection-end-column="38" />
           <folding>
             <element signature="e#0#48#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/xlsx/types/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="151" column="57" lean-forward="false" selection-start-line="151" selection-start-column="57" selection-end-line="151" selection-end-column="57" />
+          <folding>
+            <element signature="n#!!block;n#ngOnInit#0;n#AdministratorComponent#0" expanded="false" />
+            <element signature="n#!!block;n#getAllUsers#0;n#AdministratorComponent#0" expanded="false" />
+            <element signature="n#!!block;n#incomingfile#0;n#AdministratorComponent#0" expanded="false" />
           </folding>
         </state>
       </provider>

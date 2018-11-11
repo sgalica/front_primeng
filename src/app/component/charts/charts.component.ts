@@ -220,6 +220,24 @@ export class ChartsComponent implements OnInit {
                         temp = chartsLines;
 
                     });
+
+                // On recherche les sorties dans les prochains 6 mois
+                    /*
+                    chartsLines
+                    .filter(line =>
+                        line.departement == prestation.departement &&
+                        new Date(prestation.dateDebutPrestation) < month &&
+                        new Date(prestation.dateFinPrestation) < month)
+                    .map(d => {
+                        console.log("*****<<", i, ">>********************************* ON A MET A JOUR CE DEPARTEMENT **********************************************", prestation.departement);
+
+                        if (prestation.collaborateur['stt'] == 'Oui') d.tauxStt++;
+                        d.nombreColl++;
+                        temp = chartsLines;
+
+                    });
+                    */
+
                 // On rajoute un nouveau departement a afficher
                 if (chartsLines.every(line => line.departement != prestation.departement)) {
 
