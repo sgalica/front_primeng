@@ -309,14 +309,37 @@ export class AdministratorComponent implements OnInit {
     }
 
     saveAllRefTable(referenciel: any) {
+    let convertedJson = referenciel;
+    let cons = new Referenciel();
+
+        this.dataService.getServiceMatch(cons).create(convertedJson)
+        //this.missionService.createList(convertedJson)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.apiresponse = data as ApiResponse;
+                    console.log("data returned = ", data);
+                    this.alertService.success(this.apiresponse.message);
+                    this.displayDialog = false;
+
+                    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                        return false;
+                    };
+                },
+                error => {
+                    console.log("data returned = ", error);
+
+                    this.alertService.error(error);
+                });
 
 
     }
 
     saveRefTable(table: any, all: boolean) {
         let convertedJson: any;
-        if (!all) {
-            const cons = this.getModelMatch(table);
+        let cons = this.getModelMatch(table);
+
+
             console.log("LOGGING table:::::::::::::::::::::::", table);
             console.log("LOGGING cons :::::::::::::::::::::::", cons);
             convertedJson = this.convertJsonToModel(table, cons);
@@ -324,13 +347,11 @@ export class AdministratorComponent implements OnInit {
             console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
             console.log("LOGGING temp :::::::::::::::::::::::", temp);
 
-        } else {
-            convertedJson = table
-        }
+
         // const temp = this.serviceMatcher.getServiceMatch(cons);
         //console.log("LOGGING res :::::::::::::::::::::::", res);
         //this.ReferencielService.createList(convertedJson)
-        this.dataService.getServiceMatch(convertedJson[0]).createList(convertedJson)
+        this.dataService.getServiceMatch(cons).createList(convertedJson)
         //this.missionService.createList(convertedJson)
             .pipe(first())
             .subscribe(

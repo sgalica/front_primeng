@@ -42,7 +42,6 @@ export class ChartsComponent implements OnInit {
     allchartsSub = new BehaviorSubject<ChartLine[]>(null);
 
 
-
     monthList = [];
 
     lineColor = ['#FF0000', '#01DF01', '#0040FF', '#FFFF00', '#00FFFF', '#6E6E6E'];
@@ -51,7 +50,7 @@ export class ChartsComponent implements OnInit {
 
 
     private prestations: Prestation[];
-     dataTable= [];
+    dataTable = [];
 
     constructor(private prestationService: PrestationService,
                 private router: Router,
@@ -99,7 +98,7 @@ export class ChartsComponent implements OnInit {
             // remise a zero des données a chaque changement de date
             this.lineData = [];
 
-           this.labelList = [];
+            this.labelList = [];
             this.dataList = [];
             this.dataTable = [];
             console.log("zzzzzzzzzzzzz-----------------------------------------------zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz", chartLine);
@@ -142,7 +141,7 @@ export class ChartsComponent implements OnInit {
     }
 
     update() {
-        debugger
+
         console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 
         this.chart_date$.next(this.at_date$);
@@ -157,7 +156,6 @@ export class ChartsComponent implements OnInit {
     loadAllPrestations() {
         this.prestations = [];
         this.chart_date$.subscribe(x => {
-            debugger
 
             this.prestationService.list()
                 .pipe(first())
@@ -167,7 +165,7 @@ export class ChartsComponent implements OnInit {
                         console.log("data returned = ", prestations);
 
                         this.calculeTauxStt(x, prestations);
-                        console.log('la date demandé', x)
+                        console.log('la date demandé', x);
 
 
                         this.prestations = [];
@@ -201,7 +199,7 @@ export class ChartsComponent implements OnInit {
             console.log("=========================================================================== ");
             console.log("================================== le moi ========================== ", month.getUTCMonth());
             console.log("=========================================================================== ");
-            let temp=[];
+            let temp = [];
             let chartsLines = [];
 
             const nbreTotal = prestations.forEach((prestation, i) => {
@@ -225,18 +223,19 @@ export class ChartsComponent implements OnInit {
 
                 // On recherche les sorties dans les prochains 6 mois
 
-                    chartsLines
+/*             let dateSortie = month;
+                chartsLines
                     .filter(line =>
-                        line.departement == prestation.departement &&
-                        month < new Date(prestation.dateFinPrestation) &&
-                        month.setMonth(month.getMonth()+6) < new Date(prestation.dateFinPrestation))
+
+                        dateSortie > new Date(prestation.dateFinPrestation) &&
+                        dateSortie.setMonth(dateSortie.getMonth() + 6) < new Date(prestation.dateFinPrestation))
                     .map(d => {
                         console.log("*****<<", i, ">>********************************* ON A MET A JOUR CE DEPARTEMENT **********************************************", prestation.departement);
 
                         d.sorties++;
                         temp = chartsLines;
 
-                    });
+                    });*/
 
 
                 // On rajoute un nouveau departement a afficher

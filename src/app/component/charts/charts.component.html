@@ -1,7 +1,7 @@
 <div class="ui-g-12 ui-md-12" style="padding:0px 20px">
     <div class="panel-gray title" style="width:100%; text-align:center">
         <span class=" white">Tableau de bord des Assistances Techniques de la SG au </span>
-        <p-calendar [(ngModel)]="at_date$" dateFormat="dd/mm/yy" [showIcon]="true" (onSelect)="update()"></p-calendar>
+        <p-calendar [(ngModel)]="at_date$" dateFormat="dd/mm/yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" (onSelect)="update()"></p-calendar>
     </div>
 </div>
 

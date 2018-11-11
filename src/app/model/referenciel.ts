@@ -1,18 +1,20 @@
 export class Referenciel {
 
-    id: any;
-    collaborateur: Collaborateur = new Collaborateur();
-    mission: Mission = new Mission();
-    prestation: Prestation = new Prestation();
-    numAtg: NumAtg = new NumAtg();
-    societeStt: SocieteStt = new SocieteStt();
-    contactsStt: ContactsStt = new ContactsStt();
-    contrat: Contrat = new Contrat();
-    site: Site = new Site();
-    equipe :Equipe = new Equipe();
-    donneurOrdre : DonneurOrdre = new DonneurOrdre();
-    commercialOpen : CommercialOpen = new CommercialOpen();
-    categorie : Categorie = new Categorie();
+    id: any = 0;
+
+
+    collaborateurs: Collaborateur [];
+    missions: Mission [];
+    prestations: Prestation[];
+    numAtgs: NumAtg[];
+    societeStts: SocieteStt[];
+    contactsStts: ContactsStt[];
+    contrats: Contrat[];
+    sites: Site[];
+    equipes :Equipe[];
+    donneurOrdres : DonneurOrdre[];
+    commercialOpens : CommercialOpen[];
+    categories : Categorie[];
 
 }
 
