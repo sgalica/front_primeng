@@ -34,12 +34,11 @@ export class ChartsComponent implements OnInit {
     public chart_date$ = new BehaviorSubject<Date>(this.at_date$);
 
     lineData: any;
-
-    barData: any;
+    labelList = [];
+    dataList = [];
 
     allchartsSub = new BehaviorSubject<ChartLine[]>(null);
 
-    allcharts = [];
 
 
     monthList = [];
@@ -48,10 +47,9 @@ export class ChartsComponent implements OnInit {
 
     pieData: any;
 
-    polarData: any;
 
-    radarData: any;
     private prestations: Prestation[];
+     dataTable= [];
 
     constructor(private prestationService: PrestationService,
                 private router: Router,
@@ -96,39 +94,47 @@ export class ChartsComponent implements OnInit {
         // console.log("calc",JSON.stringify(this.allcharts));
 
         this.allchartsSub.subscribe(chartLine => {
+            // remise a zero des données a chaque changement de date
             this.lineData = [];
 
-            let labelList = [];
-            let dataList = [];
+           this.labelList = [];
+            this.dataList = [];
+            this.dataTable = [];
             console.log("zzzzzzzzzzzzz-----------------------------------------------zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz", chartLine);
 
             if (chartLine != null || chartLine != undefined && JSON.stringify(chartLine) != "[[],[],[],[],[],[]]") {
-                 labelList = [];
-                 dataList = [];
+                this.labelList = [];
+                this.dataList = [];
                 chartLine.forEach((y, i) => {
                     console.log("courbe", y);
                     console.log("courbe departement=", y[0].departement);
-                    if (i == 0) Object.values(y).forEach(z => labelList.push(formatter.format(z.dateRef as Date)));
+                    if (i == 0) Object.values(y).forEach(z => this.labelList.push(formatter.format(z.dateRef as Date)));
                     let stt = [];
                     Object.values(y).forEach((curr) => stt.push(curr['tauxStt'] / curr['nombreColl'] * 100));
                     console.log("stt", stt);
-                    dataList.push({
+                    this.dataList.push({
                         label: y[0].departement,
                         data: stt,
                         fill: false,
                         borderColor: this.lineColor[i]
-                    })
+                    });
+                    this.dataTable.push({
+                        departement: y[0].departement,
+                        prestataires: y[0].nombreColl,
+                        stt: stt[0],
+                        sorties: y.nombreColl
+                    });
 
 
                 })
             }
-            console.log("labellist =", labelList);
-            console.log("datalist =", dataList);
+            console.log("labellist =", this.labelList);
+            console.log("datalist =", this.dataList);
 
 
             this.lineData = {
-                labels: labelList,
-                datasets: dataList
+                labels: this.labelList,
+                datasets: this.dataList
             };
         });
     }
@@ -186,20 +192,21 @@ export class ChartsComponent implements OnInit {
             this.monthList.push(new Date(date.getFullYear(), currentMonth - i, 1));
         }
         const nbreStt = 0;
+        let allcharts = [];
         console.log("on parcours ", this.monthList);
 
         this.monthList.forEach(month => {
             console.log("=========================================================================== ");
             console.log("================================== le moi ========================== ", month.getUTCMonth());
             console.log("=========================================================================== ");
+            let temp=[];
             let chartsLines = [];
 
             const nbreTotal = prestations.forEach((prestation, i) => {
 
-                let temp;
                 console.log(chartsLines);
 
-
+                // On met a jour le nombre de soutraitance pour un departement et le nombre de collaborateur total
                 chartsLines
                     .filter(line =>
                         line.departement == prestation.departement &&
@@ -213,6 +220,7 @@ export class ChartsComponent implements OnInit {
                         temp = chartsLines;
 
                     });
+                // On rajoute un nouveau departement a afficher
                 if (chartsLines.every(line => line.departement != prestation.departement)) {
 
                     console.log("*****<<", i, ">>********************************* ON A TROUVE UN NOUVEAU DEPARTEMENT **********************************************", prestation.departement);
@@ -223,7 +231,7 @@ export class ChartsComponent implements OnInit {
                     temp.push(new ChartLine(prestation.departement, tauxStt, 1, month));
                 }
 
-
+                // On rajoute le premier departement a afficher
                 if (chartsLines.length == 0) {
                     console.log("******<<", i, ">>******************************** ON A PAS ENCORE TROUVE DE DEPARTEMENT : INIT PREMIER **********************************************", prestation.departement);
 
@@ -234,14 +242,14 @@ export class ChartsComponent implements OnInit {
                 }
                 if (temp) chartsLines = temp;
             });
-            this.allcharts.push(chartsLines);
+            allcharts.push(chartsLines);
         });
 
         let charts = [];
         let chartList = [];
         let allch = [];
         let i = 0;
-        this.allcharts.forEach(x => {
+        allcharts.forEach(x => {
 
 
             Object.values(x).forEach(y => {
@@ -283,7 +291,7 @@ export class ChartsComponent implements OnInit {
 
 
         console.log("XXXXXXXXXXXXXXX Toutes les courbes de soutraitance XXXXXXXXXXXXXXXXXXX ", allch);
-        console.log("Toutes les courbes de soutraitance", this.allcharts);
+        console.log("Toutes les courbes de soutraitance", allcharts);
 
         return this.allchartsSub.next(allch);
     }
