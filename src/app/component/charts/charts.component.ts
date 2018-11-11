@@ -8,17 +8,19 @@ import {BehaviorSubject} from "rxjs";
 
 export class ChartLine {
 
-    constructor(departement: any, tauxStt: any, nombreColl: any, dateRef: any) {
+    constructor(departement: any, tauxStt: any, nombreColl: any, dateRef: any, sorties: any) {
         this.departement = departement;
         this.tauxStt = tauxStt;
         this.nombreColl = nombreColl;
         this.dateRef = dateRef;
+        this.sorties = sorties;
     }
 
     departement: any = 0;
     tauxStt: any = 0;
     nombreColl: any = 0;
     dateRef: any = 0;
+    sorties: any = 0;
 }
 
 @Component({
@@ -122,7 +124,7 @@ export class ChartsComponent implements OnInit {
                         departement: y[0].departement,
                         prestataires: y[0].nombreColl,
                         stt: stt[0],
-                        sorties: y.nombreColl
+                        sorties: y[0].sorties
                     });
 
 
@@ -222,21 +224,20 @@ export class ChartsComponent implements OnInit {
                     });
 
                 // On recherche les sorties dans les prochains 6 mois
-                    /*
+
                     chartsLines
                     .filter(line =>
                         line.departement == prestation.departement &&
-                        new Date(prestation.dateDebutPrestation) < month &&
-                        new Date(prestation.dateFinPrestation) < month)
+                        month < new Date(prestation.dateFinPrestation) &&
+                        month.setMonth(month.getMonth()+6) < new Date(prestation.dateFinPrestation))
                     .map(d => {
                         console.log("*****<<", i, ">>********************************* ON A MET A JOUR CE DEPARTEMENT **********************************************", prestation.departement);
 
-                        if (prestation.collaborateur['stt'] == 'Oui') d.tauxStt++;
-                        d.nombreColl++;
+                        d.sorties++;
                         temp = chartsLines;
 
                     });
-                    */
+
 
                 // On rajoute un nouveau departement a afficher
                 if (chartsLines.every(line => line.departement != prestation.departement)) {
@@ -246,7 +247,7 @@ export class ChartsComponent implements OnInit {
 
                     let tauxStt = (prestation.collaborateur['stt'] == 'Oui') ? 1 : 0;
 
-                    temp.push(new ChartLine(prestation.departement, tauxStt, 1, month));
+                    temp.push(new ChartLine(prestation.departement, tauxStt, 1, month, 0));
                 }
 
                 // On rajoute le premier departement a afficher
@@ -256,7 +257,7 @@ export class ChartsComponent implements OnInit {
                     temp = chartsLines;
                     let tauxStt = (prestation.collaborateur['stt'] == 'Oui') ? 1 : 0;
 
-                    temp.push(new ChartLine(prestation.departement, tauxStt, 1, month));
+                    temp.push(new ChartLine(prestation.departement, tauxStt, 1, month, 0));
                 }
                 if (temp) chartsLines = temp;
             });
