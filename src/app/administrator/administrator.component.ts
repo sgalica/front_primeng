@@ -7,7 +7,7 @@ import {AlertService} from "../service/alert.service";
 import {Router} from "@angular/router";
 import {UserService} from "../service/user.service";
 import {User} from "../model/user";
-import {Collaborateur, Referenciel} from "../model/referenciel";
+import {AtgModel, Collaborateur, Referenciel} from "../model/referenciel";
 import {DataService} from "../service/data.service";
 import {MissionService, ReferencielService} from "../service/datas.service";
 
@@ -236,10 +236,14 @@ export class AdministratorComponent implements OnInit {
         console.log("Objet a tester", T[0]);
 
         //var constructor;
-        const referenciel = new Referenciel();
+        let modelList = new AtgModel();
         let obj;
-        for (let x of Object.values(referenciel)) {
 
+        for (let x of Object.values(modelList)) {
+
+            console.log(modelList);
+            console.log(x);
+            console.log(x[0]);
             const temp = new x.constructor;
 
             const acc = Object.entries(T[0]).reduce((accumulator, currentValue) => {
@@ -335,7 +339,7 @@ export class AdministratorComponent implements OnInit {
 
     }
 
-    saveRefTable(table: any, all: boolean) {
+    saveRefTable(table: any) {
         let convertedJson: any;
         let cons = this.getModelMatch(table);
 

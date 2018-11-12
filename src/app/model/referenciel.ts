@@ -1,9 +1,26 @@
+export class AtgModel {
+
+    id: any;
+    collaborateur: Collaborateur = new Collaborateur();
+    mission: Mission = new Mission();
+    prestation: Prestation = new Prestation();
+    numAtg: NumAtg = new NumAtg();
+    societeStt: SocieteStt = new SocieteStt();
+    contactsStt: ContactsStt = new ContactsStt();
+    contrat: Contrat = new Contrat();
+    site: Site = new Site();
+    equipe :Equipe = new Equipe();
+    donneurOrdre : DonneurOrdre = new DonneurOrdre();
+    commercialOpen : CommercialOpen = new CommercialOpen();
+    categorie : Categorie = new Categorie();
+
+}
+
+
 export class Referenciel {
 
-    id: any = 0;
-
-
-    collaborateurs: Collaborateur [];
+    id: any =0;
+    collaborateurs: Collaborateur [] ;
     missions: Mission [];
     prestations: Prestation[];
     numAtgs: NumAtg[];

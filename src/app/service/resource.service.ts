@@ -7,12 +7,10 @@ import {Resource} from "../model/resource";
 @Injectable()
 export class ResourceService<T extends Resource> {
 
-    listData:any;
-
     constructor(
         private http: HttpClient,
-        private url: string ,
-        private endpoint: string) {}
+        private url: string ='' ,
+        private endpoint: string ='') {}
 
     create(item: T) {
         return this.http
