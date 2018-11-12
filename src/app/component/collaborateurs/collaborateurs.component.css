@@ -43,6 +43,7 @@ th {
     width: 95% !important;
     top:auto;
     bottom: auto;
+    min-height : 250px;
 }
 
 ::ng-deep  .cta_collabs{

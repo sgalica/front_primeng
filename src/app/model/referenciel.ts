@@ -35,6 +35,8 @@ export class Collaborateur {
 
     prestations: Prestation[];
 
+    missions: Mission[];
+
      createdAt           : any = 0;
      createdBy           : any = 0;
      updatedAt           : any = 0;

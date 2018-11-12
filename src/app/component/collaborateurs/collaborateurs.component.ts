@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CollaborateurService} from '../../service/datas.service';
-import {Collaborateur} from '../../model/referenciel';
+import {Collaborateur, Mission} from '../../model/referenciel';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
@@ -44,10 +44,11 @@ export class CollaborateursComponent implements OnInit {
     // Fiche
     selectedCollaborateur: Collaborateur = new Collaborateur();
     displayDialog: boolean = false;
+    lastMission : Mission = new Mission();
 
     // Références
     allstatus: { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
-
+    allstatusidx : string[];
 
     private msgs: Message[];
     private selectedfile: any;
@@ -63,6 +64,8 @@ export class CollaborateursComponent implements OnInit {
     private prestasComponent : PrestationsComponent ;
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
     buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Masquer les prestations"]; idxBtnPrestations : number =0;
+    buttonsCollabLabels : String[] = ["Enregistrer", "Créer une prestation", this.buttonPrestationsLabels[0], "Terminer la mission", "Supprimer le collaborateur", "Réactiver le collaborateur", "Annuler" ];
+    buttonsCollabDisabled : Boolean[] = [true, true, false, true, true, true, true ];
 
     fr:any;
 
@@ -99,10 +102,11 @@ export class CollaborateursComponent implements OnInit {
 
         this.selectColumns();
         this.createColsIndex();
+        this.createStatusIndex();
 
         this.FieldsFiches=[
             {grp: "Collab", grplabel : "Informations collaborateur", fields : ["trigramme", "nom", "prenom", "categorisation", "stt"]},
-            {grp: "Mission", grplabel : "Informations Mission", fields : []},
+            {grp: "Mission", grplabel : "Informations Mission", fields : ["dateDebutMission", "dateFinSg", "dateA3Ans", "derogation", "statutMission", "versionMission" ]},
             {grp: "ST", grplabel : "Informations Sous-Traitance", fields : ["societeStt", "preEmbauche", "dateEmbaucheOpen"]},
             {grp: "Contact", grplabel : "Informations de contact", fields : ["telPerso", "telPro", "mailOpen", "mailSg"]}
         ];
@@ -168,6 +172,20 @@ export class CollaborateursComponent implements OnInit {
         this.colsIndex = [];
         this.coldefs.forEach(x => {
             this.colsIndex[x.field]=x.header;
+        });
+        // + Mission :
+        this.colsIndex["dateDebutMission"]="Date début";
+        this.colsIndex["dateFinSg"]="Date fin";
+        this.colsIndex["dateA3Ans"]="Date à 3 ans";
+        this.colsIndex["derogation"]="Dérogation";
+        this.colsIndex["statutMission"]="Statut";
+        this.colsIndex["versionMission"]="Version";
+    }
+
+    createStatusIndex() {
+        this.allstatusidx = [];
+        this.allstatus.forEach(x => {
+            this.allstatusidx[x.value]=x.label;
         });
     }
 
@@ -258,7 +276,77 @@ export class CollaborateursComponent implements OnInit {
         this.displayDialog = true;
     }
 
-    saveNewCollaborateur() {
+    selectCollaborateur(event: Event, collaborateur: Collaborateur) {
+
+        this.selectedCollaborateur = collaborateur;
+        this.displayDialog = true;
+
+        // Prestas
+        this.prestasComponent.collab=this.selectedCollaborateur;
+        this.prestasComponent.showCollab();
+        this.prestasComponent.prestations = this.selectedCollaborateur.prestations;
+        //this.prestasComponent.selectPrestations(this.selectedCollaborateur.prestations);
+        this.prestasComponent.orderfilterPrestations();
+
+        // Last mission
+        this.lastMission = null;
+        this.buttonsCollabDisabled[4]=true;
+        this.selectedCollaborateur.missions.forEach(x => {
+            var dateArr = x['dateDebutMission'].split("/"); //dd/mm/yyyy
+            var dateMission = new Date(dateArr[2], dateArr[1], dateArr[0]);
+            var datelastMission = new Date(0);
+            if (this.lastMission!=null && typeof this.lastMission['dateDebutMission'] == "string") {
+                dateArr = this.lastMission['dateDebutMission'].split("/");
+                datelastMission = new Date(dateArr[2], dateArr[1], dateArr[0]);
+            }
+            if ( dateMission > datelastMission ) {
+               this.lastMission = x;
+            }
+        });
+        if (!this.lastMission)
+            this.buttonsCollabDisabled[4]=false;
+
+        event.preventDefault();
+    }
+
+    buttonsFunctions(i:number) {
+        switch (i) {
+            case 0 : this.saveCollaborateur(); break;
+            case 1 : this.newPrestation(); break;
+            case 2 : this.showPrestations(); break;
+            case 3 : this.endMission(); break;
+            case 4 : this.suppCollab();break;
+        }
+    }
+    saveCollaborateur() { }
+    newPrestation() { }
+    endMission() { }
+    suppCollab() { }
+
+    // PRESTATIONS
+    /* // Dynamic component load
+    loadPrestationComponent() {
+        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(PrestationsComponent);
+        let viewContainerRef = this.adHost.viewContainerRef;
+        viewContainerRef.clear();
+        this.componentRef = viewContainerRef.createComponent(componentFactory);
+    }*/
+
+    showPrestations() {
+        // Dynamic way :
+        //(<PrestationsComponent>this.componentRef.instance).collab = this.selectedCollaborateur;
+        //(<PrestationsComponent>this.componentRef.instance).id = this.selectedCollaborateur.trigOpen;
+        //(<PrestationsComponent>this.componentRef.instance).showCollab(); //ngOnInit();
+        //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
+        this.showPrestas = (this.showPrestas=="none") ? "block" : "none";
+
+        this.idxBtnPrestations = (this.idxBtnPrestations==0) ? 1 : 0;
+        this.buttonsCollabLabels[2] = this.buttonPrestationsLabels[this.idxBtnPrestations];
+        this.prestasComponent.updateFilters();
+    }
+
+    /************************************************************************************************************/
+    saveimportedCollaborateurs() {
         console.log("LOGGING:::::::::::::::::::::::");
         this.collaborateurService.createList(this.importedCollabs)
             .pipe(first())
@@ -281,47 +369,6 @@ export class CollaborateursComponent implements OnInit {
 
 
     }
-
-    selectCollaborateur(event: Event, collaborateur: Collaborateur) {
-        this.selectedCollaborateur = collaborateur;
-        this.displayDialog = true;
-
-        // Prestas
-        this.prestasComponent.collab=this.selectedCollaborateur;
-        this.prestasComponent.showCollab();
-        this.prestasComponent.prestations = this.selectedCollaborateur.prestations;
-        //this.prestasComponent.selectPrestations(this.selectedCollaborateur.prestations);
-        this.prestasComponent.orderfilterPrestations();
-
-        event.preventDefault();
-    }
-
-    // PRESTATIONS
-
-    // Dynamic component load
-    /*
-    loadPrestationComponent() {
-        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(PrestationsComponent);
-        let viewContainerRef = this.adHost.viewContainerRef;
-        viewContainerRef.clear();
-        this.componentRef = viewContainerRef.createComponent(componentFactory);
-    }*/
-
-    showPrestations() {
-
-        // Dynamic way
-        //(<PrestationsComponent>this.componentRef.instance).collab = this.selectedCollaborateur;
-        //(<PrestationsComponent>this.componentRef.instance).id = this.selectedCollaborateur.trigOpen;
-        //(<PrestationsComponent>this.componentRef.instance).showCollab(); //ngOnInit();
-        //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
-        this.showPrestas = (this.showPrestas=="none") ? "block" : "none";
-
-        this.idxBtnPrestations = (this.idxBtnPrestations==0) ? 1 : 0;
-
-        this.prestasComponent.updateFilters();
-    }
-
-    /************************************************************************************************************/
 
 
     public csvRecords: any[] = [];

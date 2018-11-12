@@ -126,7 +126,7 @@
 
                     <!--input *ngSwitchCase="'collaborateur.nom'" type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedPrestation.collaborateur.nom">
                     <input *ngSwitchCase="'collaborateur.prenom'" type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedPrestation['collaborateur'].prenom"-->
-                    <input *ngSwitchDefault type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedPrestation[field]">
+                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[field]">
 
             </div>
         </p-fieldset>
