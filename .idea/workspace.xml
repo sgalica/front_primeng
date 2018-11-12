@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="993f3f3a-0350-45ad-b530-5a263638e7e6" name="Default Changelist" comment="fix resource serice 4">
+    <list default="true" id="993f3f3a-0350-45ad-b530-5a263638e7e6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/service/resource.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/service/resource.service.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -337,15 +336,15 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="118" />
+          <entry key="html" value="119" />
           <entry key="ts" value="5663" />
-          <entry key="txt" value="178" />
+          <entry key="txt" value="180" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="118" />
-          <entry key="PLAIN_TEXT" value="178" />
+          <entry key="HTML" value="119" />
+          <entry key="PLAIN_TEXT" value="180" />
           <entry key="TypeScript" value="5663" />
         </counts>
       </usages-collector>
@@ -361,11 +360,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/service/resource.service.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+              <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -373,11 +372,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="141">
-              <caret line="143" column="28" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
+              <caret line="134" column="27" lean-forward="true" selection-start-line="134" selection-start-column="27" selection-end-line="134" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -544,8 +543,8 @@
         <option value="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" />
         <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
         <option value="$PROJECT_DIR$/src/app/app.module.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/resource.service.ts" />
         <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
+        <option value="$PROJECT_DIR$/src/app/service/resource.service.ts" />
       </list>
     </option>
   </component>
@@ -828,20 +827,6 @@
       <workItem from="1541415975993" duration="8041000" />
       <workItem from="1541435024109" duration="5331000" />
       <workItem from="1541500763762" duration="11507000" />
-    </task>
-    <task id="LOCAL-00035" summary="message success managed 2">
-      <created>1539088958292</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1539088958292</updated>
-    </task>
-    <task id="LOCAL-00036" summary="message success managed 3">
-      <created>1539089092886</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1539089092886</updated>
     </task>
     <task id="LOCAL-00037" summary="message success managed 4">
       <created>1539090204211</created>
@@ -1172,11 +1157,25 @@
       <option name="project" value="LOCAL" />
       <updated>1542032940128</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="fix resource serice 5">
+      <created>1542033308813</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1542033308813</updated>
+    </task>
+    <task id="LOCAL-00085" summary="fix resource serice 6">
+      <created>1542033419497</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1542033419497</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="645934000" />
+    <option name="totallyTimeSpent" value="646687000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1296,8 +1295,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Admin content management 4 fix rxjs behaviorsubject" />
-    <MESSAGE value="fix rxjs behaviorsubject" />
     <MESSAGE value="fix rxjs behaviorsubject 1" />
     <MESSAGE value="fix rxjs behaviorsubject 2" />
     <MESSAGE value="fix rxjs behaviorsubject 3" />
@@ -1321,7 +1318,9 @@
     <MESSAGE value="fix resource serice" />
     <MESSAGE value="fix resource serice 2" />
     <MESSAGE value="fix resource serice 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix resource serice 3" />
+    <MESSAGE value="fix resource serice 5" />
+    <MESSAGE value="fix resource serice 6" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix resource serice 6" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
@@ -1575,20 +1574,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/resource.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="32" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
-          <caret line="143" column="28" selection-start-line="143" selection-start-column="28" selection-end-line="143" selection-end-column="28" />
+          <caret line="134" column="27" lean-forward="true" selection-start-line="134" selection-start-column="27" selection-end-line="134" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/service/resource.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
