@@ -8,7 +8,7 @@ export class ResourceService<T extends Resource> {
     constructor(
         private http: HttpClient,
         private url: string ='' ,
-        private endpoint: string ='') {}
+        private endpoint: string ) {}
 
     create(item: T) {
         return this.http

@@ -38,7 +38,7 @@
             </td>
             <td class="cta_collabs">
                 <div class="ui-toolbar-group-right">
-                    <button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, rowData)"></button>
+                    <button pButton type="button" icon="pi pi-search"></button>
                     <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
                     <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
                 </div>
@@ -50,7 +50,7 @@
 
 
 
-<p-dialog header="{{title}}" [(visible)]="displayDialog" [responsive]="true" [modal]="true" [styleClass]="'importcsv'">
+<p-dialog header="Nouveau collaborateur" [(visible)]="displayDialog" [responsive]="true" [modal]="true" [styleClass]="'importcsv'">
 
     <p-tabView>
         <p-tabPanel header="création" leftIcon="pi pi-calendar">
@@ -131,7 +131,7 @@
 
             <!-- PRESTATIONS -->
             <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
-            <div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div>
+            <div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]=""></app-prestations></div>
             <!-- Dynamic way : ng-template ad-host></ng-template-->
 
             <!-- FOOTER -->
@@ -141,7 +141,7 @@
                             (click)="saveNewCollaborateur()"></button>
 
                     <button #bPrestas pButton type="button" label="Visualiser les prestations" class="ui-button-success"
-                            (click)="showPrestations()"></button>
+                            ></button>
                 </div>
             </p-footer>
 
