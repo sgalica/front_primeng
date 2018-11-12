@@ -1,10 +1,8 @@
 import {Observable} from "rxjs/Rx";
 import {HttpClient} from "@angular/common/http";
-import {Injectable} from "@angular/core";
 import {Resource} from "../model/resource";
 
 
-@Injectable()
 export class ResourceService<T extends Resource> {
 
     constructor(
