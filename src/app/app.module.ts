@@ -105,7 +105,6 @@ import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
 // import {AdminGuard} from "./service/admin.guard";
 import {NotFoundComponent} from './not-found/not-found.component';
-import {ResourceService} from "./service/resource.service";
 import {DataService} from "./service/data.service";
 import {
     CategorieService,
@@ -241,7 +240,6 @@ export function tokenGetter() {
         //AdminGuard,
         AlertService,
         CollaborateurService,
-        ResourceService,
         DataService,
         ReferencielService,
         NumAtgService,
