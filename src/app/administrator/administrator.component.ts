@@ -339,7 +339,12 @@ export class AdministratorComponent implements OnInit {
 
     }
 
-    saveRefTable(table: any) {
+    saveRefTable(event: any, table: any) {
+        // permet d'empecher la propagation de l'evenement click pour que l'accordeon ne qouvre pas apres appuis sur le bouton
+        event.preventDefault();
+        event.stopPropagation();
+
+
         let convertedJson: any;
         let cons = this.getModelMatch(table);
 
