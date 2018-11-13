@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="993f3f3a-0350-45ad-b530-5a263638e7e6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/_versions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/_versions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/model/referenciel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/model/referenciel.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -255,51 +249,52 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="css" value="4" />
-          <entry key="html" value="14" />
+          <entry key="css" value="6" />
+          <entry key="html" value="18" />
           <entry key="scss" value="2" />
-          <entry key="ts" value="20" />
+          <entry key="ts" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSS" value="4" />
-          <entry key="HTML" value="14" />
+          <entry key="CSS" value="6" />
+          <entry key="HTML" value="18" />
           <entry key="SCSS" value="2" />
-          <entry key="TypeScript" value="20" />
+          <entry key="TypeScript" value="25" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="297" />
-          <entry key="html" value="2144" />
+          <entry key="html" value="3080" />
           <entry key="scss" value="208" />
-          <entry key="ts" value="4273" />
+          <entry key="ts" value="5517" />
           <entry key="txt" value="129" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="297" />
-          <entry key="HTML" value="2144" />
+          <entry key="HTML" value="3080" />
           <entry key="PLAIN_TEXT" value="129" />
           <entry key="SCSS" value="208" />
-          <entry key="TypeScript" value="4273" />
+          <entry key="TypeScript" value="5517" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.run.usages" />
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="Angular2LanguageService" value="3" />
+          <entry key="Angular2LanguageService" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.38" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.mvc.usages" />
@@ -366,113 +361,114 @@
     <favorites_list name="avalon" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
-              <folding>
-                <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="509">
-              <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="303" column="13" selection-start-line="303" selection-start-column="13" selection-end-line="303" selection-end-column="13" />
-              <folding>
-                <element signature="n#!!block;n#filteritem#0" />
-                <element signature="e#5524#6146#0" />
-                <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#createColsIndex#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#createStatusIndex#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#initFilters#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#updateFilters#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#afficherLaSaisie#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#buttonsFunctions#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#showPrestations#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#onUpload#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#getDataRecordsArrayFromCSVFile#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#isCSVFile#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#fileReset#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#onSelectImage#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#onRemoveImage#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#fileChangeListener#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#csvUploader#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#readcsvcontent#0;n#CollaborateursComponent#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2176">
-              <caret line="128" column="43" selection-start-line="128" selection-start-column="27" selection-end-line="128" selection-end-column="43" />
-              <folding>
-                <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/model/referenciel.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="50" column="20" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
-              <caret line="288" column="53" selection-start-line="288" selection-start-column="48" selection-end-line="288" selection-end-column="53" />
-              <folding>
-                <element signature="e#0#92#0" expanded="true" />
-                <element signature="e#5082#5704#0" />
-                <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#orderfilterPrestations#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#initFilters#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
-                <element signature="e#9334#9627#0" />
-                <element signature="e#9633#9931#0" />
-                <element signature="n#!!block;n#onDialogHide#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#ngOnChanges#0;n#PrestationsComponent#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.4381408">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="259">
+                  <caret line="135" selection-start-line="132" selection-end-line="135" />
+                  <folding>
+                    <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#span#1;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="702">
+                  <caret line="351" lean-forward="true" selection-start-line="338" selection-end-line="351" />
+                  <folding>
+                    <element signature="e#0#59#0" expanded="true" />
+                    <element signature="n#!!block;n#filteritem#0" />
+                    <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#createColsIndex#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#createStatusIndex#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#initFilters#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#updateFilters#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#afficherLaSaisie#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#showPrestations#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#onUpload#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#getDataRecordsArrayFromCSVFile#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#isCSVFile#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#fileReset#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#onSelectImage#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#onRemoveImage#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#fileChangeListener#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#csvUploader#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#readcsvcontent#0;n#CollaborateursComponent#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="252">
+                  <caret line="189" column="176" selection-start-line="189" selection-start-column="176" selection-end-line="189" selection-end-column="176" />
+                  <folding>
+                    <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#span#1;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
+                    <element signature="e#8834#8840#0" expanded="true" />
+                    <element signature="e#9226#9232#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="510">
+                  <caret line="463" lean-forward="true" selection-start-line="463" selection-end-line="463" />
+                  <folding>
+                    <element signature="e#0#92#0" expanded="true" />
+                    <element signature="n#!!block;n#filteritem#0" />
+                    <element signature="e#2420#4363#0" />
+                    <element signature="e#5180#5802#0" />
+                    <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#orderfilterPrestations#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#selectColumns#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#createColsIndex#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#createStatusIndex#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#initFilters#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
+                    <element signature="e#9595#9888#0" />
+                    <element signature="e#9894#10192#0" />
+                    <element signature="n#!!block;n#onDialogHide#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#updateFilters#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#ngOnChanges#0;n#PrestationsComponent#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -486,24 +482,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>trig</find>
-      <find>orderfilterPrestations</find>
-      <find>allstatus</find>
-      <find>labels</find>
-      <find>dateFormat=&quot;dd/mm/yyyy&quot;</find>
-      <find>test</find>
-      <find>date</find>
-      <find>sort</find>
-      <find>pipe</find>
-      <find>cale</find>
-      <find>LES FILTRES</find>
-      <find>prestations</find>
-      <find>orderf</find>
-      <find>null</find>
-      <find>/</find>
-      <find>colsIndex</find>
-      <find>co_filter</find>
-      <find>selectedCollab</find>
       <find>ngStyle</find>
       <find>selectcolla</find>
       <find>ngs</find>
@@ -515,7 +493,25 @@
       <find>idxBtnPrestations</find>
       <find>buttonPrestationsLabels</find>
       <find>lastMission</find>
+      <find>saveRefTable</find>
       <find>split</find>
+      <find>collaborateurService</find>
+      <find>listeitem</find>
+      <find>selectitem</find>
+      <find>new</find>
+      <find>listitem</find>
+      <find>foreach</find>
+      <find>style</find>
+      <find>allstatusidx</find>
+      <find>createStatusIndex</find>
+      <find>filtres</find>
+      <find>selectedPrestation</find>
+      <find>ngModel</find>
+      <find>date</find>
+      <find>p-calend</find>
+      <find>employee</find>
+      <find>collaborateur</find>
+      <find>commercialOpen</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -599,18 +595,18 @@
         <option value="$PROJECT_DIR$/src/app/model/referenciel2.ts" />
         <option value="$PROJECT_DIR$/src/app/service/datas.service.ts" />
         <option value="$PROJECT_DIR$/src/app/service/data.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" />
         <option value="$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.ts" />
         <option value="$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.html" />
         <option value="$PROJECT_DIR$/src/app/app.module.ts" />
-        <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" />
+        <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.html" />
+        <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
         <option value="$PROJECT_DIR$/src/app/model/referenciel.ts" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" />
-        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
-        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" />
-        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" />
       </list>
     </option>
   </component>
@@ -637,11 +633,6 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
-  <component name="NodePackageJsonFileManager">
-    <packageJsonPaths>
-      <path value="$PROJECT_DIR$/package.json" />
-    </packageJsonPaths>
-  </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1912" />
@@ -654,64 +645,80 @@
     <option name="STATE" value="1" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
             </path>
             <path>
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
             <path>
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="collaborateurs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="prestations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="component" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="component" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="collaborateurs" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="atg-app-client" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -722,7 +729,7 @@
     <property name="SearchEverywhereHistoryKey" value="SystemJS.&#9;FILE&#9;file://C:/Users/fbo14041/WebstormProjects/atg-app-client/node_modules/@angular/core/src/linker/system_js_ng_module_factory_loader.d.ts&#10;app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541779689180" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542106960700" />
     <property name="database.console.LAST_STATE" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../atg-app-server" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -902,14 +909,8 @@
       <workItem from="1541500763762" duration="11507000" />
       <workItem from="1542012116294" duration="8366000" />
       <workItem from="1542028134070" duration="2086000" />
-      <workItem from="1542030830871" duration="5807000" />
-    </task>
-    <task id="LOCAL-00037" summary="message success managed 4">
-      <created>1539090204211</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1539090204211</updated>
+      <workItem from="1542030830871" duration="16546000" />
+      <workItem from="1542115726343" duration="8098000" />
     </task>
     <task id="LOCAL-00038" summary="message success managed 4">
       <created>1539090334643</created>
@@ -1247,11 +1248,18 @@
       <option name="project" value="LOCAL" />
       <updated>1541779554755</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="Fiche collaborateur">
+      <created>1542038103585</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1542038103585</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="717188000" />
+    <option name="totallyTimeSpent" value="736025000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1266,13 +1274,13 @@
     <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18283582" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49929875" visible="true" weight="0.22014925" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="npm" order="5" side_tool="true" />
-      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info id="Favorites" order="6" sideWeight="0.50070125" side_tool="true" weight="0.22014925" />
       <window_info id="Image Layers" order="7" />
       <window_info id="Learn" order="8" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -1371,7 +1379,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="fix rxjs behaviorsubject" />
     <MESSAGE value="fix rxjs behaviorsubject 1" />
     <MESSAGE value="fix rxjs behaviorsubject 2" />
     <MESSAGE value="fix rxjs behaviorsubject 3" />
@@ -1396,7 +1403,8 @@
     <MESSAGE value="Version Farid" />
     <MESSAGE value="dates prestations au format date" />
     <MESSAGE value="Fiches collaborateur et prestation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fiches collaborateur et prestation" />
+    <MESSAGE value="Fiche collaborateur" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fiche collaborateur" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
@@ -1451,13 +1459,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="646">
           <caret line="41" column="8" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="78" column="62" selection-start-line="78" selection-start-column="62" selection-end-line="78" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -1525,13 +1526,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/datas.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-595">
-          <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.dom.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -1543,16 +1537,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="94">
           <caret line="479" column="17" selection-start-line="479" selection-start-column="17" selection-end-line="479" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="137" column="49" lean-forward="true" selection-start-line="137" selection-start-column="49" selection-end-line="137" selection-end-column="49" />
         </state>
       </provider>
     </entry>
@@ -1577,59 +1561,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
+    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2176">
-          <caret line="128" column="43" selection-start-line="128" selection-start-column="27" selection-end-line="128" selection-end-column="43" />
-          <folding>
-            <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="152">
+          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="288" column="53" selection-start-line="288" selection-start-column="48" selection-end-line="288" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#92#0" expanded="true" />
-            <element signature="e#5082#5704#0" />
-            <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#orderfilterPrestations#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#initFilters#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
-            <element signature="e#9334#9627#0" />
-            <element signature="e#9633#9931#0" />
-            <element signature="n#!!block;n#onDialogHide#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#ngOnChanges#0;n#PrestationsComponent#0" />
-          </folding>
+        <state relative-caret-position="484">
+          <caret line="344" column="1" selection-start-line="344" selection-start-column="1" selection-end-line="344" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/referenciel.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/service/datas.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="50" column="20" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="20" />
+        <state relative-caret-position="-1462">
+          <caret line="25" column="21" selection-start-line="25" selection-start-column="21" selection-end-line="25" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
+        <state relative-caret-position="481">
+          <caret line="45" column="22" lean-forward="true" selection-start-line="45" selection-start-column="4" selection-end-line="45" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-205" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/model/referenciel.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="328">
+          <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
+          <folding>
+            <element signature="n#Mission#0" />
+            <element signature="n#Prestation#0" />
+            <element signature="n#NumAtg#0" />
+            <element signature="n#SocieteStt#0" />
+            <element signature="n#Categorie#0" />
+            <element signature="n#Contrat#0" />
+            <element signature="n#Site#0" />
+            <element signature="n#Equipe#0" />
+            <element signature="n#DonneurOrdre#0" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="109" lean-forward="true" selection-start-line="109" selection-end-line="109" />
+        <state relative-caret-position="259">
+          <caret line="135" selection-start-line="132" selection-end-line="135" />
           <folding>
             <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
@@ -1638,13 +1624,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="189" column="176" selection-start-line="189" selection-start-column="176" selection-end-line="189" selection-end-column="176" />
+          <folding>
+            <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
+            <element signature="e#8834#8840#0" expanded="true" />
+            <element signature="e#9226#9232#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="303" column="13" selection-start-line="303" selection-start-column="13" selection-end-line="303" selection-end-column="13" />
+        <state relative-caret-position="702">
+          <caret line="351" lean-forward="true" selection-start-line="338" selection-end-line="351" />
           <folding>
+            <element signature="e#0#59#0" expanded="true" />
             <element signature="n#!!block;n#filteritem#0" />
-            <element signature="e#5524#6146#0" />
             <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
@@ -1654,7 +1654,6 @@
             <element signature="n#!!block;n#updateFilters#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#afficherLaSaisie#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#buttonsFunctions#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#showPrestations#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#onUpload#0;n#CollaborateursComponent#0" />
@@ -1666,6 +1665,39 @@
             <element signature="n#!!block;n#fileChangeListener#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#csvUploader#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#readcsvcontent#0;n#CollaborateursComponent#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="463" lean-forward="true" selection-start-line="463" selection-end-line="463" />
+          <folding>
+            <element signature="e#0#92#0" expanded="true" />
+            <element signature="n#!!block;n#filteritem#0" />
+            <element signature="e#2420#4363#0" />
+            <element signature="e#5180#5802#0" />
+            <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#orderfilterPrestations#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#selectColumns#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#createColsIndex#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#createStatusIndex#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#initFilters#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
+            <element signature="e#9595#9888#0" />
+            <element signature="e#9894#10192#0" />
+            <element signature="n#!!block;n#onDialogHide#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#updateFilters#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#ngOnChanges#0;n#PrestationsComponent#0" />
           </folding>
         </state>
       </provider>
