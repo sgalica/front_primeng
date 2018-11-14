@@ -19,7 +19,8 @@
         <div class="card">
             <h5 class="centerText">Evolution du nombre de sous-traitants par département sur 6 mois</h5>
             <div class="chart">
-                <p-table [columns]="dataTable" [value]="dataTable">
+
+                    <p-table *ngIf="dataTable.length > 0"  [columns]="dataTable" [value]="dataTable">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th>
@@ -56,6 +57,9 @@
 
                     </ng-template>
                 </p-table>
+
+                <h1 *ngIf="dataTable.length == 0"  style="text-align: center;color: #f44336">Aucune données dans la base</h1>
+
             </div>
         </div>
     </div>
@@ -64,7 +68,9 @@
         <div class="card">
             <h5 class="centerText">Evolution du nombre de sous-traitants par département sur 6 mois</h5>
             <div class="chart">
-                <p-chart type="line" [data]="lineData"></p-chart>
+                <p-chart  *ngIf="dataTable.length > 0"  type="line" [data]="lineData"></p-chart>
+                <h1 *ngIf="dataTable.length == 0"  style="text-align: center;color: #f44336">Aucune données dans la base</h1>
+
             </div>
         </div>
     </div>

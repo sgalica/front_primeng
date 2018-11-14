@@ -90,7 +90,7 @@ export class Prestation {
     departement: any = 0;
     pole: any = 0;
     domaine: any = 0;
-    numeroAtg: any = 0;
+    numAtg: any = 0;
     dateDebutPrestation: any = 0;
     dateFinPrestation: any = 0;
     numeroPu: any = 0;

@@ -10,6 +10,8 @@
 .centerText{
     background: #00a6dd;
     padding: 10px;
+    font-size: 18px;
+    color: #ffffff;
 }
 
 .chart{padding: 40px}

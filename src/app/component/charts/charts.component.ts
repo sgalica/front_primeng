@@ -64,8 +64,9 @@ export class ChartsComponent implements OnInit {
 
         this.chart_date$.next(this.at_date$);
 
-        this.loadAllPrestations()
-        this.extracted();
+        this.loadAllPrestations();
+
+        this.generateChartDatas();
 
 
         this.pieData = {
@@ -89,7 +90,7 @@ export class ChartsComponent implements OnInit {
 
     }
 
-    private extracted() {
+    private generateChartDatas() {
         var formatter = new Intl.DateTimeFormat("fr", {month: "short"});
 
         // console.log("calc",JSON.stringify(this.allcharts));
@@ -147,7 +148,7 @@ export class ChartsComponent implements OnInit {
         this.chart_date$.next(this.at_date$);
 
         //this.loadAllPrestations();
-        this.extracted();
+        this.generateChartDatas();
 
 
     }
