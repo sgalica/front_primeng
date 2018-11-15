@@ -90,8 +90,10 @@ export class ChartsComponent implements OnInit {
 
     }
 
+
+
     private generateChartDatas() {
-        var formatter = new Intl.DateTimeFormat("fr", {month: "short"});
+        var formatter = new Intl.DateTimeFormat("fr", {month: "long"});
 
         // console.log("calc",JSON.stringify(this.allcharts));
 
@@ -134,8 +136,9 @@ export class ChartsComponent implements OnInit {
             console.log("datalist =", this.dataList);
 
 
+
             this.lineData = {
-                labels: this.labelList,
+                labels: this.labelList.reverse(),
                 datasets: this.dataList
             };
         });

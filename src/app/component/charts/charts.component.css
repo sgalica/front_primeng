@@ -3,18 +3,23 @@
     padding: 0;
 }
 
-.charts {margin: auto; max-width: 1400px;    ;
+.charts {
+    margin: auto;
+    max-width: 1400px;
 }
 
-
-.centerText{
+.centerText {
     background: #00a6dd;
     padding: 10px;
     font-size: 18px;
+    text-align: center;
     color: #ffffff;
 }
 
-.chart{padding: 40px}
+.chart {
+    padding: 40px;
+
+}
 
 .chart1 .pie-chart {
 
@@ -44,6 +49,12 @@
     margin: 20px;
 }
 
-.chart1{ width: 40%; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);}
+.chart1 {
+    width: 40%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
 
-.chart2{ width: 40%; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);}
+.chart2 {
+    width: 40%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}

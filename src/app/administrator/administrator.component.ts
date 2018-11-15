@@ -22,10 +22,12 @@ class Resource {
 })
 export class AdministratorComponent implements OnInit {
 
+    value: number = 0;
 
     selectedCollaborateur: Collaborateur;
 
     displayDialog: boolean;
+    resetRef: boolean;
 
     sortOptions: SelectItem[];
 
@@ -64,6 +66,7 @@ export class AdministratorComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.resetRef=true;
 
         const camelCase = require('camelcase');
 
@@ -140,16 +143,16 @@ export class AdministratorComponent implements OnInit {
             const arr = [];
             for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
             const bstr = arr.join("");
-           // console.log("xls", bstr);
+            // console.log("xls", bstr);
 
             const workbook = read(bstr, {type: "binary", cellDates: true, dateNF: 'dd/mm/yyyy;@'});
             console.log("workbook", workbook);
 
- /*           Object.keys(workbook).forEach((x, y) => {
-                this.all_sheet_name.push(workbook.SheetNames[y]);
-            });  */
+            /*           Object.keys(workbook).forEach((x, y) => {
+                           this.all_sheet_name.push(workbook.SheetNames[y]);
+                       });  */
 
-                this.all_sheet_name = workbook.SheetNames;
+            this.all_sheet_name = workbook.SheetNames;
             console.log("all_sheet_name", this.all_sheet_name);
 
 
@@ -157,13 +160,18 @@ export class AdministratorComponent implements OnInit {
                     this.worksheet = workbook.Sheets[x];
                     // console.log("sheet keys ", XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
                     //this.columns.push(Object.values(XLSX.utils.sheet_to_json(this.worksheet, {raw: true})));
-                    this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: false, defval: null, blankrows: false, dateNF: 'dd/mm/yyyy;@'}));
+                    this.alltable.push(utils.sheet_to_json(this.worksheet, {
+                        raw: false,
+                        defval: null,
+                        blankrows: false,
+                        dateNF: 'dd/mm/yyyy;@'
+                    }));
                 }
             );
             console.log("alltable", this.alltable);
 
             const camelize = require('camelcase-object-deep');
-           // const camelize = require('camelcase-keys');
+            // const camelize = require('camelcase-keys');
             //const camelCase = require('camel-case');
             const camelCase = require('camelize');
             var changeCase = require('change-case');
@@ -221,6 +229,7 @@ export class AdministratorComponent implements OnInit {
 
         };
         fileReader.readAsArrayBuffer(this.file);
+        this.resetRef=false;
     }
 
     getModelMatch(T) {
@@ -313,14 +322,15 @@ export class AdministratorComponent implements OnInit {
     }
 
     saveAllRefTable(referenciel: any) {
-    let convertedJson = referenciel;
-    let cons = new Referenciel();
+        let convertedJson = referenciel;
+        let cons = new Referenciel();
 
         this.dataService.getServiceMatch(cons).create(convertedJson)
         //this.missionService.createList(convertedJson)
             .pipe(first())
             .subscribe(
                 data => {
+                    this.value = data;
                     this.apiresponse = data as ApiResponse;
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
@@ -341,20 +351,20 @@ export class AdministratorComponent implements OnInit {
 
     saveRefTable(event: any, table: any) {
         // permet d'empecher la propagation de l'evenement click pour que l'accordeon ne qouvre pas apres appuis sur le bouton
-        event.preventDefault();
         event.stopPropagation();
+        event.preventDefault();
 
 
         let convertedJson: any;
         let cons = this.getModelMatch(table);
 
 
-            console.log("LOGGING table:::::::::::::::::::::::", table);
-            console.log("LOGGING cons :::::::::::::::::::::::", cons);
-            convertedJson = this.convertJsonToModel(table, cons);
-            const temp = convertedJson.map(x => JSON.stringify(x));
-            console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
-            console.log("LOGGING temp :::::::::::::::::::::::", temp);
+        console.log("LOGGING table:::::::::::::::::::::::", table);
+        console.log("LOGGING cons :::::::::::::::::::::::", cons);
+        convertedJson = this.convertJsonToModel(table, cons);
+        const temp = convertedJson.map(x => JSON.stringify(x));
+        console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
+        console.log("LOGGING temp :::::::::::::::::::::::", temp);
 
 
         // const temp = this.serviceMatcher.getServiceMatch(cons);
