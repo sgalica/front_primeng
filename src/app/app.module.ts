@@ -65,6 +65,7 @@ import {
     TreeModule,
     TreeTableModule,
 } from 'primeng/primeng';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
@@ -142,6 +143,7 @@ export function tokenGetter() {
         FormsModule,
         OrderListModule,
         PickListModule,
+        ProgressSpinnerModule,
         BrowserModule,
         AppRoutes,
         CoreModule,

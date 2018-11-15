@@ -28,6 +28,9 @@ export class AdministratorComponent implements OnInit {
 
     displayDialog: boolean;
     resetRef: boolean;
+    loader: boolean[] = [false];
+    loaderImport: boolean = false;
+
 
     sortOptions: SelectItem[];
 
@@ -322,6 +325,8 @@ export class AdministratorComponent implements OnInit {
     }
 
     saveAllRefTable(referenciel: any) {
+        this.loaderImport=true;
+
         let convertedJson = referenciel;
         let cons = new Referenciel();
 
@@ -335,12 +340,15 @@ export class AdministratorComponent implements OnInit {
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;
+                    this.loaderImport=false;
 
                     this.router.routeReuseStrategy.shouldReuseRoute = function () {
                         return false;
                     };
                 },
                 error => {
+                    this.loaderImport=false;
+
                     console.log("data returned = ", error);
 
                     this.alertService.error(error);
@@ -349,7 +357,9 @@ export class AdministratorComponent implements OnInit {
 
     }
 
-    saveRefTable(event: any, table: any) {
+    saveRefTable(event: any, table: any, i:any) {
+        this.loader[i]=true;
+
         // permet d'empecher la propagation de l'evenement click pour que l'accordeon ne qouvre pas apres appuis sur le bouton
         event.stopPropagation();
         event.preventDefault();
@@ -370,6 +380,7 @@ export class AdministratorComponent implements OnInit {
         // const temp = this.serviceMatcher.getServiceMatch(cons);
         //console.log("LOGGING res :::::::::::::::::::::::", res);
         //this.ReferencielService.createList(convertedJson)
+
         this.dataService.getServiceMatch(cons).createList(convertedJson)
         //this.missionService.createList(convertedJson)
             .pipe(first())
@@ -380,11 +391,14 @@ export class AdministratorComponent implements OnInit {
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;
 
+                    this.loader[i]=false;
                     this.router.routeReuseStrategy.shouldReuseRoute = function () {
                         return false;
                     };
                 },
                 error => {
+                    this.loader[i]=false;
+
                     console.log("data returned = ", error);
 
                     this.alertService.error(error);
