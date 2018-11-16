@@ -43,7 +43,6 @@ export class Collaborateur {
      updatedBy           : any = 0;
 }
 
-
 export class Mission {
     id: any = 0;
     identifiantMission: any = 0;
@@ -62,7 +61,6 @@ export class Mission {
 
 }
 
-
 export class Prestation {
 
     id: any = 0;
@@ -73,7 +71,7 @@ export class Prestation {
     departement: any = 0;
     pole: any = 0;
     domaine: any = 0;
-    numeroAtg: any = 0;
+    numAtg: any = 0;
     dateDebutPrestation: any = 0;
     dateFinPrestation: any = 0;
     numeroPu: any = 0;
@@ -86,11 +84,16 @@ export class Prestation {
     versionPrestation: any = 0;
 
     collaborateur: Collaborateur;
+    contrat : Contrat;
 
     createdAt           : any = 0;
     createdBy           : any = 0;
     updatedAt           : any = 0;
     updatedBy           : any = 0;
+
+    dateDebutPrestationTri: any = 0;
+    dateFinPrestationTri: any = 0;
+    
 }
 
 export class NumAtg {
@@ -155,8 +158,6 @@ export class Contrat {
     updatedAt           : any = 0;
     updatedBy           : any = 0;
 }
-
-
 
 export class Site {
     id: any = 0;

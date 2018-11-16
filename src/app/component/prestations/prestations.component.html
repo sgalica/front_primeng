@@ -33,6 +33,7 @@
 
         <tr>
             <th *ngFor="let col of columns">{{col.header}}</th>
+            <!--th></th-->
             <th style="border-top:none; background-color:#f5f5f5; width:140px"></th>
         </tr>
 
@@ -56,16 +57,17 @@
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
                     <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="dd/mm/yy" (onSelect)="pt_filter(col.field);"
-                                (onClearClick)="pt_filter(col.field);"
+                                dateFormat="{{filtres[col.field].fmt}}" [locale]="fr" (onSelect)="pt_filter($event, pt, col.field);"
+                                (onClearClick)="pt_filter($event, pt, col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
                         <p-header *ngIf="col.field=='dateDebutPrestation'">A partir de :</p-header>
                         <p-header *ngIf="col.field=='dateFinPrestation'">Jusqu'au :</p-header>
                     </p-calendar>
                 </div>
-            </th>
 
+             </th>
+            <!--th></th-->
             <!--th *ngFor="let col of columns" [ngSwitch]="col.field">
                 <p-multiSelect *ngSwitchCase="'prestIdCollab'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="this.pt.filter($event.target.value, col.field, 'in');"></p-multiSelect>
                 <input *ngSwitchCase="'prestDateDebut'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
@@ -94,18 +96,15 @@
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
-                <span *ngSwitchCase="'date'">{{rowData[col.field] | date:"dd/MM/yyyy" }}</span>
+                <span *ngSwitchCase="'date'">{{rowData[col.field] | date:filtres[col.field].fmt2 }}</span>
                 <span *ngSwitchDefault>{{rowData[col.field]}}</span>
             </td>
-
+            <!--td>{{rowData["dateDebutPrestationTri"]}}</td-->
             <td>
                 <div class="ui-toolbar-group-right">
-                    <button pButton type="button" (click)="selectPrestation($event, rowData)" icon="pi pi-search"
-                            pTooltip="Voir" tooltipPosition="bottom"></button>
-                    <button pButton type="button" icon="pi pi-calendar" class="ui-button-success" pTooltip="Historique"
-                            tooltipPosition="bottom"></button>
-                    <button pButton type="button" (click)="deletePrestation($event, rowData)" icon="pi pi-times"
-                            class="ui-button-danger" pTooltip="Supprimer" tooltipPosition="bottom"></button>
+                    <button pButton type="button" (click)="selectPrestation($event, rowData)" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom"></button>
+                    <button pButton type="button" icon="pi pi-calendar" class="ui-button-success" pTooltip="Historique" tooltipPosition="bottom"></button>
+                    <button pButton type="button" (click)="deletePrestation($event, rowData)" icon="pi pi-times" class="ui-button-danger" pTooltip="Supprimer" tooltipPosition="bottom"></button>
                 </div>
             </td>
         </tr>
@@ -114,20 +113,64 @@
 </p-table>
 
 
-<p-dialog header="Prestation" [(visible)]="displayDialogPresta" [responsive]="true" [modal]="true">
+<!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
+<!-- >>>>>>>>>>>>>>> F I C H E <<<<<<<<<<<<<<<<<<<-->
+<!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
+
+<p-dialog [(visible)]="displayDialogPresta" [responsive]="true" [modal]="true" [style]="{'min-height' : '300px'}">
+
+    <p-header>
+        <span style="display:inline-block; width:80%">{{title}}</span><span style="display:inline-block">Statut "{{allstatusidx[selectedPrestation['statutPrestation']]}}" - Version {{selectedPrestation['versionPrestation']}}</span>
+    </p-header>
 
     <!--span class="ui-inputgroup-addon">Identifiant</span>
     <input type="text" pInputText placeholder="identifiant" value="{{selectedPrestation.prestId}}"-->
     <div class="ui-g ui-fluid">
 
-        <p-fieldset *ngFor="let fiche of FieldsFiches" legend="{{fiche.grplabel}}" class="ui-g-12 ui-md-6">
-            <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field">
-                <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left'}">{{colsIndex[field]}} :</span>
+        <p-fieldset *ngFor="let fiche of FieldsFiches" legend="{{fiche.grplabel}}" [ngSwitch]="fiche.grp" class="ui-g-12 ui-md-6">
+            <div *ngIf="fiche.grp == 'contrat' || fiche.grp == 'collaborateur'">
+                <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
 
-                    <!--input *ngSwitchCase="'collaborateur.nom'" type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedPrestation.collaborateur.nom">
-                    <input *ngSwitchCase="'collaborateur.prenom'" type="text" pInputText placeholder="{{colsIndex[field]}}" [(ngModel)]="selectedPrestation['collaborateur'].prenom"-->
-                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[field]">
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field.name]}}&nbsp;:</span>
 
+                    <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" [showIcon]="true" [showButtonBar]="true"
+                                dateFormat="dd/mm/yy" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
+                    </p-calendar>
+                    <!-- Un seul combo : celui du contrat -->
+                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [style]="{'width':'100%'}">
+                        <ng-template let-item pTemplate="selectedItem">
+                            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                        </ng-template>
+                        <ng-template let-contrat pTemplate="item">
+                            <div class="ui-helper-clearfix" style="position:relative;">
+                                <div style="font-size:14px;float:left;margin-top:4px">{{contrat.label}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+
+                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[fiche.grp][field.name]">
+                </div>
+            </div>
+            <div *ngIf="fiche.grp == 'Prestation' || fiche.grp == 'Commercial'">
+                <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
+                    
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field.name]}}&nbsp;:</span>
+
+                    <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[field.name]" [showIcon]="true" [showButtonBar]="true"
+                                dateFormat="dd/mm/yy" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
+                    </p-calendar>
+
+                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [style]="{'width':'100%'}">
+                        <ng-template let-item pTemplate="selectedItem"><span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span></ng-template>
+                        <ng-template let-itembis pTemplate="item">
+                            <div class="ui-helper-clearfix" style="position:relative;">
+                                <div style="font-size:14px;float:left;margin-top:4px">{{itembis.label}}</div>
+                            </div>
+                        </ng-template>
+                    </p-dropdown>
+
+                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[field.name]">
+                </div>
             </div>
         </p-fieldset>
     </div>
@@ -156,10 +199,8 @@
 
 
     <p-footer>
-        <div class="ui-dialog-buttonpane ui-helper-clearfix">
-            <button pButton type="button" label="Enregistrer" icon="pi pi-upload"
-                    class="ui-button-success"
-                    (click)="savePrestation()"></button>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix" [ngStyle]="{'text-align':'left'}">
+            <button *ngFor="let btnid of buttons_list; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttonsFunctions(btnid)" [disabled]="buttons[btnid].disabled"></button>
         </div>
     </p-footer>
 

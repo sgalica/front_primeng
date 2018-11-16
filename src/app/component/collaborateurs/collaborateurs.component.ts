@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {CollaborateurService} from '../../service/datas.service';
+import {CategorieService, CollaborateurService} from '../../service/datas.service';
 import {Collaborateur, Mission} from '../../model/referenciel';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
@@ -44,11 +44,14 @@ export class CollaborateursComponent implements OnInit {
     // Fiche
     selectedCollaborateur: Collaborateur = new Collaborateur();
     displayDialog: boolean = false;
+    displayDialog2: boolean = false;
     lastMission : Mission = new Mission();
 
     // Références
     allstatus: { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
     allstatusidx : string[];
+    categorisations : SelectItem[]=[];
+    ouinon: { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
 
     private msgs: Message[];
     private selectedfile: any;
@@ -63,19 +66,20 @@ export class CollaborateursComponent implements OnInit {
     @ViewChild(PrestationsComponent)
     private prestasComponent : PrestationsComponent ;
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
-    buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Masquer les prestations"]; idxBtnPrestations : number =0;
-    buttonsCollabLabels : String[] = ["Enregistrer", "Créer une prestation", this.buttonPrestationsLabels[0], "Terminer la mission", "Supprimer le collaborateur", "Réactiver le collaborateur", "Annuler" ];
-    buttonsCollabDisabled : Boolean[] = [true, true, false, true, true, true, true ];
-
+    buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Visualiser les prestations"]; idxBtnPrestations : number =0;
+    buttons_list : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
+    buttons : {label:String, disabled:Boolean}[]= [];
+    
     fr:any;
 
     FieldsFiches : any[];
 
-    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService, private datePipe:DatePipe) {
+    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService, private datePipe:DatePipe, private categorieService: CategorieService,) {
     }
     /*   ngOnChanges(): void { const camelCase = require('camelcase'); }*/
 
     ngOnInit() {
+        this.displayDialog2=false;
 
         const camelCase = require('camelcase');
 
@@ -124,9 +128,17 @@ export class CollaborateursComponent implements OnInit {
             clear: 'Effacer'
         };
 
+        this.buttons["Save"] = {label:"Enregistrer", disabled:true};
+        this.buttons["Create"] = {label:"Créer une prestation", disabled:true};
+        this.buttons["Prestas"] = {label:this.buttonPrestationsLabels[0], disabled:false};
+        this.buttons["EndMission"] = {label:"Terminer la mission", disabled:true};
+        this.buttons["Delete"] = {label:"Supprimer le collaborateur", disabled:true};
+        this.buttons["ReOpen"] = {label:"Réactiver le collaborateur", disabled:true};
+        this.buttons["Cancel"] = {label:"Annuler", disabled:true};
+
         this.loadAllCollaborateurs();
 
-
+        this.loadCategorisations();
         // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
         // Prestations (dynamique) : this.loadPrestationComponent();
     }
@@ -147,6 +159,25 @@ export class CollaborateursComponent implements OnInit {
                 });
     }
 
+    loadCategorisations() {
+        var selectitem : SelectItem = { value: "", label: "" };
+        this.categorisations=[];
+
+        this.categorieService.list()
+            .pipe(first())
+            .subscribe(
+                categories => {
+                    categories.forEach( x => {
+                            this.categorisations.push({ value: x.categorisation, label: x.categorisation +" (" + x.libelle+")" });
+                        }
+                    );
+                    this.categorisations.sort(this.orderSelectItems);
+                },
+                error => { this.alertService.error(error); }
+            );
+    }
+
+
     // Tri sur trigramme (asc) et version (desc)
     orderTrigrammeVersion(a, b) {
         let after = 0;
@@ -157,6 +188,10 @@ export class CollaborateursComponent implements OnInit {
             after = a[version] > b[version] ? -1 : a[version] < b[version] ? 1 : 0;
         }
         return after;
+    }
+
+    orderSelectItems(a, b) {
+        return a["value"] > b["value"] ? 1 : a["value"] < b["value"] ? -1 : 0;
     }
 
     selectColumns() {
@@ -290,7 +325,7 @@ export class CollaborateursComponent implements OnInit {
 
         // Last mission
         this.lastMission = null;
-        this.buttonsCollabDisabled[4]=true;
+        this.buttons["Delete"].disabled=true;
         this.selectedCollaborateur.missions.forEach(x => {
             var dateArr = x['dateDebutMission'].split("/"); //dd/mm/yyyy
             var dateMission = new Date(dateArr[2], dateArr[1], dateArr[0]);
@@ -304,18 +339,18 @@ export class CollaborateursComponent implements OnInit {
             }
         });
         if (!this.lastMission)
-            this.buttonsCollabDisabled[4]=false;
+            this.buttons["Delete"].disabled=false;
 
         event.preventDefault();
     }
 
-    buttonsFunctions(i:number) {
-        switch (i) {
-            case 0 : this.saveCollaborateur(); break;
-            case 1 : this.newPrestation(); break;
-            case 2 : this.showPrestations(); break;
-            case 3 : this.endMission(); break;
-            case 4 : this.suppCollab();break;
+    buttonsFunctions(btn:string) {
+        switch (btn) {
+            case "Save" : this.saveCollaborateur(); break;
+            case "Create" : this.newPrestation(); break;
+            case "Prestas" : this.showPrestations(); break;
+            case "EndMission" : this.endMission(); break;
+            case "Delete" : this.suppCollab();break;
         }
     }
     saveCollaborateur() { }
@@ -333,18 +368,22 @@ export class CollaborateursComponent implements OnInit {
     }*/
 
     showPrestations() {
+        this.displayDialog2=true;
         // Dynamic way :
         //(<PrestationsComponent>this.componentRef.instance).collab = this.selectedCollaborateur;
         //(<PrestationsComponent>this.componentRef.instance).id = this.selectedCollaborateur.trigOpen;
         //(<PrestationsComponent>this.componentRef.instance).showCollab(); //ngOnInit();
         //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
         this.showPrestas = (this.showPrestas=="none") ? "block" : "none";
+        this.showPrestas="block";
 
         this.idxBtnPrestations = (this.idxBtnPrestations==0) ? 1 : 0;
-        this.buttonsCollabLabels[2] = this.buttonPrestationsLabels[this.idxBtnPrestations];
+        this.buttons["Prestas"].label = this.buttonPrestationsLabels[this.idxBtnPrestations];
         this.prestasComponent.updateFilters();
     }
 
+    
+    
     /************************************************************************************************************/
     saveimportedCollaborateurs() {
         console.log("LOGGING:::::::::::::::::::::::");
@@ -356,6 +395,7 @@ export class CollaborateursComponent implements OnInit {
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;
+                    this.displayDialog2 = false;
 
                     this.router.routeReuseStrategy.shouldReuseRoute = function () {
                         return false;

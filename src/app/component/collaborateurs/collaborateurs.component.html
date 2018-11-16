@@ -78,7 +78,7 @@
 
 
 <!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
-<!-- >>>>>>>>>>>>>>> D I A L O G <<<<<<<<<<<<<<<<<<<-->
+<!-- >>>>>>>>>>>>>>> F I C H E <<<<<<<<<<<<<<<<<<<-->
 <!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
 
 <p-dialog [(visible)]="displayDialog" [responsive]="true" [modal]="true" [styleClass]="'importcsv'">
@@ -91,7 +91,7 @@
             <div *ngSwitchCase="'Mission'">
                 <div *ngIf="lastMission">
                     <div *ngFor="let field of fiche.fields" class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left'}">{{colsIndex[field]}} :</span>
+                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left', 'background-color':'#f5fafb'}">{{colsIndex[field]}} :</span>
                         <input type="text" pInputText [(ngModel)]="lastMission[field]">
                     </div>
                 </div>
@@ -100,23 +100,37 @@
                 </div>
             </div>
             <div *ngSwitchDefault>
-                <div *ngFor="let field of fiche.fields" class="ui-inputgroup">
-                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left'}">{{colsIndex[field]}} :</span>
-                    <input type="text" pInputText [(ngModel)]="selectedCollaborateur[field]">
-                </div>
-            </div>
-        </p-fieldset>
-    </div>
+                <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field">
 
-    <!-- PRESTATIONS -->
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%', 'text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field]}} :</span>
+
+                    <p-dropdown *ngSwitchCase="'categorisation'" [options]="categorisations" [(ngModel)]="selectedCollaborateur[field]" filter="true" [style]="{'width':'100%'}">
+                         <ng-template let-item pTemplate="selectedItem">
+                             <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                         </ng-template>
+                         <ng-template let-categorisation pTemplate="item">
+                             <div class="ui-helper-clearfix" style="position:relative;">
+                                 <div style="font-size:14px;float:left;margin-top:4px">{{categorisation.label}}</div>
+                             </div>
+                         </ng-template>
+                    </p-dropdown>
+
+                    <span *ngSwitchCase="'stt'" [ngStyle]="{'width':'70%', 'display':'inline-block'}"><p-dropdown [options]="ouinon" [(ngModel)]="selectedCollaborateur[field]" placeholder="?"></p-dropdown></span>
+
+                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field]">
+             </div>
+         </div>
+     </p-fieldset>
+ </div>
+
+ <!-- PRESTATIONS -->
     <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
-    <div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div>
     <!-- Dynamic way : ng-template ad-host></ng-template-->
 
     <!-- FOOTER -->
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix" [ngStyle]="{'text-align':'left'}">
-            <button *ngFor="let label of buttonsCollabLabels; let i=index" pButton type="button" label="{{label}}" class="ui-button-success" (click)="buttonsFunctions(i)" [disabled]="buttonsCollabDisabled[i]"></button>
+            <button *ngFor="let btnid of buttons_list; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttonsFunctions(btnid)" [disabled]="buttons[btnid].disabled"></button>
         </div>
     </p-footer>
 
@@ -170,4 +184,9 @@
     </p-tabView-->
 
 
+</p-dialog>
+
+<p-dialog [(visible)]="displayDialog2" [responsive]="true" [modal]="true" (onHide)="displayDialog2=false" [styleClass]="'importcsv'">
+
+<div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div>
 </p-dialog>

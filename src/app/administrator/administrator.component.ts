@@ -342,7 +342,6 @@ export class AdministratorComponent implements OnInit {
                     this.alertService.error(error);
                 });
 
-
     }
 
 }
