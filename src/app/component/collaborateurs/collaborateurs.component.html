@@ -123,9 +123,6 @@
      </p-fieldset>
  </div>
 
- <!-- PRESTATIONS -->
-    <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
-    <!-- Dynamic way : ng-template ad-host></ng-template-->
 
     <!-- FOOTER -->
     <p-footer>
@@ -186,7 +183,12 @@
 
 </p-dialog>
 
-<p-dialog [(visible)]="displayDialog2" [responsive]="true" [modal]="true" (onHide)="displayDialog2=false" [styleClass]="'importcsv'">
 
-<div [ngStyle]="{'display': showPrestas}"><app-prestations [collab]="selectCollaborateur"></app-prestations></div>
+<!-- PRESTATIONS -->
+<!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
+<!-- Dynamic way : ng-template ad-host></ng-template-->
+<!--div [ngStyle]="{'display': showPrestas}"-->
+
+<p-dialog [(visible)]="displayDialog2" [responsive]="true" [modal]="true" (onHide)="displayDialog2=false" [styleClass]="'importcsv'" [contentStyle]="{'overflow':'visible'}" >
+    <app-prestations [collab]="selectCollaborateur"></app-prestations>
 </p-dialog>

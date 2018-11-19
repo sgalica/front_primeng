@@ -43,3 +43,18 @@ body .ui-table .ui-table-tbody tr:nth-child(even).StatutT {
 body .ui-table .ui-table-tbody tr:nth-child(even).StatutS {
     background-color : rgba(150,200,190,0.3);
 }
+
+.col {
+    background-color: #aac6aa;
+}
+
+.coldate {
+    background-color: #aac6aa;
+    width: 135px;
+}
+.colliste {
+    background-color: #aac6aa;
+}
+.coldate input {
+    padding-left:2px; padding-right:1px;
+}

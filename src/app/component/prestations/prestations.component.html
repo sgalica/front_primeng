@@ -32,7 +32,7 @@
     <ng-template pTemplate="header" let-columns>
 
         <tr>
-            <th *ngFor="let col of columns">{{col.header}}</th>
+            <th *ngFor="let col of columns" [className]="'col'+filtres[col.field].filtertype">{{col.header}}</th>
             <!--th></th-->
             <th style="border-top:none; background-color:#f5f5f5; width:140px"></th>
         </tr>
@@ -59,7 +59,7 @@
                     <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
                                 dateFormat="{{filtres[col.field].fmt}}" [locale]="fr" (onSelect)="pt_filter($event, pt, col.field);"
                                 (onClearClick)="pt_filter($event, pt, col.field);"
-                                [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
+                                [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis', 'padding':'6px 6px'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
                         <p-header *ngIf="col.field=='dateDebutPrestation'">A partir de :</p-header>
                         <p-header *ngIf="col.field=='dateFinPrestation'">Jusqu'au :</p-header>
