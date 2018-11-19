@@ -259,10 +259,17 @@ export class PrestationsComponent implements OnInit, OnChanges {
      };
 
     selectPrestation(event: Event, prestation: Prestation) {
-        this.selectedPrestation = prestation;
-        //this.employee = this.selectedPrestation.collaborateur;
+        debugger;
         this.displayDialogPresta = true;
+
         event.preventDefault();
+        event.stopPropagation();
+
+        this.selectedPrestation = prestation;
+        if (prestation.collaborateur==undefined) // We come from collaborateur so prestation not loaded by hibernate
+            this.selectedPrestation.collaborateur = this.collab;
+        //this.employee = this.selectedPrestation.collaborateur;
+
     }
 
     savePrestation(event: Event, prestation: Prestation) {

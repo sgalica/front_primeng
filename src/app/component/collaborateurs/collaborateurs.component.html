@@ -180,9 +180,7 @@
 
     </p-tabView-->
 
-
 </p-dialog>
-
 
 <!-- PRESTATIONS -->
 <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
@@ -190,5 +188,7 @@
 <!--div [ngStyle]="{'display': showPrestas}"-->
 
 <p-dialog [(visible)]="displayDialog2" [responsive]="true" [modal]="true" (onHide)="displayDialog2=false" [styleClass]="'importcsv'" [contentStyle]="{'overflow':'visible'}" >
-    <app-prestations [collab]="selectCollaborateur"></app-prestations>
+    <app-prestations [collab]="selectedCollaborateur"></app-prestations>
 </p-dialog>
+
+

@@ -60,9 +60,9 @@
                                 dateFormat="{{filtres[col.field].fmt}}" [locale]="fr" (onSelect)="pt_filter($event, pt, col.field);"
                                 (onClearClick)="pt_filter($event, pt, col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis', 'padding':'6px 6px'}"
-                                [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
-                        <p-header *ngIf="col.field=='dateDebutPrestation'">A partir de :</p-header>
-                        <p-header *ngIf="col.field=='dateFinPrestation'">Jusqu'au :</p-header>
+                                [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}"      >
+                        <p-header *ngIf="col.field=='dateDebutPrestation'" ><div style="width:175px">A partir de :</div></p-header>
+                        <p-header *ngIf="col.field=='dateFinPrestation'"><div style="width:175px">Jusqu'au :</div></p-header>
                     </p-calendar>
                 </div>
 
@@ -117,7 +117,7 @@
 <!-- >>>>>>>>>>>>>>> F I C H E <<<<<<<<<<<<<<<<<<<-->
 <!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
 
-<p-dialog [(visible)]="displayDialogPresta" [responsive]="true" [modal]="true" [style]="{'min-height' : '300px'}">
+<p-dialog [(visible)]="displayDialogPresta" appendTo="body" [responsive]="true" [modal]="true" [style]="{'min-height' : '300px'}">
 
     <p-header>
         <span style="display:inline-block; width:80%">{{title}}</span><span style="display:inline-block">Statut "{{allstatusidx[selectedPrestation['statutPrestation']]}}" - Version {{selectedPrestation['versionPrestation']}}</span>
