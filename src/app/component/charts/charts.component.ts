@@ -114,7 +114,7 @@ export class ChartsComponent implements OnInit {
                     console.log("courbe departement=", y[0].departement);
                     if (i == 0) Object.values(y).forEach(z => this.labelList.push(formatter.format(z.dateRef as Date)));
                     let stt = [];
-                    Object.values(y).forEach((curr) => stt.push(curr['tauxStt'] / curr['nombreColl'] * 100));
+                    Object.values(y).forEach((curr) => stt.push(Math.round(curr['tauxStt'] / curr['nombreColl'] * 100)));
                     console.log("stt", stt);
                     this.dataList.push({
                         label: y[0].departement,
