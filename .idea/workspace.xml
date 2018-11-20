@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="993f3f3a-0350-45ad-b530-5a263638e7e6" name="Default Changelist" comment="">
+    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="optimise alert message and import csv">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -30,6 +30,22 @@
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="db_atg@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db_atg@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db_atg@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="db_atg: schema" type="c314c289:MysqlImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="db_atg@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="collations" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
     </expand>
     <select />
@@ -168,81 +184,63 @@
     <session id="580285110">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
-          <entry key="project.open.time.0" value="2" />
-          <entry key="project.open.time.1" value="3" />
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.open.time.19" value="1" />
-          <entry key="project.open.time.6" value="1" />
-          <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="Angular2LanguageService" value="9" />
+          <entry key="Angular2LanguageService" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="cell" value="2" />
-          <entry key="css" value="178" />
-          <entry key="html" value="1978" />
-          <entry key="js" value="2" />
-          <entry key="json" value="119" />
-          <entry key="scss" value="56" />
-          <entry key="ts" value="3570" />
-          <entry key="txt" value="412" />
+          <entry key="css" value="58" />
+          <entry key="html" value="369" />
+          <entry key="js" value="1" />
+          <entry key="json" value="73" />
+          <entry key="ts" value="1682" />
+          <entry key="txt" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="178" />
-          <entry key="HTML" value="1978" />
-          <entry key="JSON" value="119" />
-          <entry key="JavaScript" value="2" />
-          <entry key="PLAIN_TEXT" value="412" />
-          <entry key="SCSS" value="56" />
+          <entry key="CSS" value="58" />
+          <entry key="HTML" value="369" />
+          <entry key="JSON" value="73" />
+          <entry key="JavaScript" value="1" />
+          <entry key="PLAIN_TEXT" value="6" />
           <entry key="Scratch" value="2" />
-          <entry key="TypeScript" value="3570" />
+          <entry key="TypeScript" value="1682" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="css" value="15" />
-          <entry key="html" value="57" />
-          <entry key="iml" value="1" />
-          <entry key="js" value="3" />
-          <entry key="json" value="32" />
-          <entry key="md" value="4" />
+          <entry key="css" value="5" />
+          <entry key="html" value="12" />
+          <entry key="js" value="1" />
+          <entry key="json" value="11" />
+          <entry key="md" value="1" />
           <entry key="rnc" value="1" />
           <entry key="roles" value="1" />
-          <entry key="scss" value="4" />
           <entry key="sql" value="1" />
-          <entry key="ts" value="195" />
+          <entry key="ts" value="59" />
           <entry key="user_roles" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSS" value="15" />
+          <entry key="CSS" value="5" />
           <entry key="Database Element" value="2" />
-          <entry key="HTML" value="57" />
-          <entry key="IDEA_MODULE" value="1" />
-          <entry key="JSON" value="25" />
-          <entry key="JavaScript" value="3" />
-          <entry key="Markdown" value="4" />
+          <entry key="HTML" value="12" />
+          <entry key="JSON" value="10" />
+          <entry key="JavaScript" value="1" />
+          <entry key="Markdown" value="1" />
           <entry key="RNG Compact" value="1" />
-          <entry key="SCSS" value="4" />
           <entry key="Scratch" value="1" />
-          <entry key="TypeScript" value="195" />
-          <entry key="tsconfig" value="7" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.vcs.git.usages">
-        <counts>
-          <entry key="git.branch.create.new" value="4" />
-          <entry key="git.branch.rebase" value="1" />
+          <entry key="TypeScript" value="59" />
+          <entry key="tsconfig" value="1" />
         </counts>
       </usages-collector>
     </session>
@@ -250,237 +248,98 @@
       <usages-collector id="statistics.vcs.git.usages">
         <counts>
           <entry key="git.branch.create.new" value="1" />
-          <entry key="git.branch.merge" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="css" value="8" />
-          <entry key="html" value="28" />
+          <entry key="css" value="1" />
+          <entry key="html" value="7" />
           <entry key="scss" value="2" />
-          <entry key="ts" value="48" />
+          <entry key="ts" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSS" value="8" />
-          <entry key="HTML" value="28" />
+          <entry key="CSS" value="1" />
+          <entry key="HTML" value="7" />
           <entry key="SCSS" value="2" />
-          <entry key="TypeScript" value="48" />
+          <entry key="TypeScript" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="css" value="552" />
-          <entry key="html" value="4232" />
+          <entry key="html" value="361" />
           <entry key="scss" value="208" />
-          <entry key="ts" value="9156" />
-          <entry key="txt" value="189" />
+          <entry key="ts" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="552" />
-          <entry key="HTML" value="4231" />
-          <entry key="JavaScript" value="1" />
-          <entry key="PLAIN_TEXT" value="189" />
+          <entry key="HTML" value="361" />
           <entry key="SCSS" value="208" />
-          <entry key="TypeScript" value="9156" />
+          <entry key="TypeScript" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.run.usages" />
-      <usages-collector id="statistics.js.language.service.starts">
-        <counts>
-          <entry key="Angular2LanguageService" value="9" />
-        </counts>
-      </usages-collector>
+      <usages-collector id="statistics.js.language.service.starts" />
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.10" value="1" />
-          <entry key="project.open.time.14" value="1" />
-          <entry key="project.open.time.17" value="1" />
-          <entry key="project.open.time.30" value="1" />
-          <entry key="project.open.time.38" value="1" />
-          <entry key="project.open.time.4" value="2" />
-          <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.opened" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.mvc.usages" />
-    </session>
-    <session id="-1775702951">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="4" />
-          <entry key="project.open.time.1" value="2" />
-          <entry key="project.open.time.15" value="1" />
-          <entry key="project.open.time.18" value="1" />
-          <entry key="project.open.time.5" value="2" />
-          <entry key="project.opened" value="6" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.js.language.service.starts">
-        <counts>
-          <entry key="Angular2LanguageService" value="6" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="collaborateur" value="1" />
-          <entry key="css" value="4" />
-          <entry key="html" value="14" />
-          <entry key="mission" value="1" />
-          <entry key="prestation" value="1" />
-          <entry key="sql" value="1" />
-          <entry key="ts" value="94" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="CSS" value="4" />
-          <entry key="Database Element" value="3" />
-          <entry key="HTML" value="14" />
-          <entry key="Scratch" value="1" />
-          <entry key="TypeScript" value="94" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="html" value="96" />
-          <entry key="ts" value="5649" />
-          <entry key="txt" value="155" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="HTML" value="96" />
-          <entry key="PLAIN_TEXT" value="155" />
-          <entry key="TypeScript" value="5649" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.vcs.git.usages">
-        <counts>
-          <entry key="git.branch.checkout.local" value="1" />
-          <entry key="git.branch.create.new" value="2" />
-        </counts>
-      </usages-collector>
     </session>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="avalon" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="100" column="9" lean-forward="true" selection-start-line="100" selection-start-column="9" selection-end-line="100" selection-end-column="9" />
-              <folding>
-                <element signature="e#0#92#0" expanded="true" />
-                <element signature="n#!!block;n#filteritem#0" />
-                <element signature="e#3379#5708#0" />
-                <element signature="e#5835#6881#0" />
-                <element signature="e#6973#7595#0" />
-                <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#orderfilterPrestations#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#orderSelectItems#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#orderSelectItemsLabel#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#createColsIndex#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#createStatusIndex#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#initFilters#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
-                <element signature="e#12155#12448#0" />
-                <element signature="e#12454#12752#0" />
-                <element signature="n#!!block;n#onDialogHide#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#updateFilters#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#buttonsFunctions#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadReferences#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadContrats#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadSites#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadNumAtg#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadDonneurOrdre#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadCommercialOpen#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadEquipe#0;n#PrestationsComponent#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-76">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-              <folding>
-                <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#p-header#0;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#p-header#1;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#ng-template#0;n#p-dropdown#0;n#div#0;n#div#0;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#ng-template#1;n#p-dropdown#0;n#div#0;n#div#0;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#ng-template#0;n#p-dropdown#0;n#div#0;n#div#1;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#ng-template#1;n#p-dropdown#0;n#div#0;n#div#1;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JavaScript File" />
         <option value="CSS File" />
         <option value="HTML File" />
         <option value="TypeScript File" />
-        <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>contratAppli</find>
-      <find>references</find>
-      <find>foreach</find>
-      <find>Departement</find>
-      <find>col</find>
-      <find>datede</find>
-      <find>departeme</find>
-      <find>for</find>
-      <find>commer</find>
-      <find>commercialopen</find>
-      <find>pt_fil</find>
-      <find>filtertype</find>
-      <find>/yy</find>
-      <find>filtres</find>
-      <find>filteritem</find>
-      <find>dateFormat</find>
-      <find>fmt</find>
-      <find>dateDebutPrestation</find>
-      <find>date</find>
-      <find>showPrestations</find>
-      <find>displayDialog</find>
-      <find>mas</find>
+      <find>top: 60</find>
+      <find>5691c8</find>
+      <find>footer-text-left</find>
+      <find>layout-footer</find>
+      <find>icones</find>
+      <find>class=&quot;image&quot;</find>
+      <find>${config.apiUrl}</find>
+      <find>FormsModule</find>
       <find>dialog</find>
-      <find>trigramme</find>
-      <find>showPrestas</find>
-      <find>all_sheet_name</find>
-      <find>selectedPrestation</find>
-      <find>modeCollab</find>
-      <find>selectedColumns</find>
-      <find>coldefs</find>
+      <find>dialogVisible</find>
+      <find>debugger;</find>
+      <find>dv</find>
+      <find>listItem</find>
+      <find>8080</find>
+      <find>prest</find>
+      <find>/colla</find>
+      <find>login</find>
+      <find>onclick</find>
+      <find>click</find>
+      <find>displaydialog</find>
+      <find>displayDialog</find>
+      <find>/me</find>
+      <find>user/me</find>
+      <find>&quot;architect&quot;</find>
+      <find>arch</find>
+      <find>avalon</find>
+      <find>body</find>
+      <find>webpack</find>
+      <find>localhost</find>
+      <find>console.log</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -498,11 +357,6 @@
       <replace>9090</replace>
       <replace>newCollaborateur</replace>
       <replace>atg</replace>
-      <replace>data</replace>
-      <replace>o</replace>
-      <replace>any = 0;</replace>
-      <replace>cols1</replace>
-      <replace>name</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/src/app/demo/view</dir>
@@ -516,67 +370,68 @@
     </dirStrings>
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="REBASE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="Collaborateurs_T2" />
       </map>
     </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/app/component/register/register.component.html" />
-        <option value="$PROJECT_DIR$/src/app/component/register/register.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" />
-        <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.scss" />
-        <option value="$PROJECT_DIR$/src/core/components/core-menu/core-menu.component.ts" />
-        <option value="$PROJECT_DIR$/src/core/components/core-topbar/core-topbar.component.html" />
-        <option value="$PROJECT_DIR$/src/environments/version.ts" />
-        <option value="$PROJECT_DIR$/src/_version.ts" />
-        <option value="$PROJECT_DIR$/src/environments/environment.ts" />
-        <option value="$PROJECT_DIR$/src/environments/environment.prod.ts" />
-        <option value="$PROJECT_DIR$/src/environments/environment.hmr.ts" />
-        <option value="$PROJECT_DIR$/src/app/app.component.html" />
-        <option value="$PROJECT_DIR$/src/app/service/auth.guard.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/admin.guard.ts" />
-        <option value="$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.ts" />
-        <option value="$PROJECT_DIR$/src/systemjs.config.js" />
-        <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/package-lock.json" />
+        <option value="$PROJECT_DIR$/src/app/components/app-dashboard/app-dashboard.component.scss" />
         <option value="$PROJECT_DIR$/src/index.html" />
-        <option value="$PROJECT_DIR$/proxy.conf.json" />
-        <option value="$PROJECT_DIR$/src/app/service/jwt.interceptor.ts" />
-        <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/app.routes.ts" />
-        <option value="$PROJECT_DIR$/src/app/app.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/mission.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/model/data.ts" />
-        <option value="$PROJECT_DIR$/src/app/model/collaborateur.ts" />
-        <option value="$PROJECT_DIR$/src/app/model/mission.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/fake-backend.ts" />
-        <option value="$PROJECT_DIR$/src/app/model/resource.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/numatg.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/resource.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/collaborateurBis.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/collaborateur.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/coll.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/model/referenciel2.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/datas.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/data.service.ts" />
-        <option value="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" />
-        <option value="$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.ts" />
-        <option value="$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.html" />
-        <option value="$PROJECT_DIR$/src/app/app.module.ts" />
-        <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.html" />
-        <option value="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/model/referenciel.ts" />
-        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" />
-        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
-        <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.css" />
+        <option value="$PROJECT_DIR$/e2e/src/app.po.ts" />
+        <option value="$PROJECT_DIR$/src/app/demo/service/data.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/demo/service/carservice.ts" />
+        <option value="$PROJECT_DIR$/src/app/demo/domain/collaborateur.ts" />
+        <option value="$PROJECT_DIR$/src/app/collaborateurs/collaborateurs.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/collaborateurs/collaborateurs.component.html" />
+        <option value="$PROJECT_DIR$/src/app/demo/service/fake-backend.ts" />
+        <option value="$PROJECT_DIR$/src/app/demo/service/jwt.interceptor.ts" />
+        <option value="$PROJECT_DIR$/src/app/demo/service/collaborateur.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/demo/service/user.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/view/datademo.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/view/sampledemo.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/view/overlaysdemo.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/view/formsdemo.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/core/core.module.ts" />
+        <option value="$PROJECT_DIR$/src/core/core.module.ts" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/newCollaborateur/newCollaborateur.component.spec.ts" />
+        <option value="$PROJECT_DIR$/src/app/model/user.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/newCollaborateur/newCollaborateur.component.css" />
+        <option value="$PROJECT_DIR$/src/app/component/newCollaborateur/newCollaborateur.component.html" />
+        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" />
+        <option value="$PROJECT_DIR$/src/app/model/collaborateur.ts" />
+        <option value="$PROJECT_DIR$/angular.json" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/proxy.conf.json" />
+        <option value="$PROJECT_DIR$/src/app/service/prestation.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/service/user.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/service/auth.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/service/jwt.interceptor.ts" />
+        <option value="$PROJECT_DIR$/e2e/protractor.conf.js" />
+        <option value="$PROJECT_DIR$/src/app/service/fake-backend.ts" />
+        <option value="$PROJECT_DIR$/src/app/service/auth.guard.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/login/login.component.html" />
+        <option value="$PROJECT_DIR$/src/app/component/newCollaborateur/newCollaborateur.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
+        <option value="$PROJECT_DIR$/src/app/service/collaborateur.service.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/app.module.ts" />
+        <option value="$PROJECT_DIR$/src/app/app.routes.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/charts/charts.component.html" />
+        <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/register/register.component.ts" />
+        <option value="$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.ts" />
+        <option value="$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.html" />
+        <option value="$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.css" />
+        <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.scss" />
+        <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" />
       </list>
     </option>
   </component>
@@ -609,38 +464,50 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
-  <component name="NodePackageJsonFileManager">
-    <packageJsonPaths>
-      <path value="$PROJECT_DIR$/package.json" />
-    </packageJsonPaths>
-  </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1912" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1986" />
+    <option name="y" value="24" />
+    <option name="width" value="1767" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>AngularJS</id>
+          </State>
+          <State>
+            <id>CSS</id>
+          </State>
+          <State>
+            <id>Invalid elementsCSS</id>
+          </State>
+          <State>
+            <id>TypeScript</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>CssInvalidPropertyValue</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
-    <option name="STATE" value="1" />
+    <option name="STATE" value="2" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="atg-app-client" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -658,42 +525,41 @@
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
               <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
               <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="administrator" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
               <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
               <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
+              <item name="shared" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
             </path>
             <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-            </path>
-            <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
-            </path>
-            <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+              <item name="atf_front_primeng" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="atg-app-client" type="2674bda8:ScopeViewTreeModel$GroupNode" />
             </path>
           </expand>
           <select />
@@ -704,14 +570,13 @@
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
-    <property name="SearchEverywhereHistoryKey" value="SystemJS.&#9;FILE&#9;file://C:/Users/fbo14041/WebstormProjects/atg-app-client/node_modules/@angular/core/src/linker/system_js_ng_module_factory_loader.d.ts&#10;app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
+    <property name="SearchEverywhereHistoryKey" value="app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542708280577" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537884811707" />
     <property name="database.console.LAST_STATE" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../atg-app-server" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -728,31 +593,25 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Java" />
-    <property name="ts.external.directory.path" value="C:\Users\TSC11986\IdeaProjects\atf_front_primeng\node_modules\typescript\lib" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="ts.external.directory.path" value="C:\Users\fbo14041\WebstormProjects\atg-app-client\node_modules\typescript\lib" />
     <property name="typescript-compiler-editor-notification" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\assets\demo\images\slides" />
-      <recent name="C:\Users\UNIK\WebstormProjects\ATG_avalon_theme\src\app\components" />
-      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\assets\layout\images\icones" />
       <recent name="C:\Users\UNIK\WebstormProjects\atf_front_primeng\src\app\model" />
       <recent name="C:\Users\UNIK\WebstormProjects\atf_front_primeng\src\app\domain" />
+      <recent name="C:\Users\fbo14041\WebstormProjects\atf_front_primeng\src\app\demo\service" />
+      <recent name="C:\Users\UNIK\WebstormProjects\ATG_avalon_theme\src\app\components" />
+      <recent name="$PROJECT_DIR$/e2e/src" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\fbo14041\IdeaProjects\atf_front_primeng\src\app\model" />
-      <recent name="C:\Users\fbo14041\IdeaProjects\atf_front_primeng\src\app\service" />
-      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\assets\layout\images" />
-      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\app\service" />
-      <recent name="C:\Users\fbo14041\WebstormProjects\atg-app-client\src\app\model" />
+      <recent name="C:\Users\fbo14041\WebstormProjects\atf_front_primeng\src\app\demo\service" />
+      <recent name="C:\Users\fbo14041\WebstormProjects\atf_front_primeng\src\app\demo\domain" />
+      <recent name="C:\Users\UNIK\WebstormProjects\ATG_avalon_theme\src\app\demo\service" />
+      <recent name="C:\Users\UNIK\WebstormProjects\ATG_avalon_theme\src\core\components\core-profile" />
+      <recent name="C:\Users\UNIK\WebstormProjects\ATG_avalon_theme\src\assets\layout\images" />
     </key>
-  </component>
-  <component name="RestServicesNavigator">
-    <treeState>
-      <expand />
-      <select />
-    </treeState>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -766,37 +625,30 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="npm.ATG_npm">
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <module name="atf_front_primeng" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ATG_npm" type="js.build_tools.npm" factoryName="npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
         <script value="start" />
       </scripts>
-      <arguments value="--prod" />
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="build" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="build" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="npm.ATG_npm" />
-      <item itemvalue="npm.build" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="npm.build" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration" cleanupOnStartRun="true">
     <configuration>C:\Users\UNIK\AppData\Roaming\Subversion</configuration>
@@ -804,7 +656,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="993f3f3a-0350-45ad-b530-5a263638e7e6" name="Default Changelist" comment="" />
+      <changelist id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="" />
       <created>1505196646403</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -892,378 +744,118 @@
       <workItem from="1537170154544" duration="700000" />
       <workItem from="1537178387410" duration="139000" />
       <workItem from="1537178565580" duration="18488000" />
-      <workItem from="1538640967214" duration="191000" />
-      <workItem from="1538641233517" duration="14787000" />
-      <workItem from="1538900769185" duration="15540000" />
-      <workItem from="1539079861602" duration="1662000" />
-      <workItem from="1539594095249" duration="18250000" />
-      <workItem from="1540213033413" duration="5518000" />
-      <workItem from="1540374465125" duration="547000" />
-      <workItem from="1540383634709" duration="4413000" />
-      <workItem from="1540469688655" duration="13121000" />
-      <workItem from="1540805733986" duration="73892000" />
-      <workItem from="1541413995305" duration="1944000" />
-      <workItem from="1541415975993" duration="8041000" />
-      <workItem from="1541435024109" duration="5331000" />
-      <workItem from="1541500763762" duration="11507000" />
-      <workItem from="1542012116294" duration="8366000" />
-      <workItem from="1542028134070" duration="2086000" />
-      <workItem from="1542030830871" duration="16546000" />
-      <workItem from="1542115726343" duration="19227000" />
-      <workItem from="1542201128030" duration="31596000" />
-      <workItem from="1542386156740" duration="841000" />
-      <workItem from="1542387022388" duration="302000" />
-      <workItem from="1542387457929" duration="33000" />
-      <workItem from="1542617808011" duration="21794000" />
+      <workItem from="1542711163631" duration="706000" />
     </task>
-    <task id="LOCAL-00044" summary="message success managed 11 straight foward method to fix ts-xlsx import">
-      <created>1539092191858</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
+    <task id="LOCAL-00001" summary="first commit">
+      <created>1534730228097</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1539092191858</updated>
+      <updated>1534730228098</updated>
     </task>
-    <task id="LOCAL-00045" summary="message success managed 12 straight foward method to fix ts-xlsx import">
-      <created>1539093926647</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
+    <task id="LOCAL-00002" summary="first commit">
+      <created>1534730500688</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1539093926647</updated>
+      <updated>1534730500688</updated>
     </task>
-    <task id="LOCAL-00046" summary="message success managed 12 straight foward method to fix ts-xlsx import">
-      <created>1539094084932</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
+    <task id="LOCAL-00003" summary="first commit">
+      <created>1534730512996</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1539094084932</updated>
+      <updated>1534730512996</updated>
     </task>
-    <task id="LOCAL-00047" summary="message success managed 12 straight foward method to fix ts-xlsx import">
-      <created>1539094336438</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
+    <task id="LOCAL-00004" summary="first commit">
+      <created>1534747987926</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1539094336438</updated>
+      <updated>1534747987926</updated>
     </task>
-    <task id="LOCAL-00048" summary="juste need an npm install to fix xlsx issue">
-      <created>1539095074857</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
+    <task id="LOCAL-00005" summary="first commit">
+      <created>1534747997861</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1539095074857</updated>
+      <updated>1534747997861</updated>
     </task>
-    <task id="LOCAL-00049" summary="juste need an npm install to fix xlsx issue">
-      <created>1539188689590</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
+    <task id="LOCAL-00006" summary="add authentication refresh bugs">
+      <created>1534767271898</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1539188689590</updated>
+      <updated>1534767271898</updated>
     </task>
-    <task id="LOCAL-00050" summary="Admin content management">
-      <created>1539256826285</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
+    <task id="LOCAL-00007" summary="add list collab and presta">
+      <created>1534771228089</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1539256826287</updated>
+      <updated>1534771228089</updated>
     </task>
-    <task id="LOCAL-00051" summary="Admin content management">
-      <created>1539271096168</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
+    <task id="LOCAL-00008" summary="update icons and fix login issues">
+      <created>1535207050594</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1539271096168</updated>
+      <updated>1535207050594</updated>
     </task>
-    <task id="LOCAL-00052" summary="Admin content management 2">
-      <created>1539271397360</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
+    <task id="LOCAL-00009" summary="fix login issues and routes issues">
+      <created>1535289931655</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1539271397360</updated>
+      <updated>1535289931655</updated>
     </task>
-    <task id="LOCAL-00053" summary="Admin content management 3 fix rxjs behaviorsubject">
-      <created>1539333880677</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
+    <task id="LOCAL-00010" summary="fix login issues and routes issues">
+      <created>1535358790217</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
       <option name="project" value="LOCAL" />
-      <updated>1539333880677</updated>
+      <updated>1535358790217</updated>
     </task>
-    <task id="LOCAL-00054" summary="Admin content management 4 fix rxjs behaviorsubject">
-      <created>1539348845303</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
+    <task id="LOCAL-00011" summary="rajout d'un collaborateur (vue de saisie)">
+      <created>1536681680902</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
       <option name="project" value="LOCAL" />
-      <updated>1539348845303</updated>
+      <updated>1536681680902</updated>
     </task>
-    <task id="LOCAL-00055" summary="Admin content management 4 fix rxjs behaviorsubject">
-      <created>1539350601797</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
+    <task id="LOCAL-00012" summary="rajout d'un collaborateur (vue de saisie)">
+      <created>1536931398596</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
       <option name="project" value="LOCAL" />
-      <updated>1539350601797</updated>
+      <updated>1536931398596</updated>
     </task>
-    <task id="LOCAL-00056" summary="fix rxjs behaviorsubject">
-      <created>1539350622812</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
+    <task id="LOCAL-00013" summary="merge avec code amin et gestion du token jwt">
+      <created>1537034815319</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1539350622812</updated>
+      <updated>1537034815319</updated>
     </task>
-    <task id="LOCAL-00057" summary="fix rxjs behaviorsubject 1">
-      <created>1539350787838</created>
-      <option name="number" value="00057" />
-      <option name="presentableId" value="LOCAL-00057" />
+    <task id="LOCAL-00014" summary="merge avec code amin et gestion du token jwt">
+      <created>1537040952695</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1539350787838</updated>
+      <updated>1537040952695</updated>
     </task>
-    <task id="LOCAL-00058" summary="fix rxjs behaviorsubject 2">
-      <created>1539353670433</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
+    <task id="LOCAL-00015" summary="first commit after refacto">
+      <created>1537178506105</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
       <option name="project" value="LOCAL" />
-      <updated>1539353670433</updated>
+      <updated>1537178506105</updated>
     </task>
-    <task id="LOCAL-00059" summary="fix rxjs behaviorsubject 3">
-      <created>1539355054614</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1539355054614</updated>
-    </task>
-    <task id="LOCAL-00060" summary="fix rxjs behaviorsubject 4">
-      <created>1539593442083</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1539593442083</updated>
-    </task>
-    <task id="LOCAL-00061" summary="fix rxjs behaviorsubject 5">
-      <created>1539593946080</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1539593946080</updated>
-    </task>
-    <task id="LOCAL-00062" summary="fix rxjs behaviorsubject 6">
-      <created>1539594621818</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1539594621819</updated>
-    </task>
-    <task id="LOCAL-00063" summary="fix rxjs behaviorsubject 7">
-      <created>1539595982226</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1539595982227</updated>
-    </task>
-    <task id="LOCAL-00064" summary="fix rxjs behaviorsubject 8">
-      <created>1539596352451</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1539596352451</updated>
-    </task>
-    <task id="LOCAL-00065" summary="fix rxjs behaviorsubject 9">
-      <created>1539597668292</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1539597668292</updated>
-    </task>
-    <task id="LOCAL-00066" summary="add systemjs file in src">
-      <created>1539686985932</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1539686985932</updated>
-    </task>
-    <task id="LOCAL-00067" summary="downgrade systemjs to 01947">
-      <created>1539687754993</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1539687754993</updated>
-    </task>
-    <task id="LOCAL-00068" summary="downgrade systemjs to 01927">
-      <created>1539688827900</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1539688827900</updated>
-    </task>
-    <task id="LOCAL-00069" summary="downgrade systemjs to 01927">
-      <created>1539689120250</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1539689120250</updated>
-    </task>
-    <task id="LOCAL-00070" summary="downgrade systemjs to 01927">
-      <created>1540482636489</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1540482636505</updated>
-    </task>
-    <task id="LOCAL-00071" summary="camelize json and cast">
-      <created>1540832657789</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1540832657789</updated>
-    </task>
-    <task id="LOCAL-00072" summary="camelize json and cast 2">
-      <created>1540906235701</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1540906235701</updated>
-    </task>
-    <task id="LOCAL-00073" summary="model detection">
-      <created>1540916524374</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1540916524374</updated>
-    </task>
-    <task id="LOCAL-00074" summary="model detection v2">
-      <created>1541004071265</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1541004071265</updated>
-    </task>
-    <task id="LOCAL-00075" summary="service matcher ok">
-      <created>1541160203833</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1541160203833</updated>
-    </task>
-    <task id="LOCAL-00076" summary="service matcher ok">
-      <created>1541160213160</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1541160213160</updated>
-    </task>
-    <task id="LOCAL-00077" summary="service matcher ok">
-      <created>1541178161159</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1541178161160</updated>
-    </task>
-    <task id="LOCAL-00078" summary="models updated with v4 test datas">
-      <created>1541433276480</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1541433276481</updated>
-    </task>
-    <task id="LOCAL-00079" summary="models updated with v4 test datas + tom merge">
-      <created>1541435718148</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1541435718148</updated>
-    </task>
-    <task id="LOCAL-00080" summary="first commit for tom">
-      <created>1541515246665</created>
-      <option name="number" value="00080" />
-      <option name="presentableId" value="LOCAL-00080" />
-      <option name="project" value="LOCAL" />
-      <updated>1541515246665</updated>
-    </task>
-    <task id="LOCAL-00081" summary="first commit for tom">
-      <created>1541584219903</created>
-      <option name="number" value="00081" />
-      <option name="presentableId" value="LOCAL-00081" />
-      <option name="project" value="LOCAL" />
-      <updated>1541584219903</updated>
-    </task>
-    <task id="LOCAL-00082" summary="un petit pas pour Tom, un grand pour Open">
-      <created>1541607941368</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1541607941368</updated>
-    </task>
-    <task id="LOCAL-00083" summary="Version Farid">
-      <created>1541692695916</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1541692695947</updated>
-    </task>
-    <task id="LOCAL-00084" summary="dates prestations au format date">
-      <created>1541760717150</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1541760717150</updated>
-    </task>
-    <task id="LOCAL-00085" summary="Fiches collaborateur et prestation">
-      <created>1541779554755</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1541779554755</updated>
-    </task>
-    <task id="LOCAL-00086" summary="Fiche collaborateur">
-      <created>1542038103585</created>
-      <option name="number" value="00086" />
-      <option name="presentableId" value="LOCAL-00086" />
-      <option name="project" value="LOCAL" />
-      <updated>1542038103585</updated>
-    </task>
-    <task id="LOCAL-00087" summary="Fiches collaborateur et prestation">
-      <created>1542125147195</created>
-      <option name="number" value="00087" />
-      <option name="presentableId" value="LOCAL-00087" />
-      <option name="project" value="LOCAL" />
-      <updated>1542125147195</updated>
-    </task>
-    <task id="LOCAL-00088" summary="Fiche prestation (save midi)">
-      <created>1542194130358</created>
-      <option name="number" value="00088" />
-      <option name="presentableId" value="LOCAL-00088" />
-      <option name="project" value="LOCAL" />
-      <updated>1542194130358</updated>
-    </task>
-    <task id="LOCAL-00089" summary="Fiche prestation">
-      <created>1542212967318</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1542212967318</updated>
-    </task>
-    <task id="LOCAL-00090" summary="temp">
-      <created>1542387145284</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1542387145284</updated>
-    </task>
-    <task id="LOCAL-00091" summary="css calendrier prestations">
-      <created>1542623531528</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1542623531528</updated>
-    </task>
-    <task id="LOCAL-00092" summary="css calendrier prestations">
-      <created>1542644366249</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1542644366249</updated>
-    </task>
-    <option name="localTasksCounter" value="93" />
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="801720000" />
+    <option name="totallyTimeSpent" value="372523000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1275,42 +867,38 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="1986" y="24" width="1767" height="1000" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4964937" visible="true" weight="0.19936034" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49571183" visible="true" weight="0.20152314" />
       <window_info id="Structure" order="1" weight="0.25" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="3" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
       <window_info id="UI Designer" order="4" />
-      <window_info id="npm" order="5" sideWeight="0.5035063" side_tool="true" visible="true" weight="0.19936034" />
-      <window_info id="Favorites" order="6" sideWeight="0.50070125" side_tool="true" weight="0.22014925" />
-      <window_info id="Image Layers" order="7" />
-      <window_info id="Learn" order="8" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info active="true" id="npm" order="7" sideWeight="0.50428814" side_tool="true" visible="true" weight="0.20152314" />
+      <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4968017" visible="true" weight="0.22751896" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32756633" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50319827" side_tool="true" visible="true" weight="0.22751896" />
-      <window_info anchor="bottom" id="TypeScript" order="8" />
-      <window_info anchor="bottom" id="Messages" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4989339" weight="0.28277355" />
-      <window_info anchor="bottom" id="Version Control" order="11" sideWeight="0.4989339" weight="0.30769232" />
-      <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="bottom" id="Database Console" order="13" weight="0.32936078" />
+      <window_info anchor="bottom" id="TypeScript" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32900432" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="10" weight="0.32900432" />
+      <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.1609808" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Maven Projects" order="4" visible="true" weight="0.17430703" />
-      <window_info anchor="right" id="Database" order="5" weight="0.32995737" />
-      <window_info anchor="right" id="Capture Analysis" order="6" />
-      <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="right" id="Palette&#9;" order="8" />
-      <window_info anchor="right" id="RestServices" order="9" weight="0.32995737" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Database" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32027364" />
@@ -1383,327 +971,272 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="fix rxjs behaviorsubject 5" />
-    <MESSAGE value="fix rxjs behaviorsubject 6" />
-    <MESSAGE value="fix rxjs behaviorsubject 7" />
-    <MESSAGE value="fix rxjs behaviorsubject 8" />
-    <MESSAGE value="fix rxjs behaviorsubject 9" />
-    <MESSAGE value="add systemjs file in src" />
-    <MESSAGE value="downgrade systemjs to 01947" />
-    <MESSAGE value="downgrade systemjs to 01927" />
-    <MESSAGE value="camelize json and cast" />
-    <MESSAGE value="camelize json and cast 2" />
-    <MESSAGE value="model detection" />
-    <MESSAGE value="model detection v2" />
-    <MESSAGE value="service matcher ok" />
-    <MESSAGE value="models updated with v4 test datas" />
-    <MESSAGE value="models updated with v4 test datas + tom merge" />
-    <MESSAGE value="first commit for tom" />
-    <MESSAGE value="un petit pas pour Tom, un grand pour Open" />
-    <MESSAGE value="Version Farid" />
-    <MESSAGE value="dates prestations au format date" />
-    <MESSAGE value="Fiche collaborateur" />
-    <MESSAGE value="Fiches collaborateur et prestation" />
-    <MESSAGE value="Fiche prestation (save midi)" />
-    <MESSAGE value="Fiche prestation" />
-    <MESSAGE value="temp" />
-    <MESSAGE value="css calendrier prestations" />
-    <option name="LAST_COMMIT_MESSAGE" value="css calendrier prestations" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-  </component>
-  <component name="antWorkspaceConfiguration">
-    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
-    <option name="FILTER_TARGETS" value="false" />
+    <MESSAGE value="first commit" />
+    <MESSAGE value="add authentication refresh bugs" />
+    <MESSAGE value="add list collab and presta" />
+    <MESSAGE value="update icons and fix login issues" />
+    <MESSAGE value="fix login issues and routes issues" />
+    <MESSAGE value="rajout d'un collaborateur (vue de saisie)" />
+    <MESSAGE value="merge avec code amin et gestion du token jwt" />
+    <MESSAGE value="first commit after refacto" />
+    <option name="LAST_COMMIT_MESSAGE" value="first commit after refacto" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/model/prestation.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/service/error.interceptor.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/component/login/login.component.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/user.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="17" column="9" selection-start-line="17" selection-start-column="9" selection-end-line="17" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/referentiel.service.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/model/data.ts" />
-    <entry file="das://32f9dd41-c80b-4eaf-b4bf-9175f6c989de/schema/db_atg/table/mission" />
-    <entry file="das://32f9dd41-c80b-4eaf-b4bf-9175f6c989de/schema/db_atg/table/collaborateur" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/32f9dd41-c80b-4eaf-b4bf-9175f6c989de/console.sql" />
-    <entry file="file://$PROJECT_DIR$/src/app/service/mission.service.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/model/mission.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/service/fake-backend.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="122" column="23" selection-start-line="122" selection-start-column="23" selection-end-line="122" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@angular/common/http/src/client.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="25" column="4" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/numatg.service.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/model/collaborateur.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/service/collaborateurBis.service.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/service/coll.service.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/service/prestation.service.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/service/collaborateur.service.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/model/_prtation.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/service/data2.service.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.spec.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestas_collab.component.ts" />
-    <entry file="file://$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/home/home.component.ts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/apiresponse.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="14" selection-start-column="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/app.routes.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="51" lean-forward="true" selection-start-line="29" selection-start-column="51" selection-end-line="29" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://32f9dd41-c80b-4eaf-b4bf-9175f6c989de/schema/db_atg/table/prestation" />
-    <entry file="file://$PROJECT_DIR$/src/app/component/administrator/administrator.component.ts" />
-    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="54" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/app.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
-          <caret line="150" column="63" selection-start-line="150" selection-start-column="63" selection-end-line="150" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.dom.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="4769" column="4" selection-start-line="4769" selection-start-column="4" selection-end-line="4769" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/xlsx/types/index.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="479" column="17" selection-start-line="479" selection-start-column="17" selection-end-line="479" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/core/components/core-footer/core-footer.component.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/app.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/component/alert/alert.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="230" column="22" lean-forward="true" selection-start-line="230" selection-start-column="22" selection-end-line="230" selection-end-column="22" />
+        <state relative-caret-position="85">
+          <caret line="10" column="40" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/resource.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/component/alert/alert.component.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/alert/alert.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/resource.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="41" column="8" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="8" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/datas.service.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/service/auth.constant.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1649">
-          <caret line="114" column="27" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="27" />
+        <state relative-caret-position="34">
+          <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/data.service.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/service/prestation.service.ts" />
+    <entry file="file://$PROJECT_DIR$/src/app/service/node.service.ts" />
+    <entry file="file://$PROJECT_DIR$/src/app/service/jwt.interceptor.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="71" column="52" selection-start-line="71" selection-start-column="46" selection-end-line="71" selection-end-column="52" />
+        <state relative-caret-position="102">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css">
+    <entry file="file://$PROJECT_DIR$/e2e/protractor.conf.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+        <state relative-caret-position="102">
+          <caret line="7" column="12" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@angular/forms/src/model.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="706" column="4" selection-start-line="706" selection-start-column="4" selection-end-line="706" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/service/fake-backend.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="381">
+          <caret line="39" column="24" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/newCollaborateur/newCollaborateur.component.ts" />
+    <entry file="file://$PROJECT_DIR$/src/app/model/collaborateur.ts" />
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/resources/html5-schema/html5/web-forms.rnc" />
+    <entry file="file://$PROJECT_DIR$/src/app/component/register/register.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="91" column="79" selection-start-line="91" selection-start-column="79" selection-end-line="91" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/login/login.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="36" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="189" column="172" selection-start-line="189" selection-start-column="133" selection-end-line="189" selection-end-column="172" />
-          <folding>
-            <element signature="e#6851#8766#0" />
-          </folding>
+        <state relative-caret-position="359">
+          <caret line="43" column="126" selection-start-line="43" selection-start-column="126" selection-end-line="43" selection-end-column="126" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/service/user.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="11" column="5" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/login/login.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="969">
+          <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proxy.conf.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="35" selection-start-line="2" selection-start-column="35" selection-end-line="2" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/service/collaborateur.service.ts" />
+    <entry file="file://$PROJECT_DIR$/src/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="319" column="29" selection-start-line="319" selection-start-column="13" selection-end-line="319" selection-end-column="29" />
+        <state relative-caret-position="68">
+          <caret line="4" column="12" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/components/core-menu/core-menu.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1479">
+          <caret line="90" column="42" selection-start-line="90" selection-start-column="37" selection-end-line="90" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/core.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="32" selection-start-line="1" selection-start-column="32" selection-end-line="1" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/app-customer/app-customer.component.html" />
+    <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="128" column="11" selection-start-line="128" selection-start-column="11" selection-end-line="128" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/app.routes.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/charts/charts.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/theme/theme-blue.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2652" />
+      </provider>
+    </entry>
+    <entry file="das://d8d1cccb-1a42-4964-a14d-d5089c53daa1/schema/db_atg/table/roles" />
+    <entry file="das://d8d1cccb-1a42-4964-a14d-d5089c53daa1/schema/db_atg/table/user_roles" />
+    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/service/auth.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="43" column="31" lean-forward="true" selection-start-line="43" selection-start-column="31" selection-end-line="43" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/register/register.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="54" column="71" selection-start-line="54" selection-start-column="71" selection-end-line="54" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="54" lean-forward="true" selection-start-line="54" selection-end-line="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="34" selection-start-line="3" selection-start-column="34" selection-end-line="3" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/core/components/core-profile/core-profile.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="71" selection-start-line="5" selection-start-column="71" selection-end-line="5" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="50" selection-start-line="15" selection-start-column="50" selection-end-line="15" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-528">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
           <folding>
-            <element signature="n#!!block;n#buttonsFunctions#0;n#CollaborateursComponent#0" />
-            <element signature="e#14690#15041#0" />
-            <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="75" column="62" selection-start-line="75" selection-start-column="48" selection-end-line="75" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/administrator/administrator.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="137" column="41" selection-start-line="137" selection-start-column="31" selection-end-line="137" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="60" lean-forward="true" selection-start-line="60" selection-end-line="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/referenciel.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
-          <folding>
-            <element signature="n#Referenciel#0" />
-            <element signature="n#Collaborateur#0" />
-            <element signature="n#Mission#0" />
-            <element signature="n#Prestation#0" />
-            <element signature="n#NumAtg#0" />
-            <element signature="n#SocieteStt#0" />
-            <element signature="n#Categorie#0" />
-            <element signature="n#ContactsStt#0" />
-            <element signature="n#Contrat#0" />
-            <element signature="n#Site#0" />
-            <element signature="n#Equipe#0" />
-            <element signature="n#DonneurOrdre#0" />
+            <element signature="e#0#92#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-76">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#p-header#0;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#p-header#1;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#ng-template#0;n#p-dropdown#0;n#div#0;n#div#0;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#ng-template#1;n#p-dropdown#0;n#div#0;n#div#0;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#ng-template#0;n#p-dropdown#0;n#div#0;n#div#1;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#ng-template#1;n#p-dropdown#0;n#div#0;n#div#1;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="100" column="9" lean-forward="true" selection-start-line="100" selection-start-column="9" selection-end-line="100" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#92#0" expanded="true" />
-            <element signature="n#!!block;n#filteritem#0" />
-            <element signature="e#3379#5708#0" />
-            <element signature="e#5835#6881#0" />
-            <element signature="e#6973#7595#0" />
-            <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#orderfilterPrestations#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#orderSelectItems#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#orderSelectItemsLabel#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#createColsIndex#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#createStatusIndex#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#initFilters#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
-            <element signature="e#12155#12448#0" />
-            <element signature="e#12454#12752#0" />
-            <element signature="n#!!block;n#onDialogHide#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#updateFilters#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#buttonsFunctions#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadReferences#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadContrats#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadSites#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadNumAtg#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadDonneurOrdre#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadCommercialOpen#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadEquipe#0;n#PrestationsComponent#0" />
-          </folding>
+        <state relative-caret-position="561">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
         </state>
       </provider>
     </entry>
