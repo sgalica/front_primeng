@@ -1,21 +1,36 @@
 ::ng-deep .ui-panel-images {
-    width: 200%;
+    width: auto;
+
+}
+
+
+::ng-deep .ui-galleria-panel{
+    width: auto;
+
+
 }
 
 ::ng-deep .ui-corner-all {
-
+    width: auto;
 
 }
 
 ::ng-deep body .ui-widget-content {
-    border: 0px;
+    border: 0px;    width: auto;
+
 }
 
-
 ::ng-deep body .ui-corner-all {
+    width: auto;
 
     border-radius: unset;
 }
 
+::ng-deep .ui-galleria, ::ng-deep .ui-widget,::ng-deep .ui-widget-content ,::ng-deep .ui-corner-all {
+    background-color: white;
+    width: 100%;
 
-::ng-deep body .ui-galleria-filmstrip, body .ui-galleria-frame,	.ui-galleria-caption,	.ui-galleria		{background-color: white}
+}
+
+/*ui-galleria ui-widget ui-widget-content ui-corner-all*/
+

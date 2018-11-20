@@ -100,7 +100,6 @@ import {AlertService} from './service/alert.service';
 import {UserService} from './service/user.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PrestationsComponent} from './component/prestations/prestations.component';
-import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
 import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
@@ -228,7 +227,6 @@ export function tokenGetter() {
         AlertComponent,
         HomeComponent,
         PrestationsComponent,
-        MenuComponent,
         NewsComponent,
         NotFoundComponent,
     ],
