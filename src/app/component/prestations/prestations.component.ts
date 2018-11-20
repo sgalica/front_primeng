@@ -95,6 +95,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     ngOnInit() {
 
+        // Prestations from collab
+        if (this.route.snapshot.url[ 0 ].path != ("prestations")) {
+            this.modeCollab = true;
+        }
         this.prestations = [];
         this.selectedPrestation.collaborateur = new Collaborateur();
         this.selectedPrestation.contrat = new Contrat();
@@ -175,13 +179,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.loadAllPrestations();
             //if this.route.snapshot.params['idcollab']; this.loadPrestationsCollab(id); //console.log("liste des prestation du collab" , this.prestations);
         }
-        // Prestations from collab
-        else {
-            this.modeCollab = true;
-        }
 
         this.loadReferences();
-
     }
 
     showCollab() {
@@ -259,17 +258,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
      };
 
     selectPrestation(event: Event, prestation: Prestation) {
-        debugger;
         this.displayDialogPresta = true;
-
-        event.preventDefault();
-        event.stopPropagation();
 
         this.selectedPrestation = prestation;
         if (prestation.collaborateur==undefined) // We come from collaborateur so prestation not loaded by hibernate
             this.selectedPrestation.collaborateur = this.collab;
         //this.employee = this.selectedPrestation.collaborateur;
 
+        //event.preventDefault();
     }
 
     savePrestation(event: Event, prestation: Prestation) {
@@ -623,7 +619,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     loadCommercialOpen() {
 
         var ref="commercialOpen";
-        var value = "cleCommercialOpen";
+        var value = "commercialOpen"; //"cleCommercialOpen";
         var label= "commercialOpen";
 
         var selectitem : SelectItem = { value: "", label: "" };
