@@ -72,7 +72,14 @@
                     <p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8"
                                        animationDuration=".5s"></p-progressSpinner>
                 </div>
-
+                <button pButton  type="button" label="Effacer toutes les tables"
+                        icon="pi pi-upload"
+                        class="ui-button-danger" (click)="cleanAllTable(alltable)">
+                </button>
+                <div class="ui-toolbar-group-right" style="margin: 2px" [style.visibility]="clearRef ? 'visible' : 'hidden'">
+                    <p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8"
+                                       animationDuration=".5s"></p-progressSpinner>
+                </div>
             </div>
         </p-toolbar>
         <br>

@@ -59,6 +59,7 @@ export class AdministratorComponent implements OnInit {
     private viewfile: boolean;
     private apiresponse: ApiResponse;
     private worksheet: any;
+    clearRef: boolean;
 
     constructor(private router: Router,
                 private dataService: DataService,
@@ -324,7 +325,37 @@ export class AdministratorComponent implements OnInit {
         return jsonToConvert;
     }
 
-    saveAllRefTable(referenciel: any) {
+
+    cleanAllTable() {
+        this.resetRef=true;
+
+        this.referencielService.deleteAll()
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.apiresponse = data as ApiResponse;
+                    console.log("data returned = ", data);
+                    this.alertService.success(this.apiresponse.message);
+                    this.displayDialog = false;
+                    this.resetRef=false;
+
+                    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                        return false;
+                    };
+                },
+                error => {
+                    this.loaderImport=false;
+
+                    console.log("data returned = ", error);
+
+                    this.alertService.error(error);
+                });
+
+    }
+
+
+
+        saveAllRefTable(referenciel: any) {
         this.loaderImport=true;
 
         let convertedJson = referenciel;

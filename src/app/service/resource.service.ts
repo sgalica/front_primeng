@@ -45,4 +45,9 @@ export class ResourceService<T extends Resource> {
         return this.http
             .delete(`${this.url}/${this.endpoint}/${id}`);
     }
+
+    deleteAll() {
+        return this.http
+            .delete(`${this.url}/${this.endpoint}`);
+    }
 }
