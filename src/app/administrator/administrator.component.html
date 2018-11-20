@@ -65,23 +65,40 @@
 
                 </p-fileUpload>
 
-                <button pButton type="button" label="Importer toutes les tables" icon="pi pi-upload"
-                        class="ui-button-success" (click)="saveRefTable(alltable, true)"></button>
+                <button pButton [(disabled)]="resetRef" type="button" label="Importer toutes les tables"
+                        icon="pi pi-upload"
+                        class="ui-button-success" (click)="saveAllRefTable(alltable)"></button>
+                <div class="ui-toolbar-group-right" style="margin: 2px" [style.visibility]="loaderImport ? 'visible' : 'hidden'">
+                    <p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8"
+                                       animationDuration=".5s"></p-progressSpinner>
+                </div>
+
             </div>
         </p-toolbar>
         <br>
 
 
-        <p-accordion>
-            <p-accordionTab *ngFor="let item of all_sheet_name; let i = index">
-                <p-header class="" style="">
+        <p-accordion [multiple]="true" *ngFor="let item of all_sheet_name; let i = index">
+            <p-accordionTab header="">
+                <p-header class="" style="pointer-events:initial;  ">
 
                     <div class="ui-toolbar-group-left" style="position:absolute;top:5%;left: 40px"><a>{{all_sheet_name[i]}}</a>
                     </div>
+
+
                     <div class="ui-toolbar-group-right" style="position:absolute;top:5%;right:10px">
+                        <!--<p-progressBar [value]="value"></p-progressBar>-->
+                        <div class="ui-toolbar-group-left" style="margin: 3px" [style.visibility]="loader[i] ? 'visible' : 'hidden'">
+                            <p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE"
+                                               animationDuration=".5s"></p-progressSpinner>
+                        </div>
+
                         <button pButton type="button" label="Importer la table" icon="pi pi-upload"
-                                class="ui-button-success" (click)="saveRefTable(alltable[i],false);"></button>
+                                class="ui-button-success" (click)="saveRefTable($event, alltable[i],i)">
+
+                        </button>
                     </div>
+
                 </p-header>
 
                 <p-table [style]="{'overflow':'auto!important'}" [resizableColumns]="true"

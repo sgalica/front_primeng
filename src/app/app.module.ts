@@ -65,8 +65,9 @@ import {
     TreeModule,
     TreeTableModule,
 } from 'primeng/primeng';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutes} from './app.routes';
 
@@ -103,9 +104,7 @@ import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
 import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
-// import {AdminGuard} from "./service/admin.guard";
 import {NotFoundComponent} from './not-found/not-found.component';
-import {ResourceService} from "./service/resource.service";
 import {DataService} from "./service/data.service";
 import {
     CategorieService,
@@ -124,8 +123,6 @@ import {
 } from "./service/datas.service";
 import {DatePipe} from "@angular/common";
 
-// used to create fake backend
-
 
 export function tokenGetter() {
     return localStorage.getItem('accessToken');
@@ -137,8 +134,8 @@ export function tokenGetter() {
         JwtModule.forRoot({
             config: {
                 tokenGetter: tokenGetter,
-                whitelistedDomains: ['localhost:3001'],
-                blacklistedRoutes: ['localhost:3001/auth/']
+                whitelistedDomains: [ 'localhost:3001' ],
+                blacklistedRoutes: [ 'localhost:3001/auth/' ]
             }
         }),
 
@@ -146,6 +143,7 @@ export function tokenGetter() {
         FormsModule,
         OrderListModule,
         PickListModule,
+        ProgressSpinnerModule,
         BrowserModule,
         AppRoutes,
         CoreModule,
@@ -235,15 +233,10 @@ export function tokenGetter() {
         NotFoundComponent,
     ],
     providers: [
-        // { provide: LocationStrategy, useClass: HashLocationStrategy },
-
-            { provide: LOCALE_ID, useValue: "en-US" },
         EventService,
         AuthGuard,
-        //AdminGuard,
         AlertService,
         CollaborateurService,
-        ResourceService,
         DataService,
         ReferencielService,
         NumAtgService,
@@ -270,10 +263,10 @@ export function tokenGetter() {
         // provider used to create fake backend
         // fakeBackendProvider
     ],
-    entryComponents: [AppDashboardComponent],
+    entryComponents: [ AppDashboardComponent ],
 
 
-    bootstrap: [AppComponent]
+    bootstrap: [ AppComponent ]
 })
 export class AppModule {
 }

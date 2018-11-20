@@ -1,11 +1,21 @@
 ::ng-deep .ui-panel-images {
     width: 200%;
-    border: none;
 }
 
 ::ng-deep .ui-corner-all {
-border: 0
+
+
+}
+
+::ng-deep body .ui-widget-content {
+    border: 0px;
 }
 
 
+::ng-deep body .ui-corner-all {
 
+    border-radius: unset;
+}
+
+
+::ng-deep body .ui-galleria-filmstrip, body .ui-galleria-frame,	.ui-galleria-caption,	.ui-galleria		{background-color: white}

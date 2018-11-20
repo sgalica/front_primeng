@@ -7,7 +7,7 @@ import {AlertService} from "../service/alert.service";
 import {Router} from "@angular/router";
 import {UserService} from "../service/user.service";
 import {User} from "../model/user";
-import {Collaborateur, Referenciel} from "../model/referenciel";
+import {AtgModel, Collaborateur, Referenciel} from "../model/referenciel";
 import {DataService} from "../service/data.service";
 import {MissionService, ReferencielService} from "../service/datas.service";
 
@@ -22,10 +22,15 @@ class Resource {
 })
 export class AdministratorComponent implements OnInit {
 
+    value: number = 0;
 
     selectedCollaborateur: Collaborateur;
 
     displayDialog: boolean;
+    resetRef: boolean;
+    loader: boolean[] = [false];
+    loaderImport: boolean = false;
+
 
     sortOptions: SelectItem[];
 
@@ -64,6 +69,7 @@ export class AdministratorComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.resetRef=true;
 
         const camelCase = require('camelcase');
 
@@ -140,22 +146,35 @@ export class AdministratorComponent implements OnInit {
             const arr = [];
             for (let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
             const bstr = arr.join("");
+            // console.log("xls", bstr);
 
-            const workbook = read(bstr, {type: "binary", cellDates:true, dateNF: 'dd/mm/yyyy;@'});
-            Object.keys(workbook).forEach((x, y) => {
-                this.all_sheet_name.push(workbook.SheetNames[y]);
-            });
+            const workbook = read(bstr, {type: "binary", cellDates: true, dateNF: 'dd/mm/yyyy;@'});
+            console.log("workbook", workbook);
+
+            /*           Object.keys(workbook).forEach((x, y) => {
+                           this.all_sheet_name.push(workbook.SheetNames[y]);
+                       });  */
+
+            this.all_sheet_name = workbook.SheetNames;
+            console.log("all_sheet_name", this.all_sheet_name);
+
 
             this.all_sheet_name.forEach(x => {
                     this.worksheet = workbook.Sheets[x];
                     // console.log("sheet keys ", XLSX.utils.sheet_to_json(this.worksheet, {raw: true}));
                     //this.columns.push(Object.values(XLSX.utils.sheet_to_json(this.worksheet, {raw: true})));
-                    this.alltable.push(utils.sheet_to_json(this.worksheet, {raw: false, defval: null, blankrows: false, dateNF: 'dd/mm/yyyy;@'}));
+                    this.alltable.push(utils.sheet_to_json(this.worksheet, {
+                        raw: false,
+                        defval: null,
+                        blankrows: false,
+                        dateNF: 'dd/mm/yyyy;@'
+                    }));
                 }
             );
             console.log("alltable", this.alltable);
 
             const camelize = require('camelcase-object-deep');
+            // const camelize = require('camelcase-keys');
             //const camelCase = require('camel-case');
             const camelCase = require('camelize');
             var changeCase = require('change-case');
@@ -213,6 +232,7 @@ export class AdministratorComponent implements OnInit {
 
         };
         fileReader.readAsArrayBuffer(this.file);
+        this.resetRef=false;
     }
 
     getModelMatch(T) {
@@ -228,10 +248,14 @@ export class AdministratorComponent implements OnInit {
         console.log("Objet a tester", T[0]);
 
         //var constructor;
-        const referenciel = new Referenciel();
+        let modelList = new AtgModel();
         let obj;
-        for (let x of Object.values(referenciel)) {
 
+        for (let x of Object.values(modelList)) {
+
+            console.log(modelList);
+            console.log(x);
+            console.log(x[0]);
             const temp = new x.constructor;
 
             const acc = Object.entries(T[0]).reduce((accumulator, currentValue) => {
@@ -301,28 +325,63 @@ export class AdministratorComponent implements OnInit {
     }
 
     saveAllRefTable(referenciel: any) {
+        this.loaderImport=true;
+
+        let convertedJson = referenciel;
+        let cons = new Referenciel();
+
+        this.dataService.getServiceMatch(cons).create(convertedJson)
+        //this.missionService.createList(convertedJson)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.value = data;
+                    this.apiresponse = data as ApiResponse;
+                    console.log("data returned = ", data);
+                    this.alertService.success(this.apiresponse.message);
+                    this.displayDialog = false;
+                    this.loaderImport=false;
+
+                    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                        return false;
+                    };
+                },
+                error => {
+                    this.loaderImport=false;
+
+                    console.log("data returned = ", error);
+
+                    this.alertService.error(error);
+                });
 
 
     }
 
-    saveRefTable(table: any, all: boolean) {
-        let convertedJson: any;
-        if (!all) {
-            const cons = this.getModelMatch(table);
-            console.log("LOGGING table:::::::::::::::::::::::", table);
-            console.log("LOGGING cons :::::::::::::::::::::::", cons);
-            convertedJson = this.convertJsonToModel(table, cons);
-            const temp = convertedJson.map(x => JSON.stringify(x));
-            console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
-            console.log("LOGGING temp :::::::::::::::::::::::", temp);
+    saveRefTable(event: any, table: any, i:any) {
+        this.loader[i]=true;
 
-        } else {
-            convertedJson = table
-        }
+        // permet d'empecher la propagation de l'evenement click pour que l'accordeon ne qouvre pas apres appuis sur le bouton
+        event.stopPropagation();
+        event.preventDefault();
+
+
+        let convertedJson: any;
+        let cons = this.getModelMatch(table);
+
+
+        console.log("LOGGING table:::::::::::::::::::::::", table);
+        console.log("LOGGING cons :::::::::::::::::::::::", cons);
+        convertedJson = this.convertJsonToModel(table, cons);
+        const temp = convertedJson.map(x => JSON.stringify(x));
+        console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
+        console.log("LOGGING temp :::::::::::::::::::::::", temp);
+
+
         // const temp = this.serviceMatcher.getServiceMatch(cons);
         //console.log("LOGGING res :::::::::::::::::::::::", res);
         //this.ReferencielService.createList(convertedJson)
-        this.dataService.getServiceMatch(convertedJson[0]).createList(convertedJson)
+
+        this.dataService.getServiceMatch(cons).createList(convertedJson)
         //this.missionService.createList(convertedJson)
             .pipe(first())
             .subscribe(
@@ -332,15 +391,19 @@ export class AdministratorComponent implements OnInit {
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;
 
+                    this.loader[i]=false;
                     this.router.routeReuseStrategy.shouldReuseRoute = function () {
                         return false;
                     };
                 },
                 error => {
+                    this.loader[i]=false;
+
                     console.log("data returned = ", error);
 
                     this.alertService.error(error);
                 });
+
 
     }
 

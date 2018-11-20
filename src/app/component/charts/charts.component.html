@@ -1,20 +1,77 @@
-    <div class=" charts">
-        <div class="ui-g-6 ui-lg-6 charts1">
-            <div class="card">
-                <h5 class="centerText">Taux de sous-traitance</h5>
-                <div class="chart">
+<div class="ui-g-12 ui-md-12" style="padding:0px 20px">
+    <div class="panel-gray title" style="width:100%; text-align:center">
+        <span class=" white">Tableau de bord des Assistances Techniques de la SG au </span>
+        <p-calendar [(ngModel)]="at_date$" dateFormat="dd/mm/yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true" (onSelect)="update()"></p-calendar>
+    </div>
+</div>
 
-                    <p-chart type="pie" [data]="pieData"></p-chart>
-                </div>
-            </div>
-        </div>
+<div class=" charts">
+    <div class="ui-g-6 ui-lg-6 charts1" hidden>
+        <div class="card">
+            <h5 class="centerText">Taux de sous-traitance</h5>
+            <div class="chart">
 
-        <div class="ui-g-6 ui-lg-6 charts2">
-            <div class="card">
-                <h5 class="centerText">Evolution du nombre de sous-traitants par département sur 6 mois</h5>
-                <div class="chart">
-                    <p-chart type="line" [data]="lineData"></p-chart>
-                </div>
+                <p-chart type="pie" [data]="pieData"></p-chart>
             </div>
         </div>
     </div>
+    <div class="ui-g-6 ui-lg-6 charts2">
+        <div class="card">
+            <h5 class="centerText">Evolution du nombre de sous-traitants par département sur 6 mois</h5>
+            <div class="chart" style="height:40vh">
+
+                    <p-table *ngIf="dataTable.length > 0" [columns]="dataTable" [value]="dataTable">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th>
+                                Departement
+                            </th>
+                            <th>
+                                Nombre de prestataires
+                            </th>
+                            <th>
+                                Taux de sous traitance
+                            </th>
+                            <th>
+                                Nombre de depart
+                            </th>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+
+                        <tr>
+                            <td>
+                                {{rowData['departement']}}
+                            </td>
+                            <td>
+                                {{rowData['prestataires']}}
+                            </td>
+                            <td>
+                                {{rowData['stt']}}
+                            </td>
+                            <td>
+                                {{rowData['sorties']}}
+                            </td>
+                        </tr>
+
+                    </ng-template>
+                </p-table>
+
+                <h1 *ngIf="dataTable.length == 0"  style="text-align: center;color: #f44336 ; ">Aucune données dans la base</h1>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-g-6 ui-lg-6 charts2">
+        <div class="card">
+            <h5 class="centerText">Evolution du nombre de sous-traitants par département sur 6 mois</h5>
+            <div class="chart" style="height:40vh">
+                <p-chart  *ngIf="dataTable.length > 0" type="line" [data]="lineData"></p-chart>
+                <h1 *ngIf="dataTable.length == 0"  style="text-align: center;color: #f44336">Aucune données dans la base</h1>
+
+            </div>
+        </div>
+    </div>
+</div>

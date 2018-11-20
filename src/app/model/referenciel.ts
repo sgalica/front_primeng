@@ -1,4 +1,4 @@
-export class Referenciel {
+export class AtgModel {
 
     id: any;
     collaborateur: Collaborateur = new Collaborateur();
@@ -13,6 +13,25 @@ export class Referenciel {
     donneurOrdre : DonneurOrdre = new DonneurOrdre();
     commercialOpen : CommercialOpen = new CommercialOpen();
     categorie : Categorie = new Categorie();
+
+}
+
+
+export class Referenciel {
+
+    id: any =0;
+    collaborateurs: Collaborateur [] ;
+    missions: Mission [];
+    prestations: Prestation[];
+    numAtgs: NumAtg[];
+    societeStts: SocieteStt[];
+    contactsStts: ContactsStt[];
+    contrats: Contrat[];
+    sites: Site[];
+    equipes :Equipe[];
+    donneurOrdres : DonneurOrdre[];
+    commercialOpens : CommercialOpen[];
+    categories : Categorie[];
 
 }
 

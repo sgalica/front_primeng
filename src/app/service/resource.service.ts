@@ -1,18 +1,14 @@
 import {Observable} from "rxjs/Rx";
 import {HttpClient} from "@angular/common/http";
-import {Injectable} from "@angular/core";
 import {Resource} from "../model/resource";
 
 
-@Injectable()
 export class ResourceService<T extends Resource> {
-
-    listData:any;
 
     constructor(
         private http: HttpClient,
         private url: string ,
-        private endpoint: string) {}
+        private endpoint: string ) {}
 
     create(item: T) {
         return this.http
@@ -49,8 +45,4 @@ export class ResourceService<T extends Resource> {
         return this.http
             .delete(`${this.url}/${this.endpoint}/${id}`);
     }
-
-   /* convertData(data: any): T[] {
-        return data.map(item => item);
-    }*/
 }
