@@ -139,7 +139,7 @@ export function tokenGetter() {
                 blacklistedRoutes: [ 'localhost:3001/auth/' ]
             }
         }),
-        [RouterModule.forRoot(routes, {useHash: true})],
+        RouterModule.forRoot(routes, {useHash: true}),
         ReactiveFormsModule,
         FormsModule,
         OrderListModule,
