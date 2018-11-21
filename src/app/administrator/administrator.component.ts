@@ -7,9 +7,9 @@ import {AlertService} from "../service/alert.service";
 import {Router} from "@angular/router";
 import {UserService} from "../service/user.service";
 import {User} from "../model/user";
-import {AtgModel, Collaborateur, Referenciel} from "../model/referenciel";
+import {AtgModel, Collaborateur, Referentiel} from "../model/referentiel";
 import {DataService} from "../service/data.service";
-import {MissionService, ReferencielService} from "../service/datas.service";
+import {MissionService, ReferentielService} from "../service/datas.service";
 
 class Resource {
     id: number
@@ -64,7 +64,7 @@ export class AdministratorComponent implements OnInit {
                 private dataService: DataService,
                 private userService: UserService,
                 private missionService: MissionService,
-                private referencielService: ReferencielService,
+                private referentielService: ReferentielService,
                 private alertService: AlertService) {
     }
 
@@ -324,11 +324,11 @@ export class AdministratorComponent implements OnInit {
         return jsonToConvert;
     }
 
-    saveAllRefTable(referenciel: any) {
+    saveAllRefTable(referentiel: any) {
         this.loaderImport=true;
 
-        let convertedJson = referenciel;
-        let cons = new Referenciel();
+        let convertedJson = referentiel;
+        let cons = new Referentiel();
 
         this.dataService.getServiceMatch(cons).create(convertedJson)
         //this.missionService.createList(convertedJson)
@@ -379,7 +379,7 @@ export class AdministratorComponent implements OnInit {
 
         // const temp = this.serviceMatcher.getServiceMatch(cons);
         //console.log("LOGGING res :::::::::::::::::::::::", res);
-        //this.ReferencielService.createList(convertedJson)
+        //this.ReferentielService.createList(convertedJson)
 
         this.dataService.getServiceMatch(cons).createList(convertedJson)
         //this.missionService.createList(convertedJson)

@@ -29,14 +29,17 @@
         <!-- FILTRES -->
         <tr>
             <th *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
+
                 <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values"
                                [(ngModel)]="filtres[col.field].selected"
                                [style]="{'max-width':'100%', 'min-width':'auto'}"
+                               [panelStyle]="{'min-width':'140px'}"
                                (onChange)="dt.filter($event.value, col.field, 'in')"
-                               selectedItemsLabel="{0} sélectionnées"
+                               selectedItemsLabel="{0} sélectionnés"
                                maxSelectedLabels="1"
                 >
                 </p-multiSelect>
+
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
                     <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
                                 dateFormat="dd/mm/yy" [locale]="fr" (onSelect)="co_filter(col.field);"
@@ -57,8 +60,7 @@
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" class="tablecol">
-                <div>
-                    {{rowData[col.field]}}
+                <div><span>{{rowData[col.field]}}</span>
                 </div>
             </td>
 

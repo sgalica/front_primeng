@@ -4,7 +4,7 @@ import {first} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
-import {Collaborateur, Contrat, Prestation} from "../../model/referenciel";
+import {Collaborateur, Contrat, Prestation} from "../../model/referentiel";
 import {
     CollaborateurService,
     CommercialOpenService,
@@ -183,20 +183,21 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.loadReferences();
     }
 
-    showCollab() {
+    showCollab(pCollab:Collaborateur) {
+        this.collab=pCollab;
         this.id = this.collab.trigramme;
         this.employee_name = this.collab.prenom + " " + this.collab.nom;
+        this.selectPrestations(this.collab.prestations);
     }
 
     selectPrestations(param_prestations: Prestation[]) {
         this.prestations = param_prestations;
+        this.updateFilters();
         this.orderfilterPrestations();
     }
 
     orderfilterPrestations() {
-
         this.prestations.sort(this.orderDateDebutEtVersion);
-
         //this.filterVersions();
     }
 
@@ -326,14 +327,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.prestationService.list()
             .pipe(first())
             .subscribe(prestations => {
-                    this.prestations = prestations;
-                    this.updateFilters();
-                    this.prestations.sort(this.orderDateDebutEtVersion);
+                    this.selectPrestations( prestations);
                     this.filterVersions();
                     //this.alertService.success(prestations);
                 },
                 error => {
-                    console.log("Erreur load prestations : ", error);
                     this.alertService.error(error);
                 });
     }
@@ -423,18 +421,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     loadPrestationsCollab(idemployee) {
-
         // Get collab info
         this.employeeService.read(idemployee).pipe(first()).subscribe(p_employee => {
-            this.employee = p_employee;
-            this.employee_name = this.employee.prenom + " " + this.employee.nom;
-            this.prestations = p_employee.prestations;
-
-            this.prestations.sort(this.orderDateDebutEtVersion);
+            this.showCollab(p_employee);
+            this.filterVersions();
         });
-
-        this.filterVersions();
-
     }
 
     // Tri sur datedebut (desc) et version (desc)
@@ -474,7 +465,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }*/
 
         this.pt.filter(status, 'statutPrestation', 'in');
-
     }
 
     pt_filter(event, pt, field: string) {

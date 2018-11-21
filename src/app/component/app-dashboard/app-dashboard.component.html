@@ -121,20 +121,20 @@
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
                             <a>
-                                <img class="image" src="./assets/layout/images/icones/referenciel.png" title=""
+                                <img class="image" src="./assets/layout/images/icones/referentiel.png" title=""
                                      data-themekey="#">
                             </a>
                         </div>
-                        <div class="card-legend">Référenciel</div>
+                        <div class="card-legend">Référentiel</div>
                         <div class="description">
-                            <div style="padding-top: 5px">Gérer les tables du référenciel</div>
+                            <div style="padding-top: 5px">Gérer les tables du référentiel</div>
                         </div>
                     </div>
                 </div>
-                <div routerLink="/administration" class="ui-g-4 case">
+                <div  *ngIf="isAdmin$ | async" routerLink="/administration" class="ui-g-4 case">
                     <div style="position:relative">
                         <div class="shadow-box ui-shadow-1">
-                            <a *ngIf="isAdmin$ | async">
+                            <a>
                                 <a>
                                 <img class="image" src="./assets/layout/images/icones/administration.png" title=""
                                      data-themekey="#">
@@ -149,6 +149,15 @@
                         </div>
                     </div>
                 </div>
+
+                <div  *ngIf="!(isAdmin$ | async)"  class="ui-g-4 case">
+                    <div style="position:relative">
+                        <div class="shadow-box ui-shadow-1">
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

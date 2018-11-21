@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ResourceService} from "./resource.service";
-import {ContactsStt, Contrat, Site, SocieteStt} from "../model/referenciel";
+import {ContactsStt, Contrat, Site, SocieteStt} from "../model/referentiel";
 import {
     CategorieService,
     CollaborateurService,
@@ -12,7 +12,7 @@ import {
     MissionService,
     NumAtgService,
     PrestationService,
-    ReferencielService,
+    ReferentielService,
     SiteService,
     SocieteSttService
 } from "./datas.service";
@@ -21,7 +21,7 @@ import {
 @Injectable()
 export class DataService {
     constructor(private numAtgService: NumAtgService,
-                private referencielService: ReferencielService,
+                private referentielService: ReferentielService,
                 private collaborateurService: CollaborateurService,
                 private contactsSttService: ContactsSttService,
                 private contratService: ContratService,
@@ -99,9 +99,9 @@ export class DataService {
             return this.societeSttService;
         }
 
-        else if (object.constructor.name == "Referenciel") {
-            console.log("Referenciel match");
-            return this.referencielService;
+        else if (object.constructor.name == "Referentiel") {
+            console.log("Referentiel match");
+            return this.referentielService;
         }
 
     }

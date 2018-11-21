@@ -3,7 +3,7 @@ import {first} from "rxjs/operators";
 import {PrestationService} from "../../service/datas.service";
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
-import {Prestation} from "../../model/referenciel";
+import {Prestation} from "../../model/referentiel";
 import {BehaviorSubject} from "rxjs";
 
 export class ChartLine {
@@ -51,6 +51,7 @@ export class ChartsComponent implements OnInit {
 
     private prestations: Prestation[];
     dataTable = [];
+     fr: { firstDayOfWeek: number; dayNames: string[]; dayNamesShort: string[]; dayNamesMin: string[]; monthNames: string[]; monthNamesShort: string[]; today: string; clear: string };
 
     constructor(private prestationService: PrestationService,
                 private router: Router,
@@ -61,6 +62,16 @@ export class ChartsComponent implements OnInit {
 
     ngOnInit() {
 
+        this.fr = {
+            firstDayOfWeek: 1,
+            dayNames: [ "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi" ],
+            dayNamesShort: [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ],
+            dayNamesMin: [ "di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ],
+            monthNames: [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
+            monthNamesShort: [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jui", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+            today: 'Aujourd\'hui',
+            clear: 'Effacer'
+        };
 
         this.chart_date$.next(this.at_date$);
 

@@ -11,10 +11,10 @@ import {
     Mission,
     NumAtg,
     Prestation,
-    Referenciel,
+    Referentiel,
     Site,
     SocieteStt
-} from "../model/referenciel";
+} from "../model/referentiel";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable()
@@ -54,12 +54,12 @@ export class CollaborateurService extends ResourceService<Collaborateur> {
 }
 
 @Injectable()
-export class ReferencielService extends ResourceService<Referenciel> {
+export class ReferentielService extends ResourceService<Referentiel> {
     constructor(httpClient: HttpClient) {
         super(
             httpClient,
             'api',
-            'referenciels');
+            'referentiels');
     }
 }
 
