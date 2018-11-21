@@ -69,7 +69,7 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {AppRoutes} from './app.routes';
+import {AppRoutes, routes} from './app.routes';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './component/login/login.component';
@@ -122,6 +122,7 @@ import {
     SocieteSttService
 } from "./service/datas.service";
 import {DatePipe} from "@angular/common";
+import {RouterModule} from "@angular/router";
 
 
 export function tokenGetter() {
@@ -138,7 +139,7 @@ export function tokenGetter() {
                 blacklistedRoutes: [ 'localhost:3001/auth/' ]
             }
         }),
-
+        [RouterModule.forRoot(routes, {useHash: true})],
         ReactiveFormsModule,
         FormsModule,
         OrderListModule,
