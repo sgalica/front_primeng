@@ -134,9 +134,8 @@ export function tokenGetter() {
         HttpClientModule,
         JwtModule.forRoot({
             config: {
-                tokenGetter: tokenGetter,
-                whitelistedDomains: [ 'localhost:3001' ],
-                blacklistedRoutes: [ 'localhost:3001/auth/' ]
+                tokenGetter: tokenGetter
+
             }
         }),
         RouterModule.forRoot(routes, {useHash: true}),
