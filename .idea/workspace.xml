@@ -1,56 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="optimise alert message and import csv">
+    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="css combos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/_versions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/_versions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/administrator/administrator.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/administrator/administrator.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/administrator/administrator.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/charts/charts.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/charts/charts.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/charts/charts.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/model/referenciel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/model/referentiel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/service/data.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/service/data.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/service/datas.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/service/datas.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Audi.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/BMW.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Fiat.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Ford.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Honda.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Jaguar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Mercedes.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Renault.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/VW.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Volkswagen.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/car/Volvo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature10.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature11.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature12.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature5.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature6.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature7.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature8.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/nature/nature9.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/sopranos/sopranos1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/sopranos/sopranos1_small.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/sopranos/sopranos2.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/sopranos/sopranos2_small.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/sopranos/sopranos3.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/sopranos/sopranos3_small.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/sopranos/sopranos4.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/demo/images/sopranos/sopranos4_small.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/layout/images/icones/referenciel.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/layout/images/icones/referentiel.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/components/core-menu/core-menu.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/components/core-menu/core-menu.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/model/referentiel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/model/referentiel.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -77,22 +33,6 @@
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="db_atg@localhost" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db_atg@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db_atg@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="db_atg: schema" type="c314c289:MysqlImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db_atg@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="collations" type="d4e8921:DatabaseStructure$FamilyGroup" />
       </path>
     </expand>
     <select />
@@ -300,33 +240,35 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="4" />
-          <entry key="html" value="13" />
+          <entry key="html" value="14" />
           <entry key="scss" value="2" />
-          <entry key="ts" value="20" />
+          <entry key="ts" value="29" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="4" />
-          <entry key="HTML" value="13" />
+          <entry key="HTML" value="14" />
           <entry key="SCSS" value="2" />
-          <entry key="TypeScript" value="20" />
+          <entry key="TypeScript" value="29" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="229" />
-          <entry key="html" value="519" />
+          <entry key="html" value="521" />
           <entry key="scss" value="208" />
-          <entry key="ts" value="158" />
+          <entry key="ts" value="508" />
+          <entry key="txt" value="14" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="229" />
-          <entry key="HTML" value="519" />
+          <entry key="HTML" value="521" />
+          <entry key="PLAIN_TEXT" value="14" />
           <entry key="SCSS" value="208" />
-          <entry key="TypeScript" value="158" />
+          <entry key="TypeScript" value="508" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.run.usages" />
@@ -350,34 +292,83 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="417">
+              <caret line="149" column="18" lean-forward="true" selection-start-line="149" selection-start-column="18" selection-end-line="149" selection-end-column="18" />
+              <folding>
+                <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#p-header#0;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#p-header#1;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#ng-template#0;n#p-dropdown#0;n#div#0;n#div#0;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#ng-template#1;n#p-dropdown#0;n#div#0;n#div#0;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#ng-template#0;n#p-dropdown#0;n#div#0;n#div#1;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#ng-template#1;n#p-dropdown#0;n#div#0;n#div#1;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="192" column="21" selection-start-line="192" selection-start-column="4" selection-end-line="192" selection-end-column="21" />
+            <state relative-caret-position="16">
+              <caret line="527" column="27" selection-start-line="527" selection-start-column="17" selection-end-line="527" selection-end-column="27" />
               <folding>
                 <element signature="e#0#92#0" expanded="true" />
-                <element signature="e#5984#7030#0" />
                 <element signature="e#7122#7744#0" />
-                <element signature="n#!!block;n#createColsIndex#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#orderfilterPrestations#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#orderSelectItems#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#orderSelectItemsLabel#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#selectColumns#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#createStatusIndex#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#initFilters#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
                 <element signature="e#12393#12686#0" />
                 <element signature="e#12692#12990#0" />
                 <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#updateFilters#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#buttonsFunctions#0;n#PrestationsComponent#0" />
-                <element signature="n#!!block;n#loadReferences#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#loadContrats#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#loadSites#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#loadNumAtg#0;n#PrestationsComponent#0" />
                 <element signature="n#!!block;n#loadDonneurOrdre#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#loadCommercialOpen#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#loadEquipe#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#loadRespsPoles#0;n#PrestationsComponent#0" />
+                <element signature="n#!!block;n#ngOnChanges#0;n#PrestationsComponent#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/model/referentiel.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="107" selection-start-line="107" selection-end-line="107" />
+              <folding>
+                <element signature="n#Referentiel#0" />
+                <element signature="n#Collaborateur#0" />
+                <element signature="n#Mission#0" />
+                <element signature="n#NumAtg#0" />
+                <element signature="n#SocieteStt#0" />
+                <element signature="n#Categorie#0" />
+                <element signature="n#ContactsStt#0" />
+                <element signature="n#Contrat#0" />
+                <element signature="n#Site#0" />
+                <element signature="n#Equipe#0" />
+                <element signature="n#DonneurOrdre#0" />
               </folding>
             </state>
           </provider>
@@ -386,8 +377,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="67">
-              <caret line="366" selection-start-line="366" selection-end-line="366" />
+            <state relative-caret-position="168">
+              <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
               <folding>
                 <element signature="n#!!block;n#ngOnInit#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
@@ -413,31 +404,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="639">
               <caret line="38" column="52" lean-forward="true" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
-              <folding>
-                <element signature="e#6695#8610#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="46" column="67" lean-forward="true" selection-start-line="46" selection-start-column="67" selection-end-line="46" selection-end-column="67" />
-              <folding>
-                <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#p-header#0;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#p-header#1;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#p-header#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#ng-template#0;n#p-dropdown#0;n#div#0;n#div#0;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#ng-template#1;n#p-dropdown#0;n#div#0;n#div#0;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#ng-template#0;n#p-dropdown#0;n#div#0;n#div#1;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#ng-template#1;n#p-dropdown#0;n#div#0;n#div#1;n#p-fieldset#0;n#div#0;n#p-dialog#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -456,13 +424,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>prest</find>
-      <find>/colla</find>
-      <find>login</find>
-      <find>onclick</find>
-      <find>click</find>
-      <find>displaydialog</find>
-      <find>displayDialog</find>
       <find>/me</find>
       <find>user/me</find>
       <find>&quot;architect&quot;</find>
@@ -483,9 +444,16 @@
       <find>employee</find>
       <find>selectPrestations</find>
       <find>showcollab</find>
-      <find>showCollab</find>
-      <find>selectPres</find>
       <find>showPrestas</find>
+      <find>selectPres</find>
+      <find>showCollab</find>
+      <find>commercial</find>
+      <find>responsablePole</find>
+      <find>filtres</find>
+      <find>push</find>
+      <find>Nom</find>
+      <find>contrat</find>
+      <find>Commercial</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -532,7 +500,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/e2e/src/app.po.ts" />
         <option value="$PROJECT_DIR$/src/app/demo/service/data.service.ts" />
         <option value="$PROJECT_DIR$/src/app/demo/service/carservice.ts" />
         <option value="$PROJECT_DIR$/src/app/demo/domain/collaborateur.ts" />
@@ -579,9 +546,10 @@
         <option value="$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html" />
         <option value="$PROJECT_DIR$/src/app/model/referenciel.ts" />
         <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css" />
+        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
+        <option value="$PROJECT_DIR$/src/app/model/referentiel.ts" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" />
       </list>
     </option>
@@ -617,8 +585,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="61" />
-    <option name="y" value="37" />
+    <option name="x" value="1991" />
+    <option name="y" value="17" />
     <option name="width" value="1767" />
     <option name="height" value="1000" />
   </component>
@@ -687,15 +655,7 @@
               <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="collaborateurs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="service" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
@@ -745,11 +705,12 @@
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="SearchEverywhereHistoryKey" value="app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542793254883" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542816986726" />
     <property name="database.console.LAST_STATE" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../atg-app-server" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -1029,11 +990,18 @@
       <option name="project" value="LOCAL" />
       <updated>1537178506105</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="css combos">
+      <created>1542795738731</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1542795738731</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="387141000" />
+    <option name="totallyTimeSpent" value="399806000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1045,15 +1013,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="61" y="37" width="1767" height="1000" extended-state="0" />
+    <frame x="1991" y="17" width="1767" height="1000" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49571183" visible="true" weight="0.20152314" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49484536" visible="true" weight="0.20152314" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
       <window_info id="UI Designer" order="4" />
-      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Favorites" order="5" sideWeight="0.5051546" side_tool="true" weight="0.20152314" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="npm" order="7" sideWeight="0.50428814" side_tool="true" weight="0.20152314" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -1066,7 +1034,7 @@
       <window_info anchor="bottom" id="TypeScript" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32900432" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="10" visible="true" weight="0.32871974" />
+      <window_info anchor="bottom" id="Version Control" order="10" visible="true" weight="0.32871974" />
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -1074,7 +1042,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="right" id="Database" order="5" />
+      <window_info anchor="right" id="Database" order="5" visible="true" weight="0.13591096" />
       <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
@@ -1158,7 +1126,8 @@
     <MESSAGE value="rajout d'un collaborateur (vue de saisie)" />
     <MESSAGE value="merge avec code amin et gestion du token jwt" />
     <MESSAGE value="first commit after refacto" />
-    <option name="LAST_COMMIT_MESSAGE" value="first commit after refacto" />
+    <MESSAGE value="css combos" />
+    <option name="LAST_COMMIT_MESSAGE" value="css combos" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/app/component/alert/alert.component.ts">
@@ -1405,26 +1374,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/referentiel.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-383">
-          <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-          <folding>
-            <element signature="n#Collaborateur#0" />
-            <element signature="n#Mission#0" />
-            <element signature="n#Prestation#0" />
-            <element signature="n#NumAtg#0" />
-            <element signature="n#SocieteStt#0" />
-            <element signature="n#Categorie#0" />
-            <element signature="n#ContactsStt#0" />
-            <element signature="n#Contrat#0" />
-            <element signature="n#Site#0" />
-            <element signature="n#Equipe#0" />
-            <element signature="n#DonneurOrdre#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/register/register.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
@@ -1439,41 +1388,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
+    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="192" column="21" selection-start-line="192" selection-start-column="4" selection-end-line="192" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#92#0" expanded="true" />
-            <element signature="e#5984#7030#0" />
-            <element signature="e#7122#7744#0" />
-            <element signature="n#!!block;n#createColsIndex#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#createStatusIndex#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#initFilters#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
-            <element signature="e#12393#12686#0" />
-            <element signature="e#12692#12990#0" />
-            <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#buttonsFunctions#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadReferences#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadContrats#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadSites#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadNumAtg#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadDonneurOrdre#0;n#PrestationsComponent#0" />
-          </folding>
+        <state relative-caret-position="56">
+          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="366" selection-start-line="366" selection-end-line="366" />
+        <state relative-caret-position="168">
+          <caret line="10" column="37" selection-start-line="10" selection-start-column="37" selection-end-line="10" selection-end-column="37" />
           <folding>
             <element signature="n#!!block;n#ngOnInit#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
@@ -1495,27 +1420,75 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.css">
+    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+        <state relative-caret-position="639">
+          <caret line="38" column="52" lean-forward="true" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
+    <entry file="file://$PROJECT_DIR$/src/app/model/referentiel.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="38" column="52" lean-forward="true" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
+        <state relative-caret-position="459">
+          <caret line="107" selection-start-line="107" selection-end-line="107" />
           <folding>
-            <element signature="e#6695#8610#0" />
+            <element signature="n#Referentiel#0" />
+            <element signature="n#Collaborateur#0" />
+            <element signature="n#Mission#0" />
+            <element signature="n#NumAtg#0" />
+            <element signature="n#SocieteStt#0" />
+            <element signature="n#Categorie#0" />
+            <element signature="n#ContactsStt#0" />
+            <element signature="n#Contrat#0" />
+            <element signature="n#Site#0" />
+            <element signature="n#Equipe#0" />
+            <element signature="n#DonneurOrdre#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="527" column="27" selection-start-line="527" selection-start-column="17" selection-end-line="527" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#92#0" expanded="true" />
+            <element signature="e#7122#7744#0" />
+            <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#orderfilterPrestations#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#orderSelectItems#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#orderSelectItemsLabel#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#selectColumns#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#createStatusIndex#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#savePrestation#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#deletePrestation#0;n#PrestationsComponent#0" />
+            <element signature="e#12393#12686#0" />
+            <element signature="e#12692#12990#0" />
+            <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#updateFilters#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadPrestationsCollab#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#buttonsFunctions#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadContrats#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadSites#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadNumAtg#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadDonneurOrdre#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadCommercialOpen#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadEquipe#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#loadRespsPoles#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#ngOnChanges#0;n#PrestationsComponent#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="46" column="67" lean-forward="true" selection-start-line="46" selection-start-column="67" selection-end-line="46" selection-end-column="67" />
+        <state relative-caret-position="417">
+          <caret line="149" column="18" lean-forward="true" selection-start-line="149" selection-start-column="18" selection-end-line="149" selection-end-column="18" />
           <folding>
             <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#p-header#0;n#p-calendar#0;n#div#0;n#th#0;n#tr#1;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />

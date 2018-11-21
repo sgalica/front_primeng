@@ -124,7 +124,8 @@
     <div class="ui-g ui-fluid">
 
         <p-fieldset *ngFor="let fiche of FieldsFiches" legend="{{fiche.grplabel}}" [ngSwitch]="fiche.grp" class="ui-g-12 ui-md-6">
-            <div *ngIf="fiche.grp == 'contrat' || fiche.grp == 'collaborateur'">
+
+            <div *ngIf="fiche.grp == 'contrat' || fiche.grp == 'collaborateur' || fiche.grp == 'commercialOpenInfo'">
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
 
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field.name]}}&nbsp;:</span>
@@ -147,7 +148,7 @@
                     <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[fiche.grp][field.name]">
                 </div>
             </div>
-            <div *ngIf="fiche.grp == 'Prestation' || fiche.grp == 'Commercial'">
+            <div *ngIf="fiche.grp == 'Prestation'">
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
                     
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field.name]}}&nbsp;:</span>

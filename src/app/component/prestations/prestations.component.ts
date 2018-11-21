@@ -4,7 +4,7 @@ import {first} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
-import {Collaborateur, Contrat, Prestation} from "../../model/referentiel";
+import {Collaborateur, CommercialOpen, Contrat, Prestation} from "../../model/referentiel";
 import {
     CollaborateurService,
     CommercialOpenService,
@@ -102,6 +102,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.prestations = [];
         this.selectedPrestation.collaborateur = new Collaborateur();
         this.selectedPrestation.contrat = new Contrat();
+        this.selectedPrestation.commercialOpenInfo = new CommercialOpen();
 
         // Columns
         // Cols depending on ID
@@ -147,7 +148,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     {name:"numeroPu", type:"field"},{name:"dateDebutPrestation", type:"date"}, {name:"dateFinPrestation", type:"date"},
                     {name:"responsablePole", type:"field"},
                     {name:"donneurOrdre", type:"combo"}]},
-            {grp: "Commercial",     grplabel : "Commercial OPEN",   fields : [{name:"commercialOpen", type:"combo"}] } // mail, tel portable, tel fixe
+            {grp: "commercialOpenInfo",     grplabel : "Commercial OPEN",   fields : [{name:"commercialOpen", type:"combo"}, {name:"adresseMail", type:"field"}, {name:"telephonePortable", type:"field"}, {name:"telephoneFixe", type:"field"} ] }
         ];
 
         this.initFilters();
@@ -184,7 +185,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     showCollab(pCollab:Collaborateur) {
-        this.collab=pCollab;
+        if (pCollab!=null) this.collab=pCollab;
         this.id = this.collab.trigramme;
         this.employee_name = this.collab.prenom + " " + this.collab.nom;
         this.selectPrestations(this.collab.prestations);
@@ -230,16 +231,25 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     createColsIndex() {
+        // Libellés
+
         this.colsIndex = [];
+
+        // Prestation
         this.coldefs.forEach(x => {
             this.colsIndex[x.field]=x.header;
         });
-        // Libellés collaborateur
+        // Collaborateur
         this.colsIndex["nom"]="Nom";
         this.colsIndex["prenom"]="Prénom";
         // Contrat
         this.colsIndex["dateDebutContrat"]="Date début";
         this.colsIndex["dateFinContrat"]="Date fin";
+        // Commercial Open
+        this.colsIndex["adresseMail"]="Mail";
+        this.colsIndex["telephonePortable"]="Tél. portable";
+        this.colsIndex["telephoneFixe"]="Tél. fixe";
+
     }
 
     createStatusIndex() {
@@ -418,6 +428,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             this.filtres[ column ].values = selectitems;
         }
+
     }
 
     loadPrestationsCollab(idemployee) {
@@ -516,7 +527,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.loadDonneurOrdre();
         this.loadCommercialOpen();
         this.loadEquipe();    //this.loadDepartements();   //this.loadPoles();    //this.loadDomaines();
-        //this.loadRespsPoles();
+       // this.loadRespsPoles();
     }
     
     loadContrats() {
@@ -660,12 +671,20 @@ export class PrestationsComponent implements OnInit, OnChanges {
             );
     }
 
+    loadRespsPoles() {
+        var ref="responsablePole";
+        //var selectitem : SelectItem = { value: "", label: "" };
+
+       // Array.prototype.push.apply(this.references[ref], this.filtres[ref].values);
+
+        //this.references[ref].push({ value: x[value], label: x[label] });
+        //this.references[ref].sort(this.orderSelectItems);
+    }
+
     ngOnChanges(changes: SimpleChanges) {
         for (let propName in changes) {
-
-            if (propName == "collab") {
-                //let curVal= changes[propName].currentValue;
-                //this.showCollab();
+            if (propName == "collab") {    //let curVal= changes[propName].currentValue;
+                this.showCollab(null);
             }
         }
     }

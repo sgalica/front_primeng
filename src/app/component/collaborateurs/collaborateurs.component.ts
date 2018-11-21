@@ -363,7 +363,7 @@ export class CollaborateursComponent implements OnInit {
     showPrestations() {
 
         this.displayDialog2=true;
-        this.prestasComponent.showCollab(this.selectedCollaborateur);
+        //this.prestasComponent.showCollab(this.selectedCollaborateur);
 
         // Dynamic way :
         //(<PrestationsComponent>this.componentRef.instance).collab = this.selectedCollaborateur;
