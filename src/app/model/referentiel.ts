@@ -206,6 +206,9 @@ export class DonneurOrdre {
     id: any = 0;
     cleDo: any = 0;
     donneurOrdre: any = 0;
+    adresseMail: any = 0;
+    telephonePortable: any = 0;
+    telephoneFixe: any = 0;
 
     createdAt           : any = 0;
     createdBy           : any = 0;
@@ -217,6 +220,9 @@ export class CommercialOpen {
     id: any = 0;
     cleCommercialOpen: any = 0;
     commercialOpen: any = 0;
+    adresseMail: any = 0;
+    telephonePortable: any = 0;
+    telephoneFixe: any = 0;
 
     createdAt           : any = 0;
     createdBy           : any = 0;
