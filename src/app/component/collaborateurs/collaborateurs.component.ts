@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CategorieService, CollaborateurService} from '../../service/datas.service';
-import {Collaborateur, Mission} from '../../model/referenciel';
+import {Collaborateur, Mission} from '../../model/referentiel';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
@@ -316,13 +316,6 @@ export class CollaborateursComponent implements OnInit {
         this.selectedCollaborateur = collaborateur;
         this.displayDialog = true;
 
-        // Prestas
-        this.prestasComponent.collab=this.selectedCollaborateur;
-        this.prestasComponent.showCollab();
-        this.prestasComponent.prestations = this.selectedCollaborateur.prestations;
-        //this.prestasComponent.selectPrestations(this.selectedCollaborateur.prestations);
-        this.prestasComponent.orderfilterPrestations();
-
         // Last mission
         this.lastMission = null;
         this.buttons["Delete"].disabled=true;
@@ -368,18 +361,15 @@ export class CollaborateursComponent implements OnInit {
     }*/
 
     showPrestations() {
+
         this.displayDialog2=true;
+        this.prestasComponent.showCollab(this.selectedCollaborateur);
+
         // Dynamic way :
         //(<PrestationsComponent>this.componentRef.instance).collab = this.selectedCollaborateur;
         //(<PrestationsComponent>this.componentRef.instance).id = this.selectedCollaborateur.trigOpen;
         //(<PrestationsComponent>this.componentRef.instance).showCollab(); //ngOnInit();
         //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
-        this.showPrestas = (this.showPrestas=="none") ? "block" : "none";
-        this.showPrestas="block";
-
-        this.idxBtnPrestations = (this.idxBtnPrestations==0) ? 1 : 0;
-        this.buttons["Prestas"].label = this.buttonPrestationsLabels[this.idxBtnPrestations];
-        this.prestasComponent.updateFilters();
     }
 
     

@@ -44,25 +44,21 @@
                 <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values"
                                [(ngModel)]="filtres[col.field].selected"
                                [style]="{'max-width':'100%', 'min-width':'auto'}"
+                               [panelStyle]="{'min-width':'140px'}"
                                (onChange)="pt.filter($event.value, col.field, 'in')"
                                selectedItemsLabel="{0} sélectionnées"
-                                maxSelectedLabels="1"
-                >
-                   <!-- <ng-template let-items pTemplate="selectedItems">
-                        <span *ngIf="items.length>1" [style]="{'text-overflow':'ellipsis'}">{{items.length}} sélectionnés</span>
-                        <span *ngIf="items.length==1" [style]="{'text-overflow':'ellipsis'}">{{items[0]}}</span>
-                        <span *ngIf="items.length==0" [style]="{'text-overflow':'ellipsis'}">Sélectionnez</span>
-                    </ng-template>-->
+                               maxSelectedLabels="1">
                 </p-multiSelect>
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
                     <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
                                 dateFormat="{{filtres[col.field].fmt}}" [locale]="fr" (onSelect)="pt_filter($event, pt, col.field);"
                                 (onClearClick)="pt_filter($event, pt, col.field);"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [selectOtherMonths]="true"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis', 'padding':'6px 6px'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}"      >
-                        <p-header *ngIf="col.field=='dateDebutPrestation'" ><div style="width:175px">A partir de :</div></p-header>
-                        <p-header *ngIf="col.field=='dateFinPrestation'"><div style="width:175px">Jusqu'au :</div></p-header>
+                        <p-header *ngIf="col.field=='dateDebutPrestation'" ><div style="width:200px">A partir de :</div></p-header>
+                        <p-header *ngIf="col.field=='dateFinPrestation'"><div style="width:200px">Jusqu'au :</div></p-header>
                     </p-calendar>
                 </div>
 

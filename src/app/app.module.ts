@@ -117,7 +117,7 @@ import {
     MissionService,
     NumAtgService,
     PrestationService,
-    ReferencielService,
+    ReferentielService,
     SiteService,
     SocieteSttService
 } from "./service/datas.service";
@@ -238,7 +238,7 @@ export function tokenGetter() {
         AlertService,
         CollaborateurService,
         DataService,
-        ReferencielService,
+        ReferentielService,
         NumAtgService,
         MissionService,
         PrestationService,

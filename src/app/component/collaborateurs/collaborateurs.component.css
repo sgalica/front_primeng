@@ -27,14 +27,20 @@ th {
 }
 
 .tablecol:hover div {
-    background-color: white;
-    position :absolute;
-    padding : 2px 2px 2px 0px;
-    margin-top:-9px;
+    background: white;
+    border-radius : 5px;
+    position : absolute;
+    padding : 10px 5px 10px 5px;
+    margin-top : -17px;
+    box-shadow : 2px 2px 5px #c0d0c0;
+}
+
+.tablecol:hover div span {
+    text-shadow : 2px 2px 2px #c0d0c0;
 }
 
 ::ng-deep .ui-fileupload-choose{
-    overflow: visible;
+    overflow : visible;
 }
 
 

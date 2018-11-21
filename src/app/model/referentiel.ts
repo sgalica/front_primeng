@@ -17,7 +17,7 @@ export class AtgModel {
 }
 
 
-export class Referenciel {
+export class Referentiel {
 
     id: any =0;
     collaborateurs: Collaborateur [] ;
