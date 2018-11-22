@@ -21,6 +21,10 @@ interface filteritem {
     selected: any;
     values: SelectItem[];
     keys: string[];
+    filtertype:string;
+    filtercond:string;
+    fmt;string;
+    fmt2:string;
 }
 
 @Component({
@@ -45,7 +49,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     prestations: Prestation[] = [];
     cols: any[];
     selectedColumns: any[];
-    filteritem: { selected: any, values: SelectItem[], keys: string[], type: string, filtercond: string, fmt:string, fmt2:string };
+    filteritem: { selected: any, values: SelectItem[], keys: string[], filtertype: string, filtercond: string, fmt:string, fmt2:string };
     filtres: filteritem[] = [];
     coldefs: { header: string, field: string, filtertype: string, filtercond: string, fmt : string, fmt2:string }[];
     colsIndex : string[];
@@ -141,14 +145,18 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.createStatusIndex();
 
         this.FieldsFiches=[
-            {grp: "collaborateur",  grplabel : "Prestataire",       fields : [{name:"trigramme", type:"field"}, {name:"nom", type:"field"}, {name:"prenom", type:"field"}]},
-            {grp: "contrat",        grplabel : "Contrat",           fields : [{name:"contratAppli", type:"combo"},{name:"dateDebutContrat", type:"date"},{name:"dateFinContrat", type:"date"}]},
-            {grp: "Prestation",     grplabel : "Prestation",        fields : [{name:"localisation", type:"combo"}, {name:"numAtg", type:"combo"},
-                    {name:"departement", type:"combo"}, {name:"pole", type:"combo"}, {name:"domaine", type:"combo"},
-                    {name:"numeroPu", type:"field"},{name:"dateDebutPrestation", type:"date"}, {name:"dateFinPrestation", type:"date"},
-                    {name:"responsablePole", type:"field"},
-                    {name:"donneurOrdre", type:"combo"}]},
-            {grp: "commercialOpenInfo",     grplabel : "Commercial OPEN",   fields : [{name:"commercialOpen", type:"combo"}, {name:"adresseMail", type:"field"}, {name:"telephonePortable", type:"field"}, {name:"telephoneFixe", type:"field"} ] }
+            {grp: "collaborateur",  grplabel : "Prestataire",
+                fields :   [{name:"trigramme",      type:"field"},                 {name:"nom",                 type:"field"},                  {name:"prenom",             type:"field"}]},
+            {grp: "contrat",        grplabel : "Contrat",
+                fields :   [{name:"contratAppli",   type:"combo", editable:false}, {name:"dateDebutContrat",    type:"date"},                   {name:"dateFinContrat",     type:"date"}]},
+            {grp: "Prestation",     grplabel : "Prestation",
+                fields :   [{name:"localisation",   type:"combo", editable:false}, {name:"numAtg",              type:"combo", editable:false},
+                            {name:"departement",    type:"combo", editable:false}, {name:"pole",                type:"combo", editable:false},  {name:"domaine",            type:"combo", editable:false},
+                            {name:"numeroPu",       type:"field"},                 {name:"dateDebutPrestation", type:"date"},                   {name:"dateFinPrestation",  type:"date"},
+                            {name:"responsablePole",type:"combo", editable:true},
+                            {name:"donneurOrdre",   type:"combo", editable:false}]},
+            {grp: "commercialOpenInfo", grplabel : "Commercial OPEN",
+                fields :   [{name:"commercialOpen", type:"combo", editable:false}, {name:"adresseMail",         type:"field"},                  {name:"telephonePortable",  type:"field"},      {name:"telephoneFixe", type:"field"} ] }
         ];
 
         this.initFilters();
@@ -185,7 +193,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     showCollab(pCollab:Collaborateur) {
-        if (pCollab!=null) this.collab=pCollab;
+        if (pCollab!=null)
+            this.collab=pCollab;
+
         this.id = this.collab.trigramme;
         this.employee_name = this.collab.prenom + " " + this.collab.nom;
         this.selectPrestations(this.collab.prestations);
@@ -198,7 +208,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     orderfilterPrestations() {
-        this.prestations.sort(this.orderDateDebutEtVersion);
+        if (this.prestations!=undefined)
+            this.prestations.sort(this.orderDateDebutEtVersion);
         //this.filterVersions();
     }
 
@@ -261,11 +272,16 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     initFilters() {
         // Create filterliste
-        this.coldefs.forEach(x => {
-            var filteritem = (x.filtertype == "liste") ? { selected: [], values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond, fmt: x.fmt, fmt2: x.fmt2  }
-            : {selected: "", values: "", keys: [], filtertype: x.filtertype, filtercond: x.filtercond, fmt: x.fmt, fmt2: x.fmt2 };
-            this.filtres[ x.field ] = filteritem;
-        });
+        if (this.coldefs != undefined) {
+            this.coldefs.forEach(x => {
+                var filteritem = (x.filtertype == "liste") ? {                    selected: [],                    values: [],                    keys: [],                    filtertype: x.filtertype,
+                        filtercond: x.filtercond,                    fmt: x.fmt,                    fmt2: x.fmt2                }
+                    : {                    selected: "",                    values: "",                    keys: [],                    filtertype: x.filtertype,
+                        filtercond: x.filtercond,                    fmt: x.fmt,                    fmt2: x.fmt2
+                    };
+                this.filtres[x.field] = filteritem;
+            });
+        }
      };
 
     selectPrestation(event: Event, prestation: Prestation) {
@@ -333,12 +349,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     loadAllPrestations() {
-        //console.log("Prestations from db:");
         this.prestationService.list()
             .pipe(first())
             .subscribe(prestations => {
-                    this.selectPrestations( prestations);
+                    this.selectPrestations(prestations);
                     this.filterVersions();
+                    // RespsPole : If all prestations loaded, we can take values from filters
+                    var ref = "responsablePole";
+                    Array.prototype.push.apply(this.references[ref], this.filtres[ref].values);
                     //this.alertService.success(prestations);
                 },
                 error => {
@@ -352,39 +370,46 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.initFilters();
         // trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version
         var labels: string[] = [];  // Labels collabs
-        this.prestations.forEach(x => {
+        if (this.prestations != undefined) {
+            this.prestations.forEach(row => {
 
-            // Retrieve trigramme if acces by table presta (done here to avoid double foreach)
-            if (x.collaborateur != undefined)
-                x.trigramme = x.collaborateur.trigramme;
+                // Retrieve trigramme if acces by table presta (done here to avoid double foreach)
+                if (row.collaborateur != undefined)
+                    row.trigramme = row.collaborateur.trigramme;
 
-            // Format dates
-            var datearr = x.dateDebutPrestation.split("/"); //dd/mm/yyyy
-            x.dateDebutPrestation = new Date(datearr[2], datearr[1]-1, datearr[0]);
-            datearr = x.dateFinPrestation.split("/");
-            x.dateFinPrestation = new Date(datearr[2], datearr[1]-1, datearr[0]);
+                // Format dates
+                var datearr = row.dateDebutPrestation.split("/"); //dd/mm/yyyy
+                row.dateDebutPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
+                datearr = row.dateFinPrestation.split("/");
+                row.dateFinPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
 
-            //x.dateDebutPrestationTri = this.datePipe.transform(x.dateDebutPrestation, 'yyyy-MM-dd'); //x.dateDebutPrestation.valueOf();
+                //x.dateDebutPrestationTri = this.datePipe.transform(x.dateDebutPrestation, 'yyyy-MM-dd'); //x.dateDebutPrestation.valueOf();
 
-            // >>>> Get keys <<<<<
-            for (var column in this.filtres) {
-                var keyvalue = x[ column ];
-                var value="";
-                switch (column) {
-                    case "trigramme" :
-                        value = keyvalue;
-                        labels[ keyvalue ] = keyvalue;
-                        if (x.collaborateur != undefined)
-                            labels[ keyvalue ] += " (" + x.collaborateur.nom + " " + x.collaborateur.prenom + ")";
-                        break;
-                    case "statutPrestation":
-                        value = keyvalue;
-                        break;
+                // >>>> Get keys <<<<<
+                for (var column in this.filtres) {
+                    var keyvalue = row[column];
+                    var value = "";
+                    switch (column) {
+
+                        case "trigramme" :
+                            value = keyvalue;
+                            labels[keyvalue] = keyvalue;
+                            if (row.collaborateur != undefined)
+                                labels[keyvalue] += " (" + row.collaborateur.nom + " " + row.collaborateur.prenom + ")";
+                            break;
+
+                        case "statutPrestation":
+                            value = keyvalue;
+                            break;
+
+                        default :
+                            value = (this.filtres[column].filtertype == "date") ? keyvalue : (keyvalue == undefined || keyvalue == null) ? "" : keyvalue.trim();
+
+                    }
+                    this.filtres[column].keys[value] = value;
                 }
-                //if (keyvalue != undefined && keyvalue != null )
-                this.filtres[ column ].keys[ keyvalue ] = value;
-            }
-        });
+            });
+        }
 
         let selectitems: SelectItem[] = [];
         for (var column in this.filtres) {
@@ -428,7 +453,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             this.filtres[ column ].values = selectitems;
         }
-
     }
 
     loadPrestationsCollab(idemployee) {
@@ -461,8 +485,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // Multiselect
         var status: string[] = this.filtres[ "statutPrestation" ].selected; // this.selectedPrestas.status;
 
-        /*
-        // Combo : si pas de sélection : afficher tout
+        /*// Combo : si pas de sélection : afficher tout
+        status=[this.selectedPrestas.statut];
         if (this.selectedPrestas.statut=="") {
             status = ['E', 'T', 'S'];
             if (this.selectedPrestas.version != "") {
@@ -470,9 +494,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 //Array.prototype.push.apply(status, statushist);
                 Array.prototype.push.apply(status, ['A']);
             }
-        }
-        else {
-            status=[this.selectedPrestas.statut];
         }*/
 
         this.pt.filter(status, 'statutPrestation', 'in');
@@ -518,7 +539,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     
  
     loadReferences() {
-        var referenceslist=["localisation", "numAtg", "departement","pole","domaine","responsablePole","donneurOrdre","commercialOpen"];
+        var referenceslist=["localisation","numAtg","departement","pole","domaine","responsablePole","donneurOrdre","commercialOpen"];
         this.references = []; referenceslist.forEach( ref => { this.references[ref]=[]; } );
 
         this.loadContrats();
@@ -527,7 +548,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.loadDonneurOrdre();
         this.loadCommercialOpen();
         this.loadEquipe();    //this.loadDepartements();   //this.loadPoles();    //this.loadDomaines();
-       // this.loadRespsPoles();
+        this.loadRespsPoles();
     }
     
     loadContrats() {
@@ -672,13 +693,34 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     loadRespsPoles() {
+
         var ref="responsablePole";
-        //var selectitem : SelectItem = { value: "", label: "" };
+        var value = ref;
+        var label = ref;
 
-       // Array.prototype.push.apply(this.references[ref], this.filtres[ref].values);
+        if (this.modeCollab) {
+            this.references[ref]=[];
+            this.prestationService.list()
+                .pipe(first())
+                .subscribe( rows => {
 
-        //this.references[ref].push({ value: x[value], label: x[label] });
-        //this.references[ref].sort(this.orderSelectItems);
+                        // get keys
+                        var keys : string[] = [];
+                        rows.forEach( row => {
+                            row[ref] = (row[ref] == undefined || row[ref] == null ) ? "" : row[ref].trim();
+                            keys[row[ref]]=row[label];
+                            }
+                        );
+                        // Add to liste
+                        for (var k in keys) {
+                            this.references[ref].push({ value: k, label: keys[k] });
+                        }
+
+                        this.references[ref].sort(this.orderSelectItems);
+                    },
+                    error => { this.alertService.error(error); }
+                );
+        }
     }
 
     ngOnChanges(changes: SimpleChanges) {

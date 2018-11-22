@@ -250,15 +250,8 @@ export class CollaborateursComponent implements OnInit {
                         labels[ row[ column ] ] = row[ column ] + " (" + row.nom + " " + row.prenom + ")";
                         break;
                     default :
-                        var value = row[ column ];
-                        if (value == undefined || value == null ) {
-                            row[column] = "";
-                        }
-                        else {
-                            row[column] = value.trim();
-                        }
-                        value = row[column];
-                        this.filtres[ column ].keys[ value ] = "";
+                        row[column] = (row[column] == undefined || row[column] == null ) ? "" : row[column].trim();
+                        this.filtres[ column ].keys[ row[column] ] = "";
                 }
             }
         });

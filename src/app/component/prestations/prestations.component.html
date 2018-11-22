@@ -113,7 +113,7 @@
 <!-- >>>>>>>>>>>>>>> F I C H E <<<<<<<<<<<<<<<<<<<-->
 <!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
 
-<p-dialog [(visible)]="displayDialogPresta" appendTo="body" [responsive]="true" [modal]="true" [style]="{'min-height' : '300px'}">
+<p-dialog [(visible)]="displayDialogPresta" appendTo="body" [responsive]="true" [modal]="true" [contentStyle]="{'overflow':'visible'}">
 
     <p-header>
         <span style="display:inline-block; width:80%">{{title}}</span><span style="display:inline-block">Statut "{{allstatusidx[selectedPrestation['statutPrestation']]}}" - Version {{selectedPrestation['versionPrestation']}}</span>
@@ -121,22 +121,22 @@
 
     <!--span class="ui-inputgroup-addon">Identifiant</span>
     <input type="text" pInputText placeholder="identifiant" value="{{selectedPrestation.prestId}}"-->
-    <div class="ui-g ui-fluid">
-
+    <div class="ui-g ui-fluid myFieldset" [style]="{'height' : '450px'}">
         <p-fieldset *ngFor="let fiche of FieldsFiches" legend="{{fiche.grplabel}}" [ngSwitch]="fiche.grp" class="ui-g-12 ui-md-6">
 
             <div *ngIf="fiche.grp == 'contrat' || fiche.grp == 'collaborateur' || fiche.grp == 'commercialOpenInfo'">
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
 
-                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field.name]}}&nbsp;:</span>
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field.name]}}&nbsp;:</span>
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" [showIcon]="true" [showButtonBar]="true"
                                 dateFormat="dd/mm/yy" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
                     </p-calendar>
+
                     <!-- Un seul combo : celui du contrat -->
-                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [style]="{'width':'100%'}">
+                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [editable]="field.editable" [style]="{'width':'100%'}">
                         <ng-template let-item pTemplate="selectedItem">
-                            <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                            <span style="vertical-align:middle; margin-left:0em">{{item.label}}</span>
                         </ng-template>
                         <ng-template let-contrat pTemplate="item">
                             <div class="ui-helper-clearfix" style="position:relative;">
@@ -145,28 +145,28 @@
                         </ng-template>
                     </p-dropdown>
 
-                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[fiche.grp][field.name]">
+                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[fiche.grp][field.name]" style="width:auto">
                 </div>
             </div>
             <div *ngIf="fiche.grp == 'Prestation'">
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
                     
-                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field.name]}}&nbsp;:</span>
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field.name]}}&nbsp;:</span>
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[field.name]" [showIcon]="true" [showButtonBar]="true"
                                 dateFormat="dd/mm/yy" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
                     </p-calendar>
 
-                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [style]="{'width':'100%'}">
-                        <ng-template let-item pTemplate="selectedItem"><span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span></ng-template>
+                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [editable]="field.editable" [style]="{'width':'100%'}">
+                        <ng-template let-item pTemplate="selectedItem"><span>{{item.label}}</span></ng-template>
                         <ng-template let-itembis pTemplate="item">
                             <div class="ui-helper-clearfix" style="position:relative;">
-                                <div style="font-size:14px;float:left;margin-top:4px">{{itembis.label}}</div>
+                                <div style="font-size:14px; float:left; margin-top:4px">{{itembis.label}}</div>
                             </div>
                         </ng-template>
                     </p-dropdown>
 
-                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[field.name]">
+                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[field.name]" style="width:auto">
                 </div>
             </div>
         </p-fieldset>

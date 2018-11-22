@@ -93,22 +93,23 @@
             <div *ngSwitchCase="'Mission'">
                 <div *ngIf="lastMission">
                     <div *ngFor="let field of fiche.fields" class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%','text-align':'left', 'background-color':'#f5fafb'}">{{colsIndex[field]}} :</span>
-                        <input type="text" pInputText [(ngModel)]="lastMission[field]">
+                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left', 'background-color':'#f5fafb'}">{{colsIndex[field]}} :</span>
+                        <input type="text" pInputText [(ngModel)]="lastMission[field]" style="width:auto">
                     </div>
                 </div>
                 <div *ngIf="lastMission==null">
                     Il n'existe aucune mission pour ce collaborateur.
                 </div>
             </div>
+
             <div *ngSwitchDefault>
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field">
 
-                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'30%', 'text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field]}} :</span>
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field]}} :</span>
 
                     <p-dropdown *ngSwitchCase="'categorisation'" [options]="categorisations" [(ngModel)]="selectedCollaborateur[field]" filter="true" [style]="{'width':'100%'}">
                          <ng-template let-item pTemplate="selectedItem">
-                             <span style="vertical-align:middle; margin-left: .5em">{{item.label}}</span>
+                             <span>{{item.label}}</span>
                          </ng-template>
                          <ng-template let-categorisation pTemplate="item">
                              <div class="ui-helper-clearfix" style="position:relative;">
@@ -117,9 +118,11 @@
                          </ng-template>
                     </p-dropdown>
 
-                    <span *ngSwitchCase="'stt'" [ngStyle]="{'width':'70%', 'display':'inline-block'}"><p-dropdown [options]="ouinon" [(ngModel)]="selectedCollaborateur[field]" placeholder="?"></p-dropdown></span>
+                    <span *ngSwitchCase="'stt'" [ngStyle]="{'width':'70%', 'display':'inline-block'}">
+                        <p-dropdown [options]="ouinon" [(ngModel)]="selectedCollaborateur[field]" placeholder="?"></p-dropdown>
+                    </span>
 
-                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field]">
+                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field]" style="width:auto">
              </div>
          </div>
      </p-fieldset>
