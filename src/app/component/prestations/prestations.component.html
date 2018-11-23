@@ -33,7 +33,6 @@
 
         <tr>
             <th *ngFor="let col of columns" [className]="'col'+filtres[col.field].filtertype">{{col.header}}</th>
-            <!--th></th-->
             <th style="border-top:none; background-color:#f5f5f5; width:140px"></th>
         </tr>
 
@@ -88,14 +87,14 @@
 
     <ng-template pTemplate="body" let-rowData let-columns="columns">
 
-        <tr [pSelectableRow]="rowData">
+        <tr [pSelectableRow]="rowData" [className]="'Statut'+rowData['statutPrestation']">
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
                 <span *ngSwitchCase="'date'">{{rowData[col.field] | date:filtres[col.field].fmt2 }}</span>
                 <span *ngSwitchDefault>{{rowData[col.field]}}</span>
             </td>
-            <!--td>{{rowData["dateDebutPrestationTri"]}}</td-->
+
             <td>
                 <div class="ui-toolbar-group-right">
                     <button pButton type="button" (click)="selectPrestation($event, rowData)" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom"></button>

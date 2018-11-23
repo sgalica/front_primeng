@@ -20,41 +20,17 @@ p-calendar input {
 }
 
 
-body table tbody > tr.StatutE  {  /*.ng-star-inserted*/
-    background-color : rgba(250,200,240,1);
-}
-tr.StatutE {
-    background-color : rgba(250,200,240,0.5);
-}
+tr.StatutE td {                 background-color : rgba(250,255,250,0.5); }
+tr:nth-child(even).StatutE td { background-color : rgba(230,240,240,0.5); }
+tr.StatutT td {                 background-color : rgba(230,230,230,0.5); }
+tr:nth-child(even).StatutT td { background-color : rgba(215,215,215,0.5); }
+tr.StatutS td {                 background-color : rgba(240,220,220,0.5); }
+tr:nth-child(even).StatutS td { background-color : rgba(220,200,200,0.5); }
 
-tr.StatutT {
-    background-color : rgba(200,200,200,0.2);
-}
-body .ui-table .ui-table-tbody > tr.StatutS {
-    background-color : rgba(200,250,240,0.2);
-}
+.col {      background-color: #d0e0d0;}
+.coldate {  background-color: #d0e0d0;  width: 135px; }
+.colliste { background-color: #d0e0d0;}
 
-body .ui-table .ui-table-tbody tr:nth-child(even).StatutE {
-    background-color : rgba(200,150,190,0.3);
-}
-body .ui-table .ui-table-tbody tr:nth-child(even).StatutT {
-    background-color : rgba(150,150,150,0.3);
-}
-body .ui-table .ui-table-tbody tr:nth-child(even).StatutS {
-    background-color : rgba(150,200,190,0.3);
-}
-
-.col {
-    background-color: #aac6aa;
-}
-
-.coldate {
-    background-color: #aac6aa;
-    width: 135px;
-}
-.colliste {
-    background-color: #aac6aa;
-}
 .coldate input {
     padding-left:2px; padding-right:1px;
 }
