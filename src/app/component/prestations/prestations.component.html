@@ -35,7 +35,7 @@
 
         <tr>
             <th *ngFor="let col of columns" [className]="'col'+filtres[col.field].filtertype">{{col.header}}</th>
-            <th style="border-top:none; background-color:#f5f5f5; width:140px"></th>
+            <th style="border-top:none; border-bottom:none; background-color:#f5f5f5; width:140px"></th>
         </tr>
 
 
@@ -64,7 +64,7 @@
                 </div>
 
              </th>
-            <!--th></th-->
+            <th ></th>
             <!--th *ngFor="let col of columns" [ngSwitch]="col.field">
                 <p-multiSelect *ngSwitchCase="'prestIdCollab'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values" [(ngModel)]="filtres[col.field].selected" [style]="{'width':'auto', 'min-width':'auto'}" (onChange)="this.pt.filter($event.target.value, col.field, 'in');"></p-multiSelect>
                 <input *ngSwitchCase="'prestDateDebut'" pInputText type="text" (input)="pt.filter($event.target.value, col.field, col.filterMatchMode)">
