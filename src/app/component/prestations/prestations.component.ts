@@ -403,10 +403,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
                             break;
 
                         default :
-                            value = (this.filtres[column].filtertype == "date") ? keyvalue : (keyvalue == undefined || keyvalue == null) ? "" : keyvalue.trim();
+                            value = (this.filtres[column].filtertype == "date") ? keyvalue : (keyvalue == undefined || keyvalue == null ) ? "" : keyvalue.trim();
 
                     }
                     this.filtres[column].keys[value] = value;
+                    // Enregistrer même valeur (vide) pour sélection
+                    if (value != keyvalue)
+                        row[column]=value;
                 }
             });
         }
@@ -438,14 +441,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 default : // trigramme, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type
                     // Sort
                     for (var key in this.filtres[ column ].keys) {
-                        col_sort.push(key);  //console.log("coll_sort after = ", key , JSON.stringify(col_sort) );
+                        col_sort.push(key);
                     }
                     col_sort.sort();
 
-                    // Add to liste
+                    // Add to filterlist
                     for (var k in col_sort) {
-                        //if ( this.filtres[column].keys.indexOf(col_sort[k])==-1)
-                        var label = (column == "trigramme") ? labels[ col_sort[ k ] ] : col_sort[ k ];
+                        var label = (col_sort[k]=="") ? " [ Vide ]" : (column == "trigramme") ? labels[ col_sort[ k ] ] : col_sort[ k ];
                         selectitems.push({label: label, value: col_sort[ k ]});
                     }
                     break;

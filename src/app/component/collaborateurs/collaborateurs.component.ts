@@ -281,7 +281,7 @@ export class CollaborateursComponent implements OnInit {
 
                     // Add to liste
                     for (var k in col_sort) {
-                        var label = (column == "trigramme") ? labels[ col_sort[ k ] ] : col_sort[ k ];
+                        var label = (col_sort[k]=="")? " [ Vide ]" : (column == "trigramme") ? labels[ col_sort[ k ] ] : col_sort[ k ];
                         selectitems.push({label: label, value: col_sort[ k ]});
                     }
                     break;
