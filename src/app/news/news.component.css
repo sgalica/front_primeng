@@ -18,4 +18,4 @@
 }
 
 
-::ng-deep body .ui-galleria-filmstrip, body .ui-galleria-frame,	.ui-galleria-caption,	.ui-galleria		{background-color: white}
+::ng-deep div > .ui-galleria-filmstrip-wrapper	{background-color: white}

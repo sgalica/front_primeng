@@ -29,8 +29,8 @@ export class AdministratorComponent implements OnInit {
     displayDialog: boolean;
     resetRef: boolean;
     loader: boolean[] = [false];
-    loaderImport: boolean = false;
-
+    loaderImport: boolean;
+    clearRef: boolean;
 
     sortOptions: SelectItem[];
 
@@ -59,7 +59,6 @@ export class AdministratorComponent implements OnInit {
     private viewfile: boolean;
     private apiresponse: ApiResponse;
     private worksheet: any;
-    clearRef: boolean;
 
     constructor(private router: Router,
                 private dataService: DataService,
@@ -70,7 +69,8 @@ export class AdministratorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.resetRef=true;
+        this.resetRef = true;
+
 
         const camelCase = require('camelcase');
 
@@ -135,13 +135,20 @@ export class AdministratorComponent implements OnInit {
         this.file = event.target.files[0];
     }
 
-    Upload(event) {
-        //
-        //
+    loading() {
+        this.loaderImport = true;
+
+    }
+
+    Upload(event, form) {
+
         this.file = event.files[0];
 
         let fileReader = new FileReader();
+
+
         fileReader.onload = (e) => {
+
             this.arrayBuffer = fileReader.result;
             const data = new Uint8Array(this.arrayBuffer);
             const arr = [];
@@ -230,10 +237,26 @@ export class AdministratorComponent implements OnInit {
             // on met a jour l'objet avec des colonnes camelisées
             this.alltable = temp;
 
+            //this.loaderImport=false;
 
         };
+
         fileReader.readAsArrayBuffer(this.file);
-        this.resetRef=false;
+        fileReader.onloadend = (e) => {
+            this.loaderImport = false
+        };
+        fileReader.removeEventListener = (e) => {
+            this.loaderImport = false
+        };
+
+        fileReader.onerror = (e) => {
+            this.loaderImport = false;
+
+            this.alertService.error("Une erreur s'est produite");
+        };
+        this.resetRef = false;
+        form && form.clear();
+
     }
 
     getModelMatch(T) {
@@ -250,7 +273,7 @@ export class AdministratorComponent implements OnInit {
 
         //var constructor;
         let modelList = new AtgModel();
-        let obj;
+        let obj = null;
 
         for (let x of Object.values(modelList)) {
 
@@ -285,7 +308,6 @@ export class AdministratorComponent implements OnInit {
 
             console.log("name of the property", x);
         }
-
         return obj;
     }
 
@@ -327,7 +349,7 @@ export class AdministratorComponent implements OnInit {
 
 
     cleanAllTable() {
-        this.resetRef=true;
+        this.clearRef = true;
 
         this.referentielService.deleteAll()
             .pipe(first())
@@ -337,14 +359,14 @@ export class AdministratorComponent implements OnInit {
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;
-                    this.resetRef=false;
+                    this.clearRef = false;
 
                     this.router.routeReuseStrategy.shouldReuseRoute = function () {
                         return false;
                     };
                 },
                 error => {
-                    this.loaderImport=false;
+                    this.clearRef = false;
 
                     console.log("data returned = ", error);
 
@@ -354,9 +376,8 @@ export class AdministratorComponent implements OnInit {
     }
 
 
-
-        saveAllRefTable(referentiel: any) {
-        this.loaderImport=true;
+    saveAllRefTable(referentiel: any) {
+        this.loaderImport = true;
 
         let convertedJson = referentiel;
         let cons = new Referentiel();
@@ -371,14 +392,14 @@ export class AdministratorComponent implements OnInit {
                     console.log("data returned = ", data);
                     this.alertService.success(this.apiresponse.message);
                     this.displayDialog = false;
-                    this.loaderImport=false;
+                    this.loaderImport = false;
 
                     this.router.routeReuseStrategy.shouldReuseRoute = function () {
                         return false;
                     };
                 },
                 error => {
-                    this.loaderImport=false;
+                    this.loaderImport = false;
 
                     console.log("data returned = ", error);
 
@@ -388,53 +409,63 @@ export class AdministratorComponent implements OnInit {
 
     }
 
-    saveRefTable(event: any, table: any, i:any) {
-        this.loader[i]=true;
+    saveRefTable(event: any, table: any, i: any) {
+        this.loader[i] = true;
 
         // permet d'empecher la propagation de l'evenement click pour que l'accordeon ne qouvre pas apres appuis sur le bouton
         event.stopPropagation();
         event.preventDefault();
-
+        let cons = null;
 
         let convertedJson: any;
-        let cons = this.getModelMatch(table);
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",         table);
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+        if(table.length>0){
+         cons = this.getModelMatch(table);
+        }
+        if (cons) {
+            console.log("LOGGING table:::::::::::::::::::::::", table);
+            console.log("LOGGING cons :::::::::::::::::::::::", cons);
+            convertedJson = this.convertJsonToModel(table, cons);
+            const temp = convertedJson.map(x => JSON.stringify(x));
+            console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
+            console.log("LOGGING temp :::::::::::::::::::::::", temp);
 
 
-        console.log("LOGGING table:::::::::::::::::::::::", table);
-        console.log("LOGGING cons :::::::::::::::::::::::", cons);
-        convertedJson = this.convertJsonToModel(table, cons);
-        const temp = convertedJson.map(x => JSON.stringify(x));
-        console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
-        console.log("LOGGING temp :::::::::::::::::::::::", temp);
+            // const temp = this.serviceMatcher.getServiceMatch(cons);
+            //console.log("LOGGING res :::::::::::::::::::::::", res);
+            //this.ReferentielService.createList(convertedJson)
 
+            this.dataService.getServiceMatch(cons).createList(convertedJson)
+            //this.missionService.createList(convertedJson)
+                .pipe(first())
+                .subscribe(
+                    data => {
+                        this.apiresponse = data as ApiResponse;
+                        console.log("data returned = ", data);
+                        this.alertService.success(this.apiresponse.message);
+                        this.displayDialog = false;
 
-        // const temp = this.serviceMatcher.getServiceMatch(cons);
-        //console.log("LOGGING res :::::::::::::::::::::::", res);
-        //this.ReferentielService.createList(convertedJson)
+                        this.loader[i] = false;
+                        this.router.routeReuseStrategy.shouldReuseRoute = function () {
+                            return false;
+                        };
+                    },
+                    error => {
+                        this.loader[i] = false;
 
-        this.dataService.getServiceMatch(cons).createList(convertedJson)
-        //this.missionService.createList(convertedJson)
-            .pipe(first())
-            .subscribe(
-                data => {
-                    this.apiresponse = data as ApiResponse;
-                    console.log("data returned = ", data);
-                    this.alertService.success(this.apiresponse.message);
-                    this.displayDialog = false;
+                        console.log("data returned = ", error);
 
-                    this.loader[i]=false;
-                    this.router.routeReuseStrategy.shouldReuseRoute = function () {
-                        return false;
-                    };
-                },
-                error => {
-                    this.loader[i]=false;
+                        this.alertService.error(error);
+                    });
 
-                    console.log("data returned = ", error);
-
-                    this.alertService.error(error);
-                });
-
+        }
+        else if (cons == null) {
+            this.alertService.error("Le format de donnée n'est pas geré");
+            this.loader[i] = false;
+        }
 
     }
 
