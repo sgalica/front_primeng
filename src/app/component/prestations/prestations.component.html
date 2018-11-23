@@ -4,28 +4,30 @@
     }
 </style>
 <p-toolbar>
-    <div class="ui-toolbar-group-right">
-        <button pButton type="button" label="Nouvelle prestation" icon="pi pi-plus"></button>
+    <div class="ui-toolbar-group-left"><span style="font-size:1.5em; display:inline-block; padding-top: 3px ">Liste des prestations {{employee_name}}</span></div>
+
+        <button pButton type="button" label="Nouvelle prestation" icon="pi pi-plus" style="float:right; margin:0px;"></button>
         <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
         <!--<i class="pi pi-bars"></i>-->
-    </div>
 </p-toolbar>
-<div>
-    <p></p>
-</div>
-
+<div style="height: 5px"> </div>
 <p-table #pt [columns]="selectedColumns" [value]="prestations" [paginator]="true" [rows]="10">
 
     <ng-template pTemplate="caption">
-        <div class="ui-toolbar-group-left">PRESTATIONS {{employee_name}}</div>
-        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="text" pInputText size="50" placeholder="Chercher dans la liste"
-               (input)="pt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        <div style="height:30px">
+            <div class="ui-toolbar-group-left">
+                <!-- Global search -->
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Chercher dans la liste"
+                       (input)="pt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            </div>
 
-        <div class="ui-toolbar-group-right">
-            <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"
-                           selectedItemsLabel="{0} colonnes sélectionnées" [style]="{minWidth: '200px'}"
-                           defaultLabel="Choix des colonnes"></p-multiSelect>
+            <!-- Choix colonnes -->
+            <div class="ui-toolbar-group-right">
+                <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"
+                               selectedItemsLabel="{0} colonnes sélectionnées" [style]="{minWidth: '200px'}"
+                               defaultLabel="Choix des colonnes"></p-multiSelect>
+            </div>
         </div>
     </ng-template>
 

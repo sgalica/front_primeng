@@ -1,21 +1,23 @@
-<p-toolbar>
-    <div class="ui-toolbar-group-right">
-        <button pButton type="button" label="Nouveau collaborateur" icon="pi pi-plus"
-                (click)="afficherLaSaisie($event)"></button>
-    </div>
+<p-toolbar >
+    <div class="ui-toolbar-group-left"><span style="font-size:1.5em; display:inline-block; padding-top: 3px ">Liste des collaborateurs</span></div>
+    <!-- Btn New Collab -->
+    <button pButton type="button" label="Nouveau collaborateur" icon="pi pi-plus" (click)="afficherLaSaisie($event)" style="float:right; margin:0px;"></button>
 </p-toolbar>
-<br>
-
+<div style="height: 5px"> </div>
 <p-table #dt [columns]="selectedColumns" [value]="collaborateurs" [paginator]="true" [rows]="10">
+
     <ng-template pTemplate="caption">
-        <div class="ui-toolbar-group-left">La liste des collaborateurs</div>
-        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-        <input type="search" pInputText size="50" placeholder="Chercher dans la liste"
-               (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
-        <div class="ui-toolbar-group-right">
+        <div style="height:30px">
+        <div class="ui-toolbar-group-left">
+            <!-- Global search -->
+            <i class="fa fa-search" style="margin:4px 4px"></i><input type="search" pInputText size="40" placeholder="Chercher dans la liste" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+        </div>
+
+        <!-- Choix colonnes -->
+        <div class="ui-toolbar-group-right" style="vertical-align: middle; text-align: right" >
             <p-multiSelect [options]="cols" [showToggleAll]="" [(ngModel)]="selectedColumns" optionLabel="header"
-                           selectedItemsLabel="{0} colonnes sélectionnées" [style]="{minWidth: '200px'}"
-                           defaultLabel="Choix des colonnes"></p-multiSelect>
+                           selectedItemsLabel="{0} colonnes sélectionnées" defaultLabel="Choix des colonnes" [style]="{minWidth: '150px'}"></p-multiSelect>&nbsp;
+        </div>
         </div>
     </ng-template>
 
@@ -24,7 +26,8 @@
 
         <tr>
             <th *ngFor="let col of columns" [className]="'col'">{{col.header}}</th>
-            <th style="border-top:none; background-color:#f5f5f5; width:140px"></th>
+            <th style="border-top:none; background-color:#f5f5f5; width:140px">
+            </th>
         </tr>
 
         <!-- FILTRES -->
@@ -50,7 +53,7 @@
                     </p-calendar>
                 </div>
             </th>
-
+            <th></th>
         </tr>
     </ng-template>
 
