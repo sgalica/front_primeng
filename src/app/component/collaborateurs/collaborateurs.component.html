@@ -9,8 +9,9 @@
     <ng-template pTemplate="caption">
         <div style="height:30px">
         <div class="ui-toolbar-group-left">
+
             <!-- Global search -->
-            <i class="fa fa-search" style="margin:4px 4px"></i><input type="search" pInputText size="40" placeholder="Chercher dans la liste" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+            <i class="fa fa-search" style="margin:4px 4px"></i><input type="search" pInputText size="20" placeholder="Chercher dans la liste" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
         </div>
 
         <!-- Choix colonnes -->
@@ -196,8 +197,9 @@
 <!-- Dynamic way : ng-template ad-host></ng-template-->
 <!--div [ngStyle]="{'display': showPrestas}"-->
 
-<p-dialog [(visible)]="displayDialog2" [responsive]="true" [modal]="true" (onHide)="displayDialog2=false" [styleClass]="'importcsv'" [contentStyle]="{'overflow':'visible'}" >
-    <app-prestations [collab]="selectedCollaborateur"></app-prestations>
+<p-dialog [(visible)]="displayDialog2" [responsive]="true" [modal]="true" (onHide)="displayDialog2=false" [styleClass]="'importcsv'" [contentStyle]="{'overflow':'visible', 'padding':'0px', 'border':'0px'}"
+          [showHeader]="false">
+    <app-prestations [collab]="selectedCollaborateur" (closewindowPrestas)="onClosewindowPrestas($event)"></app-prestations>
 </p-dialog>
 
 

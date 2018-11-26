@@ -365,7 +365,10 @@ export class CollaborateursComponent implements OnInit {
         //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
     }
 
-    
+
+    onClosewindowPrestas() {
+        this.displayDialog2=false;
+    }
     
     /************************************************************************************************************/
     saveimportedCollaborateurs() {

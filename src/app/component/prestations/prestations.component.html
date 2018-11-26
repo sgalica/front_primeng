@@ -6,6 +6,7 @@
 <p-toolbar>
     <div class="ui-toolbar-group-left"><span style="font-size:1.5em; display:inline-block; padding-top: 3px ">Liste des prestations {{employee_name}}</span></div>
 
+        <button *ngIf="modeCollab" pButton type="button" styleClass="ui-button-icon" icon="pi pi-times" style="float:right; margin:0px 0px 0px 5px; background-color:transparent; color:gray; font-size: 1.2em; margin-top:-3px;" (click)="closeDialog()" ></button>
         <button pButton type="button" label="Nouvelle prestation" icon="pi pi-plus" style="float:right; margin:0px;"></button>
         <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
         <!--<i class="pi pi-bars"></i>-->
@@ -18,7 +19,7 @@
             <div class="ui-toolbar-group-left">
                 <!-- Global search -->
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Chercher dans la liste"
+                <input type="text" pInputText size="20" placeholder="Chercher dans la liste"
                        (input)="pt.filterGlobal($event.target.value, 'contains')" style="width:auto">
             </div>
 

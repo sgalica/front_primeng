@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -16,6 +16,8 @@ import {
     SiteService
 } from "../../service/datas.service";
 import {DatePipe} from "@angular/common";
+import {CollaborateursComponent} from "../collaborateurs/collaborateurs.component";
+//import {CollaborateursComponent} from "../collaborateurs/collaborateurs.component";
 
 interface filteritem {
     selected: any;
@@ -36,8 +38,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     title : string="Prestation";
 
-    @Input()
-    collab: Collaborateur;
+    @Input() collab: Collaborateur;
+    @Output() closewindowPrestas = new EventEmitter<boolean>();
 
     @ViewChild(('pt'))
     pt: DataTable;
@@ -95,7 +97,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
         private donneurOrdreService: DonneurOrdreService,
         private commercialOpenService: CommercialOpenService,
         private employeeService: CollaborateurService,
-        private router: Router, private route: ActivatedRoute, private alertService: AlertService, private datePipe:DatePipe ) {}
+        private router: Router, private route: ActivatedRoute, private alertService: AlertService, private datePipe:DatePipe
+        //, @Host() private myparent : CollaborateursComponent
+        //,@Inject(CollaborateursComponent) private myparent: CollaborateursComponent
+    ) {}
 
     ngOnInit() {
 
@@ -733,4 +738,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }
     }
 
+    closeDialog() {
+        this.closewindowPrestas.emit();
+      //this.myparent.displayDialog2=false;
+    }
 }
