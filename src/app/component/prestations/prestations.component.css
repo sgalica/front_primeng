@@ -14,8 +14,7 @@ th input {    width: 100%;}
 
 
 p-calendar input {
-/*    display:inline-block;
-    width:100%;*/
+/*  width:100%;*/
     text-overflow: ellipsis;
 }
 

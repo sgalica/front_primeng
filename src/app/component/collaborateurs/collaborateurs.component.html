@@ -65,7 +65,8 @@
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" class="tablecol">
-                <div><span>{{rowData[col.field]}}</span>
+                <div>
+                    <span>{{rowData[col.field]}}</span>
                 </div>
             </td>
 
@@ -128,10 +129,10 @@
                     </span>
 
                     <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field]" style="width:auto">
+                 </div>
              </div>
-         </div>
-     </p-fieldset>
- </div>
+         </p-fieldset>
+     </div>
 
 
     <!-- FOOTER -->
@@ -191,6 +192,8 @@
     </p-tabView-->
 
 </p-dialog>
+
+
 
 <!-- PRESTATIONS -->
 <!--app-prestations *ngIf="bShowPrestas"></app-prestations-->
