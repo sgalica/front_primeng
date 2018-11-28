@@ -21,7 +21,8 @@ interface filteritem {
 @Component({
     selector: 'app-collaborateurs',
     templateUrl: './collaborateurs.component.html',
-    styleUrls: ['./collaborateurs.component.css']
+    styleUrls: ['./collaborateurs.component.css'],
+    providers : [CollaborateurService ]
 })
 export class CollaborateursComponent implements OnInit {
 
@@ -50,7 +51,8 @@ export class CollaborateursComponent implements OnInit {
     // Références
     allstatus: { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
     allstatusidx : string[];
-    categorisations : SelectItem[]=[];
+    references : any[]=[];
+
     ouinon: { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
 
     private msgs: Message[];
@@ -68,17 +70,19 @@ export class CollaborateursComponent implements OnInit {
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
     buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Visualiser les prestations"]; idxBtnPrestations : number =0;
     buttons_list : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
-    buttons : {label:String, disabled:Boolean}[]= [];
+    buttons : Object;
     
     fr:any;
 
     FieldsFiches : any[];
 
-    constructor(private collaborateurService: CollaborateurService, private router: Router, private alertService: AlertService, private datePipe:DatePipe, private categorieService: CategorieService,) {
+    constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService,
+                private router: Router, private alertService: AlertService, private datePipe:DatePipe) {
     }
     /*   ngOnChanges(): void { const camelCase = require('camelcase'); }*/
 
     ngOnInit() {
+
         this.displayDialog2=false;
 
         const camelCase = require('camelcase');
@@ -128,13 +132,15 @@ export class CollaborateursComponent implements OnInit {
             clear: 'Effacer'
         };
 
-        this.buttons["Save"] = {label:"Enregistrer", disabled:true};
-        this.buttons["Create"] = {label:"Créer une prestation", disabled:true};
-        this.buttons["Prestas"] = {label:this.buttonPrestationsLabels[0], disabled:false};
-        this.buttons["EndMission"] = {label:"Terminer la mission", disabled:true};
-        this.buttons["Delete"] = {label:"Supprimer le collaborateur", disabled:true};
-        this.buttons["ReOpen"] = {label:"Réactiver le collaborateur", disabled:true};
-        this.buttons["Cancel"] = {label:"Annuler", disabled:true};
+        this.buttons = {
+            "Save" : {label:"Enregistrer", disabled:true},
+            "Create" : {label:"Créer une prestation", disabled:true},
+            "Prestas" : {label:this.buttonPrestationsLabels[0], disabled:false},
+            "EndMission" : {label:"Terminer la mission", disabled:true},
+            "Delete" : {label:"Supprimer le collaborateur", disabled:true},
+            "ReOpen" : {label:"Réactiver le collaborateur", disabled:true},
+            "Cancel" : {label:"Annuler", disabled:true}
+        };
 
         this.loadAllCollaborateurs();
 
@@ -142,8 +148,6 @@ export class CollaborateursComponent implements OnInit {
         // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
         // Prestations (dynamique) : this.loadPrestationComponent();
     }
-
-    // onDialogHide() { this.selectedCollaborateur = null;  }
 
     loadAllCollaborateurs() {
 
@@ -160,18 +164,27 @@ export class CollaborateursComponent implements OnInit {
     }
 
     loadCategorisations() {
-        var selectitem : SelectItem = { value: "", label: "" };
-        this.categorisations=[];
+        this.references["categorisations"] = [];
 
-        this.categorieService.list()
+        var fld = {ref:"categorisations", key:"categorisation", label:"categorisation", labelbis:"libelle"} ;
+        this.loadTableKeyValues(fld, this.categorieService, this.references );
+    }
+
+    loadTableKeyValues(fld, tableService, itemsarray) {
+        tableService.list()
             .pipe(first())
             .subscribe(
-                categories => {
-                    categories.forEach( x => {
-                            this.categorisations.push({ value: x.categorisation, label: x.categorisation +" (" + x.libelle+")" });
+                rows => {
+                    itemsarray[fld.ref]=[];
+                    var label="";
+                    rows.forEach( x => {
+                            label = x[fld.label];
+                            if (fld.labelbis!="")
+                                label += " (" + x[fld.labelbis]+")"
+                            itemsarray[fld.ref].push({ value: x[fld.key], label: label  });
                         }
                     );
-                    this.categorisations.sort(this.orderSelectItems);
+                    itemsarray[fld.ref].sort(this.orderSelectItems);
                 },
                 error => { this.alertService.error(error); }
             );
@@ -180,19 +193,17 @@ export class CollaborateursComponent implements OnInit {
 
     // Tri sur trigramme (asc) et version (desc)
     orderTrigrammeVersion(a, b) {
-        let after = 0;
-        var trigramme = "trigramme";
-        var version = "versionCollab";
-        after = a[trigramme] > b[trigramme] ? 1 : a[trigramme] < b[trigramme] ? -1 : 0;
-        if (after == 0) {
-            after = a[version] > b[version] ? -1 : a[version] < b[version] ? 1 : 0;
-        }
-        return after;
+        var fld="trigramme";
+        let after = (a[fld] > b[fld]) ? 1  : (a[fld] < b[fld]) ? -1 : 0;
+        fld = "versionCollab";
+        return (after == 0) ? 0 : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ?  1 : 0;
     }
 
     orderSelectItems(a, b) {
-        return a["value"] > b["value"] ? 1 : a["value"] < b["value"] ? -1 : 0;
+        var fld="value";
+        return (a[fld] > b[fld]) ? 1  : (a[fld] < b[fld]) ? -1 : 0;
     }
+
 
     selectColumns() {
         this.cols = [];

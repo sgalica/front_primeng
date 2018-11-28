@@ -5,16 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
 import {Collaborateur, CommercialOpen, Contrat, Prestation} from "../../model/referentiel";
-import {
-    CollaborateurService,
-    CommercialOpenService,
-    ContratService,
-    DonneurOrdreService,
-    EquipeService,
-    NumAtgService,
-    PrestationService,
-    SiteService
-} from "../../service/datas.service";
+import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService} from "../../service/datas.service";
 import {DatePipe} from "@angular/common";
 
 interface filteritem {
@@ -30,19 +21,20 @@ interface filteritem {
 @Component({
     selector: 'app-prestations',
     templateUrl: './prestations.component.html',
-    styleUrls: [ './prestations.component.css' ]
+    styleUrls: [ './prestations.component.css' ],
+    providers : [PrestationService ]
 })
 export class PrestationsComponent implements OnInit, OnChanges {
 
-    title : string="Prestation";
+    title : string = "Prestation";
 
-    @Input() collab: Collaborateur;
+    @Input()  collab : Collaborateur;
     @Output() closewindowPrestas = new EventEmitter<boolean>();
 
     @ViewChild(('pt'))
     pt: DataTable;
 
-    modeCollab: boolean = false;
+    modeCollab : boolean = false;
 
 
     // Liste
@@ -51,7 +43,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     selectedColumns: any[];
     filteritem: { selected: any, values: SelectItem[], keys: string[], filtertype: string, filtercond: string, fmt:string, fmt2:string };
     filtres: filteritem[] = [];
-    coldefs: { header: string, field: string, filtertype: string, filtercond: string, fmt : string, fmt2:string }[];
+    coldefs: { header: string, field: string, filtertype: string, filtercond: string, fmt: string, fmt2: string, showInList: boolean }[];
+    refCols: { header: string, field: string }[];
     colsIndex : string[];
 
     // Collaborateur
@@ -74,7 +67,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     showHistSelect: boolean = false;
 
     buttons_list : String[] = ["Save", "End", "Delete", "Cancel", "Reopen"];
-    buttons : {label:String, disabled:Boolean}[]= [];
+    buttons : Object; // {label:String, disabled:Boolean}[] = []
 
     fr: any;
 
@@ -87,14 +80,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     constructor(
         private prestationService: PrestationService,
+
         private contratService: ContratService,
         private siteService: SiteService,
         private numAtgService: NumAtgService,
         private equipeService : EquipeService, // Departement, Pôle, Domaine, 
-        // private respPoleService: Service, // Resp pôle
         private donneurOrdreService: DonneurOrdreService,
         private commercialOpenService: CommercialOpenService,
-        private employeeService: CollaborateurService,
+        // private respPoleService: Service, // Resp pôle
+
         private router: Router, private route: ActivatedRoute, private alertService: AlertService, private datePipe:DatePipe
     ) {}
 
@@ -108,28 +102,28 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.selectedPrestation.contrat = new Contrat();
         this.selectedPrestation.commercialOpenInfo = new CommercialOpen();
 
+
         // Columns
         // Cols depending on ID
-        this.coldefs = [];
-        Array.prototype.push.apply(this.coldefs, [
+        this.coldefs = [
 //          {header: 'Id', field:'prestId'},
 //          {header: 'Id Mission', field:'prestIdMission'}, identifiantPrestation
-            {header: 'Identifiant Pilote',  field: 'trigramme', filtertype: "liste"},
-            {header: 'Début',               field: 'dateDebutPrestation', filtertype: "date", filtercond: "gte", fmt: "dd/mm/yy", fmt2 :"dd/MM/yyyy"  },
-            {header: 'Fin',                 field: 'dateFinPrestation', filtertype: "date", filtercond: "lte", fmt: "dd/mm/yy", fmt2 :"dd/MM/yyyy"},
-            {header: 'Contrat',             field: 'contratAppli', filtertype: "liste"},
-            {header: 'ATG',                 field: 'numAtg', filtertype: "liste"},
-            {header: 'Département',         field: 'departement', filtertype: "liste"},
-            {header: 'Pôle',                field: 'pole', filtertype: "liste"},
-            {header: 'Domaine',             field: 'domaine', filtertype: "liste"},
-            {header: 'Site',                field: 'localisation', filtertype: "liste"},
-            {header: 'PU',                  field: 'numeroPu', filtertype: "liste"},
-            {header: 'Responsable de pôle', field: 'responsablePole', filtertype: "liste"},
-            {header: 'Donneur ordre SG',    field: 'donneurOrdre', filtertype: "liste"},
-            {header: 'Type',                field: 'topAtg', filtertype: "liste"},
-            {header: 'Statut',              field: 'statutPrestation', filtertype: "liste"},
-            {header: 'Nom prénom',          field: 'commercialOpen', filtertype: "liste"},
-            {header: 'Version',             field: 'versionPrestation', filtertype: ""}
+            {header: 'Identifiant Pilote',  field: 'trigramme',             filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Début',               field: 'dateDebutPrestation',   filtertype: "date",  showInList:true,  filtercond: "gte", fmt: "dd/mm/yy", fmt2 :"dd/MM/yyyy"},
+            {header: 'Fin',                 field: 'dateFinPrestation',     filtertype: "date",  showInList:true,  filtercond: "lte", fmt: "dd/mm/yy", fmt2 :"dd/MM/yyyy"},
+            {header: 'Contrat',             field: 'contratAppli',          filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'ATG',                 field: 'numAtg',                filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Département',         field: 'departement',           filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Pôle',                field: 'pole',                  filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Domaine',             field: 'domaine',               filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Site',                field: 'localisation',          filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'PU',                  field: 'numeroPu',              filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Responsable de pôle', field: 'responsablePole',       filtertype: "liste", showInList:false, filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Donneur ordre SG',    field: 'donneurOrdre',          filtertype: "liste", showInList:false, filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Type',                field: 'topAtg',                filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Statut',              field: 'statutPrestation',      filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Nom prénom',          field: 'commercialOpen',        filtertype: "liste", showInList:false, filtercond: null, fmt: null, fmt2 :null},
+            {header: 'Version',             field: 'versionPrestation',     filtertype: "",      showInList:true,  filtercond: null, fmt: null, fmt2 :null}
             //{header: 'Début',               field: 'dateDebutPrestationTri', filtertype: "datestr", filtercond: "gt", fmt: "yy-mm-dd", fmt2 :"yyyy-MM-dd"},
             //{header: 'Fin',                 field: 'dateFinPrestationTri', filtertype: "datestr", filtercond: "lt", fmt: "yy-mm-dd", fmt2 :"yyyy-MM-dd"}
             /*          {header: 'com_open', field:'prestCommercialOPEN'},
@@ -138,7 +132,19 @@ export class PrestationsComponent implements OnInit, OnChanges {
                         {header: 'user_c', field:'prestUserCreation'},
                         {header: 'date_m', field:'prestDateMaj'},
                         {header: 'user_m', field:'prestUserMaj'},   */
-        ]);
+        ];
+        this.refCols=[
+            // Collaborateur
+            {field:"nom", header:"Nom"},
+            {field:"prenom", header:"Prénom"},
+            // Contrat
+            {field:"dateDebutContrat", header:"Date début"},
+            {field:"dateFinContrat", header:"Date fin"},
+            // Commercial Open
+            {field:"adresseMail", header:"Mail"},
+            {field:"telephonePortable", header:"Tél. portable"},
+            {field:"telephoneFixe", header:"Tél. fixe"}
+        ];
 
         this.selectColumns();
         this.createColsIndex();
@@ -173,11 +179,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
             clear: 'Effacer'
         };
 
-        this.buttons["Save"] = {label:"Enregistrer", disabled:true};
-        this.buttons["End"] = {label:"Terminer", disabled:true};
-        this.buttons["Delete"] ={label:"Supprimer", disabled:false};
-        this.buttons["Cancel"] ={label:"Annuler", disabled:true};
-        this.buttons["Reopen"] ={label:"Ré-ouvrir la prestation", disabled:true};
+        this.buttons = {
+            "Save"   : {label:"Enregistrer", disabled:true},
+            "End"    : {label:"Terminer",    disabled:true},
+            "Delete" : {label:"Supprimer",   disabled:false},
+            "Cancel" : {label:"Annuler",     disabled:true},
+            "Reopen" : {label:"Ré-ouvrir la prestation", disabled:true}
+        };
 
         if (!this.modeCollab)
             this.loadAllPrestations();
@@ -198,81 +206,46 @@ export class PrestationsComponent implements OnInit, OnChanges {
     selectPrestations(param_prestations: Prestation[]) {
         this.prestations = param_prestations;
         this.updateFilters();
-        this.orderfilterPrestations();
-    }
-
-    orderfilterPrestations() {
         if (this.prestations!=undefined)
-            this.prestations.sort(this.orderDateDebutEtVersion);
-        //this.filterVersions();
+            this.prestations.sort(this.orderDateDebutEtVersion); //this.filterVersions();
     }
 
-    orderSelectItems(a, b) {
-        return a["value"] > b["value"] ? 1 : a["value"] < b["value"] ? -1 : 0;
-    }
-    orderSelectItemsLabel(a, b) {
-        return a["label"] > b["label"] ? 1 : a["label"] < b["label"] ? -1 : 0;
-    }
+    orderSelectItems(a, b)      { var fld="value"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
+    orderSelectItemsLabel(a, b) { var fld="label"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
 
     selectColumns() {
 
         this.cols = [];
         this.coldefs.forEach(x => {
-            var addcol: boolean = true;
-            // Cols depending on ID
-            if (x.field == "trigramme") {
-                if (this.modeCollab)
-                    addcol = false;
-            }
-            if (x.field == "responsablePole") addcol = false;
-            if (x.field == "donneurOrdre") addcol = false;
-            if (x.field == "commercialOpen") addcol = false;
-            if (addcol)
+            // Cols depend on all or collab prestations
+            if ( !((x.field == "trigramme") && (this.modeCollab) ) && x.showInList )
                 Array.prototype.push.apply(this.cols, [ {header: x.header, field: x.field} ]);
         });
 
         this.selectedColumns = this.cols;
-
     }
 
     createColsIndex() {
-        // Libellés
-
+        // Libellés champs
         this.colsIndex = [];
-
         // Prestation
-        this.coldefs.forEach(x => {
-            this.colsIndex[x.field]=x.header;
-        });
-        // Collaborateur
-        this.colsIndex["nom"]="Nom";
-        this.colsIndex["prenom"]="Prénom";
-        // Contrat
-        this.colsIndex["dateDebutContrat"]="Date début";
-        this.colsIndex["dateFinContrat"]="Date fin";
-        // Commercial Open
-        this.colsIndex["adresseMail"]="Mail";
-        this.colsIndex["telephonePortable"]="Tél. portable";
-        this.colsIndex["telephoneFixe"]="Tél. fixe";
-
+        this.coldefs.forEach(x => { this.colsIndex[x.field]=x.header;  });
+        // Tables référentiel
+        this.refCols.forEach(x => { this.colsIndex[x.field]=x.header;  });
     }
 
     createStatusIndex() {
         this.allstatusidx = [];
-        this.allstatus.forEach(x => {
-            this.allstatusidx[x.value]=x.label;
-        });
+        this.allstatus.forEach(x => { this.allstatusidx[x.value] = x.label; });
     }
 
     initFilters() {
         // Create filterliste
         if (this.coldefs != undefined) {
             this.coldefs.forEach(x => {
-                var filteritem = (x.filtertype == "liste") ? {                    selected: [],                    values: [],                    keys: [],                    filtertype: x.filtertype,
-                        filtercond: x.filtercond,                    fmt: x.fmt,                    fmt2: x.fmt2                }
-                    : {                    selected: "",                    values: "",                    keys: [],                    filtertype: x.filtertype,
-                        filtercond: x.filtercond,                    fmt: x.fmt,                    fmt2: x.fmt2
-                    };
+                var filteritem = (x.filtertype == "liste") ?
+                      { selected: [], values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond, fmt: x.fmt, fmt2: x.fmt2 }
+                    : { selected: "", values: "", keys: [], filtertype: x.filtertype, filtercond: x.filtercond, fmt: x.fmt, fmt2: x.fmt2 };
                 this.filtres[x.field] = filteritem;
             });
         }
@@ -282,11 +255,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.displayDialogPresta = true;
 
         this.selectedPrestation = prestation;
-        if (prestation.collaborateur==undefined) // We come from collaborateur so prestation not loaded by hibernate
+        if (prestation.collaborateur == undefined) // We come from collaborateur so prestation not loaded by hibernate
             this.selectedPrestation.collaborateur = this.collab;
         //this.employee = this.selectedPrestation.collaborateur;
-
-        //event.preventDefault();
     }
 
     savePrestation(event: Event, prestation: Prestation) {
@@ -338,10 +309,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }
     }*/
 
-    onDialogHide() {
-        //this.selectedPrestation = null;
-    }
-
     loadAllPrestations() {
         this.prestationService.list()
             .pipe(first())
@@ -372,10 +339,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     row.trigramme = row.collaborateur.trigramme;
 
                 // Format dates
-                var datearr = row.dateDebutPrestation.split("/"); //dd/mm/yyyy
+                var datearr =   row.dateDebutPrestation.split("/"); //dd/mm/yyyy
                 row.dateDebutPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
-                datearr = row.dateFinPrestation.split("/");
-                row.dateFinPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
+                datearr =       row.dateFinPrestation.split("/");
+                row.dateFinPrestation   = new Date(datearr[2], datearr[1] - 1, datearr[0]);
 
                 //x.dateDebutPrestationTri = this.datePipe.transform(x.dateDebutPrestation, 'yyyy-MM-dd'); //x.dateDebutPrestation.valueOf();
 
@@ -451,27 +418,25 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }
     }
 
+    /*// Get collab info
     loadPrestationsCollab(idemployee) {
-        // Get collab info
         this.employeeService.read(idemployee).pipe(first()).subscribe(p_employee => {
             this.showCollab(p_employee);
             this.filterVersions();
         });
-    }
-
+    }*/
     // Tri sur datedebut (desc) et version (desc)
     orderDateDebutEtVersion(a, b) {
-
-        var datea = a.dateDebutPrestation;
-        var dateb = b.dateDebutPrestation;
-
-        let after  = datea > dateb ? -1 : datea < dateb ? 1 : 0;
-
-        if (after == 0)
-            after = a.versionPrestation > b.versionPrestation ? -1 : a.versionPrestation < b.versionPrestation ? 1 : 0;
-
-        return after;
+        var fld= "dateDebutPrestation";
+        var retval = (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0; ;
+        if (retval==0) {
+            fld= "versionPrestation";
+            retval = (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;;
+        }
+        return retval;
     }
+
+
 
     filterVersions() {
         // Si E T ou S pas d'historique, si affichage complète (E T et S) également affichage Historique si coché.
@@ -496,29 +461,24 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     pt_filter(event, pt, field: string) {
-        var fld = field;
         var value = this.filtres[ field ].selected;
         if (this.filtres[ field ].filtertype == "date") {
-            if (value==null) {
-                valuedate=0;
-                cond="gt";
+            var valuedate = 0;
+            var cond="gt";
+            if (value!=null) {
+                valuedate = value.valueOf(); //valuedate = event.valueOf().toString(); //valuedate = this.datePipe.transform(value, 'yyyy-MM-dd');
+                cond = this.filtres[ field ].filtercond;
+                if      (cond=="gte") { cond="gt"; valuedate -= 86400000; } // 86400000 = 1 jour en millis
+                else if (cond=="lte") { cond="lt"; valuedate += 86400000; }
             }
-            else {
-                var valuedate = value.valueOf(); //valuedate = event.valueOf().toString(); //valuedate = this.datePipe.transform(value, 'yyyy-MM-dd');
-                var dayinmillis = 24*60*60*1000;
-                var cond = this.filtres[ field ].filtercond;
-                if (cond=="gte") { cond="gt";  valuedate -= dayinmillis;     }
-                else if (cond=="lte") { cond="lt";  valuedate += dayinmillis;     }
-            }
-            this.pt.filter(valuedate, fld, cond );
+            this.pt.filter(valuedate, field, cond );
         }
         else
-            this.pt.filter(value, fld, this.filtres[ field ].filtercond);
-
+            this.pt.filter(value, field, this.filtres[ field ].filtercond);
     }
 
     //    buttons_list : String[] = ["Save","End","Delete","Cancel","Reopen"];
-    buttonsFunctions(btn:string) {
+    buttonsFunctions( btn: string ) {
         switch (btn) {
             case "Save"   : this.save(); break;
             case "End"    : this.end(); break;
@@ -535,189 +495,68 @@ export class PrestationsComponent implements OnInit, OnChanges {
     
  
     loadReferences() {
-        var referenceslist=["localisation","numAtg","departement","pole","domaine","responsablePole","donneurOrdre","commercialOpen"];
-        this.references = []; referenceslist.forEach( ref => { this.references[ref]=[]; } );
+        this.references = [];
+        var referenceslist=[
+            {flds :[{ref:"contratAppli", key:"contratAppli",label:"contratAppli"} ],       service:this.contratService,    uniquefilter : false},
+            {flds :[{ref:"localisation", key:"codeSite",    label:"libelleSite"} ],        service:this.siteService,       uniquefilter : false},
+            {flds :[{ref:"numAtg",       key:"numeroAtg",   label:"numeroAtg"} ],          service:this.numAtgService,     uniquefilter : false},
+            {flds :[{ref:"donneurOrdre", key:"cleDo",       label:"donneurOrdre"} ],       service:this.donneurOrdreService, uniquefilter : false},
+            {flds :[{ref:"commercialOpen", key:"commercialOpen", label:"commercialOpen"} ],service:this.commercialOpenService, uniquefilter : false},
+            // Département Pole Domaine (Equipe)
+            {flds :[{ref:"departement", key:"departement",  label:"departement"},
+                    {ref:"pole",        key:"pole",         label:"pole"},
+                    {ref:"domaine",     key:"domaine",      label:"domaine"} ],                service:this.equipeService,      uniquefilter : true},
+            {flds :[{ref:"responsablePole", key:"responsablePole", label:"responsablePole"} ], service:this.prestationService,  uniquefilter : true}
+        ];
+        referenceslist.forEach(
+            defref => {
 
-        this.loadContrats();
-        this.loadSites();
-        this.loadNumAtg();
-        this.loadDonneurOrdre();
-        this.loadCommercialOpen();
-        this.loadEquipe();    //this.loadDepartements();   //this.loadPoles();    //this.loadDomaines();
-        this.loadRespsPoles();
+                defref.flds.forEach( fld => {
+                    this.references[fld.ref]=[];
+                });
+                if (defref.flds[0].ref!="responsablePole" || this.modeCollab)
+                    this.loadTableKeyValues(defref.flds, defref.service, this.references, defref.uniquefilter );
+            }
+        );
+
     }
-    
-    loadContrats() {
-        var ref     = "contratAppli";
-        var value   = "contratAppli";
-        var label   = "contratAppli";
 
-        var selectitem : SelectItem = { value: "", label: "" };
 
-        this.references[ref]=[];
-        this.contratService.list()
+    loadTableKeyValues(flds, tableService, itemsarray, uniquevalues) {
+
+        tableService.list()
             .pipe(first())
             .subscribe( rows => {
-                    rows.forEach( x => {
-                            this.references[ref].push({ value: x[value], label: x[label] });
-                        }
-                    );
-                    this.references[ref].sort(this.orderSelectItems);
-                },
-                error => { this.alertService.error(error); }
-            );
-    }
 
-    loadSites() {
+                    flds.forEach( fld => {
 
-        var ref     = "localisation";
-        var value   = "codeSite";
-        var label   = "libelleSite";
+                        itemsarray[fld.ref]=[];
 
-        var selectitem : SelectItem = { value: "", label: "" };
+                        if (uniquevalues) {
 
-        this.references[ref]=[];
-        this.siteService.list()
-            .pipe(first())
-            .subscribe( rows => {
-                    rows.forEach( x => {
-                            this.references[ref].push({ value: x[value], label: x[label] });
-                        }
-                    );
-                    this.references[ref].sort(this.orderSelectItems);
-                },
-                error => { this.alertService.error(error); }
-            );
-    }
-
-    loadNumAtg() {
-
-        var ref="numAtg";
-        var value = "numeroAtg";
-        var label= "numeroAtg";
-
-        var selectitem : SelectItem = { value: "", label: "" };
-
-        this.references[ref]=[];
-        this.numAtgService.list()
-            .pipe(first())
-            .subscribe( rows => {
-                    rows.forEach( x => {
-                            this.references[ref].push({ value: x[value], label: x[label] });
-                        }
-                    );
-                    this.references[ref].sort(this.orderSelectItems);
-                },
-                error => { this.alertService.error(error); }
-            );
-    }
-
-    loadDonneurOrdre() {
-
-        var ref="donneurOrdre";
-        var value = "cleDo";
-        var label= "donneurOrdre";
-
-        var selectitem : SelectItem = { value: "", label: "" };
-
-        this.references[ref]=[];
-        this.donneurOrdreService.list()
-            .pipe(first())
-            .subscribe( rows => {
-                    rows.forEach( x => {
-                            this.references[ref].push({ value: x[value], label: x[label] });
-                        }
-                    );
-                    this.references[ref].sort(this.orderSelectItemsLabel);
-                },
-                error => { this.alertService.error(error); }
-            );
-    }
-
-    loadCommercialOpen() {
-
-        var ref="commercialOpen";
-        var value = "commercialOpen"; //"cleCommercialOpen";
-        var label= "commercialOpen";
-
-        var selectitem : SelectItem = { value: "", label: "" };
-
-        this.references[ref]=[];
-        this.commercialOpenService.list()
-            .pipe(first())
-            .subscribe( rows => {
-                    rows.forEach( x => {
-                            this.references[ref].push({ value: x[value], label: x[label] });
-                        }
-                    );
-                    this.references[ref].sort(this.orderSelectItems);
-                },
-                error => { this.alertService.error(error); }
-            );
-    }
-
-    loadEquipe() { // Département, "Pole" et Domaine
-        
-        var flds=["departement", "pole", "domaine" ];
-        var departements=[]; var poles=[]; var domaines=[]; // Keys
-        
-        // Clear up list
-        flds.forEach( x => { this.references[x]=[];  }   );
-
-        this.equipeService.list()
-            .pipe(first())
-            .subscribe( rows => {
-                
-                    // Unique values
-                    rows.forEach( x => {
-                        departements[x['departement']] = x['departement'];
-                        poles[x['pole']] = x['pole'];
-                        domaines[x['domaine']] = x['domaine'];
-                        }
-                    );
-                    
-                    // Lists for combos
-                    for (var item in departements) { this.references['departement'].push({ value: item, label: item } ); }
-                    for (var item in poles) { this.references['pole'].push({ value: item, label: item } ); }
-                    for (var item in domaines) { this.references['domaine'].push({ value: item, label: item } ); }
-
-                    // Sort
-                    flds.forEach( x => { this.references[x].sort(this.orderSelectItems); } );
-                },
-                error => { this.alertService.error(error); }
-            );
-    }
-
-    loadRespsPoles() {
-
-        var ref="responsablePole";
-        var value = ref;
-        var label = ref;
-
-        if (this.modeCollab) {
-            this.references[ref]=[];
-            this.prestationService.list()
-                .pipe(first())
-                .subscribe( rows => {
-
-                        // get keys
-                        var keys : string[] = [];
-                        rows.forEach( row => {
-                            row[ref] = (row[ref] == undefined || row[ref] == null ) ? "" : row[ref].trim();
-                            keys[row[ref]]=row[label];
+                            // Unique values
+                            var keys: string[] = [];
+                            rows.forEach(row => {
+                                row[fld.key] = (row[fld.key] == undefined || row[fld.key] == null) ? "" : row[fld.key].trim();
+                                keys[row[fld.key]] = row[fld.label];
+                            });
+                            // Lists for combos
+                            for (var item in keys) {
+                                itemsarray[fld.ref].push({value: item, label: keys[item]});
                             }
-                        );
-                        // Add to liste
-                        for (var k in keys) {
-                            this.references[ref].push({ value: k, label: keys[k] });
                         }
+                        else
+                            rows.forEach( row => { itemsarray[fld.ref].push({ value: row[fld.key], label: row[fld.label] }); } );
 
-                        this.references[ref].sort(this.orderSelectItems);
-                    },
-                    error => { this.alertService.error(error); }
-                );
-        }
+                        // Sort
+                        itemsarray[fld.ref].sort(this.orderSelectItems);
+                    }
+                    );
+                },
+                error => { this.alertService.error(error); }
+            );
     }
+
 
     ngOnChanges(changes: SimpleChanges) {
         for (let propName in changes) {
