@@ -54,7 +54,7 @@
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
                     <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="{{filtres[col.field].fmt}}" [locale]="fr" (onSelect)="pt_filter($event, pt, col.field);"
+                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr" (onSelect)="pt_filter($event, pt, col.field);"
                                 (onClearClick)="pt_filter($event, pt, col.field);"
                                 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [selectOtherMonths]="true"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis', 'padding':'6px 6px'}"
@@ -94,7 +94,7 @@
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
-                <span *ngSwitchCase="'date'">{{rowData[col.field] | date:filtres[col.field].fmt2 }}</span>
+                <span *ngSwitchCase="'date'">{{rowData[col.field] | date:datefmt }}</span>
                 <span *ngSwitchDefault>{{rowData[col.field]}}</span>
             </td>
 
@@ -199,7 +199,7 @@
 
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix" [ngStyle]="{'text-align':'left'}">
-            <button *ngFor="let btnid of buttons_list; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttonsFunctions(btnid)" [disabled]="buttons[btnid].disabled"></button>
+            <button *ngFor="let btnid of buttons_list; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttons[btnid].fnc.call()" [disabled]="buttons[btnid].disabled"></button>
         </div>
     </p-footer>
 

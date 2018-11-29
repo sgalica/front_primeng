@@ -37,8 +37,9 @@ export class CollaborateursComponent implements OnInit {
     selectedColumns: any[];
     filteritem : {selected:any, values:SelectItem[], keys:string[], filtertype:string, filtercond:string };
     filtres : filteritem[] = [];
-    coldefs : {header:string, field:any, filtertype:string, filtercond:string }[];
-    colsIndex : string[];
+    coldefs : { header: string, field: any, filtertype: string, filtercond: string }[];
+    refCols : { header: string, field: string }[];
+    colsIndex : Object;
     showHistSelect: boolean = false;
     // sortOptions: SelectItem[]; sortKey: string; sortField: string; sortOrder: number;
 
@@ -50,8 +51,8 @@ export class CollaborateursComponent implements OnInit {
 
     // Références
     allstatus: { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
-    allstatusidx : string[];
-    references : any[]=[];
+    allstatusidx : Object;
+    references   : any[]=[];
 
     ouinon: { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
 
@@ -83,30 +84,40 @@ export class CollaborateursComponent implements OnInit {
 
     ngOnInit() {
 
-        this.displayDialog2=false;
+        this.displayDialog2 = false;
 
         const camelCase = require('camelcase');
 
         this.coldefs = [
-            {header: 'Identifiant Pilot', field: camelCase('trigramme'), filtertype : "liste", filtercond:"" },
-            {header: 'Nom', field: camelCase('nom'), filtertype : "liste", filtercond:""},
-            {header: 'Prénom', field: camelCase('prenom'), filtertype : "liste", filtercond:""},
-            {header: 'Tél personnel', field: camelCase('tel_perso'), filtertype : "liste", filtercond:""},
-            {header: 'Tél professionnel', field: camelCase('tel_pro'), filtertype : "liste", filtercond:""},
-            {header: 'Catégorie', field: camelCase('categorisation'), filtertype : "liste", filtercond:""},
-            {header: 'S/T', field: camelCase('stt'), filtertype : "liste", filtercond:""},
-            {header: 'Statut', field: camelCase('statut_collab'), filtertype : "liste", filtercond:""},
-            {header: 'Version', field: camelCase('version_collab'), filtertype : "liste", filtercond:""},
-            {header: 'Mail SG', field: camelCase('mail_sg'), filtertype : "liste", filtercond:""},
-            {header: 'Mail Open', field: camelCase('mail_open'), filtertype : "liste", filtercond:""},
-            {header: 'Société STT', field: camelCase('societe_stt'), filtertype : "liste", filtercond:""},
-            {header: 'Pré embauche ', field: camelCase('pre_embauche'), filtertype : "liste", filtercond:""},
-            {header: 'Date embauche', field: camelCase('date_embauche_open'), filtertype : "liste", filtercond:""}
+            {header: 'Identifiant Pilot',   field: camelCase('trigramme'),      filtertype : "liste", filtercond:""},
+            {header: 'Nom',                 field: camelCase('nom'),            filtertype : "liste", filtercond:""},
+            {header: 'Prénom',              field: camelCase('prenom'),         filtertype : "liste", filtercond:""},
+            {header: 'Tél personnel',       field: camelCase('tel_perso'),      filtertype : "liste", filtercond:""},
+            {header: 'Tél professionnel',   field: camelCase('tel_pro'),        filtertype : "liste", filtercond:""},
+            {header: 'Catégorie',           field: camelCase('categorisation'), filtertype : "liste", filtercond:""},
+            {header: 'S/T',                 field: camelCase('stt'),            filtertype : "liste", filtercond:""},
+            {header: 'Statut',              field: camelCase('statut_collab'),  filtertype : "liste", filtercond:""},
+            {header: 'Version',             field: camelCase('version_collab'), filtertype : "liste", filtercond:""},
+            {header: 'Mail SG',             field: camelCase('mail_sg'),        filtertype : "liste", filtercond:""},
+            {header: 'Mail Open',           field: camelCase('mail_open'),      filtertype : "liste", filtercond:""},
+            {header: 'Société STT',         field: camelCase('societe_stt'),    filtertype : "liste", filtercond:""},
+            {header: 'Pré embauche ',       field: camelCase('pre_embauche'),   filtertype : "liste", filtercond:""},
+            {header: 'Date embauche',       field: camelCase('date_embauche_open'),filtertype:"liste",filtercond:""},
+            // + Mission :
+            {field:"dateDebutMission",      header:"Date début",                filtertype : "", filtercond:""},
+            {field:"dateFinSg",             header:"Date fin",                  filtertype : "", filtercond:""},
+            {field:"dateA3Ans",             header:"Date à 3 ans",              filtertype : "", filtercond:""},
+            {field:"derogation",            header:"Dérogation",                filtertype : "", filtercond:""},
+            {field:"statutMission",         header:"Statut",                    filtertype : "", filtercond:""},
+            {field:"versionMission",        header:"Version",                   filtertype : "", filtercond:""}
             //{header: 'created_at', field: camelCase('created_at')},
             //{header: 'created_by', field: camelCase('created_by')},
             //{header: 'updated_at', field: camelCase('updated_at')},
             //{header: 'updated_by', field: camelCase('updated_by')}
         ];
+
+        this.refCols = [
+         ];
 
         this.selectColumns();
         this.createColsIndex();
@@ -133,13 +144,13 @@ export class CollaborateursComponent implements OnInit {
         };
 
         this.buttons = {
-            "Save" : {label:"Enregistrer", disabled:true},
-            "Create" : {label:"Créer une prestation", disabled:true},
-            "Prestas" : {label:this.buttonPrestationsLabels[0], disabled:false},
-            "EndMission" : {label:"Terminer la mission", disabled:true},
-            "Delete" : {label:"Supprimer le collaborateur", disabled:true},
-            "ReOpen" : {label:"Réactiver le collaborateur", disabled:true},
-            "Cancel" : {label:"Annuler", disabled:true}
+            "Save"      : {label:"Enregistrer",                 disabled:true,  fnc : ()=>{this.saveCollaborateur();} },
+            "Create"    : {label:"Créer une prestation",        disabled:true,  fnc : ()=>{this.newPrestation();} },
+            "Prestas"   : {label:this.buttonPrestationsLabels[0],disabled:false,fnc : ()=>{this.showPrestations();} },
+            "EndMission": {label:"Terminer la mission",         disabled:true,  fnc : ()=>{this.endMission();} },
+            "Delete"    : {label:"Supprimer le collaborateur",  disabled:true,  fnc : ()=>{this.suppCollab();} },
+            "ReOpen"    : {label:"Réactiver le collaborateur",  disabled:true },
+            "Cancel"    : {label:"Annuler",                     disabled:true }
         };
 
         this.loadAllCollaborateurs();
@@ -194,14 +205,14 @@ export class CollaborateursComponent implements OnInit {
     // Tri sur trigramme (asc) et version (desc)
     orderTrigrammeVersion(a, b) {
         var fld="trigramme";
-        let after = (a[fld] > b[fld]) ? 1  : (a[fld] < b[fld]) ? -1 : 0;
+        let after = (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0;
         fld = "versionCollab";
-        return (after == 0) ? 0 : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ?  1 : 0;
+        return (after != 0) ? after : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
     }
 
     orderSelectItems(a, b) {
         var fld="value";
-        return (a[fld] > b[fld]) ? 1  : (a[fld] < b[fld]) ? -1 : 0;
+        return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0;
     }
 
 
@@ -215,25 +226,17 @@ export class CollaborateursComponent implements OnInit {
     }
 
     createColsIndex() {
-        this.colsIndex = [];
-        this.coldefs.forEach(x => {
-            this.colsIndex[x.field]=x.header;
-        });
-        // + Mission :
-        this.colsIndex["dateDebutMission"]="Date début";
-        this.colsIndex["dateFinSg"]="Date fin";
-        this.colsIndex["dateA3Ans"]="Date à 3 ans";
-        this.colsIndex["derogation"]="Dérogation";
-        this.colsIndex["statutMission"]="Statut";
-        this.colsIndex["versionMission"]="Version";
+        this.colsIndex = {}; // new Object();
+        this.createMap(this.coldefs, this.colsIndex, "field", "header" );
+        this.createMap(this.refCols, this.colsIndex, "field", "header" );
     }
 
     createStatusIndex() {
-        this.allstatusidx = [];
-        this.allstatus.forEach(x => {
-            this.allstatusidx[x.value]=x.label;
-        });
+        this.allstatusidx = {};
+        this.createMap(this.allstatus, this.allstatusidx, "value", "label" );
     }
+
+    createMap(arrin, arrout, fldkey, fldvalue) { arrin.forEach( x => { arrout[ x[fldkey] ] = x[fldvalue]; }); }
 
     initFilters() {
         // Create filterliste
@@ -303,16 +306,12 @@ export class CollaborateursComponent implements OnInit {
 
     }
 
+    // Filtrer liste collaborateurs
     co_filter(field: string) {
         var value = this.filtres[ field ].selected;
         //if (this.filtres[ field ].filtertype == "date")
         //    value = this.datePipe.transform(value, 'yyyy-MM-dd');
-
         this.dt.filter(value, field, this.filtres[ field ].filtercond);
-    }
-
-    afficherLaSaisie(event) {
-        this.displayDialog = true;
     }
 
     selectCollaborateur(event: Event, collaborateur: Collaborateur) {
@@ -341,14 +340,12 @@ export class CollaborateursComponent implements OnInit {
         event.preventDefault();
     }
 
+    afficherLaSaisie(event) {
+        this.displayDialog = true;
+    }
+
     buttonsFunctions(btn:string) {
-        switch (btn) {
-            case "Save" : this.saveCollaborateur(); break;
-            case "Create" : this.newPrestation(); break;
-            case "Prestas" : this.showPrestations(); break;
-            case "EndMission" : this.endMission(); break;
-            case "Delete" : this.suppCollab();break;
-        }
+        this.buttons[btn].fnc.call();
     }
     saveCollaborateur() { }
     newPrestation() { }

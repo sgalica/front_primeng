@@ -8,15 +8,7 @@ import {Collaborateur, CommercialOpen, Contrat, Prestation} from "../../model/re
 import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService} from "../../service/datas.service";
 import {DatePipe} from "@angular/common";
 
-interface filteritem {
-    selected: any;
-    values: SelectItem[];
-    keys: string[];
-    filtertype:string;
-    filtercond:string;
-    fmt;string;
-    fmt2:string;
-}
+interface filteritem {  selected: any;    values: SelectItem[];    keys: string[];    filtertype:string;    filtercond:string;}
 
 @Component({
     selector: 'app-prestations',
@@ -41,16 +33,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
     prestations: Prestation[] = [];
     cols: any[];
     selectedColumns: any[];
-    filteritem: { selected: any, values: SelectItem[], keys: string[], filtertype: string, filtercond: string, fmt:string, fmt2:string };
     filtres: filteritem[] = [];
-    coldefs: { header: string, field: string, filtertype: string, filtercond: string, fmt: string, fmt2: string, showInList: boolean }[];
-    refCols: { header: string, field: string }[];
-    colsIndex : string[];
+    coldefs: { header: string, field: string, filtertype: string, filtercond: string, showInList: boolean }[];
+    colsIndex : {};
 
     // Collaborateur
     id: string;
     employee_name: string = "";
-    employee: Collaborateur = new Collaborateur();
 
     // Fiche/Detail
     selectedPrestation: Prestation = new Prestation();
@@ -58,9 +47,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
     displayDialogPresta: boolean = false;
 
     // Références
-    missions: { label: string, value: number }[];
+    missions : { label: string, value: number }[];
     allstatus: { label: string, value: string }[] = [ {value: "E", label: "En cours"}, { value: "T", label: "Terminées"}, {value: "S", label: "Supprimées"}, {value: "A", label: "Archivées"} ];
-    allstatusidx : string[];
+    allstatusidx : {};
     contrats : SelectItem[]=[];
     references : any[]=[];
 
@@ -70,6 +59,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     buttons : Object; // {label:String, disabled:Boolean}[] = []
 
     fr: any;
+    datefmt="dd/mm/yy";
+    datefmtCalendarInput="dd/MM/yyyy";
 
     FieldsFiches : any[];
 
@@ -106,44 +97,37 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // Columns
         // Cols depending on ID
         this.coldefs = [
-//          {header: 'Id', field:'prestId'},
-//          {header: 'Id Mission', field:'prestIdMission'}, identifiantPrestation
-            {header: 'Identifiant Pilote',  field: 'trigramme',             filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Début',               field: 'dateDebutPrestation',   filtertype: "date",  showInList:true,  filtercond: "gte", fmt: "dd/mm/yy", fmt2 :"dd/MM/yyyy"},
-            {header: 'Fin',                 field: 'dateFinPrestation',     filtertype: "date",  showInList:true,  filtercond: "lte", fmt: "dd/mm/yy", fmt2 :"dd/MM/yyyy"},
-            {header: 'Contrat',             field: 'contratAppli',          filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'ATG',                 field: 'numAtg',                filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Département',         field: 'departement',           filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Pôle',                field: 'pole',                  filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Domaine',             field: 'domaine',               filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Site',                field: 'localisation',          filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'PU',                  field: 'numeroPu',              filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Responsable de pôle', field: 'responsablePole',       filtertype: "liste", showInList:false, filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Donneur ordre SG',    field: 'donneurOrdre',          filtertype: "liste", showInList:false, filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Type',                field: 'topAtg',                filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Statut',              field: 'statutPrestation',      filtertype: "liste", showInList:true,  filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Nom prénom',          field: 'commercialOpen',        filtertype: "liste", showInList:false, filtercond: null, fmt: null, fmt2 :null},
-            {header: 'Version',             field: 'versionPrestation',     filtertype: "",      showInList:true,  filtercond: null, fmt: null, fmt2 :null}
-            //{header: 'Début',               field: 'dateDebutPrestationTri', filtertype: "datestr", filtercond: "gt", fmt: "yy-mm-dd", fmt2 :"yyyy-MM-dd"},
-            //{header: 'Fin',                 field: 'dateFinPrestationTri', filtertype: "datestr", filtercond: "lt", fmt: "yy-mm-dd", fmt2 :"yyyy-MM-dd"}
-            /*          {header: 'com_open', field:'prestCommercialOPEN'},
+            {header: 'Identifiant Pilote',  field: 'trigramme',             filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'Début',               field: 'dateDebutPrestation',   filtertype: "date",  showInList:true,  filtercond: "gte"},
+            {header: 'Fin',                 field: 'dateFinPrestation',     filtertype: "date",  showInList:true,  filtercond: "lte"},
+            {header: 'Contrat',             field: 'contratAppli',          filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'ATG',                 field: 'numAtg',                filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'Département',         field: 'departement',           filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'Pôle',                field: 'pole',                  filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'Domaine',             field: 'domaine',               filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'Site',                field: 'localisation',          filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'PU',                  field: 'numeroPu',              filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'Responsable de pôle', field: 'responsablePole',       filtertype: "liste", showInList:false, filtercond: null},
+            {header: 'Donneur ordre SG',    field: 'donneurOrdre',          filtertype: "liste", showInList:false, filtercond: null},
+            {header: 'Type',                field: 'topAtg',                filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'Statut',              field: 'statutPrestation',      filtertype: "liste", showInList:true,  filtercond: null},
+            {header: 'Nom prénom',          field: 'commercialOpen',        filtertype: "liste", showInList:false, filtercond: null},
+            {header: 'Version',             field: 'versionPrestation',     filtertype: "",      showInList:true,  filtercond: null},
 
-                        {header: 'date_c', field:'prestDateCreation'},
-                        {header: 'user_c', field:'prestUserCreation'},
-                        {header: 'date_m', field:'prestDateMaj'},
-                        {header: 'user_m', field:'prestUserMaj'},   */
-        ];
-        this.refCols=[
             // Collaborateur
-            {field:"nom", header:"Nom"},
-            {field:"prenom", header:"Prénom"},
+            {field: "nom",               header: "Nom",                     filtertype: "",      showInList:false,  filtercond: null},
+            {field: "prenom",            header: "Prénom",                  filtertype: "",      showInList:false,  filtercond: null},
+
             // Contrat
-            {field:"dateDebutContrat", header:"Date début"},
-            {field:"dateFinContrat", header:"Date fin"},
+            {field: "dateDebutContrat",  header: "Date début",              filtertype: "",      showInList:false,  filtercond: null},
+            {field: "dateFinContrat",    header: "Date fin",                filtertype: "",      showInList:false,  filtercond: null},
+
             // Commercial Open
-            {field:"adresseMail", header:"Mail"},
-            {field:"telephonePortable", header:"Tél. portable"},
-            {field:"telephoneFixe", header:"Tél. fixe"}
+            {field: "adresseMail",       header: "Mail",                    filtertype: "",      showInList:false,  filtercond: null},
+            {field: "telephonePortable", header: "Tél. portable",           filtertype: "",      showInList:false,  filtercond: null},
+            {field: "telephoneFixe",     header: "Tél. fixe",               filtertype: "",      showInList:false,  filtercond: null}
+
+            /* {header: 'date_c', field:'prestDateCreation'}, {header: 'user_c', field:'prestUserCreation'}, {header: 'date_m', field:'prestDateMaj'}, {header: 'user_m', field:'prestUserMaj'},   */
         ];
 
         this.selectColumns();
@@ -180,11 +164,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
         };
 
         this.buttons = {
-            "Save"   : {label:"Enregistrer", disabled:true},
-            "End"    : {label:"Terminer",    disabled:true},
-            "Delete" : {label:"Supprimer",   disabled:false},
-            "Cancel" : {label:"Annuler",     disabled:true},
-            "Reopen" : {label:"Ré-ouvrir la prestation", disabled:true}
+            "Save"   : {label:"Enregistrer", disabled:true,  fnc : ()=>{this.save();} },
+            "End"    : {label:"Terminer",    disabled:true,  fnc : ()=>{this.end();} },
+            "Delete" : {label:"Supprimer",   disabled:false, fnc : ()=>{this.delete();} },
+            "Cancel" : {label:"Annuler",     disabled:true,  fnc : ()=>{this.cancel();} },
+            "Reopen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.reopen();} }
         };
 
         if (!this.modeCollab)
@@ -226,26 +210,24 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     createColsIndex() {
-        // Libellés champs
-        this.colsIndex = [];
-        // Prestation
-        this.coldefs.forEach(x => { this.colsIndex[x.field]=x.header;  });
-        // Tables référentiel
-        this.refCols.forEach(x => { this.colsIndex[x.field]=x.header;  });
+        this.colsIndex = {}; // new Object();
+        this.createMap(this.coldefs, this.colsIndex, "field", "header" );
     }
 
     createStatusIndex() {
-        this.allstatusidx = [];
-        this.allstatus.forEach(x => { this.allstatusidx[x.value] = x.label; });
+        this.allstatusidx = {};
+        this.createMap(this.allstatus, this.allstatusidx, "value", "label" );
     }
+
+    createMap(arrin, arrout, fldkey, fldvalue) { arrin.forEach( x => { arrout[ x[fldkey] ] = x[fldvalue]; }); }
 
     initFilters() {
         // Create filterliste
         if (this.coldefs != undefined) {
             this.coldefs.forEach(x => {
                 var filteritem = (x.filtertype == "liste") ?
-                      { selected: [], values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond, fmt: x.fmt, fmt2: x.fmt2 }
-                    : { selected: "", values: "", keys: [], filtertype: x.filtertype, filtercond: x.filtercond, fmt: x.fmt, fmt2: x.fmt2 };
+                      { selected: [], values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond }
+                    : { selected: "", values: "", keys: [], filtertype: x.filtertype, filtercond: x.filtercond };
                 this.filtres[x.field] = filteritem;
             });
         }
@@ -257,7 +239,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.selectedPrestation = prestation;
         if (prestation.collaborateur == undefined) // We come from collaborateur so prestation not loaded by hibernate
             this.selectedPrestation.collaborateur = this.collab;
-        //this.employee = this.selectedPrestation.collaborateur;
     }
 
     savePrestation(event: Event, prestation: Prestation) {
@@ -427,13 +408,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }*/
     // Tri sur datedebut (desc) et version (desc)
     orderDateDebutEtVersion(a, b) {
-        var fld= "dateDebutPrestation";
-        var retval = (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0; ;
-        if (retval==0) {
-            fld= "versionPrestation";
-            retval = (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;;
-        }
-        return retval;
+        var fld = "dateDebutPrestation";
+        var retval = (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
+        fld = "versionPrestation";
+        return (retval!=0) ? retval : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
     }
 
 
@@ -477,16 +455,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.pt.filter(value, field, this.filtres[ field ].filtercond);
     }
 
-    //    buttons_list : String[] = ["Save","End","Delete","Cancel","Reopen"];
-    buttonsFunctions( btn: string ) {
-        switch (btn) {
-            case "Save"   : this.save(); break;
-            case "End"    : this.end(); break;
-            case "Delete" : this.delete(); break;
-            case "Cancel" : this.cancel(); break;
-            case "Reopen" : this.reopen();break;
-        }
-    }
     save() { }
     end() { }
     delete() { }
@@ -566,7 +534,5 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }
     }
 
-    closeDialog() {
-        this.closewindowPrestas.emit();
-    }
+    closeDialog() {  this.closewindowPrestas.emit();   }
 }
