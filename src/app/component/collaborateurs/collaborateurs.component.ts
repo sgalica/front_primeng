@@ -33,33 +33,32 @@ export class CollaborateursComponent implements OnInit {
 
     // Liste
     collaborateurs: Collaborateur[] = [];
-    cols: any[];
+    cols        : any[];
     selectedColumns: any[];
-    filteritem : {selected:any, values:SelectItem[], keys:string[], filtertype:string, filtercond:string };
-    filtres : filteritem[] = [];
-    coldefs : { header: string, field: any, filtertype: string, filtercond: string }[];
-    refCols : { header: string, field: string }[];
-    colsIndex : Object;
+    filteritem  : {selected:any, values:SelectItem[], keys:string[], filtertype:string, filtercond:string };
+    filtres     : filteritem[] = [];
+    coldefs     : { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean }[];
+    colsIndex   : Object;
     showHistSelect: boolean = false;
     // sortOptions: SelectItem[]; sortKey: string; sortField: string; sortOrder: number;
 
     // Fiche
     selectedCollaborateur: Collaborateur = new Collaborateur();
-    displayDialog: boolean = false;
+    displayDialog : boolean = false;
     displayDialog2: boolean = false;
-    lastMission : Mission = new Mission();
+    lastMission   : Mission = new Mission();
 
     // Références
-    allstatus: { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
+    allstatus    : { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
     allstatusidx : Object;
     references   : any[]=[];
 
-    ouinon: { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
+    ouinon       : { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
 
-    private msgs: Message[];
+    private msgs    : Message[];
     private selectedfile: any;
     private viewfile: boolean;
-    private columns: any;
+    private columns : any;
     private apiresponse: ApiResponse;
 
 
@@ -71,9 +70,9 @@ export class CollaborateursComponent implements OnInit {
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
     buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Visualiser les prestations"]; idxBtnPrestations : number =0;
     buttons_list : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
-    buttons : Object;
+    buttons     : Object;
     
-    fr:any;
+    fr  : any;
 
     FieldsFiches : any[];
 
@@ -89,35 +88,32 @@ export class CollaborateursComponent implements OnInit {
         const camelCase = require('camelcase');
 
         this.coldefs = [
-            {header: 'Identifiant Pilot',   field: camelCase('trigramme'),      filtertype : "liste", filtercond:""},
-            {header: 'Nom',                 field: camelCase('nom'),            filtertype : "liste", filtercond:""},
-            {header: 'Prénom',              field: camelCase('prenom'),         filtertype : "liste", filtercond:""},
-            {header: 'Tél personnel',       field: camelCase('tel_perso'),      filtertype : "liste", filtercond:""},
-            {header: 'Tél professionnel',   field: camelCase('tel_pro'),        filtertype : "liste", filtercond:""},
-            {header: 'Catégorie',           field: camelCase('categorisation'), filtertype : "liste", filtercond:""},
-            {header: 'S/T',                 field: camelCase('stt'),            filtertype : "liste", filtercond:""},
-            {header: 'Statut',              field: camelCase('statut_collab'),  filtertype : "liste", filtercond:""},
-            {header: 'Version',             field: camelCase('version_collab'), filtertype : "liste", filtercond:""},
-            {header: 'Mail SG',             field: camelCase('mail_sg'),        filtertype : "liste", filtercond:""},
-            {header: 'Mail Open',           field: camelCase('mail_open'),      filtertype : "liste", filtercond:""},
-            {header: 'Société STT',         field: camelCase('societe_stt'),    filtertype : "liste", filtercond:""},
-            {header: 'Pré embauche ',       field: camelCase('pre_embauche'),   filtertype : "liste", filtercond:""},
-            {header: 'Date embauche',       field: camelCase('date_embauche_open'),filtertype:"liste",filtercond:""},
+            {header: 'Identifiant Pilot',   field: camelCase('trigramme'),      filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Nom',                 field: camelCase('nom'),            filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Prénom',              field: camelCase('prenom'),         filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Tél personnel',       field: camelCase('tel_perso'),      filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Tél professionnel',   field: camelCase('tel_pro'),        filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Catégorie',           field: camelCase('categorisation'), filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'S/T',                 field: camelCase('stt'),            filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Statut',              field: camelCase('statut_collab'),  filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Version',             field: camelCase('version_collab'), filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Mail SG',             field: camelCase('mail_sg'),        filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Mail Open',           field: camelCase('mail_open'),      filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Société STT',         field: camelCase('societe_stt'),    filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Pré embauche ',       field: camelCase('pre_embauche'),   filtertype : "liste", filtercond:"", showInList:true},
+            {header: 'Date embauche',       field: camelCase('date_embauche_open'),filtertype:"liste",filtercond:"", showInList:true},
             // + Mission :
-            {field:"dateDebutMission",      header:"Date début",                filtertype : "", filtercond:""},
-            {field:"dateFinSg",             header:"Date fin",                  filtertype : "", filtercond:""},
-            {field:"dateA3Ans",             header:"Date à 3 ans",              filtertype : "", filtercond:""},
-            {field:"derogation",            header:"Dérogation",                filtertype : "", filtercond:""},
-            {field:"statutMission",         header:"Statut",                    filtertype : "", filtercond:""},
-            {field:"versionMission",        header:"Version",                   filtertype : "", filtercond:""}
+            {field:"dateDebutMission",      header:"Date début",                filtertype : "", filtercond:"", showInList:false},
+            {field:"dateFinSg",             header:"Date fin",                  filtertype : "", filtercond:"", showInList:false},
+            {field:"dateA3Ans",             header:"Date à 3 ans",              filtertype : "", filtercond:"", showInList:false},
+            {field:"derogation",            header:"Dérogation",                filtertype : "", filtercond:"", showInList:false},
+            {field:"statutMission",         header:"Statut",                    filtertype : "", filtercond:"", showInList:false},
+            {field:"versionMission",        header:"Version",                   filtertype : "", filtercond:"", showInList:false}
             //{header: 'created_at', field: camelCase('created_at')},
             //{header: 'created_by', field: camelCase('created_by')},
             //{header: 'updated_at', field: camelCase('updated_at')},
             //{header: 'updated_by', field: camelCase('updated_by')}
         ];
-
-        this.refCols = [
-         ];
 
         this.selectColumns();
         this.createColsIndex();
@@ -217,18 +213,16 @@ export class CollaborateursComponent implements OnInit {
 
 
     selectColumns() {
-        this.cols = [];
+        this.selectedColumns = [];
         this.coldefs.forEach(x => {
-            Array.prototype.push.apply(this.cols, [ {header: x.header, field: x.field} ]);
+             if (x.showInList)
+                this.selectedColumns.push( {header: x.header, field: x.field} );
         });
-
-        this.selectedColumns = this.cols;
     }
 
     createColsIndex() {
         this.colsIndex = {}; // new Object();
         this.createMap(this.coldefs, this.colsIndex, "field", "header" );
-        this.createMap(this.refCols, this.colsIndex, "field", "header" );
     }
 
     createStatusIndex() {

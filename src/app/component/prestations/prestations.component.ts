@@ -199,14 +199,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     selectColumns() {
 
-        this.cols = [];
+        this.selectedColumns = [];
         this.coldefs.forEach(x => {
             // Cols depend on all or collab prestations
             if ( !((x.field == "trigramme") && (this.modeCollab) ) && x.showInList )
-                Array.prototype.push.apply(this.cols, [ {header: x.header, field: x.field} ]);
+                this.selectedColumns.push({header: x.header, field: x.field});
         });
-
-        this.selectedColumns = this.cols;
     }
 
     createColsIndex() {

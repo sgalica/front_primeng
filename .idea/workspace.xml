@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="Some optimisation &amp; good practice">
+    <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="Some optimisation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -257,7 +256,7 @@
           <entry key="css" value="853" />
           <entry key="html" value="2386" />
           <entry key="scss" value="208" />
-          <entry key="ts" value="7076" />
+          <entry key="ts" value="7182" />
           <entry key="txt" value="509" />
         </counts>
       </usages-collector>
@@ -267,7 +266,7 @@
           <entry key="HTML" value="2386" />
           <entry key="PLAIN_TEXT" value="509" />
           <entry key="SCSS" value="208" />
-          <entry key="TypeScript" value="7076" />
+          <entry key="TypeScript" value="7182" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.run.usages" />
@@ -309,11 +308,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="106" column="80" selection-start-line="106" selection-start-column="80" selection-end-line="106" selection-end-column="80" />
+            <state relative-caret-position="435">
+              <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
               <folding>
                 <element signature="e#0#59#0" expanded="true" />
                 <element signature="n#!!block;n#filteritem#0" />
@@ -322,7 +321,6 @@
                 <element signature="n#!!block;n#loadTableKeyValues#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#orderSelectItems#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#selectCollaborateur#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
@@ -356,11 +354,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+            <state relative-caret-position="248">
+              <caret line="206" selection-start-line="206" selection-end-line="206" />
               <folding>
                 <element signature="e#0#114#0" expanded="true" />
                 <element signature="e#7999#8621#0" />
@@ -421,11 +419,11 @@
       <find>cate</find>
       <find>buttons</find>
       <find>coldefs</find>
-      <find>refCols</find>
       <find>refc</find>
       <find>employee</find>
-      <find>afficherLaSaisie</find>
       <find>fmt</find>
+      <find>afficherLaSaisie</find>
+      <find>refCols</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -521,8 +519,8 @@
         <option value="$PROJECT_DIR$/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" />
-        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" />
+        <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
       </list>
     </option>
   </component>
@@ -666,7 +664,7 @@
     <property name="SearchEverywhereHistoryKey" value="app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543488487254" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543489142421" />
     <property name="database.console.LAST_STATE" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../atg-app-server" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -840,7 +838,7 @@
       <workItem from="1537178387410" duration="139000" />
       <workItem from="1537178565580" duration="18488000" />
       <workItem from="1542711163631" duration="706000" />
-      <workItem from="1543221565526" duration="58626000" />
+      <workItem from="1543221565526" duration="59273000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1534730228097</created>
@@ -1024,11 +1022,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543422777312</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Some optimisation">
+      <created>1543488506616</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1543488506616</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="497036000" />
+    <option name="totallyTimeSpent" value="497683000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1162,7 +1167,8 @@
     <MESSAGE value="Esthetique dialogue prestas" />
     <MESSAGE value="Some clean up" />
     <MESSAGE value="Some optimisation &amp; good practice" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some optimisation &amp; good practice" />
+    <MESSAGE value="Some optimisation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some optimisation" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/app/component/alert/alert.component.html">
@@ -1496,30 +1502,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="106" column="80" selection-start-line="106" selection-start-column="80" selection-end-line="106" selection-end-column="80" />
-          <folding>
-            <element signature="e#0#59#0" expanded="true" />
-            <element signature="n#!!block;n#filteritem#0" />
-            <element signature="e#5115#5683#0" />
-            <element signature="e#5733#6355#0" />
-            <element signature="n#!!block;n#loadTableKeyValues#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#orderSelectItems#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#selectCollaborateur#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        <state relative-caret-position="248">
+          <caret line="206" selection-start-line="206" selection-end-line="206" />
           <folding>
             <element signature="e#0#114#0" expanded="true" />
             <element signature="e#7999#8621#0" />
@@ -1536,6 +1522,25 @@
             <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#loadReferences#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#loadEquipe#0;n#PrestationsComponent#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="86" lean-forward="true" selection-start-line="86" selection-end-line="86" />
+          <folding>
+            <element signature="e#0#59#0" expanded="true" />
+            <element signature="n#!!block;n#filteritem#0" />
+            <element signature="e#5115#5683#0" />
+            <element signature="e#5733#6355#0" />
+            <element signature="n#!!block;n#loadTableKeyValues#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#orderSelectItems#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#selectCollaborateur#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
           </folding>
         </state>
       </provider>
