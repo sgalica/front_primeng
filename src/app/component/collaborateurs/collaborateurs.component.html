@@ -33,10 +33,10 @@
 
         <!-- FILTRES -->
         <tr>
-            <th *ngFor="let col of columns" [ngSwitch]="filtres[col.field].filtertype">
+            <th *ngFor="let col of columns" [ngSwitch]="coldefs[col.field].filtertype">
 
-                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="filtres[col.field].values"
-                               [(ngModel)]="filtres[col.field].selected"
+                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="coldefs[col.field].filter.values"
+                               [(ngModel)]="coldefs[col.field].filter.selected"
                                [style]="{'max-width':'100%', 'min-width':'auto'}"
                                [panelStyle]="{'min-width':'140px'}"
                                (onChange)="dt.filter($event.value, col.field, 'in')"
@@ -46,8 +46,8 @@
                 </p-multiSelect>
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
-                    <p-calendar [(ngModel)]="filtres[col.field].selected" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="dd/mm/yy" [locale]="fr" (onSelect)="co_filter(col.field);"
+                    <p-calendar [(ngModel)]="coldefs[col.field].filter.selected" [showIcon]="true" [showButtonBar]="true"
+                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr" (onSelect)="co_filter(col.field);"
                                 (onClearClick)="co_filter(col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
@@ -99,7 +99,7 @@
             <div *ngSwitchCase="'Mission'">
                 <div *ngIf="lastMission">
                     <div *ngFor="let field of fiche.fields" class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left', 'background-color':'#f5fafb'}">{{colsIndex[field]}} :</span>
+                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left', 'background-color':'#f5fafb'}">{{coldefs[field].header}} :</span>
                         <input type="text" pInputText [(ngModel)]="lastMission[field]" style="width:auto">
                     </div>
                 </div>
@@ -111,7 +111,7 @@
             <div *ngSwitchDefault>
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field">
 
-                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{colsIndex[field]}} :</span>
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{coldefs[field].header}} :</span>
 
                     <p-dropdown *ngSwitchCase="'categorisation'" [options]="references['categorisations']" [(ngModel)]="selectedCollaborateur[field]" filter="true" [style]="{'width':'100%'}">
                          <ng-template let-item pTemplate="selectedItem">

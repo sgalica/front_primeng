@@ -35,10 +35,9 @@ export class CollaborateursComponent implements OnInit {
     collaborateurs: Collaborateur[] = [];
     cols        : any[];
     selectedColumns: any[];
-    filteritem  : {selected:any, values:SelectItem[], keys:string[], filtertype:string, filtercond:string };
-    filtres     : filteritem[] = [];
-    coldefs     : { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean }[];
-    colsIndex   : Object;
+    filterlist = { selected: [], values: [], keys: [] };
+    filterdate = { selected: "", values: "", keys: [] };
+    coldefs     : {}; // { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean }[];
     showHistSelect: boolean = false;
     // sortOptions: SelectItem[]; sortKey: string; sortField: string; sortOrder: number;
 
@@ -73,6 +72,8 @@ export class CollaborateursComponent implements OnInit {
     buttons     : Object;
     
     fr  : any;
+    datefmt = "dd/mm/yy";
+    datefmtCalendarInput = "dd/MM/yyyy";
 
     FieldsFiches : any[];
 
@@ -86,37 +87,37 @@ export class CollaborateursComponent implements OnInit {
         this.displayDialog2 = false;
 
         const camelCase = require('camelcase');
+        var filterlist = this.filterlist; var filterdate = this.filterdate;
 
-        this.coldefs = [
-            {header: 'Identifiant Pilot',   field: camelCase('trigramme'),      filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Nom',                 field: camelCase('nom'),            filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Prénom',              field: camelCase('prenom'),         filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Tél personnel',       field: camelCase('tel_perso'),      filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Tél professionnel',   field: camelCase('tel_pro'),        filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Catégorie',           field: camelCase('categorisation'), filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'S/T',                 field: camelCase('stt'),            filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Statut',              field: camelCase('statut_collab'),  filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Version',             field: camelCase('version_collab'), filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Mail SG',             field: camelCase('mail_sg'),        filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Mail Open',           field: camelCase('mail_open'),      filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Société STT',         field: camelCase('societe_stt'),    filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Pré embauche ',       field: camelCase('pre_embauche'),   filtertype : "liste", filtercond:"", showInList:true},
-            {header: 'Date embauche',       field: camelCase('date_embauche_open'),filtertype:"liste",filtercond:"", showInList:true},
+        this.coldefs = {
+            trigramme :      {header: 'Identifiant Pilot',   filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            nom :            {header: 'Nom',                 filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            prenom :         {header: 'Prénom',              filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            telPerso :       {header: 'Tél personnel',       filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            telPro :         {header: 'Tél professionnel',   filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            categorisation : {header: 'Catégorie',           filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            stt :            {header: 'S/T',                 filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            statutCollab :   {header: 'Statut',              filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            versionCollab :  {header: 'Version',             filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            mailSg:          {header: 'Mail SG',             filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            mailOpen:        {header: 'Mail Open',           filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            societeStt:      {header: 'Société STT',         filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            preEmbauche:     {header: 'Pré embauche ',       filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            dateEmbaucheOpen:{header: 'Date embauche',       filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
             // + Mission :
-            {field:"dateDebutMission",      header:"Date début",                filtertype : "", filtercond:"", showInList:false},
-            {field:"dateFinSg",             header:"Date fin",                  filtertype : "", filtercond:"", showInList:false},
-            {field:"dateA3Ans",             header:"Date à 3 ans",              filtertype : "", filtercond:"", showInList:false},
-            {field:"derogation",            header:"Dérogation",                filtertype : "", filtercond:"", showInList:false},
-            {field:"statutMission",         header:"Statut",                    filtertype : "", filtercond:"", showInList:false},
-            {field:"versionMission",        header:"Version",                   filtertype : "", filtercond:"", showInList:false}
+            dateDebutMission:{header:"Date début",           filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
+            dateFinSg:       {header:"Date fin",             filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
+            dateA3Ans:       {header:"Date à 3 ans",         filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
+            derogation:      {header:"Dérogation",           filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
+            statutMission:   {header:"Statut",               filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
+            versionMission:  {header:"Version",              filtertype : "",       filtercond:"", filter:filterlist, showInList:false}
             //{header: 'created_at', field: camelCase('created_at')},
             //{header: 'created_by', field: camelCase('created_by')},
             //{header: 'updated_at', field: camelCase('updated_at')},
             //{header: 'updated_by', field: camelCase('updated_by')}
-        ];
+        };
 
         this.selectColumns();
-        this.createColsIndex();
         this.createStatusIndex();
 
         this.FieldsFiches=[
@@ -125,8 +126,6 @@ export class CollaborateursComponent implements OnInit {
             {grp: "ST", grplabel : "Informations Sous-Traitance", fields : ["societeStt", "preEmbauche", "dateEmbaucheOpen"]},
             {grp: "Contact", grplabel : "Informations de contact", fields : ["telPerso", "telPro", "mailOpen", "mailSg"]}
         ];
-
-        this.initFilters();
 
         this.fr = {
             firstDayOfWeek: 1,
@@ -214,15 +213,11 @@ export class CollaborateursComponent implements OnInit {
 
     selectColumns() {
         this.selectedColumns = [];
-        this.coldefs.forEach(x => {
-             if (x.showInList)
-                this.selectedColumns.push( {header: x.header, field: x.field} );
-        });
-    }
-
-    createColsIndex() {
-        this.colsIndex = {}; // new Object();
-        this.createMap(this.coldefs, this.colsIndex, "field", "header" );
+        for( var key in this.coldefs) {
+             if (this.coldefs[key].showInList)
+                this.selectedColumns.push( {header: this.coldefs[key].header, field: key} );
+        }
+        this.cols=this.selectedColumns;
     }
 
     createStatusIndex() {
@@ -232,40 +227,37 @@ export class CollaborateursComponent implements OnInit {
 
     createMap(arrin, arrout, fldkey, fldvalue) { arrin.forEach( x => { arrout[ x[fldkey] ] = x[fldvalue]; }); }
 
-    initFilters() {
-        // Create filterliste
-        this.coldefs.forEach(x => {
-            var filteritem = (x.filtertype == "liste") ? {
-                selected: [], values: [],  keys: [], filtertype: x.filtertype, filtercond: x.filtercond
-            } : {selected: "", values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond};
-            this.filtres[ x.field ] = filteritem;
-        });
-    };
 
     updateFilters() {
 
-        this.showHistSelect = false;
-        this.initFilters();
+        // Clear
+        for( var column in this.coldefs) {
+            this.coldefs[column].filter = (this.coldefs[column].filtertype == "liste") ? this.filterlist : this.filterdate;
+        }
 
+        this.showHistSelect = false;
+
+        // Get keys
         var labels: string[] = [];  // Labels collabs
         this.collaborateurs.forEach(row => {
 
-            // Get keys
-            for (var column in this.filtres) {
+            for( var column in this.coldefs) {
+                // Clear
+                this.coldefs[column].filter = (this.coldefs[column].filtertype == "liste") ? this.filterlist : this.filterdate;
                 switch (column) {
                     case "trigramme" :
-                        this.filtres[ column ].keys[ row[ column ] ] = row[ column ];
+                        this.coldefs[column].filter.keys[ row[ column ] ] = row[ column ];
                         labels[ row[ column ] ] = row[ column ] + " (" + row.nom + " " + row.prenom + ")";
                         break;
                     default :
                         row[column] = (row[column] == undefined || row[column] == null ) ? "" : row[column].trim();
-                        this.filtres[ column ].keys[ row[column] ] = "";
+                        this.coldefs[column].filter.keys[ row[column] ] = "";
                 }
             }
         });
 
         let selectitems: SelectItem[] = [];
-        for (var column in this.filtres) {
+        for (var column in this.coldefs) {
             selectitems = [];
             var selectitem = "";
             var col_sort = [];
@@ -275,14 +267,14 @@ export class CollaborateursComponent implements OnInit {
                     var statusdispos = this.allstatus;
                     // Add labels ordered as E, T, S, A
                     for (var i in statusdispos) {
-                        if (this.filtres[ column ].keys.indexOf(statusdispos[ i ].value) == -1)
+                        if (this.coldefs[ column ].filtre.keys.indexOf(statusdispos[ i ].value) == -1)
                             selectitems.push({label: statusdispos[ i ].label, value: statusdispos[ i ].value});
                     }
                     break;
 
                 default :
                     // Sort
-                    for (var key in this.filtres[ column ].keys) {
+                    for (var key in this.coldefs[ column ].filtre.keys) {
                         col_sort.push(key);
                     }
                     col_sort.sort();
@@ -295,17 +287,17 @@ export class CollaborateursComponent implements OnInit {
                     break;
             }
 
-            this.filtres[ column ].values = selectitems;
+            this.coldefs[ column ].filtre.values = selectitems;
         }
 
     }
 
     // Filtrer liste collaborateurs
     co_filter(field: string) {
-        var value = this.filtres[ field ].selected;
+        var value = this.coldefs[ field ].filtre.selected;
         //if (this.filtres[ field ].filtertype == "date")
         //    value = this.datePipe.transform(value, 'yyyy-MM-dd');
-        this.dt.filter(value, field, this.filtres[ field ].filtercond);
+        this.dt.filter(value, field, this.coldefs[ field ].filtercond);
     }
 
     selectCollaborateur(event: Event, collaborateur: Collaborateur) {
@@ -372,6 +364,10 @@ export class CollaborateursComponent implements OnInit {
         this.displayDialog2=false;
     }
     
+
+
+
+
     /************************************************************************************************************/
     saveimportedCollaborateurs() {
         console.log("LOGGING:::::::::::::::::::::::");
@@ -394,8 +390,6 @@ export class CollaborateursComponent implements OnInit {
 
                     this.alertService.error(error);
                 });
-
-
     }
 
 

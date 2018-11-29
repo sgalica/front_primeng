@@ -30,12 +30,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
 
     // Liste
-    prestations: Prestation[] = [];
-    cols: any[];
-    selectedColumns: any[];
-    filtres: filteritem[] = [];
-    coldefs: { header: string, field: string, filtertype: string, filtercond: string, showInList: boolean }[];
-    colsIndex : {};
+    prestations : Prestation[] = [];
+    cols        : any[];
+    selectedColumns : any[];
+    coldefs     : {}; //{ header: string, field: string, filtertype: string, filtercond: string, showInList: boolean }[];
+    filterlist = { selected: [], values: [], keys: [] };
+    filterdate = { selected: "", values: "", keys: [] };
 
     // Collaborateur
     id: string;
@@ -59,8 +59,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     buttons : Object; // {label:String, disabled:Boolean}[] = []
 
     fr: any;
-    datefmt="dd/mm/yy";
-    datefmtCalendarInput="dd/MM/yyyy";
+    datefmt = "dd/mm/yy";
+    datefmtCalendarInput = "dd/MM/yyyy";
 
     FieldsFiches : any[];
 
@@ -93,45 +93,47 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.selectedPrestation.contrat = new Contrat();
         this.selectedPrestation.commercialOpenInfo = new CommercialOpen();
 
-
+        var filterlist=this.filterlist; var filterdate=this.filterdate;
         // Columns
         // Cols depending on ID
-        this.coldefs = [
-            {header: 'Identifiant Pilote',  field: 'trigramme',             filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'Début',               field: 'dateDebutPrestation',   filtertype: "date",  showInList:true,  filtercond: "gte"},
-            {header: 'Fin',                 field: 'dateFinPrestation',     filtertype: "date",  showInList:true,  filtercond: "lte"},
-            {header: 'Contrat',             field: 'contratAppli',          filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'ATG',                 field: 'numAtg',                filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'Département',         field: 'departement',           filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'Pôle',                field: 'pole',                  filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'Domaine',             field: 'domaine',               filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'Site',                field: 'localisation',          filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'PU',                  field: 'numeroPu',              filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'Responsable de pôle', field: 'responsablePole',       filtertype: "liste", showInList:false, filtercond: null},
-            {header: 'Donneur ordre SG',    field: 'donneurOrdre',          filtertype: "liste", showInList:false, filtercond: null},
-            {header: 'Type',                field: 'topAtg',                filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'Statut',              field: 'statutPrestation',      filtertype: "liste", showInList:true,  filtercond: null},
-            {header: 'Nom prénom',          field: 'commercialOpen',        filtertype: "liste", showInList:false, filtercond: null},
-            {header: 'Version',             field: 'versionPrestation',     filtertype: "",      showInList:true,  filtercond: null},
+        //this.col_list = ["trigramme", "dateDebutPrestation", "dateFinPrestation", "contratAppli", "numAtg", "departement", "pole", "domaine", "localisation", "numeroPu", "responsablePole", "donneurOrdre", "topAtg", "statutPrestation", "commercialOpen", "versionPrestation",
+        //    "nom", "prenom", "dateDebutContrat", "dateFinContrat", "adresseMail", "telephonePortable", "telephoneFixe"];
+
+        this.coldefs = {
+            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", filter:filterdate},
+            dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", filter:filterdate},
+            contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            numAtg:                 {header: 'ATG',                 filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            departement:            {header: 'Département',         filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            pole:                   {header: 'Pôle',                filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            domaine:                {header: 'Domaine',             filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            localisation:           {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            numeroPu:               {header: 'PU',                  filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            responsablePole:        {header: 'Responsable de pôle', filtertype: "liste", showInList:false, filtercond: null, filter:filterlist},
+            donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null, filter:filterlist},
+            topAtg:                 {header: 'Type',                filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            statutPrestation:       {header: 'Statut',              filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
+            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null, filter:filterlist},
+            versionPrestation:      {header: 'Version',             filtertype: "",      showInList:true,  filtercond: null, filter:filterlist},
 
             // Collaborateur
-            {field: "nom",               header: "Nom",                     filtertype: "",      showInList:false,  filtercond: null},
-            {field: "prenom",            header: "Prénom",                  filtertype: "",      showInList:false,  filtercond: null},
+            nom:                    {header: "Nom",                 filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
+            prenom:                 {header: "Prénom",              filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
 
             // Contrat
-            {field: "dateDebutContrat",  header: "Date début",              filtertype: "",      showInList:false,  filtercond: null},
-            {field: "dateFinContrat",    header: "Date fin",                filtertype: "",      showInList:false,  filtercond: null},
+            dateDebutContrat:       {header: "Date début",          filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
+            dateFinContrat:         {header: "Date fin",            filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
 
             // Commercial Open
-            {field: "adresseMail",       header: "Mail",                    filtertype: "",      showInList:false,  filtercond: null},
-            {field: "telephonePortable", header: "Tél. portable",           filtertype: "",      showInList:false,  filtercond: null},
-            {field: "telephoneFixe",     header: "Tél. fixe",               filtertype: "",      showInList:false,  filtercond: null}
+            adresseMail:            {header: "Mail",                filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
+            telephonePortable:      {header: "Tél. portable",       filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
+            telephoneFixe:          {header: "Tél. fixe",           filtertype: "",      showInList:false, filtercond: null, filter:filterlist}
 
             /* {header: 'date_c', field:'prestDateCreation'}, {header: 'user_c', field:'prestUserCreation'}, {header: 'date_m', field:'prestDateMaj'}, {header: 'user_m', field:'prestUserMaj'},   */
-        ];
+        };
 
         this.selectColumns();
-        this.createColsIndex();
         this.createStatusIndex();
 
         this.FieldsFiches=[
@@ -149,7 +151,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 fields :   [{name:"commercialOpen", type:"combo", editable:false}, {name:"adresseMail",         type:"field"},                  {name:"telephonePortable",  type:"field"},      {name:"telephoneFixe", type:"field"} ] }
         ];
 
-        this.initFilters();
         this.displayDialogPresta = false;
 
         this.fr = {
@@ -200,16 +201,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
     selectColumns() {
 
         this.selectedColumns = [];
-        this.coldefs.forEach(x => {
+        for( var key in this.coldefs) {
             // Cols depend on all or collab prestations
-            if ( !((x.field == "trigramme") && (this.modeCollab) ) && x.showInList )
-                this.selectedColumns.push({header: x.header, field: x.field});
-        });
-    }
-
-    createColsIndex() {
-        this.colsIndex = {}; // new Object();
-        this.createMap(this.coldefs, this.colsIndex, "field", "header" );
+            if ( !((key == "trigramme") && (this.modeCollab) ) && this.coldefs[key].showInList )
+                this.selectedColumns.push({header: this.coldefs[key].header, field: key});
+        }
+        this.cols=this.selectedColumns;
     }
 
     createStatusIndex() {
@@ -218,18 +215,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     createMap(arrin, arrout, fldkey, fldvalue) { arrin.forEach( x => { arrout[ x[fldkey] ] = x[fldvalue]; }); }
-
-    initFilters() {
-        // Create filterliste
-        if (this.coldefs != undefined) {
-            this.coldefs.forEach(x => {
-                var filteritem = (x.filtertype == "liste") ?
-                      { selected: [], values: [], keys: [], filtertype: x.filtertype, filtercond: x.filtercond }
-                    : { selected: "", values: "", keys: [], filtertype: x.filtertype, filtercond: x.filtercond };
-                this.filtres[x.field] = filteritem;
-            });
-        }
-     };
 
     selectPrestation(event: Event, prestation: Prestation) {
         this.displayDialogPresta = true;
@@ -296,7 +281,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     this.filterVersions();
                     // RespsPole : If all prestations loaded, we can take values from filters
                     var ref = "responsablePole";
-                    Array.prototype.push.apply(this.references[ref], this.filtres[ref].values);
+                    Array.prototype.push.apply(this.references[ref], this.coldefs[ref].filtre.values);
                     //this.alertService.success(prestations);
                 },
                 error => {
@@ -304,10 +289,16 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 });
     }
 
+
     updateFilters() {
 
+        // Clear
+        for( var column in this.coldefs) {
+            this.coldefs[column].filter = (this.coldefs[column].filtertype == "liste") ? this.filterlist : this.filterdate;
+        }
+
         this.showHistSelect = false;
-        this.initFilters();
+
         // trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version
         var labels: string[] = [];  // Labels collabs
         if (this.prestations != undefined) {
@@ -323,10 +314,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 datearr =       row.dateFinPrestation.split("/");
                 row.dateFinPrestation   = new Date(datearr[2], datearr[1] - 1, datearr[0]);
 
-                //x.dateDebutPrestationTri = this.datePipe.transform(x.dateDebutPrestation, 'yyyy-MM-dd'); //x.dateDebutPrestation.valueOf();
-
                 // >>>> Get keys <<<<<
-                for (var column in this.filtres) {
+                for (var column in this.coldefs) {
                     var keyvalue = row[column];
                     var value = "";
                     switch (column) {
@@ -343,10 +332,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
                             break;
 
                         default :
-                            value = (this.filtres[column].filtertype == "date") ? keyvalue : (keyvalue == undefined || keyvalue == null ) ? "" : keyvalue.trim();
+                            value = (this.coldefs[column].filtertype == "date") ? keyvalue : (keyvalue == undefined || keyvalue == null ) ? "" : keyvalue.trim();
 
                     }
-                    this.filtres[column].keys[value] = value;
+                    this.coldefs[column].filter.keys[value] = value;
                     // Enregistrer même valeur (vide) pour sélection
                     if (value != keyvalue)
                         row[column]=value;
@@ -355,7 +344,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }
 
         let selectitems: SelectItem[] = [];
-        for (var column in this.filtres) {
+        for (var column in this.coldefs) {
             selectitems = [];
             var selectitem = "";
             var col_sort = [];
@@ -365,7 +354,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     var statusdispos = this.allstatus;
                     //if (!this.modeCollab) statusdispos.splice(3,1);
                     // Add labels ordered as E, T, S, A
-                    var statutkeys = this.filtres[ column ].keys;
+                    var statutkeys = this.coldefs[ column ].filter.keys;
                     for (var i in statusdispos) {
                         var statut = statusdispos[i].value;
                         var isPresent = false;
@@ -380,7 +369,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
                 default : // trigramme, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type
                     // Sort
-                    for (var key in this.filtres[ column ].keys) {
+                    for (var key in this.coldefs[column].filter.keys) {
                         col_sort.push(key);
                     }
                     col_sort.sort();
@@ -393,7 +382,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     break;
             }
 
-            this.filtres[ column ].values = selectitems;
+            this.coldefs[column].filter.values = selectitems;
         }
     }
 
@@ -420,7 +409,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var statushist: string[];
 
         // Multiselect
-        var status: string[] = this.filtres[ "statutPrestation" ].selected; // this.selectedPrestas.status;
+        var status: string[] = this.coldefs["statutPrestation"].filter.selected; // this.selectedPrestas.status;
 
         /*// Combo : si pas de sélection : afficher tout
         status=[this.selectedPrestas.statut];
@@ -437,20 +426,20 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     pt_filter(event, pt, field: string) {
-        var value = this.filtres[ field ].selected;
-        if (this.filtres[ field ].filtertype == "date") {
+        var value = this.coldefs[field].filter.selected;
+        if (this.coldefs[field].filtertype == "date") {
             var valuedate = 0;
             var cond="gt";
             if (value!=null) {
                 valuedate = value.valueOf(); //valuedate = event.valueOf().toString(); //valuedate = this.datePipe.transform(value, 'yyyy-MM-dd');
-                cond = this.filtres[ field ].filtercond;
+                cond = this.coldefs[field].filtercond;
                 if      (cond=="gte") { cond="gt"; valuedate -= 86400000; } // 86400000 = 1 jour en millis
                 else if (cond=="lte") { cond="lt"; valuedate += 86400000; }
             }
             this.pt.filter(valuedate, field, cond );
         }
         else
-            this.pt.filter(value, field, this.filtres[ field ].filtercond);
+            this.pt.filter(value, field, this.coldefs[ field ].filtercond);
     }
 
     save() { }
