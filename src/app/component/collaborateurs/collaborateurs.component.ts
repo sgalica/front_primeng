@@ -10,14 +10,6 @@ import {PrestationsComponent} from "../prestations/prestations.component";
 import {DataTable} from "primeng/primeng";
 import {DatePipe} from "@angular/common";
 
-interface filteritem {
-    selected: any;
-    values: SelectItem[];
-    keys : string[];
-    filtertype: string;
-    filtercond: string;
-}
-
 @Component({
     selector: 'app-collaborateurs',
     templateUrl: './collaborateurs.component.html',
@@ -32,13 +24,11 @@ export class CollaborateursComponent implements OnInit {
     dt: DataTable;
 
     // Liste
-    collaborateurs: Collaborateur[] = [];
-    cols        : any[];
-    selectedColumns: any[];
-    filterlist = { selected: [], values: [], keys: [] };
-    filterdate = { selected: "", values: "", keys: [] };
-    coldefs     : {}; // { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean }[];
-    showHistSelect: boolean = false;
+    collaborateurs  : Collaborateur[] = [];
+    cols            : any[];
+    selectedColumns : any[];
+    coldefs         : {}; // { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean }[];
+    showHistSelect  : boolean = false;
     // sortOptions: SelectItem[]; sortKey: string; sortField: string; sortOrder: number;
 
     // Fiche
@@ -52,7 +42,7 @@ export class CollaborateursComponent implements OnInit {
     allstatusidx : Object;
     references   : any[]=[];
 
-    ouinon       : { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
+    ouinonComboOptions : { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
 
     private msgs    : Message[];
     private selectedfile: any;
@@ -68,8 +58,8 @@ export class CollaborateursComponent implements OnInit {
     private prestasComponent : PrestationsComponent ;
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
     buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Visualiser les prestations"]; idxBtnPrestations : number =0;
-    buttons_list : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
-    buttons     : Object;
+    buttons_list    : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
+    buttons         : Object;
     
     fr  : any;
     datefmt = "dd/mm/yy";
@@ -87,30 +77,29 @@ export class CollaborateursComponent implements OnInit {
         this.displayDialog2 = false;
 
         const camelCase = require('camelcase');
-        var filterlist = this.filterlist; var filterdate = this.filterdate;
 
         this.coldefs = {
-            trigramme :      {header: 'Identifiant Pilot',   filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            nom :            {header: 'Nom',                 filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            prenom :         {header: 'Prénom',              filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            telPerso :       {header: 'Tél personnel',       filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            telPro :         {header: 'Tél professionnel',   filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            categorisation : {header: 'Catégorie',           filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            stt :            {header: 'S/T',                 filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            statutCollab :   {header: 'Statut',              filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            versionCollab :  {header: 'Version',             filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            mailSg:          {header: 'Mail SG',             filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            mailOpen:        {header: 'Mail Open',           filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            societeStt:      {header: 'Société STT',         filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            preEmbauche:     {header: 'Pré embauche ',       filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
-            dateEmbaucheOpen:{header: 'Date embauche',       filtertype : "liste",  filtercond:"", filter:filterlist, showInList:true},
+            trigramme :      {header: 'Identifiant Pilot',   filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            nom :            {header: 'Nom',                 filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            prenom :         {header: 'Prénom',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            telPerso :       {header: 'Tél personnel',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            telPro :         {header: 'Tél professionnel',   filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            categorisation : {header: 'Catégorie',           filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            stt :            {header: 'S/T',                 filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            statutCollab :   {header: 'Statut',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            versionCollab :  {header: 'Version',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            mailSg:          {header: 'Mail SG',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            mailOpen:        {header: 'Mail Open',           filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            societeStt:      {header: 'Société STT',         filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            preEmbauche:     {header: 'Pré embauche ',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            dateEmbaucheOpen:{header: 'Date embauche',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
             // + Mission :
-            dateDebutMission:{header:"Date début",           filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
-            dateFinSg:       {header:"Date fin",             filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
-            dateA3Ans:       {header:"Date à 3 ans",         filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
-            derogation:      {header:"Dérogation",           filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
-            statutMission:   {header:"Statut",               filtertype : "",       filtercond:"", filter:filterlist, showInList:false},
-            versionMission:  {header:"Version",              filtertype : "",       filtercond:"", filter:filterlist, showInList:false}
+            dateDebutMission:{header:"Date début",           filtertype : "",       filtercond:"", selected: "", values: "", keys: "", showInList:false},
+            dateFinSg:       {header:"Date fin",             filtertype : "",       filtercond:"", selected: "", values: "", keys: "", showInList:false},
+            dateA3Ans:       {header:"Date à 3 ans",         filtertype : "",       filtercond:"", selected: "", values: "", keys: "", showInList:false},
+            derogation:      {header:"Dérogation",           filtertype : "",       filtercond:"", selected: [], values: [], keys: [], showInList:false},
+            statutMission:   {header:"Statut",               filtertype : "",       filtercond:"", selected: [], values: [], keys: [], showInList:false},
+            versionMission:  {header:"Version",              filtertype : "",       filtercond:"", selected: [], values: [], keys: [], showInList:false}
             //{header: 'created_at', field: camelCase('created_at')},
             //{header: 'created_by', field: camelCase('created_by')},
             //{header: 'updated_at', field: camelCase('updated_at')},
@@ -232,7 +221,10 @@ export class CollaborateursComponent implements OnInit {
 
         // Clear
         for( var column in this.coldefs) {
-            this.coldefs[column].filter = (this.coldefs[column].filtertype == "liste") ? this.filterlist : this.filterdate;
+            var value = (this.coldefs[column].filtertype == "liste") ? [] : "";
+            this.coldefs[column].values   = value;
+            this.coldefs[column].selected = value;
+            this.coldefs[column].keys     = [];
         }
 
         this.showHistSelect = false;
@@ -243,15 +235,14 @@ export class CollaborateursComponent implements OnInit {
 
             for( var column in this.coldefs) {
                 // Clear
-                this.coldefs[column].filter = (this.coldefs[column].filtertype == "liste") ? this.filterlist : this.filterdate;
                 switch (column) {
                     case "trigramme" :
-                        this.coldefs[column].filter.keys[ row[ column ] ] = row[ column ];
+                        this.coldefs[column].keys[ row[ column ] ] = row[ column ];
                         labels[ row[ column ] ] = row[ column ] + " (" + row.nom + " " + row.prenom + ")";
                         break;
                     default :
                         row[column] = (row[column] == undefined || row[column] == null ) ? "" : row[column].trim();
-                        this.coldefs[column].filter.keys[ row[column] ] = "";
+                        this.coldefs[column].keys[ row[column] ] = "";
                 }
             }
         });
@@ -267,14 +258,14 @@ export class CollaborateursComponent implements OnInit {
                     var statusdispos = this.allstatus;
                     // Add labels ordered as E, T, S, A
                     for (var i in statusdispos) {
-                        if (this.coldefs[ column ].filtre.keys.indexOf(statusdispos[ i ].value) == -1)
+                        if (this.coldefs[ column ].keys.indexOf(statusdispos[ i ].value) == -1)
                             selectitems.push({label: statusdispos[ i ].label, value: statusdispos[ i ].value});
                     }
                     break;
 
                 default :
                     // Sort
-                    for (var key in this.coldefs[ column ].filtre.keys) {
+                    for (var key in this.coldefs[ column ].keys) {
                         col_sort.push(key);
                     }
                     col_sort.sort();
@@ -287,14 +278,14 @@ export class CollaborateursComponent implements OnInit {
                     break;
             }
 
-            this.coldefs[ column ].filtre.values = selectitems;
+            this.coldefs[ column ].values = selectitems;
         }
 
     }
 
     // Filtrer liste collaborateurs
     co_filter(field: string) {
-        var value = this.coldefs[ field ].filtre.selected;
+        var value = this.coldefs[ field ].selected;
         //if (this.filtres[ field ].filtertype == "date")
         //    value = this.datePipe.transform(value, 'yyyy-MM-dd');
         this.dt.filter(value, field, this.coldefs[ field ].filtercond);

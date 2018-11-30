@@ -38,18 +38,20 @@
         <!-- FILTRES -->
         <tr>
             <th *ngFor="let col of columns" [ngSwitch]="coldefs[col.field].filtertype">
-                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="coldefs[col.field].filter.values"
-                               [(ngModel)]="coldefs[col.field].filter.selected"
-                               [style]="{'max-width':'100%', 'min-width':'auto'}"
-                               [panelStyle]="{'min-width':'140px'}"
-                               (onChange)="pt.filter($event.value, col.field, 'in')"
+                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez"
+                               [options]="coldefs[col.field].values"
+                               [(ngModel)]="coldefs[col.field].selected"
+                               [style]     ="{'max-width':'100%', 'min-width':'auto'}"
+                               [panelStyle]= "{'min-width':'140px'}"
+                               (onChange)  = "pt.filter($event.value, col.field, 'in')"
                                selectedItemsLabel="{0} sélectionnées"
                                maxSelectedLabels="1">
                 </p-multiSelect>
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
-                    <p-calendar [(ngModel)]="coldefs[col.field].filter.selected" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr" (onSelect)="pt_filter($event, pt, col.field);"
+                    <p-calendar [(ngModel)]="coldefs[col.field].selected" [showIcon]="true" [showButtonBar]="true"
+                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr"
+                                (onSelect)  ="pt_filter($event, pt, col.field);"
                                 (onClearClick)="pt_filter($event, pt, col.field);"
                                 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [selectOtherMonths]="true"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis', 'padding':'6px 6px'}"
@@ -127,7 +129,7 @@
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left','background-color':'#f5fafb'}">{{coldefs[field.name].header}}&nbsp;:</span>
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="dd/mm/yy" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
+                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
                     </p-calendar>
 
                     <!-- Un seul combo : celui du contrat -->
@@ -151,7 +153,7 @@
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left','background-color':'#f5fafb'}">{{coldefs[field.name].header}}&nbsp;:</span>
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[field.name]" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="dd/mm/yy" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
+                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
                     </p-calendar>
 
                     <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [editable]="field.editable" [style]="{'width':'100%'}">

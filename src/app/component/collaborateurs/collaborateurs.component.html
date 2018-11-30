@@ -35,8 +35,8 @@
         <tr>
             <th *ngFor="let col of columns" [ngSwitch]="coldefs[col.field].filtertype">
 
-                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="coldefs[col.field].filter.values"
-                               [(ngModel)]="coldefs[col.field].filter.selected"
+                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="coldefs[col.field].values"
+                               [(ngModel)]="coldefs[col.field].selected"
                                [style]="{'max-width':'100%', 'min-width':'auto'}"
                                [panelStyle]="{'min-width':'140px'}"
                                (onChange)="dt.filter($event.value, col.field, 'in')"
@@ -46,7 +46,7 @@
                 </p-multiSelect>
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
-                    <p-calendar [(ngModel)]="coldefs[col.field].filter.selected" [showIcon]="true" [showButtonBar]="true"
+                    <p-calendar [(ngModel)]="coldefs[col.field].selected" [showIcon]="true" [showButtonBar]="true"
                                 dateFormat="{{datefmtCalendarInput}}" [locale]="fr" (onSelect)="co_filter(col.field);"
                                 (onClearClick)="co_filter(col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
@@ -125,7 +125,7 @@
                     </p-dropdown>
 
                     <span *ngSwitchCase="'stt'" [ngStyle]="{'width':'70%', 'display':'inline-block'}">
-                        <p-dropdown [options]="ouinon" [(ngModel)]="selectedCollaborateur[field]" placeholder="?"></p-dropdown>
+                        <p-dropdown [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field]" placeholder="?"></p-dropdown>
                     </span>
 
                     <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field]" style="width:auto">

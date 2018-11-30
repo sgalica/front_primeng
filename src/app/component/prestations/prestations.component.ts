@@ -8,8 +8,6 @@ import {Collaborateur, CommercialOpen, Contrat, Prestation} from "../../model/re
 import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService} from "../../service/datas.service";
 import {DatePipe} from "@angular/common";
 
-interface filteritem {  selected: any;    values: SelectItem[];    keys: string[];    filtertype:string;    filtercond:string;}
-
 @Component({
     selector: 'app-prestations',
     templateUrl: './prestations.component.html',
@@ -33,9 +31,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     prestations : Prestation[] = [];
     cols        : any[];
     selectedColumns : any[];
-    coldefs     : {}; //{ header: string, field: string, filtertype: string, filtercond: string, showInList: boolean }[];
-    filterlist = { selected: [], values: [], keys: [] };
-    filterdate = { selected: "", values: "", keys: [] };
+    coldefs     : {}; //{ header: string, field: string, filtertype: string, filtercond: string, selected:[]/"" showInList: boolean }[];
 
     // Collaborateur
     id: string;
@@ -59,8 +55,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     buttons : Object; // {label:String, disabled:Boolean}[] = []
 
     fr: any;
-    datefmt = "dd/mm/yy";
-    datefmtCalendarInput = "dd/MM/yyyy";
+    datefmtCalendarInput = "dd/mm/yy";
+    datefmt = "dd/MM/yyyy";
 
     FieldsFiches : any[];
 
@@ -93,42 +89,41 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.selectedPrestation.contrat = new Contrat();
         this.selectedPrestation.commercialOpenInfo = new CommercialOpen();
 
-        var filterlist=this.filterlist; var filterdate=this.filterdate;
         // Columns
         // Cols depending on ID
         //this.col_list = ["trigramme", "dateDebutPrestation", "dateFinPrestation", "contratAppli", "numAtg", "departement", "pole", "domaine", "localisation", "numeroPu", "responsablePole", "donneurOrdre", "topAtg", "statutPrestation", "commercialOpen", "versionPrestation",
         //    "nom", "prenom", "dateDebutContrat", "dateFinContrat", "adresseMail", "telephonePortable", "telephoneFixe"];
 
         this.coldefs = {
-            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", filter:filterdate},
-            dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", filter:filterdate},
-            contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            numAtg:                 {header: 'ATG',                 filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            departement:            {header: 'Département',         filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            pole:                   {header: 'Pôle',                filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            domaine:                {header: 'Domaine',             filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            localisation:           {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            numeroPu:               {header: 'PU',                  filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            responsablePole:        {header: 'Responsable de pôle', filtertype: "liste", showInList:false, filtercond: null, filter:filterlist},
-            donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null, filter:filterlist},
-            topAtg:                 {header: 'Type',                filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            statutPrestation:       {header: 'Statut',              filtertype: "liste", showInList:true,  filtercond: null, filter:filterlist},
-            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null, filter:filterlist},
-            versionPrestation:      {header: 'Version',             filtertype: "",      showInList:true,  filtercond: null, filter:filterlist},
+            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:""},
+            dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:""},
+            contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            numAtg:                 {header: 'ATG',                 filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            departement:            {header: 'Département',         filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            pole:                   {header: 'Pôle',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            domaine:                {header: 'Domaine',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            localisation:           {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            numeroPu:               {header: 'PU',                  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            responsablePole:        {header: 'Responsable de pôle', filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            topAtg:                 {header: 'Type',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            statutPrestation:       {header: 'Statut',              filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            versionPrestation:      {header: 'Version',             filtertype: "",      showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
 
             // Collaborateur
-            nom:                    {header: "Nom",                 filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
-            prenom:                 {header: "Prénom",              filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
+            nom:                    {header: "Nom",                 filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            prenom:                 {header: "Prénom",              filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
 
             // Contrat
-            dateDebutContrat:       {header: "Date début",          filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
-            dateFinContrat:         {header: "Date fin",            filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
+            dateDebutContrat:       {header: "Date début",          filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            dateFinContrat:         {header: "Date fin",            filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
 
             // Commercial Open
-            adresseMail:            {header: "Mail",                filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
-            telephonePortable:      {header: "Tél. portable",       filtertype: "",      showInList:false, filtercond: null, filter:filterlist},
-            telephoneFixe:          {header: "Tél. fixe",           filtertype: "",      showInList:false, filtercond: null, filter:filterlist}
+            adresseMail:            {header: "Mail",                filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            telephonePortable:      {header: "Tél. portable",       filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            telephoneFixe:          {header: "Tél. fixe",           filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]}
 
             /* {header: 'date_c', field:'prestDateCreation'}, {header: 'user_c', field:'prestUserCreation'}, {header: 'date_m', field:'prestDateMaj'}, {header: 'user_m', field:'prestUserMaj'},   */
         };
@@ -281,7 +276,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     this.filterVersions();
                     // RespsPole : If all prestations loaded, we can take values from filters
                     var ref = "responsablePole";
-                    Array.prototype.push.apply(this.references[ref], this.coldefs[ref].filtre.values);
+                    Array.prototype.push.apply(this.references[ref], this.coldefs[ref].values);
                     //this.alertService.success(prestations);
                 },
                 error => {
@@ -294,7 +289,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // Clear
         for( var column in this.coldefs) {
-            this.coldefs[column].filter = (this.coldefs[column].filtertype == "liste") ? this.filterlist : this.filterdate;
+            var value=(this.coldefs[column].filtertype == "liste") ? [] : "";
+            this.coldefs[column].values   = value;
+            this.coldefs[column].selected = value;
+            this.coldefs[column].keys     = [];
         }
 
         this.showHistSelect = false;
@@ -335,7 +333,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                             value = (this.coldefs[column].filtertype == "date") ? keyvalue : (keyvalue == undefined || keyvalue == null ) ? "" : keyvalue.trim();
 
                     }
-                    this.coldefs[column].filter.keys[value] = value;
+                    this.coldefs[column].keys[value] = value;
                     // Enregistrer même valeur (vide) pour sélection
                     if (value != keyvalue)
                         row[column]=value;
@@ -354,7 +352,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     var statusdispos = this.allstatus;
                     //if (!this.modeCollab) statusdispos.splice(3,1);
                     // Add labels ordered as E, T, S, A
-                    var statutkeys = this.coldefs[ column ].filter.keys;
+                    var statutkeys = this.coldefs[ column ].keys;
                     for (var i in statusdispos) {
                         var statut = statusdispos[i].value;
                         var isPresent = false;
@@ -369,7 +367,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
                 default : // trigramme, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type
                     // Sort
-                    for (var key in this.coldefs[column].filter.keys) {
+                    for (var key in this.coldefs[column].keys) {
                         col_sort.push(key);
                     }
                     col_sort.sort();
@@ -382,7 +380,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     break;
             }
 
-            this.coldefs[column].filter.values = selectitems;
+            this.coldefs[column].values = selectitems;
         }
     }
 
@@ -409,7 +407,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var statushist: string[];
 
         // Multiselect
-        var status: string[] = this.coldefs["statutPrestation"].filter.selected; // this.selectedPrestas.status;
+        var status: string[] = this.coldefs["statutPrestation"].selected; // this.selectedPrestas.status;
 
         /*// Combo : si pas de sélection : afficher tout
         status=[this.selectedPrestas.statut];
@@ -426,7 +424,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     pt_filter(event, pt, field: string) {
-        var value = this.coldefs[field].filter.selected;
+        var value = this.coldefs[field].selected;
         if (this.coldefs[field].filtertype == "date") {
             var valuedate = 0;
             var cond="gt";
@@ -452,15 +450,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
     loadReferences() {
         this.references = [];
         var referenceslist=[
-            {flds :[{ref:"contratAppli", key:"contratAppli",label:"contratAppli"} ],       service:this.contratService,    uniquefilter : false},
-            {flds :[{ref:"localisation", key:"codeSite",    label:"libelleSite"} ],        service:this.siteService,       uniquefilter : false},
-            {flds :[{ref:"numAtg",       key:"numeroAtg",   label:"numeroAtg"} ],          service:this.numAtgService,     uniquefilter : false},
-            {flds :[{ref:"donneurOrdre", key:"cleDo",       label:"donneurOrdre"} ],       service:this.donneurOrdreService, uniquefilter : false},
-            {flds :[{ref:"commercialOpen", key:"commercialOpen", label:"commercialOpen"} ],service:this.commercialOpenService, uniquefilter : false},
+            {flds :[{ref:"contratAppli",    key:"contratAppli", label:"contratAppli"} ],       service:this.contratService,     uniquefilter : false},
+            {flds :[{ref:"localisation",    key:"codeSite",     label:"libelleSite"} ],        service:this.siteService,        uniquefilter : false},
+            {flds :[{ref:"numAtg",          key:"numeroAtg",    label:"numeroAtg"} ],          service:this.numAtgService,      uniquefilter : false},
+            {flds :[{ref:"donneurOrdre",    key:"cleDo",        label:"donneurOrdre"} ],       service:this.donneurOrdreService, uniquefilter : false},
+            {flds :[{ref:"commercialOpen",  key:"commercialOpen", label:"commercialOpen"} ],   service:this.commercialOpenService, uniquefilter : false},
             // Département Pole Domaine (Equipe)
-            {flds :[{ref:"departement", key:"departement",  label:"departement"},
-                    {ref:"pole",        key:"pole",         label:"pole"},
-                    {ref:"domaine",     key:"domaine",      label:"domaine"} ],                service:this.equipeService,      uniquefilter : true},
+            {flds :[{ref:"departement",     key:"departement",  label:"departement"},
+                    {ref:"pole",            key:"pole",         label:"pole"},
+                    {ref:"domaine",         key:"domaine",      label:"domaine"} ],            service:this.equipeService,      uniquefilter : true},
             {flds :[{ref:"responsablePole", key:"responsablePole", label:"responsablePole"} ], service:this.prestationService,  uniquefilter : true}
         ];
         referenceslist.forEach(
