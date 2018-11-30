@@ -115,7 +115,7 @@
 <p-dialog [(visible)]="displayDialogPresta" appendTo="body" [responsive]="true" [modal]="true" [contentStyle]="{'overflow':'visible'}">
 
     <p-header>
-        <span style="display:inline-block; width:80%">{{title}}</span><span style="display:inline-block">Statut "{{allstatusidx[selectedPrestation['statutPrestation']]}}" - Version {{selectedPrestation['versionPrestation']}}</span>
+        <span style="display:inline-block; width:80%">{{title}}</span><span style="display:inline-block">Statut "{{allstatus[selectedPrestation['statutPrestation']]}}" - Version {{selectedPrestation['versionPrestation']}}</span>
     </p-header>
 
     <!--span class="ui-inputgroup-addon">Identifiant</span>
@@ -196,7 +196,7 @@
 
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix" [ngStyle]="{'text-align':'left'}">
-            <button *ngFor="let btnid of buttons_list; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttons[btnid].fnc.call()" [disabled]="buttons[btnid].disabled"></button>
+            <button *ngFor="let btnid of buttonsList; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttons[btnid].fnc.call()" [disabled]="buttons[btnid].disabled"></button>
         </div>
     </p-footer>
 

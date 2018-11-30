@@ -40,19 +40,17 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     // Fiche/Detail
     selectedPrestation: Prestation = new Prestation();
-    
     displayDialogPresta: boolean = false;
 
     // Références
     missions : { label: string, value: number }[];
-    allstatus: { label: string, value: string }[] = [ {value: "E", label: "En cours"}, { value: "T", label: "Terminées"}, {value: "S", label: "Supprimées"}, {value: "A", label: "Archivées"} ];
-    allstatusidx : {};
+    allstatus = { E : "En cours", T: "Terminées", S: "Supprimées", A: "Archivées" };
     contrats : SelectItem[]=[];
     references : any[]=[];
 
     showHistSelect: boolean = false;
 
-    buttons_list : String[] = ["Save", "End", "Delete", "Cancel", "Reopen"];
+    buttonsList : String[] = ["Save", "End", "Delete", "Cancel", "Reopen"];
     buttons : Object; // {label:String, disabled:Boolean}[] = []
 
     FieldsFiches : any[];
@@ -100,7 +98,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         //    "nom", "prenom", "dateDebutContrat", "dateFinContrat", "adresseMail", "telephonePortable", "telephoneFixe"];
 
         this.coldefs = {
-            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: ["testclear","testclearbis" ], values:[], keys:[]},
             dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:""},
             dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:""},
             contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
@@ -134,7 +132,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         };
 
         this.selectColumns();
-        this.createStatusIndex();
 
         this.FieldsFiches=[
             {grp: "collaborateur",  grplabel : "Prestataire",
@@ -184,28 +181,29 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.prestations.sort(this.orderDateDebutEtVersion); //this.filterVersions();
     }
 
-    orderSelectItems(a, b)      { var fld="value"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
-    orderSelectItemsLabel(a, b) { var fld="label"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
-
     selectColumns() {
 
-        this.selectedColumns = [];
-        for( var key in this.coldefs) {
-            // Cols depend on all or collab prestations
-            if ( !((key == "trigramme") && (this.modeCollab) ) && this.coldefs[key].showInList )
-                this.selectedColumns.push({header: this.coldefs[key].header, field: key});
+        this.selectedColumns = this.communServ.filterTableSelectItems(this.coldefs, 'showInList', 'header');
+
+        // Cols depend on all or collab prestations
+        // Remove trigramme if mode collab
+        // !((key == "trigramme") && (this.modeCollab) ) &&
+        if (this.modeCollab) {
+            var pos = 0;
+            this.selectedColumns.forEach( colval => {
+                if (colval.field=="trigramme") {
+                    this.selectedColumns.splice(pos, 1);
+                }
+                else
+                    pos++;
+            });
         }
+
         this.cols=this.selectedColumns;
     }
 
-    createStatusIndex() {
-        this.allstatusidx = {};
-        this.createMap(this.allstatus, this.allstatusidx, "value", "label" );
-    }
-
-    createMap(arrin, arrout, fldkey, fldvalue) { arrin.forEach( x => { arrout[ x[fldkey] ] = x[fldvalue]; }); }
-
     selectPrestation(event: Event, prestation: Prestation) {
+
         this.displayDialogPresta = true;
 
         this.selectedPrestation = prestation;
@@ -273,21 +271,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     Array.prototype.push.apply(this.references[ref], this.coldefs[ref].values);
                     //this.alertService.success(prestations);
                 },
-                error => {
-                    this.alertService.error(error);
-                });
+                error => { this.alertService.error(error);  });
     }
-
 
     updateFilters() {
 
         // Clear
-        for( var column in this.coldefs) {
-            var value=(this.coldefs[column].filtertype == "liste") ? [] : "";
-            this.coldefs[column].values   = value;
-            this.coldefs[column].selected = value;
-            this.coldefs[column].keys     = [];
-        }
+        this.communServ.clearTableCol(this.coldefs, "values",   "filtertype", "liste", [], "");
+        this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
+        this.communServ.clearTableCol(this.coldefs, "keys",     "filtertype", "liste", [], []);
 
         this.showHistSelect = false;
 
@@ -335,45 +327,23 @@ export class PrestationsComponent implements OnInit, OnChanges {
             });
         }
 
-        let selectitems: SelectItem[] = [];
         for (var column in this.coldefs) {
-            selectitems = [];
-            var selectitem = "";
-            var col_sort = [];
+            let selectitems: SelectItem[];
             switch (column) {
 
                 case "statutPrestation" :
-                    var statusdispos = this.allstatus;
-                    //if (!this.modeCollab) statusdispos.splice(3,1);
                     // Add labels ordered as E, T, S, A
-                    var statutkeys = this.coldefs[ column ].keys;
-                    for (var i in statusdispos) {
-                        var statut = statusdispos[i].value;
-                        var isPresent = false;
-                        for( var key in statutkeys) { if(statutkeys[key]==statut) isPresent = true;  }
-                        if (isPresent)
-                            selectitems.push( {label: statusdispos[ i ].label, value: statusdispos[ i ].value} );
-                    }
-
-                    // Version
-                    // this.filtres["prestVersion"] = {selected : "", values:[ {label: 'Historique', value: 'H'},  {label: 'Dernière', value: ''} ], keys:[] };
+                    selectitems = this.communServ.filterSelectItems(this.allstatus, this.coldefs[ column ].keys);
+                    // Version :  // this.filtres["Version"] = {selected : "", values:[ {label: 'Historique', value: 'H'},  {label: 'Dernière', value: ''} ], keys:[] };
                     break;
 
                 default : // trigramme, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type
-                    // Sort
-                    for (var key in this.coldefs[column].keys) {
-                        col_sort.push(key);
-                    }
-                    col_sort.sort();
-
+                    // Sort keys
+                    var colSort = this.communServ.convertMapToArray(this.coldefs[ column ].keys); colSort.sort();
                     // Add to filterlist
-                    for (var k in col_sort) {
-                        var label = (col_sort[k]=="") ? " [ Vide ]" : (column == "trigramme") ? labels[ col_sort[ k ] ] : col_sort[ k ];
-                        selectitems.push({label: label, value: col_sort[ k ]});
-                    }
+                    selectitems = this.communServ.createSelectItemsFromArray(colSort, labels );
                     break;
             }
-
             this.coldefs[column].values = selectitems;
         }
     }
@@ -387,13 +357,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }*/
     // Tri sur datedebut (desc) et version (desc)
     orderDateDebutEtVersion(a, b) {
-        var fld = "dateDebutPrestation";
+        var fld="dateDebutPrestation"; var fld2="versionPrestation";
         var retval = (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
-        fld = "versionPrestation";
-        return (retval!=0) ? retval : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
+        return (retval!=0) ? retval : (a[fld2] > b[fld2]) ? -1 : (a[fld2] < b[fld2]) ? 1 : 0;
     }
-
-
 
     filterVersions() {
         // Si E T ou S pas d'historique, si affichage complète (E T et S) également affichage Historique si coché.
@@ -496,7 +463,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                             rows.forEach( row => { itemsarray[fld.ref].push({ value: row[fld.key], label: row[fld.label] }); } );
 
                         // Sort
-                        itemsarray[fld.ref].sort(this.orderSelectItems);
+                        itemsarray[fld.ref].sort(this.communATGService.orderSelectItems);
                     }
                     );
                 },

@@ -39,8 +39,7 @@ export class CollaborateursComponent implements OnInit {
     lastMission   : Mission = new Mission();
 
     // Références
-    allstatus    : { label: string, value: string }[] = [{value: "E",label:"En cours"}, {value: "T",label:"Terminées"}, {value: "S",label:"Supprimées"}, {value: "A",label:"Archivées"} ];
-    allstatusidx : Object;
+    allstatus = { E: "En cours", T: "Terminées", S: "Supprimées", A: "Archivées"};
     references   : any[]=[];
 
     ouinonComboOptions : { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
@@ -108,7 +107,6 @@ export class CollaborateursComponent implements OnInit {
         };
 
         this.selectColumns();
-        this.createStatusIndex();
 
         this.FieldsFiches=[
             {grp: "Collab", grplabel : "Informations collaborateur", fields : ["trigramme", "nom", "prenom", "categorisation", "stt"]},
@@ -143,9 +141,7 @@ export class CollaborateursComponent implements OnInit {
                     this.collaborateurs = collaborateurs.sort(this.orderTrigrammeVersion);
                     this.updateFilters();
                 },
-                error => {
-                    this.alertService.error(error);
-                });
+                error => { this.alertService.error(error);  });
     }
 
     loadCategorisations() {
@@ -169,7 +165,7 @@ export class CollaborateursComponent implements OnInit {
                             itemsarray[fld.ref].push({ value: x[fld.key], label: label  });
                         }
                     );
-                    itemsarray[fld.ref].sort(this.orderSelectItems);
+                    itemsarray[fld.ref].sort(this.communATGService.orderSelectItems);
                 },
                 error => { this.alertService.error(error); }
             );
@@ -184,38 +180,18 @@ export class CollaborateursComponent implements OnInit {
         return (after != 0) ? after : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
     }
 
-    orderSelectItems(a, b) {
-        var fld="value";
-        return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0;
-    }
-
-
     selectColumns() {
-        this.selectedColumns = [];
-        for( var key in this.coldefs) {
-             if (this.coldefs[key].showInList)
-                this.selectedColumns.push( {header: this.coldefs[key].header, field: key} );
-        }
-        this.cols=this.selectedColumns;
+        this.selectedColumns =  this.selectedColumns = this.communServ.filterTableSelectItems(this.coldefs, 'showInList', 'header');
+        this.cols = this.selectedColumns;
     }
-
-    createStatusIndex() {
-        this.allstatusidx = {};
-        this.createMap(this.allstatus, this.allstatusidx, "value", "label" );
-    }
-
-    createMap(arrin, arrout, fldkey, fldvalue) { arrin.forEach( x => { arrout[ x[fldkey] ] = x[fldvalue]; }); }
 
 
     updateFilters() {
 
         // Clear
-        for( var column in this.coldefs) {
-            var value = (this.coldefs[column].filtertype == "liste") ? [] : "";
-            this.coldefs[column].values   = value;
-            this.coldefs[column].selected = value;
-            this.coldefs[column].keys     = [];
-        }
+        this.communServ.clearTableCol(this.coldefs, "values",   "filtertype", "liste", [], "");
+        this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
+        this.communServ.clearTableCol(this.coldefs, "keys",     "filtertype", "liste", [], []);
 
         this.showHistSelect = false;
 
@@ -237,41 +213,26 @@ export class CollaborateursComponent implements OnInit {
             }
         });
 
-        let selectitems: SelectItem[] = [];
         for (var column in this.coldefs) {
-            selectitems = [];
-            var selectitem = "";
-            var col_sort = [];
+            let selectitems : SelectItem[] ;
             switch (column) {
 
                 case "statutCollab" :
-                    var statusdispos = this.allstatus;
                     // Add labels ordered as E, T, S, A
-                    for (var i in statusdispos) {
-                        if (this.coldefs[ column ].keys.indexOf(statusdispos[ i ].value) == -1)
-                            selectitems.push({label: statusdispos[ i ].label, value: statusdispos[ i ].value});
-                    }
+                    selectitems = this.communServ.filterSelectItems(this.allstatus, this.coldefs[ column ].keys);
                     break;
 
                 default :
-                    // Sort
-                    for (var key in this.coldefs[ column ].keys) {
-                        col_sort.push(key);
-                    }
-                    col_sort.sort();
-
+                    // Sort keys
+                    var colSort = this.communServ.convertMapToArray(this.coldefs[ column ].keys); colSort.sort();
                     // Add to liste
-                    for (var k in col_sort) {
-                        var label = (col_sort[k]=="")? " [ Vide ]" : (column == "trigramme") ? labels[ col_sort[ k ] ] : col_sort[ k ];
-                        selectitems.push({label: label, value: col_sort[ k ]});
-                    }
+                    selectitems = this.communServ.createSelectItemsFromArray(colSort, labels );
                     break;
             }
-
             this.coldefs[ column ].values = selectitems;
         }
-
     }
+
 
     // Filtrer liste collaborateurs
     co_filter(field: string) {

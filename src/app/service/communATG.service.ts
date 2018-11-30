@@ -15,14 +15,61 @@ export class CommunATGService {
         clear: 'Effacer'
     };
 
-    datefmt = "dd/mm/yy";
-    datefmtCalendarInput = "dd/MM/yyyy";
+    datefmtCalendarInput = "dd/mm/yy";
+    datefmt = "dd/MM/yyyy";
 
 
-    constructor() {
+    constructor() {  }
+
+    orderSelectItems(a, b)      { var fld="value"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
+    orderSelectItemsLabel(a, b) { var fld="label"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
+
+    convertMapToArray(map : {}) : any[] {
+        var list=[];
+        for (var key in map ) {
+            list.push(key);
+        }
+        return list;
     }
 
-    success() {
+    // Return list of SelectItems based on array et labels (if present)
+    createSelectItemsFromArray(array, labels ) : any[] {
+        var list=[];
+        for (var key in array) {
+            var label = (array[key] == "") ? " [ Vide ]" : (labels.length > 0) ? labels[array[key]] : array[key];
+            list.push({label: label, value: array[key]});
+        }
+        return list;
     }
+
+
+    // Return list of SelectItems based on table filtered on coltst
+    filterTableSelectItems (tableIn:{}, coltst:string, labelfld:string) : any[] {
+
+        var list = [];
+        for( var key in tableIn) {
+            if (tableIn[key][coltst])
+                list.push({header: tableIn[key][labelfld], field: key});
+        }
+        return list;
+    }
+
+    // Return list of Selectitems based on table filtered by values in array
+    filterSelectItems(tableIn:{}, arrayCheck: any[]) : any[]  {
+
+        var list = [];
+        for (var key in tableIn) {
+            if (arrayCheck.indexOf(key) == -1)
+                list.push({label: tableIn[key], value: key});
+        }
+        return list;
+    }
+
+    clearTableCol(table, col, coltst, type, valistype, othervalue) {
+        for( var column in table) {
+            table[column][col] = (table[column][coltst] == type) ? valistype : othervalue;
+        }
+    }
+
 
 }
