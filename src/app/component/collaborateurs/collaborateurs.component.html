@@ -47,7 +47,7 @@
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
                     <p-calendar [(ngModel)]="coldefs[col.field].selected" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr" (onSelect)="co_filter(col.field);"
+                                dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" (onSelect)="co_filter(col.field);"
                                 (onClearClick)="co_filter(col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
@@ -138,7 +138,7 @@
     <!-- FOOTER -->
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix" [ngStyle]="{'text-align':'left'}">
-            <button *ngFor="let btnid of buttons_list; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttonsFunctions(btnid)" [disabled]="buttons[btnid].disabled"></button>
+            <button *ngFor="let btnid of buttonsList; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttonsFunctions(btnid)" [disabled]="buttons[btnid].disabled"></button>
         </div>
     </p-footer>
 

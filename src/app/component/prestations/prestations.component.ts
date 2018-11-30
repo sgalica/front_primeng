@@ -7,6 +7,7 @@ import {DataTable} from "primeng/primeng";
 import {Collaborateur, CommercialOpen, Contrat, Prestation} from "../../model/referentiel";
 import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService} from "../../service/datas.service";
 import {DatePipe} from "@angular/common";
+import {CommunATGService} from "../../service/communATG.service";
 
 @Component({
     selector: 'app-prestations',
@@ -54,11 +55,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
     buttons_list : String[] = ["Save", "End", "Delete", "Cancel", "Reopen"];
     buttons : Object; // {label:String, disabled:Boolean}[] = []
 
-    fr: any;
-    datefmtCalendarInput = "dd/mm/yy";
-    datefmt = "dd/MM/yyyy";
-
     FieldsFiches : any[];
+
+    communServ : CommunATGService;
 
     // Sorting
     //sortOptions: SelectItem[]; //sortField: string; sortOrder: number;
@@ -76,10 +75,16 @@ export class PrestationsComponent implements OnInit, OnChanges {
         private commercialOpenService: CommercialOpenService,
         // private respPoleService: Service, // Resp pôle
 
-        private router: Router, private route: ActivatedRoute, private alertService: AlertService, private datePipe:DatePipe
+        private router: Router, private route: ActivatedRoute,
+        private alertService: AlertService,
+        private datePipe:DatePipe,
+        private communATGService : CommunATGService
     ) {}
 
+
     ngOnInit() {
+
+        this.communServ = this.communATGService;
 
         // Mode ALL prestations from service or COLLAB (Prestations from collab)
         if (this.route.snapshot.url[ 0 ].path != ("prestations"))
@@ -147,17 +152,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         ];
 
         this.displayDialogPresta = false;
-
-        this.fr = {
-            firstDayOfWeek: 1,
-            dayNames: [ "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi" ],
-            dayNamesShort: [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ],
-            dayNamesMin: [ "di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ],
-            monthNames: [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
-            monthNamesShort: [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jui", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
-            today: 'Aujourd\'hui',
-            clear: 'Effacer'
-        };
 
         this.buttons = {
             "Save"   : {label:"Enregistrer", disabled:true,  fnc : ()=>{this.save();} },

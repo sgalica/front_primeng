@@ -50,7 +50,7 @@
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
                     <p-calendar [(ngModel)]="coldefs[col.field].selected" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr"
+                                dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
                                 (onSelect)  ="pt_filter($event, pt, col.field);"
                                 (onClearClick)="pt_filter($event, pt, col.field);"
                                 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [selectOtherMonths]="true"
@@ -91,7 +91,7 @@
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" [ngSwitch]="coldefs[col.field].filtertype">
-                <span *ngSwitchCase="'date'">{{rowData[col.field] | date:datefmt }}</span>
+                <span *ngSwitchCase="'date'">{{rowData[col.field] | date:communServ.datefmt }}</span>
                 <span *ngSwitchDefault>{{rowData[col.field]}}</span>
             </td>
 
@@ -129,7 +129,7 @@
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left','background-color':'#f5fafb'}">{{coldefs[field.name].header}}&nbsp;:</span>
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
+                                dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
                     </p-calendar>
 
                     <!-- Un seul combo : celui du contrat -->
@@ -153,7 +153,7 @@
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left','background-color':'#f5fafb'}">{{coldefs[field.name].header}}&nbsp;:</span>
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[field.name]" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="{{datefmtCalendarInput}}" [locale]="fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
+                                dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [inputStyle]="{}" [style]="{'display':'inline-block'}">
                     </p-calendar>
 
                     <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [editable]="field.editable" [style]="{'width':'100%'}">

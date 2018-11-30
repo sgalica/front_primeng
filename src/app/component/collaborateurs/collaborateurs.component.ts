@@ -9,6 +9,7 @@ import {ApiResponse} from "../../model/apiresponse";
 import {PrestationsComponent} from "../prestations/prestations.component";
 import {DataTable} from "primeng/primeng";
 import {DatePipe} from "@angular/common";
+import {CommunATGService} from "../../service/communATG.service"
 
 @Component({
     selector: 'app-collaborateurs',
@@ -27,12 +28,12 @@ export class CollaborateursComponent implements OnInit {
     collaborateurs  : Collaborateur[] = [];
     cols            : any[];
     selectedColumns : any[];
-    coldefs         : {}; // { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean }[];
+    coldefs         : {}; // { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean, selected, values, keys }[];
     showHistSelect  : boolean = false;
     // sortOptions: SelectItem[]; sortKey: string; sortField: string; sortOrder: number;
 
     // Fiche
-    selectedCollaborateur: Collaborateur = new Collaborateur();
+    selectedCollaborateur : Collaborateur = new Collaborateur();
     displayDialog : boolean = false;
     displayDialog2: boolean = false;
     lastMission   : Mission = new Mission();
@@ -48,7 +49,7 @@ export class CollaborateursComponent implements OnInit {
     private selectedfile: any;
     private viewfile: boolean;
     private columns : any;
-    private apiresponse: ApiResponse;
+    private apiresponse : ApiResponse;
 
 
     // PRESTATIONS
@@ -58,21 +59,21 @@ export class CollaborateursComponent implements OnInit {
     private prestasComponent : PrestationsComponent ;
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
     buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Visualiser les prestations"]; idxBtnPrestations : number =0;
-    buttons_list    : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
+    buttonsList    : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
     buttons         : Object;
-    
-    fr  : any;
-    datefmt = "dd/mm/yy";
-    datefmtCalendarInput = "dd/MM/yyyy";
 
     FieldsFiches : any[];
 
+    communServ : CommunATGService;
+
     constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService,
-                private router: Router, private alertService: AlertService, private datePipe:DatePipe) {
+                private router: Router, private alertService: AlertService, private datePipe:DatePipe, private communATGService : CommunATGService) {
     }
     /*   ngOnChanges(): void { const camelCase = require('camelcase'); }*/
 
     ngOnInit() {
+
+        this.communServ = this.communATGService;
 
         this.displayDialog2 = false;
 
@@ -115,17 +116,6 @@ export class CollaborateursComponent implements OnInit {
             {grp: "ST", grplabel : "Informations Sous-Traitance", fields : ["societeStt", "preEmbauche", "dateEmbaucheOpen"]},
             {grp: "Contact", grplabel : "Informations de contact", fields : ["telPerso", "telPro", "mailOpen", "mailSg"]}
         ];
-
-        this.fr = {
-            firstDayOfWeek: 1,
-            dayNames: [ "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi" ],
-            dayNamesShort: [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ],
-            dayNamesMin: [ "di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ],
-            monthNames: [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
-            monthNamesShort: [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jui", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
-            today: 'Aujourd\'hui',
-            clear: 'Effacer'
-        };
 
         this.buttons = {
             "Save"      : {label:"Enregistrer",                 disabled:true,  fnc : ()=>{this.saveCollaborateur();} },

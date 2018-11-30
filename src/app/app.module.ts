@@ -121,6 +121,7 @@ import {
     SiteService,
     SocieteSttService
 } from "./service/datas.service";
+import {CommunATGService} from "./service/communATG.service";
 import {DatePipe} from "@angular/common";
 
 
@@ -255,6 +256,7 @@ export function tokenGetter() {
         MissionService,
         UserService,
         JwtHelperService,
+        CommunATGService,
         {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
 
