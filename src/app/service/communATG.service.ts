@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {first} from "rxjs/operators";
+//import {AlertService} from "../service/alert.service";
 
 @Injectable()
 export class CommunATGService {
@@ -19,7 +21,9 @@ export class CommunATGService {
     datefmt = "dd/MM/yyyy";
 
 
-    constructor() {  }
+    constructor( 
+        //private alertService: AlertService,
+    ){}
 
     orderSelectItems(a, b)      { var fld="value"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
     orderSelectItemsLabel(a, b) { var fld="label"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
@@ -54,12 +58,12 @@ export class CommunATGService {
         return list;
     }
 
-    // Return list of Selectitems based on table filtered by values in array
-    filterSelectItems(tableIn:{}, arrayCheck: any[]) : any[]  {
+    // Return list of Selectitems based on table filtered by values in map
+    filterSelectItems( tableIn:{}, arrayCheck: {} ) : any[]  {
 
         var list = [];
         for (var key in tableIn) {
-            if (arrayCheck.indexOf(key) == -1)
+            if ( arrayCheck[key] != undefined )
                 list.push({label: tableIn[key], value: key});
         }
         return list;
@@ -67,9 +71,57 @@ export class CommunATGService {
 
     clearTableCol(table, col, coltst, type, valistype, othervalue) {
         for( var column in table) {
-            table[column][col] = (table[column][coltst] == type) ? valistype : othervalue;
+            var typevalue = (table[column][coltst] == type) ? typeof valistype : typeof othervalue;
+            if ( typevalue == "string")
+                table[column][col]="";
+            else
+                table[column][col]=[];
         }
     }
 
+    
+    loadTableKeyValues(flds, tableService, itemsarray, uniquevalues) {
+
+        tableService.list()
+            .pipe(first())
+            .subscribe( rows => {
+
+                    flds.forEach( fld => {
+
+                            itemsarray[fld.ref]=[];
+
+                            if (uniquevalues) {
+
+                                // Unique values
+                                var keys = {};
+                                rows.forEach(row => {
+                                    row[fld.key] = (row[fld.key] == undefined || row[fld.key] == null) ? "" : row[fld.key].trim();
+                                    keys[row[fld.key]] = row[fld.label];
+                                });
+                                // Lists for combos
+                                for (var item in keys) {
+                                    itemsarray[fld.ref].push({value: item, label: keys[item]});
+                                }
+                            }
+                            else {
+                                var label = "";
+                                rows.forEach(row => {
+                                    label = row[fld.label];
+                                    label += (fld.labelbis) ? " (" + row[fld.labelbis] + ")" : "";
+
+                                    itemsarray[fld.ref].push({value: row[fld.key], label: label});
+                                });
+                            }
+
+                            // Sort
+                            itemsarray[fld.ref].sort(this.orderSelectItems);
+                        }
+                    );
+                },
+                error => {              //this.alertService.error(error);
+                }
+            );
+    }
+    
 
 }

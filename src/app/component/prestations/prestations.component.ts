@@ -12,8 +12,7 @@ import {CommunATGService} from "../../service/communATG.service";
 @Component({
     selector: 'app-prestations',
     templateUrl: './prestations.component.html',
-    styleUrls: [ './prestations.component.css' ],
-    providers : [PrestationService ]
+    styleUrls: [ './prestations.component.css' ]
 })
 export class PrestationsComponent implements OnInit, OnChanges {
 
@@ -166,8 +165,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     showCollab(pCollab:Collaborateur) {
 
-        if (pCollab!=null)
-            this.collab=pCollab;
+        if (pCollab != null)
+            this.collab = pCollab;
 
         this.id = this.collab.trigramme;
         this.employee_name = this.collab.prenom + " " + this.collab.nom;
@@ -175,10 +174,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     selectPrestations(param_prestations: Prestation[]) {
+
         this.prestations = param_prestations;
         this.updateFilters();
         if (this.prestations!=undefined)
             this.prestations.sort(this.orderDateDebutEtVersion); //this.filterVersions();
+
     }
 
     selectColumns() {
@@ -277,9 +278,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
     updateFilters() {
 
         // Clear
-        this.communServ.clearTableCol(this.coldefs, "values",   "filtertype", "liste", [], "");
-        this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
-        this.communServ.clearTableCol(this.coldefs, "keys",     "filtertype", "liste", [], []);
+        if (this.communServ) {
+            this.communServ.clearTableCol(this.coldefs, "values",   "filtertype", "liste", [], "");
+            this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
+            this.communServ.clearTableCol(this.coldefs, "keys",     "filtertype", "liste", [], []);
+        }
 
         this.showHistSelect = false;
 
@@ -424,51 +427,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
         ];
         referenceslist.forEach(
             defref => {
-
-                defref.flds.forEach( fld => {
-                    this.references[fld.ref]=[];
-                });
-                if (defref.flds[0].ref!="responsablePole" || this.modeCollab)
-                    this.loadTableKeyValues(defref.flds, defref.service, this.references, defref.uniquefilter );
+                // Clear references of field
+                defref.flds.forEach( fld => { this.references[fld.ref]=[]; });
+                // Load references of field
+                if (defref.flds[0].ref != "responsablePole" || this.modeCollab)
+                    this.communServ.loadTableKeyValues(defref.flds, defref.service, this.references, defref.uniquefilter );
             }
         );
 
-    }
-
-
-    loadTableKeyValues(flds, tableService, itemsarray, uniquevalues) {
-
-        tableService.list()
-            .pipe(first())
-            .subscribe( rows => {
-
-                    flds.forEach( fld => {
-
-                        itemsarray[fld.ref]=[];
-
-                        if (uniquevalues) {
-
-                            // Unique values
-                            var keys: string[] = [];
-                            rows.forEach(row => {
-                                row[fld.key] = (row[fld.key] == undefined || row[fld.key] == null) ? "" : row[fld.key].trim();
-                                keys[row[fld.key]] = row[fld.label];
-                            });
-                            // Lists for combos
-                            for (var item in keys) {
-                                itemsarray[fld.ref].push({value: item, label: keys[item]});
-                            }
-                        }
-                        else
-                            rows.forEach( row => { itemsarray[fld.ref].push({ value: row[fld.key], label: row[fld.label] }); } );
-
-                        // Sort
-                        itemsarray[fld.ref].sort(this.communATGService.orderSelectItems);
-                    }
-                    );
-                },
-                error => { this.alertService.error(error); }
-            );
     }
 
 

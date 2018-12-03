@@ -14,8 +14,7 @@ import {CommunATGService} from "../../service/communATG.service"
 @Component({
     selector: 'app-collaborateurs',
     templateUrl: './collaborateurs.component.html',
-    styleUrls: ['./collaborateurs.component.css'],
-    providers : [CollaborateurService ]
+    styleUrls: ['./collaborateurs.component.css']
 })
 export class CollaborateursComponent implements OnInit {
 
@@ -79,27 +78,27 @@ export class CollaborateursComponent implements OnInit {
         const camelCase = require('camelcase');
 
         this.coldefs = {
-            trigramme :      {header: 'Identifiant Pilot',   filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            nom :            {header: 'Nom',                 filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            prenom :         {header: 'Prénom',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            telPerso :       {header: 'Tél personnel',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            telPro :         {header: 'Tél professionnel',   filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            categorisation : {header: 'Catégorie',           filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            stt :            {header: 'S/T',                 filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            statutCollab :   {header: 'Statut',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            versionCollab :  {header: 'Version',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            mailSg:          {header: 'Mail SG',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            mailOpen:        {header: 'Mail Open',           filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            societeStt:      {header: 'Société STT',         filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            preEmbauche:     {header: 'Pré embauche ',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
-            dateEmbaucheOpen:{header: 'Date embauche',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: [], showInList:true},
+            trigramme :      {header: 'Identifiant Pilot',   filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            nom :            {header: 'Nom',                 filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            prenom :         {header: 'Prénom',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            telPerso :       {header: 'Tél personnel',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            telPro :         {header: 'Tél professionnel',   filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            categorisation : {header: 'Catégorie',           filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            stt :            {header: 'S/T',                 filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            statutCollab :   {header: 'Statut',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            versionCollab :  {header: 'Version',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            mailSg:          {header: 'Mail SG',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            mailOpen:        {header: 'Mail Open',           filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            societeStt:      {header: 'Société STT',         filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            preEmbauche:     {header: 'Pré embauche ',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
+            dateEmbaucheOpen:{header: 'Date embauche',       filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true},
             // + Mission :
-            dateDebutMission:{header:"Date début",           filtertype : "",       filtercond:"", selected: "", values: "", keys: "", showInList:false},
-            dateFinSg:       {header:"Date fin",             filtertype : "",       filtercond:"", selected: "", values: "", keys: "", showInList:false},
-            dateA3Ans:       {header:"Date à 3 ans",         filtertype : "",       filtercond:"", selected: "", values: "", keys: "", showInList:false},
-            derogation:      {header:"Dérogation",           filtertype : "",       filtercond:"", selected: [], values: [], keys: [], showInList:false},
-            statutMission:   {header:"Statut",               filtertype : "",       filtercond:"", selected: [], values: [], keys: [], showInList:false},
-            versionMission:  {header:"Version",              filtertype : "",       filtercond:"", selected: [], values: [], keys: [], showInList:false}
+            dateDebutMission:{header:"Date début",           filtertype : "",       filtercond:"", selected: "", values: "", keys: {}, showInList:false},
+            dateFinSg:       {header:"Date fin",             filtertype : "",       filtercond:"", selected: "", values: "", keys: {}, showInList:false},
+            dateA3Ans:       {header:"Date à 3 ans",         filtertype : "",       filtercond:"", selected: "", values: "", keys: {}, showInList:false},
+            derogation:      {header:"Dérogation",           filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false},
+            statutMission:   {header:"Statut",               filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false},
+            versionMission:  {header:"Version",              filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false}
             //{header: 'created_at', field: camelCase('created_at')},
             //{header: 'created_by', field: camelCase('created_by')},
             //{header: 'updated_at', field: camelCase('updated_at')},
@@ -147,30 +146,10 @@ export class CollaborateursComponent implements OnInit {
     loadCategorisations() {
         this.references["categorisations"] = [];
 
-        var fld = {ref:"categorisations", key:"categorisation", label:"categorisation", labelbis:"libelle"} ;
-        this.loadTableKeyValues(fld, this.categorieService, this.references );
+        var flds = [{ref:"categorisations", key:"categorisation", label:"categorisation", labelbis:"libelle"}] ;
+        
+        this.communServ.loadTableKeyValues(flds, this.categorieService, this.references, null );
     }
-
-    loadTableKeyValues(fld, tableService, itemsarray) {
-        tableService.list()
-            .pipe(first())
-            .subscribe(
-                rows => {
-                    itemsarray[fld.ref]=[];
-                    var label="";
-                    rows.forEach( x => {
-                            label = x[fld.label];
-                            if (fld.labelbis!="")
-                                label += " (" + x[fld.labelbis]+")"
-                            itemsarray[fld.ref].push({ value: x[fld.key], label: label  });
-                        }
-                    );
-                    itemsarray[fld.ref].sort(this.communATGService.orderSelectItems);
-                },
-                error => { this.alertService.error(error); }
-            );
-    }
-
 
     // Tri sur trigramme (asc) et version (desc)
     orderTrigrammeVersion(a, b) {
@@ -189,32 +168,36 @@ export class CollaborateursComponent implements OnInit {
     updateFilters() {
 
         // Clear
-        this.communServ.clearTableCol(this.coldefs, "values",   "filtertype", "liste", [], "");
-        this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
-        this.communServ.clearTableCol(this.coldefs, "keys",     "filtertype", "liste", [], []);
-
+        if (this.communServ) {
+            this.communServ.clearTableCol(this.coldefs, "values", "filtertype", "liste", [], "");
+            this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
+            this.communServ.clearTableCol(this.coldefs, "keys", "filtertype", "liste", [], []);
+        }
         this.showHistSelect = false;
+
 
         // Get keys
         var labels: string[] = [];  // Labels collabs
         this.collaborateurs.forEach(row => {
 
             for( var column in this.coldefs) {
-                // Clear
+                row[ column ] = (row[ column ] == undefined || row[ column ] == null ) ? "" : row[ column ].trim();
+                var value = row[ column ];
                 switch (column) {
                     case "trigramme" :
-                        this.coldefs[column].keys[ row[ column ] ] = row[ column ];
-                        labels[ row[ column ] ] = row[ column ] + " (" + row.nom + " " + row.prenom + ")";
+                        labels[ value ] = value + " (" + row.nom + " " + row.prenom + ")";
                         break;
                     default :
-                        row[column] = (row[column] == undefined || row[column] == null ) ? "" : row[column].trim();
-                        this.coldefs[column].keys[ row[column] ] = "";
+                        value="";
                 }
+                this.coldefs[column].keys[row[ column ]] = value;
             }
         });
 
+        // Create SelectItems of columns from keys
         for (var column in this.coldefs) {
             let selectitems : SelectItem[] ;
+
             switch (column) {
 
                 case "statutCollab" :
@@ -231,6 +214,7 @@ export class CollaborateursComponent implements OnInit {
             }
             this.coldefs[ column ].values = selectitems;
         }
+
     }
 
 
@@ -248,24 +232,30 @@ export class CollaborateursComponent implements OnInit {
         this.displayDialog = true;
 
         // Last mission
-        this.lastMission = null;
         this.buttons["Delete"].disabled=true;
-        this.selectedCollaborateur.missions.forEach(x => {
-            var dateArr = x['dateDebutMission'].split("/"); //dd/mm/yyyy
-            var dateMission = new Date(dateArr[2], dateArr[1], dateArr[0]);
-            var datelastMission = new Date(0);
-            if (this.lastMission!=null && typeof this.lastMission['dateDebutMission'] == "string") {
-                dateArr = this.lastMission['dateDebutMission'].split("/");
-                datelastMission = new Date(dateArr[2], dateArr[1], dateArr[0]);
-            }
-            if ( dateMission > datelastMission ) {
-               this.lastMission = x;
-            }
+
+        this.lastMission = null;
+        this.selectedCollaborateur.missions.forEach(missionCollab => {
+            var lastDate = (this.lastMission!=null && typeof this.lastMission['dateDebutMission'] == "string") ? this.lastMission['dateDebutMission'] : null;
+            if (this.getDateIfMoreRecent( missionCollab['dateDebutMission'], lastDate ))
+                this.lastMission = missionCollab;
         });
+
         if (!this.lastMission)
             this.buttons["Delete"].disabled=false;
 
         event.preventDefault();
+    }
+
+    getDateIfMoreRecent(datestr, lastDate ) {
+
+        var dateArr = datestr.split("/"); //dd/mm/yyyy
+        var dateTst = new Date(dateArr[2], dateArr[1], dateArr[0]);
+
+        if (lastDate) dateArr = lastDate.split("/");
+        var dateLast = (lastDate) ? new Date(dateArr[2], dateArr[1], dateArr[0]) : new Date(0);
+
+        return ( dateTst > dateLast ) ? dateTst : null;
     }
 
     afficherLaSaisie(event) {
