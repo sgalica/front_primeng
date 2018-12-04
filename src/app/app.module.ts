@@ -102,7 +102,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PrestationsComponent} from './component/prestations/prestations.component';
 import {MenuComponent} from './component/menu/menu.component';
 import {AuthService} from './service/auth.service';
-import {NewsComponent} from './news/news.component';
+import {NewsComponent} from './component/news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {DataService} from "./service/data.service";

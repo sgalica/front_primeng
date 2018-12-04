@@ -140,7 +140,7 @@ export class AdministratorComponent implements OnInit {
 
     }
 
-    Upload(event, form) {
+    Upload(event) {
 
         this.file = event.files[0];
 
@@ -255,7 +255,6 @@ export class AdministratorComponent implements OnInit {
             this.alertService.error("Une erreur s'est produite");
         };
         this.resetRef = false;
-        form && form.clear();
 
     }
 
