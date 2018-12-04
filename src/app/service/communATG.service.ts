@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {first} from "rxjs/operators";
+import {Collaborateur} from "../model/referentiel";
 //import {AlertService} from "../service/alert.service";
 
 @Injectable()
@@ -39,8 +40,14 @@ export class CommunATGService {
     // Return list of SelectItems based on array et labels (if present)
     createSelectItemsFromArray(array, labels ) : any[] {
         var list=[];
+        var label="";
         for (var key in array) {
-            var label = (array[key] == "") ? " [ Vide ]" : (labels.length > 0) ? labels[array[key]] : array[key];
+            if (array[key] == "")
+                label = " [ Vide ]";
+            else {
+                var labelfld = labels[ array[key]];
+                label = (labelfld) ? labelfld : array[key] ;
+            }
             list.push({label: label, value: array[key]});
         }
         return list;
@@ -122,6 +129,41 @@ export class CommunATGService {
                 }
             );
     }
-    
+
+    setKeys(coldefs, row) {
+        for (var column in coldefs) {
+
+            if (coldefs[column].filtertype == "date" ) {}
+            else if (row[ column ] == undefined || row[ column ] == null )
+                row[ column ] = "";
+            else if (coldefs[column].keycol) {
+                var valuetrim = row[ column ].trim();
+                if (valuetrim=="") row[ column ] = "";
+            }
+            else
+                row[ column ] = row[ column ].trim();
+
+            coldefs[column].keys[ row[ column ] ] = "";
+
+        }
+
+    }
+
+
+    setLabel(labels, element, column, addlabelfields: string[] ) {
+        labels[ element[ column ] ] = element[ column ] ;
+
+        if (element!=undefined) {
+            labels[ element[ column ] ] += " (";
+            var first=true;
+            addlabelfields.forEach(fld =>  {
+                if (!first)
+                    labels[element[column]] += " ";
+                labels[element[column]] += element[fld];
+                first=false;
+            });
+            labels[ element[ column ] ] += ")";
+        }
+    }
 
 }

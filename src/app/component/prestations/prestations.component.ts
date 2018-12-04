@@ -97,26 +97,26 @@ export class PrestationsComponent implements OnInit, OnChanges {
         //    "nom", "prenom", "dateDebutContrat", "dateFinContrat", "adresseMail", "telephonePortable", "telephoneFixe"];
 
         this.coldefs = {
-            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: ["testclear","testclearbis" ], values:[], keys:[]},
-            dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:""},
-            dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:""},
-            contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            numAtg:                 {header: 'ATG',                 filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            departement:            {header: 'Département',         filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            pole:                   {header: 'Pôle',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            domaine:                {header: 'Domaine',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            localisation:           {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            numeroPu:               {header: 'PU',                  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            responsablePole:        {header: 'Responsable de pôle', filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
-            donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
-            topAtg:                 {header: 'Type',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            statutPrestation:       {header: 'Statut',              filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
-            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
-            versionPrestation:      {header: 'Version',             filtertype: "",      showInList:true,  filtercond: null,  selected: [], values:[], keys:[]},
+            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: ["testclear","testclearbis" ], values:[], keys:[], keycol:true},
+            dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:"", keycol:false},
+            dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:"", keycol:false},
+            contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            numAtg:                 {header: 'ATG',                 filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            departement:            {header: 'Département',         filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            pole:                   {header: 'Pôle',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            domaine:                {header: 'Domaine',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            localisation:           {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            numeroPu:               {header: 'PU',                  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:false},
+            responsablePole:        {header: 'Responsable de pôle', filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            topAtg:                 {header: 'Type',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:false},
+            statutPrestation:       {header: 'Statut',              filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:false},
+            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:true},
+            versionPrestation:      {header: 'Version',             filtertype: "",      showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:false},
 
             // Collaborateur
-            nom:                    {header: "Nom",                 filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
-            prenom:                 {header: "Prénom",              filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            nom:                    {header: "Nom",                 filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:false},
+            prenom:                 {header: "Prénom",              filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:false},
 
             // Contrat
             dateDebutContrat:       {header: "Date début",          filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
@@ -287,7 +287,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.showHistSelect = false;
 
         // trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version
-        var labels: string[] = [];  // Labels collabs
+        var labels: {} = {};  // Labels collabs
         if (this.prestations != undefined) {
             this.prestations.forEach(row => {
 
@@ -302,31 +302,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 row.dateFinPrestation   = new Date(datearr[2], datearr[1] - 1, datearr[0]);
 
                 // >>>> Get keys <<<<<
-                for (var column in this.coldefs) {
-                    var keyvalue = row[column];
-                    var value = "";
-                    switch (column) {
+                this.communServ.setKeys(this.coldefs, row );
+                this.communServ.setLabel(labels, row.collaborateur, "trigramme",["nom", "prenom"]);
 
-                        case "trigramme" :
-                            value = keyvalue;
-                            labels[keyvalue] = keyvalue;
-                            if (row.collaborateur != undefined)
-                                labels[keyvalue] += " (" + row.collaborateur.nom + " " + row.collaborateur.prenom + ")";
-                            break;
-
-                        case "statutPrestation":
-                            value = keyvalue;
-                            break;
-
-                        default :
-                            value = (this.coldefs[column].filtertype == "date") ? keyvalue : (keyvalue == undefined || keyvalue == null ) ? "" : keyvalue.trim();
-
-                    }
-                    this.coldefs[column].keys[value] = value;
-                    // Enregistrer même valeur (vide) pour sélection
-                    if (value != keyvalue)
-                        row[column]=value;
-                }
             });
         }
 
@@ -388,20 +366,22 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     pt_filter(event, pt, field: string) {
-        var value = this.coldefs[field].selected;
-        if (this.coldefs[field].filtertype == "date") {
-            var valuedate = 0;
-            var cond="gt";
-            if (value!=null) {
-                valuedate = value.valueOf(); //valuedate = event.valueOf().toString(); //valuedate = this.datePipe.transform(value, 'yyyy-MM-dd');
-                cond = this.coldefs[field].filtercond;
-                if      (cond=="gte") { cond="gt"; valuedate -= 86400000; } // 86400000 = 1 jour en millis
-                else if (cond=="lte") { cond="lt"; valuedate += 86400000; }
-            }
-            this.pt.filter(valuedate, field, cond );
+        var condition = {cond:this.coldefs[ field ].filtercond, value:this.coldefs[field].selected};
+        if (this.coldefs[field].filtertype == "date")
+            condition = this.convertDateGteLteToGtLt(condition);
+
+        this.pt.filter(condition.value, field, condition.cond);
+    }
+
+    convertDateGteLteToGtLt(pCondition) {
+        var condition = {cond:"gt", value:0};
+
+        if (pCondition.value!=null) {
+            condition.value = pCondition.value.valueOf(); //valuedate = event.valueOf().toString(); //valuedate = this.datePipe.transform(value, 'yyyy-MM-dd');
+            if      (pCondition.cond=="gte") { condition.cond="gt"; condition.value -= 86400000; } // 86400000 = 1 jour en millis
+            else if (pCondition.cond=="lte") { condition.cond="lt"; condition.value += 86400000; }
         }
-        else
-            this.pt.filter(value, field, this.coldefs[ field ].filtercond);
+        return condition;
     }
 
     save() { }
