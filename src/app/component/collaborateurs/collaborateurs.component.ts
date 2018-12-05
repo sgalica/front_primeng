@@ -39,6 +39,8 @@ export class CollaborateursComponent implements OnInit {
 
     // Références
     allstatus = { E: "En cours", T: "Terminées", S: "Supprimées", A: "Archivées"};
+    allStatusComboOptions = {};
+
     references   : any[]=[];
 
     ouinonComboOptions : { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
@@ -58,7 +60,7 @@ export class CollaborateursComponent implements OnInit {
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
     buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Visualiser les prestations"]; idxBtnPrestations : number =0;
     buttonsList    : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
-    buttons         : Object;
+    buttons        : Object;
 
     FieldsFiches : any[];
 
@@ -108,14 +110,14 @@ export class CollaborateursComponent implements OnInit {
         this.selectColumns();
 
         this.FieldsFiches=[
-            {grp: "Collab", grplabel : "Informations collaborateur", fields : ["trigramme", "nom", "prenom", "categorisation", "stt"]},
-            {grp: "Mission", grplabel : "Informations Mission", fields : ["dateDebutMission", "dateFinSg", "dateA3Ans", "derogation", "statutMission", "versionMission" ]},
-            {grp: "ST", grplabel : "Informations Sous-Traitance", fields : ["societeStt", "preEmbauche", "dateEmbaucheOpen"]},
-            {grp: "Contact", grplabel : "Informations de contact", fields : ["telPerso", "telPro", "mailOpen", "mailSg"]}
+            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [{name:"trigramme", type:"field"}, {name:"nom", type:"field"}, {name:"prenom", type:"field"}, {name:"categorisation", type:"combo"}, {name:"stt", type:"combo"}]},
+            {grp: "Mission",    grplabel : "Informations Mission",          fields : [{name:"dateDebutMission", type:"date"}, {name:"dateFinSg", type:"date"}, {name:"dateA3Ans", type:"date"}, {name:"derogation", type:"field"}, {name:"statutMission", type:"combo"}, {name:"versionMission", type:"field"} ]},
+            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [{name:"societeStt", type:"field"}, {name:"preEmbauche", type:"field"}, {name:"dateEmbaucheOpen", type:"date"}]},
+            {grp: "Contact",    grplabel : "Informations de contact",       fields : [{name:"telPerso", type:"field"}, {name:"telPro", type:"field"}, {name:"mailOpen", type:"field"}, {name:"mailSg", type:"field"}]}
         ];
 
         this.buttons = {
-            "Save"      : {label:"Enregistrer",                 disabled:true,  fnc : ()=>{this.saveCollaborateur();} },
+            "Save"      : {label:"Enregistrer",                 disabled:true,  fnc : ()=>{this.save();} },
             "Create"    : {label:"Créer une prestation",        disabled:true,  fnc : ()=>{this.newPrestation();} },
             "Prestas"   : {label:this.buttonPrestationsLabels[0],disabled:false,fnc : ()=>{this.showPrestations();} },
             "EndMission": {label:"Terminer la mission",         disabled:true,  fnc : ()=>{this.endMission();} },
@@ -124,11 +126,18 @@ export class CollaborateursComponent implements OnInit {
             "Cancel"    : {label:"Annuler",                     disabled:true }
         };
 
+        this.allStatusComboOptions = this.communServ.filterSelectItems(this.allstatus, this.allstatus );
+
         this.loadAllCollaborateurs();
 
         this.loadCategorisations();
         // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
         // Prestations (dynamique) : this.loadPrestationComponent();
+    }
+
+    selectColumns() {
+        this.selectedColumns = this.communServ.filterTableSelectItems(this.coldefs, 'showInList', 'header');
+        this.cols = this.selectedColumns;
     }
 
     loadAllCollaborateurs() {
@@ -150,20 +159,6 @@ export class CollaborateursComponent implements OnInit {
         
         this.communServ.loadTableKeyValues(flds, this.categorieService, this.references, null );
     }
-
-    // Tri sur trigramme (asc) et version (desc)
-    orderTrigrammeVersion(a, b) {
-        var fld="trigramme";
-        let after = (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0;
-        fld = "versionCollab";
-        return (after != 0) ? after : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
-    }
-
-    selectColumns() {
-        this.selectedColumns =  this.selectedColumns = this.communServ.filterTableSelectItems(this.coldefs, 'showInList', 'header');
-        this.cols = this.selectedColumns;
-    }
-
 
     updateFilters() {
 
@@ -203,7 +198,14 @@ export class CollaborateursComponent implements OnInit {
             }
             this.coldefs[ column ].values = selectitems;
         }
+    }
 
+    // Tri sur trigramme (asc) et version (desc)
+    orderTrigrammeVersion(a, b) {
+        var fld="trigramme";
+        let after = (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0;
+        fld = "versionCollab";
+        return (after != 0) ? after : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
     }
 
     // Filtrer liste collaborateurs
@@ -246,14 +248,36 @@ export class CollaborateursComponent implements OnInit {
         return ( dateTst > dateLast ) ? dateTst : null;
     }
 
-    afficherLaSaisie(event) {
-        this.displayDialog = true;
-    }
+    afficherLaSaisie() { this.displayDialog = true; }
 
     buttonsFunctions(btn:string) {
         this.buttons[btn].fnc.call();
     }
-    saveCollaborateur() { }
+
+    new() {
+        this.selectedCollaborateur = new Collaborateur();
+        this.lastMission = new Mission();
+        this.buttons["Save"].disabled=true;
+        this.buttons["Create"].disabled=true;
+        this.buttons["Prestas"].disabled=true;
+        this.buttons["EndMission"].disabled=true;
+        this.buttons["Delete"].disabled=true;
+        this.buttons["ReOpen"].disabled=true;
+        this.buttons["Cancel"].disabled=true;
+        this.afficherLaSaisie();
+    }
+
+    save() {
+        this.collaborateurService.create(this.selectedCollaborateur)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    // To do : message save ok
+                    //this.router.navigate(["/prestations"]);
+                },
+                error => { this.alertService.error(error);  });
+
+    }
     newPrestation() { }
     endMission() { }
     suppCollab() { }
@@ -278,7 +302,6 @@ export class CollaborateursComponent implements OnInit {
         //(<PrestationsComponent>this.componentRef.instance).showCollab(); //ngOnInit();
         //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
     }
-
 
     onClosewindowPrestas() {
         this.displayDialog2=false;

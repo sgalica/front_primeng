@@ -1,7 +1,7 @@
 <p-toolbar>
     <div class="ui-toolbar-group-left"><span style="font-size:1.5em; display:inline-block; padding-top: 3px ">Liste des collaborateurs</span></div>
     <!-- Btn New Collab -->
-    <button pButton type="button" label="Nouveau collaborateur" icon="pi pi-plus" (click)="afficherLaSaisie($event)" style="float:right; margin:0px;"></button>
+    <button pButton type="button" label="Nouveau collaborateur" icon="pi pi-plus" (click)="new()" style="float:right; margin:0px;"></button>
 </p-toolbar>
 <div style="height: 5px"> </div>
 <p-table #dt [columns]="selectedColumns" [value]="collaborateurs" [paginator]="true" [rows]="10">
@@ -90,30 +90,45 @@
 <!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
 
 <p-dialog [(visible)]="displayDialog" [responsive]="true" [modal]="true" [styleClass]="'importcsv'">
+
     <p-header>
         <span style="display:inline-block; width:80%">{{title}}</span><span style="display:inline-block">Statut "{{allstatus[selectedCollaborateur['statutCollab']]}}" - Version {{selectedCollaborateur['versionCollab']}}</span>
     </p-header>
     <div class="ui-g ui-fluid">
 
         <p-fieldset *ngFor="let fiche of FieldsFiches" legend="{{fiche.grplabel}}" class="ui-g-12 ui-md-6" [ngSwitch]="fiche.grp">
+
             <div *ngSwitchCase="'Mission'">
+
                 <div *ngIf="lastMission">
-                    <div *ngFor="let field of fiche.fields" class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left', 'background-color':'#f5fafb'}">{{coldefs[field].header}} :</span>
-                        <input type="text" pInputText [(ngModel)]="lastMission[field]" style="width:auto">
+                    <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
+
+                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left', 'background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
+
+                        <p-calendar *ngSwitchCase="'date'" [(ngModel)]="lastMission[field.name]" [showIcon]="true" [showButtonBar]="true"
+                                    dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
+                                    [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
+                                    [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                        </p-calendar>
+
+                        <p-dropdown *ngSwitchCase="'combo'" [options]="allStatusComboOptions" [(ngModel)]="lastMission[field.name]"></p-dropdown>
+
+                        <input *ngSwitchDefault type="text" pInputText [(ngModel)]="lastMission[field.name]" style="width:auto">
                     </div>
                 </div>
+
                 <div *ngIf="lastMission==null">
                     Il n'existe aucune mission pour ce collaborateur.
                 </div>
             </div>
 
             <div *ngSwitchDefault>
-                <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field">
 
-                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{coldefs[field].header}} :</span>
+                <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.name">
 
-                    <p-dropdown *ngSwitchCase="'categorisation'" [options]="references['categorisations']" [(ngModel)]="selectedCollaborateur[field]" filter="true" [style]="{'width':'100%'}">
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
+
+                    <p-dropdown *ngSwitchCase="'categorisation'" [options]="references['categorisations']" [(ngModel)]="selectedCollaborateur[field.name]" filter="true" [style]="{'width':'100%'}">
                          <ng-template let-item pTemplate="selectedItem">
                              <span>{{item.label}}</span>
                          </ng-template>
@@ -124,11 +139,15 @@
                          </ng-template>
                     </p-dropdown>
 
-                    <span *ngSwitchCase="'stt'" [ngStyle]="{'width':'70%', 'display':'inline-block'}">
-                        <p-dropdown [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field]" placeholder="?"></p-dropdown>
-                    </span>
+                    <p-dropdown *ngSwitchCase="'stt'" [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]"></p-dropdown>
 
-                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field]" style="width:auto">
+                    <p-calendar *ngSwitchCase="'dateEmbaucheOpen'" [(ngModel)]="selectedCollaborateur[field.name]" [showIcon]="true" [showButtonBar]="true"
+                                dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
+                                [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
+                                [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                    </p-calendar>
+
+                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field.name]" style="width:auto">
                  </div>
              </div>
          </p-fieldset>

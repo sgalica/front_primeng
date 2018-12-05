@@ -59,7 +59,17 @@ export class PrestationsComponent implements OnInit, OnChanges {
     // Sorting
     //sortOptions: SelectItem[]; //sortField: string; sortOrder: number;
     //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'nom'}, {label: 'Brand', value: 'brand'}        ];
+    /*onSortChange(event) {
+            const field = event.field;
 
+            if (field.indexOf('!') === 0) {
+                this.sortOrder = -1;
+                this.sortField = field.substring(1, field.length);
+            } else {
+                this.sortOrder = 1;
+                this.sortField = field;
+            }
+        }*/
 
     constructor(
         private prestationService: PrestationService,
@@ -173,15 +183,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.selectPrestations(this.collab.prestations);
     }
 
-    selectPrestations(param_prestations: Prestation[]) {
-
-        this.prestations = param_prestations;
-        this.updateFilters();
-        if (this.prestations!=undefined)
-            this.prestations.sort(this.orderDateDebutEtVersion); //this.filterVersions();
-
-    }
-
     selectColumns() {
 
         this.selectedColumns = this.communServ.filterTableSelectItems(this.coldefs, 'showInList', 'header');
@@ -203,64 +204,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.cols=this.selectedColumns;
     }
 
-    selectPrestation(event: Event, prestation: Prestation) {
-
-        this.displayDialogPresta = true;
-
-        this.selectedPrestation = prestation;
-        if (prestation.collaborateur == undefined) // We come from collaborateur so prestation not loaded by hibernate
-            this.selectedPrestation.collaborateur = this.collab;
-    }
-
-    savePrestation(event: Event, prestation: Prestation) {
-        this.prestationService.create(prestation)
-            .pipe(first())
-            .subscribe(
-                data => {
-                    // To do : message save ok
-                    //this.router.navigate(["/prestations"]);
-                },
-                error => {
-                    this.alertService.error(error);
-                });
-    }
-
-    deletePrestation(event: Event, prestation: Prestation) {
-        prestation.statutPrestation = (prestation.statutPrestation == "S") ? "E" : "S";
-
-        this.prestationService.create(prestation)
-            .pipe(first())
-            .subscribe(
-                data => {
-                },
-                error => {
-                    this.alertService.error(error);
-                });
-    }
-
-    /*  deletePrestation(event: Event, id: number) {
-        this.prestationService.delete(id)
-            .pipe(first())
-            .subscribe(
-                data => {
-                },
-                error => {
-                    this.alertService.error(error);
-                });
-    }*/
-
-    /*onSortChange(event) {
-        const field = event.field;
-
-        if (field.indexOf('!') === 0) {
-            this.sortOrder = -1;
-            this.sortField = field.substring(1, field.length);
-        } else {
-            this.sortOrder = 1;
-            this.sortField = field;
-        }
-    }*/
-
     loadAllPrestations() {
         this.prestationService.list()
             .pipe(first())
@@ -273,6 +216,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     //this.alertService.success(prestations);
                 },
                 error => { this.alertService.error(error);  });
+    }
+
+    selectPrestations(param_prestations: Prestation[]) {
+
+        this.prestations = param_prestations;
+        this.updateFilters();
+        if (this.prestations!=undefined)
+            this.prestations.sort(this.orderDateDebutEtVersion); //this.filterVersions();
+
     }
 
     updateFilters() {
@@ -384,9 +336,37 @@ export class PrestationsComponent implements OnInit, OnChanges {
         return condition;
     }
 
-    save() { }
+    selectPrestation(event: Event, prestation: Prestation) {
+
+        this.displayDialogPresta = true;
+
+        this.selectedPrestation = prestation;
+        if (prestation.collaborateur == undefined) // We come from collaborateur so prestation not loaded by hibernate
+            this.selectedPrestation.collaborateur = this.collab;
+    }
+
+    save() {
+        this.prestationService.create(this.selectedPrestation)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    // To do : message save ok
+                    //this.router.navigate(["/prestations"]);
+                },
+                error => { this.alertService.error(error);  });
+    }
+
+    delete() {
+        this.selectedPrestation.statutPrestation = (this.selectedPrestation.statutPrestation == "S") ? "E" : "S";
+        this.prestationService.delete(this.selectedPrestation.id)
+            .pipe(first())
+            .subscribe(
+                data => {
+                },
+                error => { this.alertService.error(error);  });
+    }
+
     end() { }
-    delete() { }
     cancel() { }
     reopen() { }
     
@@ -417,14 +397,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     }
 
-
     ngOnChanges(changes: SimpleChanges) {
         for (let propName in changes) {
-            if (propName == "collab") {    //let curVal= changes[propName].currentValue;
+            if (propName == "collab")     //let curVal= changes[propName].currentValue;
                 this.showCollab(null);
-            }
         }
     }
 
-    closeDialog() {  this.closewindowPrestas.emit();   }
+    closeDialog() { this.closewindowPrestas.emit(); }
 }

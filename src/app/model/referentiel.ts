@@ -37,19 +37,19 @@ export class Referentiel {
 
 export class Collaborateur {
     id: any = 0;
-    trigramme: any = 0;
-    nom: any = 0;
-    prenom: any = 0;
-    telPerso: any = 0;
-    telPro: any = 0;
-    mailOpen: any = 0;
-    mailSg: any = 0;
-    categorisation: any = 0;
-    stt: any = 0;
-    statutCollab: any = 0;
-    versionCollab: any = 0;
-    societeStt: any = 0;
-    preEmbauche: any = 0;
+    trigramme: any = "";
+    nom: any = "";
+    prenom: any = "";
+    telPerso: any = "";
+    telPro: any = "";
+    mailOpen: any = "";
+    mailSg: any = "";
+    categorisation: any = "";
+    stt: any = "";
+    statutCollab: any = "";
+    versionCollab: any = 1;
+    societeStt: any = "";
+    preEmbauche: any = "";
     dateEmbaucheOpen: any = 0;
 
     prestations: Prestation[];
