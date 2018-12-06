@@ -33,12 +33,13 @@ export class CollaborateursComponent implements OnInit {
 
     // Fiche
     selectedCollaborateur : Collaborateur = new Collaborateur();
+    selectedEmpoyeeOriginalValue : Collaborateur;
     displayDialog : boolean = false;
     displayDialog2: boolean = false;
     lastMission   : Mission = new Mission();
 
     // Références
-    allstatus = { E: "En cours", T: "Terminées", S: "Supprimées", A: "Archivées"};
+    allstatus = { E: "En cours", T: "Terminé", S: "Supprimé", A: "Archivé"};
     allStatusComboOptions = {};
 
     references   : any[]=[];
@@ -142,14 +143,13 @@ export class CollaborateursComponent implements OnInit {
 
     loadAllCollaborateurs() {
 
-        this.collaborateurService.list()
-            .pipe(first())
-            .subscribe(
-                collaborateurs => {
-                    this.collaborateurs = collaborateurs.sort(this.orderTrigrammeVersion);
-                    this.updateFilters();
-                },
-                error => { this.alertService.error(error);  });
+        this.collaborateurService.list().pipe(first()).subscribe(
+        collaborateurs => {
+            this.collaborateurs = collaborateurs.sort(this.orderTrigrammeVersion);
+            this.updateFilters();
+        },
+        error => { this.alertService.error(error);  }
+        );
     }
 
     loadCategorisations() {
@@ -164,9 +164,9 @@ export class CollaborateursComponent implements OnInit {
 
         // Clear
         if (this.communServ) {
-            this.communServ.clearTableCol(this.coldefs, "values", "filtertype", "liste", [], "");
+            this.communServ.clearTableCol(this.coldefs, "values",   "filtertype", "liste", [], "");
             this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
-            this.communServ.clearTableCol(this.coldefs, "keys", "filtertype", "liste", [], []);
+            this.communServ.clearTableCol(this.coldefs, "keys",     "filtertype", "liste", [], []);
         }
         this.showHistSelect = false;
 
@@ -219,7 +219,10 @@ export class CollaborateursComponent implements OnInit {
     selectCollaborateur(event: Event, collaborateur: Collaborateur) {
 
         this.selectedCollaborateur = collaborateur;
+        this.selectedEmpoyeeOriginalValue = new Collaborateur(collaborateur);
         this.displayDialog = true;
+
+        this.buttons["Save"].disabled=false;
 
         // Last mission
         this.buttons["Delete"].disabled=true;
@@ -234,7 +237,7 @@ export class CollaborateursComponent implements OnInit {
         if (!this.lastMission)
             this.buttons["Delete"].disabled=false;
 
-        event.preventDefault();
+        // event.preventDefault();
     }
 
     getDateIfMoreRecent(datestr, lastDate ) {
@@ -254,33 +257,145 @@ export class CollaborateursComponent implements OnInit {
         this.buttons[btn].fnc.call();
     }
 
+    updatelist(action, item) {
+
+        var rowval = new Collaborateur(item);
+        if (typeof rowval.dateEmbaucheOpen.getMonth === "function") {
+            rowval.dateEmbaucheOpen = this.datePipe.transform(rowval.dateEmbaucheOpen, this.communServ.datefmt);
+        }
+
+        if (action == "add") {
+            this.collaborateurs.push(rowval);
+            this.collaborateurs.sort(this.orderTrigrammeVersion);
+            this.updateFilters();
+        }
+        else if (action=="change") {
+
+            this.collaborateurs.forEach(function (row, index, array) {
+                if (row.trigramme == item.trigramme) {
+                    array[index] = rowval;
+                    return;
+                }
+            });
+        }
+    }
+
     new() {
         this.selectedCollaborateur = new Collaborateur();
+
         this.lastMission = new Mission();
-        this.buttons["Save"].disabled=true;
+        this.buttons["Save"].disabled=false;
         this.buttons["Create"].disabled=true;
         this.buttons["Prestas"].disabled=true;
         this.buttons["EndMission"].disabled=true;
         this.buttons["Delete"].disabled=true;
         this.buttons["ReOpen"].disabled=true;
-        this.buttons["Cancel"].disabled=true;
+        this.buttons["Cancel"].disabled=false;
         this.afficherLaSaisie();
     }
 
     save() {
-        this.collaborateurService.create(this.selectedCollaborateur)
+        var collabfordb =  new Collaborateur( this.selectedCollaborateur) ;
+        collabfordb.dateEmbaucheOpen = this.datePipe.transform(this.selectedCollaborateur.dateEmbaucheOpen, this.communServ.datefmt);
+
+        // Add
+        if (collabfordb.id == 0) {
+            collabfordb.statutCollab="E"; collabfordb.versionCollab=1;
+            this.add(collabfordb);
+        }
+        // Update
+        else {
+            collabfordb.versionCollab++;
+            this.update(collabfordb);
+        }
+
+    }
+
+    add (collabfordb) {
+
+        this.collaborateurService.create(collabfordb).pipe(first()).subscribe(data => {
+
+            // Update collab on success
+            this.selectedCollaborateur.statutCollab=data.statutCollab; this.selectedCollaborateur.versionCollab=data.versionCollab; this.selectedCollaborateur.id=data.id;
+
+            // Manage Buttons
+            this.buttons["Create"].disabled = false; this.buttons["Prestas"].disabled= false; this.buttons["EndMission"].disabled= false; this.buttons["Delete"].disabled = false;
+
+            // Update list
+            this.updatelist("add", this.selectedCollaborateur);
+
+            // To do : message save ok
+        },
+         error => { this.alertService.error(error); }
+        );
+
+    }
+
+    update(collabfordb) {
+
+        this.collaborateurService.update(collabfordb).pipe(first()).subscribe(data => {
+
+            // Update collab on success
+            this.selectedCollaborateur.statutCollab = data.statutCollab; this.selectedCollaborateur.versionCollab=data.versionCollab;
+
+            // Update list
+            this.updatelist("change", this.selectedCollaborateur);
+
+            // Manage Buttons
+            if (data.statutCollab=="S") {
+                this.buttons["EndMission"].disabled= true; this.buttons["Delete"].disabled = true;
+            }
+            else {
+                this.buttons["EndMission"].disabled = false; this.buttons["Delete"].disabled = false;
+            }
+
+
+            // Add old value
+            var collabfordbold = new Collaborateur( this.selectedEmpoyeeOriginalValue) ;
+            collabfordbold.id = 0;
+            collabfordbold.trigramme += "." ;
+            collabfordbold.statutCollab = "H";
+            collabfordbold.dateEmbaucheOpen = this.datePipe.transform( this.selectedEmpoyeeOriginalValue.dateEmbaucheOpen, this.communServ.datefmt );
+
+            this.collaborateurService.create(collabfordbold).pipe(first()).subscribe(dataold => {
+
+                    // Update collab on success
+                    this.selectedEmpoyeeOriginalValue.id=dataold.id; this.selectedEmpoyeeOriginalValue.trigramme=dataold.trigramme; this.selectedEmpoyeeOriginalValue.statutCollab=dataold.statutCollab;
+
+                    // Update list
+                    this.updatelist("add", dataold);
+
+                    // Actual value becomes original value
+                    this.selectedEmpoyeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
+                },error => { this.alertService.error(error);  }
+            );
+        },error => { this.alertService.error(error);  }
+        );
+
+    }
+
+    newPrestation() { }
+    endMission() { }
+
+    suppCollab() {
+
+        var collabfordb =  new Collaborateur( this.selectedCollaborateur ) ;
+        collabfordb.dateEmbaucheOpen = this.datePipe.transform(collabfordb.dateEmbaucheOpen, this.communServ.datefmt);
+        collabfordb.statutCollab = "S";
+        collabfordb.versionCollab = collabfordb.versionCollab + 1;
+//        debugger;
+        this.update(collabfordb);
+
+
+        /*this.collaborateurService.delete(this.selectedCollaborateur.id)
             .pipe(first())
             .subscribe(
                 data => {
-                    // To do : message save ok
-                    //this.router.navigate(["/prestations"]);
+                    this.selectedCollaborateur= new Collaborateur();
                 },
                 error => { this.alertService.error(error);  });
-
+        */
     }
-    newPrestation() { }
-    endMission() { }
-    suppCollab() { }
 
     // PRESTATIONS
     /* // Dynamic component load

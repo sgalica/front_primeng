@@ -16,7 +16,7 @@ export class ResourceService<T extends Resource> {
             .map(data => data as T);
     }
 
-     createList(items: T[]){
+    createList(items: T[]){
 
         return this.http
             .post(`${this.url}/${this.endpoint}/`,items)
@@ -25,7 +25,7 @@ export class ResourceService<T extends Resource> {
 
     update(item: T): Observable<T> {
         return this.http
-            .put<T>(`${this.url}/${this.endpoint}/${item.id}`,  item)
+            .put<T>(`${this.url}/${this.endpoint}`,  item) // /${item.id}
             .map(data => data as T);
     }
 

@@ -47,7 +47,7 @@ export class Collaborateur {
     categorisation: any = "";
     stt: any = "";
     statutCollab: any = "";
-    versionCollab: any = 1;
+    versionCollab: any = 0;
     societeStt: any = "";
     preEmbauche: any = "";
     dateEmbaucheOpen: any = 0;
@@ -60,6 +60,34 @@ export class Collaborateur {
      createdBy           : any = 0;
      updatedAt           : any = 0;
      updatedBy           : any = 0;
+
+     constructor( pCollab ?: Collaborateur) {
+         if (pCollab) {
+             for (var attribut in pCollab) {
+                 if (typeof this[attribut] !== "object")
+                     this[attribut] = pCollab[attribut];
+             }
+            /* this.id        =pCollab.id;
+             this.trigramme =pCollab.trigramme;
+             this.nom       =pCollab.nom;
+             this.prenom    =pCollab.prenom;
+             this.telPerso  =pCollab.telPerso;
+             this.telPro    =pCollab.telPro;
+             this.mailOpen  =pCollab.mailOpen;
+             this.mailSg    =pCollab.mailSg;
+             this.categorisation=pCollab.categorisation;
+             this.stt       =pCollab.stt;
+             this.statutCollab  =pCollab.statutCollab;
+             this.versionCollab =pCollab.versionCollab;
+             this.societeStt    =pCollab.societeStt;
+             this.preEmbauche   =pCollab.preEmbauche;
+             this.dateEmbaucheOpen=pCollab.dateEmbaucheOpen;
+
+             this.prestations   =pCollab.prestations;
+
+             this.missions  =pCollab.missions;*/
+         }
+     }
 }
 
 export class Mission {
@@ -69,8 +97,8 @@ export class Mission {
     dateDebutMission: any = 0;
     dateFinSg: any = 0;
     dateA3Ans: any = 0;
-    derogation: any = 0;
-    statutMission: any = 0;
+    derogation: any = "";
+    statutMission: any = "";
     versionMission: any = 0;
 
     createdAt           : any = 0;

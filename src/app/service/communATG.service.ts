@@ -131,6 +131,7 @@ export class CommunATGService {
     }
 
     setKeys(coldefs, row) {
+
         for (var column in coldefs) {
 
             if (coldefs[column].filtertype == "date" ) {}
@@ -140,13 +141,13 @@ export class CommunATGService {
                 var valuetrim = row[ column ].trim();
                 if (valuetrim=="") row[ column ] = "";
             }
-            else
-                row[ column ] = row[ column ].trim();
+            else {
+                if (typeof row[column]== "string")
+                    row[column] = row[column].trim();
+            }
 
             coldefs[column].keys[ row[ column ] ] = "";
-
         }
-
     }
 
 
