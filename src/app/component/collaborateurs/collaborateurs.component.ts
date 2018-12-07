@@ -8,7 +8,6 @@ import {AlertService} from "../../service/alert.service";
 import {ApiResponse} from "../../model/apiresponse";
 import {PrestationsComponent} from "../prestations/prestations.component";
 import {DataTable} from "primeng/primeng";
-import {DatePipe} from "@angular/common";
 import {CommunATGService} from "../../service/communATG.service"
 
 @Component({
@@ -68,7 +67,7 @@ export class CollaborateursComponent implements OnInit {
     communServ : CommunATGService;
 
     constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService,
-                private router: Router, private alertService: AlertService, private datePipe:DatePipe, private communATGService : CommunATGService) {
+                private router: Router, private alertService: AlertService, private communATGService : CommunATGService) {
     }
     /*   ngOnChanges(): void { const camelCase = require('camelcase'); }*/
 
@@ -260,9 +259,7 @@ export class CollaborateursComponent implements OnInit {
     updatelist(action, item) {
 
         var rowval = new Collaborateur(item);
-        if (typeof rowval.dateEmbaucheOpen.getMonth === "function") {
-            rowval.dateEmbaucheOpen = this.datePipe.transform(rowval.dateEmbaucheOpen, this.communServ.datefmt);
-        }
+        rowval.dateEmbaucheOpen = this.communServ.dateStr(rowval.dateEmbaucheOpen);
 
         if (action == "add") {
             this.collaborateurs.push(rowval);
@@ -296,7 +293,7 @@ export class CollaborateursComponent implements OnInit {
 
     save() {
         var collabfordb =  new Collaborateur( this.selectedCollaborateur) ;
-        collabfordb.dateEmbaucheOpen = this.datePipe.transform(this.selectedCollaborateur.dateEmbaucheOpen, this.communServ.datefmt);
+        collabfordb.dateEmbaucheOpen = this.communServ.dateStr(this.selectedCollaborateur.dateEmbaucheOpen);
 
         // Add
         if (collabfordb.id == 0) {
@@ -336,7 +333,8 @@ export class CollaborateursComponent implements OnInit {
         this.collaborateurService.update(collabfordb).pipe(first()).subscribe(data => {
 
             // Update collab on success
-            this.selectedCollaborateur.statutCollab = data.statutCollab; this.selectedCollaborateur.versionCollab=data.versionCollab;
+            this.selectedCollaborateur.statutCollab = data.statutCollab;
+            this.selectedCollaborateur.versionCollab= data.versionCollab;
 
             // Update list
             this.updatelist("change", this.selectedCollaborateur);
@@ -355,21 +353,24 @@ export class CollaborateursComponent implements OnInit {
             collabfordbold.id = 0;
             collabfordbold.trigramme += "." ;
             collabfordbold.statutCollab = "H";
-            collabfordbold.dateEmbaucheOpen = this.datePipe.transform( this.selectedEmpoyeeOriginalValue.dateEmbaucheOpen, this.communServ.datefmt );
-
+            collabfordbold.dateEmbaucheOpen = this.communServ.dateStr( this.selectedEmpoyeeOriginalValue.dateEmbaucheOpen );
             this.collaborateurService.create(collabfordbold).pipe(first()).subscribe(dataold => {
 
                     // Update collab on success
-                    this.selectedEmpoyeeOriginalValue.id=dataold.id; this.selectedEmpoyeeOriginalValue.trigramme=dataold.trigramme; this.selectedEmpoyeeOriginalValue.statutCollab=dataold.statutCollab;
+                    this.selectedEmpoyeeOriginalValue.id = dataold.id;
+                    this.selectedEmpoyeeOriginalValue.trigramme = dataold.trigramme;
+                    this.selectedEmpoyeeOriginalValue.statutCollab=dataold.statutCollab;
 
                     // Update list
                     this.updatelist("add", dataold);
 
                     // Actual value becomes original value
                     this.selectedEmpoyeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
-                },error => { this.alertService.error(error);  }
+                },
+                error => { this.alertService.error(error);  }
             );
-        },error => { this.alertService.error(error);  }
+        },
+        error => { this.alertService.error(error);  }
         );
 
     }
@@ -379,13 +380,11 @@ export class CollaborateursComponent implements OnInit {
 
     suppCollab() {
 
-        var collabfordb =  new Collaborateur( this.selectedCollaborateur ) ;
-        collabfordb.dateEmbaucheOpen = this.datePipe.transform(collabfordb.dateEmbaucheOpen, this.communServ.datefmt);
+        var collabfordb = new Collaborateur( this.selectedCollaborateur ) ;
         collabfordb.statutCollab = "S";
-        collabfordb.versionCollab = collabfordb.versionCollab + 1;
-//        debugger;
+        collabfordb.versionCollab = Number(collabfordb.versionCollab) + 1 ;
+            collabfordb.dateEmbaucheOpen = this.communServ.dateStr(collabfordb.dateEmbaucheOpen);
         this.update(collabfordb);
-
 
         /*this.collaborateurService.delete(this.selectedCollaborateur.id)
             .pipe(first())
@@ -396,6 +395,8 @@ export class CollaborateursComponent implements OnInit {
                 error => { this.alertService.error(error);  });
         */
     }
+
+
 
     // PRESTATIONS
     /* // Dynamic component load

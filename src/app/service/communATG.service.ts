@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import {first} from "rxjs/operators";
+import {DatePipe} from "@angular/common";
+
 import {Collaborateur} from "../model/referentiel";
 //import {AlertService} from "../service/alert.service";
 
@@ -22,9 +24,7 @@ export class CommunATGService {
     datefmt = "dd/MM/yyyy";
 
 
-    constructor( 
-        //private alertService: AlertService,
-    ){}
+    constructor( private datePipe:DatePipe  ){}
 
     orderSelectItems(a, b)      { var fld="value"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
     orderSelectItemsLabel(a, b) { var fld="label"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
@@ -152,19 +152,29 @@ export class CommunATGService {
 
 
     setLabel(labels, element, column, addlabelfields: string[] ) {
-        labels[ element[ column ] ] = element[ column ] ;
 
         if (element!=undefined) {
-            labels[ element[ column ] ] += " (";
+            labels[ element[ column ] ] = element[ column ] ;
+
+            var label="";
             var first=true;
             addlabelfields.forEach(fld =>  {
                 if (!first)
-                    labels[element[column]] += " ";
-                labels[element[column]] += element[fld];
+                    label += " ";
+                label += element[fld];
                 first=false;
             });
-            labels[ element[ column ] ] += ")";
+            if (label!="") label = " (" + label + ")";
+
+            labels[ element[ column ] ] += label;
         }
+    }
+
+    /*** Fonctions Date ***/
+    dateStr(pDate) {
+        if (pDate != undefined && pDate!=null && typeof pDate.getMonth === "function")
+            return this.datePipe.transform(pDate, this.datefmt);
+        return pDate;
     }
 
 }

@@ -12,7 +12,7 @@ export class ResourceService<T extends Resource> {
 
     create(item: T) {
         return this.http
-            .post(`${this.url}/${this.endpoint}/1`, item)
+            .post(`${this.url}/${this.endpoint}/collab`, item)
             .map(data => data as T);
     }
 
