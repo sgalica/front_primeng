@@ -291,9 +291,11 @@ export class CollaborateursComponent implements OnInit {
         this.afficherLaSaisie();
     }
 
+
     save() {
-        var collabfordb =  new Collaborateur( this.selectedCollaborateur) ;
-        collabfordb.dateEmbaucheOpen = this.communServ.dateStr(this.selectedCollaborateur.dateEmbaucheOpen);
+
+        var collabfordb =  new Collaborateur( this.selectedCollaborateur ) ;
+        collabfordb.dateEmbaucheOpen = this.communServ.dateStr( this.selectedCollaborateur.dateEmbaucheOpen );
 
         // Add
         if (collabfordb.id == 0) {
@@ -310,10 +312,10 @@ export class CollaborateursComponent implements OnInit {
 
     add (collabfordb) {
 
+        this.communServ.setTimeStamp(collabfordb);
         this.collaborateurService.create(collabfordb).pipe(first()).subscribe(data => {
-
             // Update collab on success
-            this.selectedCollaborateur.statutCollab=data.statutCollab; this.selectedCollaborateur.versionCollab=data.versionCollab; this.selectedCollaborateur.id=data.id;
+            this.updateCollabVar(this.selectedCollaborateur, data );
 
             // Manage Buttons
             this.buttons["Create"].disabled = false; this.buttons["Prestas"].disabled= false; this.buttons["EndMission"].disabled= false; this.buttons["Delete"].disabled = false;
@@ -321,20 +323,37 @@ export class CollaborateursComponent implements OnInit {
             // Update list
             this.updatelist("add", this.selectedCollaborateur);
 
-            // To do : message save ok
+            // Actual value becomes original value
+            this.selectedEmpoyeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
+
         },
          error => { this.alertService.error(error); }
         );
 
     }
 
+    updateCollabVar(myvar, data ) {
+        myvar.id = data.id;
+        myvar.statutCollab  = data.statutCollab;
+        myvar.versionCollab = data.versionCollab;
+        myvar.createdBy = data.createdBy;
+        myvar.createdAt = data.createdAt;
+        myvar.updatedBy = data.updatedBy;
+        myvar.updatedAt = data.updatedAt;
+    }
+
+
     update(collabfordb) {
 
+        this.communServ.setTimeStamp(collabfordb );
+        // I loose updatedBy here ?!!!!
+        debugger;
         this.collaborateurService.update(collabfordb).pipe(first()).subscribe(data => {
 
+            // And here I Loose createdBy
+            debugger;
             // Update collab on success
-            this.selectedCollaborateur.statutCollab = data.statutCollab;
-            this.selectedCollaborateur.versionCollab= data.versionCollab;
+            this.updateCollabVar(this.selectedCollaborateur, data );
 
             // Update list
             this.updatelist("change", this.selectedCollaborateur);
@@ -356,18 +375,16 @@ export class CollaborateursComponent implements OnInit {
             collabfordbold.dateEmbaucheOpen = this.communServ.dateStr( this.selectedEmpoyeeOriginalValue.dateEmbaucheOpen );
             this.collaborateurService.create(collabfordbold).pipe(first()).subscribe(dataold => {
 
-                    // Update collab on success
-                    this.selectedEmpoyeeOriginalValue.id = dataold.id;
-                    this.selectedEmpoyeeOriginalValue.trigramme = dataold.trigramme;
-                    this.selectedEmpoyeeOriginalValue.statutCollab=dataold.statutCollab;
+                // Update collab on success
+                this.updateCollabVar(this.selectedEmpoyeeOriginalValue, dataold );
 
-                    // Update list
-                    this.updatelist("add", dataold);
+                // Update list
+                this.updatelist("add", dataold);
 
-                    // Actual value becomes original value
-                    this.selectedEmpoyeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
-                },
-                error => { this.alertService.error(error);  }
+                // Actual value becomes original value
+                this.selectedEmpoyeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
+            },
+            error => { this.alertService.error(error);  }
             );
         },
         error => { this.alertService.error(error);  }
@@ -383,7 +400,7 @@ export class CollaborateursComponent implements OnInit {
         var collabfordb = new Collaborateur( this.selectedCollaborateur ) ;
         collabfordb.statutCollab = "S";
         collabfordb.versionCollab = Number(collabfordb.versionCollab) + 1 ;
-            collabfordb.dateEmbaucheOpen = this.communServ.dateStr(collabfordb.dateEmbaucheOpen);
+        collabfordb.dateEmbaucheOpen = this.communServ.dateStr(collabfordb.dateEmbaucheOpen);
         this.update(collabfordb);
 
         /*this.collaborateurService.delete(this.selectedCollaborateur.id)

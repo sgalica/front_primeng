@@ -177,4 +177,18 @@ export class CommunATGService {
         return pDate;
     }
 
+    setTimeStamp(obj) {
+
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        // Created
+        if (obj.createdAt==0 ) {
+            obj.createdBy = currentUser.id;
+            obj.createdAt = this.dateStr(new Date());
+        }
+
+        obj.updatedBy = currentUser.id;
+        obj.updatedAt = this.dateStr(new Date() );
+    }
+
 }

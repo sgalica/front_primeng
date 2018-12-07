@@ -8,11 +8,11 @@ export class ResourceService<T extends Resource> {
     constructor(
         private http: HttpClient,
         private url: string ,
-        private endpoint: string ) {}
+        private endpoint: string) {}
 
     create(item: T) {
         return this.http
-            .post(`${this.url}/${this.endpoint}/collab`, item)
+            .post(`${this.url}/${this.endpoint}/1`, item)
             .map(data => data as T);
     }
 
