@@ -22,6 +22,7 @@ export class CommunATGService {
 
     datefmtCalendarInput = "dd/mm/yy";
     datefmt = "dd/MM/yyyy";
+    datetimefmt = "dd/MM/yyyy hh:mm:SS";
 
 
     constructor( private datePipe:DatePipe  ){}
@@ -177,18 +178,27 @@ export class CommunATGService {
         return pDate;
     }
 
+    dateTimeStr(pDate) {
+        if (pDate != undefined && pDate!=null && typeof pDate.getMonth === "function")
+            return this.datePipe.transform(pDate, this.datetimefmt);
+        return pDate;
+    }
+
+
     setTimeStamp(obj) {
 
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-        // Created
-        if (obj.createdAt==0 ) {
+        // Created if new
+        if (obj.createdAt == 0 ) {
             obj.createdBy = currentUser.id;
-            obj.createdAt = this.dateStr(new Date());
+            obj.createdAt = this.dateTimeStr(new Date());
         }
 
+        // Update
         obj.updatedBy = currentUser.id;
-        obj.updatedAt = this.dateStr(new Date() );
+        obj.updatedAt = this.dateTimeStr(new Date());
+
     }
 
 }

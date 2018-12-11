@@ -292,22 +292,22 @@ export class AdministratorComponent implements OnInit {
         const jsonToConvert = [];
         Object.values(object).forEach(x => {
 
-
             const temp = new model.constructor;
+            console.log(temp.constructor.name);
 
             const acc = Object.entries(x).forEach((currentValue) => {
                 // console.log(x.hasOwnProperty(currentValue));
-                console.log("currentValue = ", currentValue[0]);
                 if (currentValue[1] === undefined) currentValue[1] = null;
+                if (currentValue[0]=="createdAt" && currentValue[1]!=null && currentValue[1]!="" )
+                    currentValue[1] += " 00:00:00";
+                if (currentValue[0]=="createdBy") currentValue[1]=0 ;
 
                 Object.defineProperty(temp, currentValue[0], {
                     writable: false,
                     value: currentValue[1]
                 });
                 // obj.constructor.argumentscurrentValue[0] = T.currentValue[1];
-
-                console.log("notre nouvel obj = ", temp);
-
+                console.log(" - " + currentValue[0] + " = " + ((currentValue[1] == null) ? "null" : currentValue[1].toString()) );
 
             });
 

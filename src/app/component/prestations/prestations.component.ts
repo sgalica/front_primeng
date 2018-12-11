@@ -248,10 +248,20 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     row.trigramme = row.collaborateur.trigramme;
 
                 // Format dates
-                var datearr =   row.dateDebutPrestation.split("/"); //dd/mm/yyyy
-                row.dateDebutPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
-                datearr =       row.dateFinPrestation.split("/");
-                row.dateFinPrestation   = new Date(datearr[2], datearr[1] - 1, datearr[0]);
+                try {
+                    var datearr=[];
+                    if (typeof row.dateDebutPrestation == "string" ) {
+                        datearr = row.dateDebutPrestation.split("/"); //dd/mm/yyyy
+                        row.dateDebutPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
+                    }
+                    if (typeof row.dateFinPrestation == "string" ) {
+                        datearr = row.dateFinPrestation.split("/");
+                        row.dateFinPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
+                    }
+                }
+                catch (error) {
+                    console.log("Error : "+ error + ", Row : "); console.log(row );
+                }
 
                 // >>>> Get keys <<<<<
                 this.communServ.setKeys(this.coldefs, row );
