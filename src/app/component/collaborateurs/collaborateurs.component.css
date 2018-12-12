@@ -56,4 +56,9 @@ th {
     max-width: 200px ;
 }
 
-.col { background-color: #e5eaf0;}
+.col { background-color:  #e5eaf0;}
+
+.obligatoire {
+    border-bottom: #6fa03b solid thin;
+}
+

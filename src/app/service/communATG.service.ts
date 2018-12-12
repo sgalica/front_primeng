@@ -88,7 +88,7 @@ export class CommunATGService {
     }
 
     
-    loadTableKeyValues(flds, tableService, itemsarray, uniquevalues) {
+    loadTableKeyValues(flds, tableService, itemsarray, uniquevalues, addEmptyValue=false) {
 
         tableService.list()
             .pipe(first())
@@ -97,6 +97,8 @@ export class CommunATGService {
                     flds.forEach( fld => {
 
                             itemsarray[fld.ref]=[];
+                            if (addEmptyValue)
+                                itemsarray[fld.ref].push({value: "", label: "[Vide]"});
 
                             if (uniquevalues) {
 

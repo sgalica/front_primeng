@@ -95,8 +95,8 @@
         <span style="display:inline-block; width:80%">{{title}}</span><span style="display:inline-block">Statut "{{allstatus[selectedCollaborateur['statutCollab']]}}" - Version {{selectedCollaborateur['versionCollab']}}</span>
     </p-header>
     <div class="ui-g ui-fluid">
-
-        <p-fieldset *ngFor="let fiche of FieldsFiches" legend="{{fiche.grplabel}}" class="ui-g-12 ui-md-6" [ngSwitch]="fiche.grp">
+        <div *ngFor="let fiche of FieldsFiches" class="ui-g-12 ui-md-6" >
+        <p-fieldset legend="{{fiche.grplabel}}" [ngSwitch]="fiche.grp" *ngIf="fiche.grp!='ST' || this.selectedCollaborateur.stt=='Oui'" >
 
             <div *ngSwitchCase="'Mission'">
 
@@ -123,34 +123,34 @@
             </div>
 
             <div *ngSwitchDefault>
-
-                <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.name">
+                <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.name" >
 
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
+                    <div [class]="field.obligatoire">
+                        <p-dropdown *ngSwitchCase="'categorisation'" [options]="references['categorisations']" [(ngModel)]="selectedCollaborateur[field.name]" filter="true" > <!--[style]="field.obligatoire"-->
+                             <ng-template let-item pTemplate="selectedItem">
+                                 <span>{{item.label}}</span>
+                             </ng-template>
+                             <ng-template let-categorisation pTemplate="item">
+                                 <div class="ui-helper-clearfix" style="position:relative;">
+                                     <div style="font-size:14px;float:left;margin-top:4px">{{categorisation.label}}</div>
+                                 </div>
+                             </ng-template>
+                        </p-dropdown>
+                        <p-dropdown *ngSwitchCase="'stt'" [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]"></p-dropdown>
 
-                    <p-dropdown *ngSwitchCase="'categorisation'" [options]="references['categorisations']" [(ngModel)]="selectedCollaborateur[field.name]" filter="true" [style]="{'width':'100%'}">
-                         <ng-template let-item pTemplate="selectedItem">
-                             <span>{{item.label}}</span>
-                         </ng-template>
-                         <ng-template let-categorisation pTemplate="item">
-                             <div class="ui-helper-clearfix" style="position:relative;">
-                                 <div style="font-size:14px;float:left;margin-top:4px">{{categorisation.label}}</div>
-                             </div>
-                         </ng-template>
-                    </p-dropdown>
+                        <p-calendar *ngSwitchCase="'dateEmbaucheOpen'" [(ngModel)]="selectedCollaborateur[field.name]" [showIcon]="true" [showButtonBar]="true"
+                                    dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
+                                    [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
+                                    [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                        </p-calendar>
 
-                    <p-dropdown *ngSwitchCase="'stt'" [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]"></p-dropdown>
-
-                    <p-calendar *ngSwitchCase="'dateEmbaucheOpen'" [(ngModel)]="selectedCollaborateur[field.name]" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
-                                [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
-                                [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
-                    </p-calendar>
-
-                    <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field.name]" style="width:auto">
-                 </div>
+                        <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field.name]" style="width:auto">
+                    </div>
+                </div>
              </div>
-         </p-fieldset>
+        </p-fieldset>
+        </div>
      </div>
 
 

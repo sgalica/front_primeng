@@ -17,7 +17,7 @@ import {CommunATGService} from "../../service/communATG.service"
 })
 export class CollaborateursComponent implements OnInit {
 
-    title : string="Collaborateur";
+    title : string = "Collaborateur";
 
     @ViewChild(('dt'))
     dt: DataTable;
@@ -67,11 +67,12 @@ export class CollaborateursComponent implements OnInit {
     FieldsFichesCreation : any[];
 
     communServ : CommunATGService;
-
+    styleObligatoire : string = "obligatoire"; // : object = {'border-bottom':'lightsteelblue solid thin'};
+    //styleNormal : string = "";
     constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService,
                 private router: Router, private alertService: AlertService, private communATGService : CommunATGService) {
     }
-    /*   ngOnChanges(): void { const camelCase = require('camelcase'); }*/
+    /*   ngOnChanges(): void { }*/
 
     ngOnInit() {
 
@@ -110,19 +111,18 @@ export class CollaborateursComponent implements OnInit {
         };
 
         this.selectColumns();
-
         this.FieldsFichesVisu=[
-            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [{name:"trigramme", type:"field"}, {name:"nom", type:"field"}, {name:"prenom", type:"field"}, {name:"categorisation", type:"combo"}, {name:"stt", type:"combo"}]},
-            {grp: "Mission",    grplabel : "Informations Mission",          fields : [{name:"dateDebutMission", type:"date"}, {name:"dateFinSg", type:"date"}, {name:"dateA3Ans", type:"date"}, {name:"derogation", type:"field"}, {name:"statutMission", type:"combo"}, {name:"versionMission", type:"field"} ]},
-            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [{name:"societeStt", type:"field"}, {name:"preEmbauche", type:"field"}, {name:"dateEmbaucheOpen", type:"date"}]},
-            {grp: "Contact",    grplabel : "Informations de contact",       fields : [{name:"telPerso", type:"field"}, {name:"telPro", type:"field"}, {name:"mailOpen", type:"field"}, {name:"mailSg", type:"field"}]}
+            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [{name:"trigramme",    type:"field", obligatoire:""}, {name:"nom",         type:"field", obligatoire:""}, {name:"prenom",      type:"field", obligatoire:""}, {name:"categorisation",  type:"combo", obligatoire:this.styleObligatoire}, {name:"stt",             type:"combo", obligatoire:""}]},
+            {grp: "Mission",    grplabel : "Informations Mission",          fields : [{name:"dateDebutMission", type:"date", obligatoire:""}, {name:"dateFinSg",type:"date",  obligatoire:""}, {name:"dateA3Ans",   type:"date", obligatoire:""},  {name:"derogation",      type:"field", obligatoire:""}, {name:"statutMission",   type:"combo", obligatoire:""}, {name:"versionMission", type:"field", obligatoire:""} ]},
+            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [{name:"societeStt",   type:"field", obligatoire:""}, {name:"preEmbauche", type:"field", obligatoire:""}, {name:"dateEmbaucheOpen", type:"date", obligatoire:""}]},
+            {grp: "Contact",    grplabel : "Informations de contact",       fields : [{name:"telPerso",     type:"field", obligatoire:""}, {name:"telPro",      type:"field", obligatoire:""}, {name:"mailOpen",    type:"field", obligatoire:""}, {name:"mailSg",          type:"field", obligatoire:""}]}
         ];
 
         this.FieldsFichesCreation=[
-            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [{name:"trigramme", type:"field"}, {name:"nom", type:"field"}, {name:"prenom", type:"field"}, {name:"categorisation", type:"combo"}, {name:"stt", type:"combo"}]},
-            {grp: "Mission",    grplabel : "Informations Mission",          fields : [{name:"dateDebutMission", type:"date"}, {name:"dateFinSg", type:"date"}, {name:"dateA3Ans", type:"date"}, {name:"derogation", type:"field"} ]},
-            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [{name:"societeStt", type:"field"}, {name:"preEmbauche", type:"field"}, {name:"dateEmbaucheOpen", type:"date"}]},
-            {grp: "Contact",    grplabel : "Informations de contact",       fields : [{name:"telPerso", type:"field"}, {name:"telPro", type:"field"}, {name:"mailOpen", type:"field"}, {name:"mailSg", type:"field"}]}
+            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [{name:"trigramme",    type:"field", obligatoire:""}, {name:"nom",         type:"field", obligatoire:""}, {name:"prenom",      type:"field", obligatoire:""}, {name:"categorisation",  type:"combo", obligatoire:this.styleObligatoire}, {name:"stt",             type:"combo", obligatoire:""}]},
+            {grp: "Mission",    grplabel : "Informations Mission",          fields : [{name:"dateDebutMission", type:"date", obligatoire:""}, {name:"dateFinSg",type:"date",  obligatoire:""}, {name:"dateA3Ans",   type:"date", obligatoire:""},  {name:"derogation",      type:"field", obligatoire:""} ]},
+            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [{name:"societeStt",   type:"field", obligatoire:""}, {name:"preEmbauche", type:"field", obligatoire:""}, {name:"dateEmbaucheOpen", type:"date", obligatoire:""}]},
+            {grp: "Contact",    grplabel : "Informations de contact",       fields : [{name:"telPerso",     type:"field", obligatoire:""}, {name:"telPro",      type:"field", obligatoire:""}, {name:"mailOpen",    type:"field", obligatoire:""}, {name:"mailSg",          type:"field", obligatoire:""}]}
         ];
 
         this.FieldsFiches = this.FieldsFichesVisu;
@@ -167,7 +167,7 @@ export class CollaborateursComponent implements OnInit {
 
         var flds = [{ref:"categorisations", key:"categorisation", label:"categorisation", labelbis:"libelle"}] ;
         
-        this.communServ.loadTableKeyValues(flds, this.categorieService, this.references, null );
+        this.communServ.loadTableKeyValues(flds, this.categorieService, this.references, null, true );
     }
 
     updateFilters() {
@@ -230,25 +230,25 @@ export class CollaborateursComponent implements OnInit {
 
     selectCollaborateur(event: Event, collaborateur: Collaborateur) {
 
-        this.selectedCollaborateur = collaborateur;
+        this.selectedCollaborateur = new Collaborateur(collaborateur);
         this.selectedEmployeeOriginalValue = new Collaborateur(collaborateur);
         this.FieldsFiches = this.FieldsFichesVisu;
-        this.afficherLaSaisie();
-
-        this.buttons["Save"].disabled=false;
 
         // Last mission
-        this.buttons["Delete"].disabled=true;
-
         this.lastMission = null;
         this.selectedCollaborateur.missions.forEach(missionCollab => {
             var lastDate = (this.lastMission!=null && typeof this.lastMission['dateDebutMission'] == "string") ? this.lastMission['dateDebutMission'] : null;
             if (this.getDateIfMoreRecent( missionCollab['dateDebutMission'], lastDate ))
                 this.lastMission = missionCollab;
         });
+        // S/T = Non par défaut
+        if (this.selectedCollaborateur.stt == "") this.selectedCollaborateur.stt="Non"
 
-        if (!this.lastMission)
-            this.buttons["Delete"].disabled=false;
+        this.afficherLaSaisie();
+
+        // Buttons
+        this.buttons["Save"].disabled=false;
+        this.buttons["Delete"].disabled = (this.lastMission) ? true : false;
 
         // event.preventDefault();
     }
@@ -295,8 +295,12 @@ export class CollaborateursComponent implements OnInit {
 
     new() {
         this.selectedCollaborateur = new Collaborateur();
+        // S/T = Non par défaut
+        this.selectedCollaborateur.stt = "Non";
 
         this.lastMission = new Mission();
+
+        // Buttons
         this.buttons["Save"].disabled=false;
         this.buttons["Create"].disabled=true;
         this.buttons["Prestas"].disabled=true;
@@ -310,18 +314,23 @@ export class CollaborateursComponent implements OnInit {
     }
 
     save() {
-
-        var collabfordb =  new Collaborateur( this.selectedCollaborateur ) ;
-        collabfordb.dateEmbaucheOpen = this.communServ.dateStr( this.selectedCollaborateur.dateEmbaucheOpen );
-
-        // Add
-        if (collabfordb.id == 0) {
-            collabfordb.statutCollab="E"; collabfordb.versionCollab=1;
-            this.add(collabfordb);
-        }
-        // Update
+        // Check input
+        if (this.selectedCollaborateur.categorisation=="")
+            this.alertService.error("Veuillez sélectionner une catégorie");
         else {
-            this.update("E");
+            var collabfordb = new Collaborateur( this.selectedCollaborateur ) ;
+            collabfordb.dateEmbaucheOpen = this.communServ.dateStr( this.selectedCollaborateur.dateEmbaucheOpen );
+
+            // Add
+            if (collabfordb.id == 0) {
+                collabfordb.statutCollab="E"; collabfordb.versionCollab=1;
+                this.add(collabfordb);
+            }
+            // Update
+            else {
+                this.update("E");
+            }
+
         }
 
     }
@@ -353,7 +362,6 @@ export class CollaborateursComponent implements OnInit {
                         this.alertService.success("Enregistré");
                     },
                     error => {
-                        debugger;
                         this.alertService.error(error);
                     });
                 }
