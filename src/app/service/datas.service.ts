@@ -16,6 +16,7 @@ import {
     SocieteStt
 } from "../model/referentiel";
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class ContactsSttService extends ResourceService<ContactsStt> {
@@ -45,12 +46,24 @@ export class CommercialOpenService extends ResourceService<CommercialOpen> {
 
 @Injectable()
 export class CollaborateurService extends ResourceService<Collaborateur> {
+
+    httpClient : HttpClient;
+
     constructor(httpClient: HttpClient) {
         super(
             httpClient,
             'api',
             'collaborateurs');
+
+        this.httpClient = httpClient;
     }
+
+    findByTrigramme(trigr : string): Observable<Collaborateur> {
+        return this.httpClient
+            .get(`api/collaborateurs/trigr/${trigr}`)
+            .map((data: any) => data as Collaborateur);
+    }
+
 }
 
 @Injectable()

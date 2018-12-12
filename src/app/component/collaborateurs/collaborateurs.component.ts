@@ -212,8 +212,10 @@ export class CollaborateursComponent implements OnInit {
 
     // Tri sur trigramme (asc) et version (desc)
     orderTrigrammeVersion(a, b) {
-        var fld="trigramme";
-        let after = (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0;
+        var fld = "trigramme";
+        var vala = a[fld].substr(0,8);
+        var valb = b[fld].substr(0,8);
+        let after = (vala > valb) ? 1 : (vala < valb) ? -1 : 0;
         fld = "versionCollab";
         return (after != 0) ? after : (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
     }
@@ -327,27 +329,44 @@ export class CollaborateursComponent implements OnInit {
     add (collabfordb) {
 
         this.communServ.setTimeStamp(collabfordb);
+        // Check if not already in db
+        this.collaborateurService.findByTrigramme(collabfordb.trigramme).pipe(first()).subscribe(data => {
 
-        this.collaborateurService.create(collabfordb).pipe(first()).subscribe(data => {
+                if (data == null) {
+                    this.collaborateurService.create(collabfordb).pipe(first()).subscribe(data => {
 
-            // Update collab on success
-            this.updateCollabVar(this.selectedCollaborateur, data );
+                        // Update collab on success
+                        this.updateCollabVar(this.selectedCollaborateur, data);
 
-            // Manage Buttons
-            this.buttons["Create"].disabled = false; this.buttons["Prestas"].disabled= false; this.buttons["EndMission"].disabled= false; this.buttons["Delete"].disabled = false;
+                        // Manage Buttons
+                        this.buttons["Create"].disabled = false;
+                        this.buttons["Prestas"].disabled = false;
+                        this.buttons["EndMission"].disabled = false;
+                        this.buttons["Delete"].disabled = false;
 
-            // Update list
-            this.updatelist("add", this.selectedCollaborateur);
+                        // Update list
+                        this.updatelist("add", this.selectedCollaborateur);
 
-            // Actual value becomes original value
-            this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
+                        // Actual value becomes original value
+                        this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
 
-            this.alertService.success("Enregistré");
+                        this.alertService.success("Enregistré");
+                    },
+                    error => {
+                        debugger;
+                        this.alertService.error(error);
+                    });
+                }
+                else
+                    this.alertService.error("Un collaborateur avec trigramme "+ collabfordb.trigramme+ " existe déjà.");
         },
-         error => { this.alertService.error(error); }
+            error => { this.alertService.error(error); }
         );
 
+
     }
+
+
 
     update(action) {
 
@@ -367,11 +386,11 @@ export class CollaborateursComponent implements OnInit {
         collabfordbnew.missions = []; // Don't save the missions
         collabfordbnew.prestations = []; // Don't save the prestations
 
-        var collabfordbupd = collabfordbnew;
-        var collabupd = this.selectedCollaborateur;
+        var collabfordbupd = collabfordbold; //collabfordbnew;
+        var collabupd = this.selectedEmployeeOriginalValue; //this.selectedCollaborateur;
 
-        var collabfordbadd = collabfordbold;
-        var collabadd = this.selectedEmployeeOriginalValue;
+        var collabfordbadd = collabfordbnew; // collabfordbold;
+        var collabadd = this.selectedCollaborateur; // this.selectedEmployeeOriginalValue;
 
         // this.communServ.setTimeStamp(collabfordbupd );
         // UPDATE
