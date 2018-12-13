@@ -86,7 +86,7 @@
 
 
 <!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
-<!-- >>>>>>>>>>>>>>> F I C H E <<<<<<<<<<<<<<<<<<<-->
+<!-- >>>>>>>>>>>>>>> F I C H E <<<<<<<<<<<<<<<<<<<<<-->
 <!-- >>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<-->
 
 <p-dialog [(visible)]="displayDialog" [responsive]="true" [modal]="true" [styleClass]="'importcsv'">
@@ -126,7 +126,9 @@
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.name" >
 
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
+
                     <div [class]="field.obligatoire">
+
                         <p-dropdown *ngSwitchCase="'categorisation'" [options]="references['categorisations']" [(ngModel)]="selectedCollaborateur[field.name]" filter="true" > <!--[style]="field.obligatoire"-->
                              <ng-template let-item pTemplate="selectedItem">
                                  <span>{{item.label}}</span>
@@ -137,7 +139,9 @@
                                  </div>
                              </ng-template>
                         </p-dropdown>
+
                         <p-dropdown *ngSwitchCase="'stt'" [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="'preEmbauche'" [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]" (onChange)="preEmbaucheChange($event)"></p-dropdown>
 
                         <p-calendar *ngSwitchCase="'dateEmbaucheOpen'" [(ngModel)]="selectedCollaborateur[field.name]" [showIcon]="true" [showButtonBar]="true"
                                     dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"

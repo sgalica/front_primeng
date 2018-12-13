@@ -67,25 +67,6 @@ export class Collaborateur {
                  if (typeof this[attribut] !== "object")
                      this[attribut] = pCollab[attribut];
              }
-            /* this.id        =pCollab.id;
-             this.trigramme =pCollab.trigramme;
-             this.nom       =pCollab.nom;
-             this.prenom    =pCollab.prenom;
-             this.telPerso  =pCollab.telPerso;
-             this.telPro    =pCollab.telPro;
-             this.mailOpen  =pCollab.mailOpen;
-             this.mailSg    =pCollab.mailSg;
-             this.categorisation=pCollab.categorisation;
-             this.stt       =pCollab.stt;
-             this.statutCollab  =pCollab.statutCollab;
-             this.versionCollab =pCollab.versionCollab;
-             this.societeStt    =pCollab.societeStt;
-             this.preEmbauche   =pCollab.preEmbauche;
-             this.dateEmbaucheOpen=pCollab.dateEmbaucheOpen;
-
-             this.prestations   =pCollab.prestations;
-
-             this.missions  =pCollab.missions;*/
          }
      }
 }
