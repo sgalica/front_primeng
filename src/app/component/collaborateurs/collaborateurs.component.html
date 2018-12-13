@@ -103,17 +103,16 @@
                 <div *ngIf="lastMission">
                     <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
 
-                        <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left', 'background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
+                        <span class="ui-inputgroup-addon" [ngStyle]="{'flex-grow':'0', 'flex-basis':'25%', 'text-align':'left', 'background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
 
-                        <p-calendar *ngSwitchCase="'date'" [(ngModel)]="lastMission[field.name]" [showIcon]="true" [showButtonBar]="true"
+                        <p-calendar *ngSwitchCase="'date'" [(ngModel)]="lastMission[field.name]" [showButtonBar]="true"
                                     dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
-                                    [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
-                                    [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                                    [disabled]="field.readonly" [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
                         </p-calendar>
 
-                        <p-dropdown *ngSwitchCase="'combo'" [options]="allStatusComboOptions" [(ngModel)]="lastMission[field.name]"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="'combo'" [options]="field.options" [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly" [ngStyle]="{'flex-grow':'3'}"></p-dropdown>
 
-                        <input *ngSwitchDefault type="text" pInputText [(ngModel)]="lastMission[field.name]" style="width:auto">
+                        <input *ngSwitchDefault type="text" pInputText [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly" [ngStyle]="{'flex-grow':'3', 'width':'auto'}">
                     </div>
                 </div>
 
@@ -140,8 +139,8 @@
                              </ng-template>
                         </p-dropdown>
 
-                        <p-dropdown *ngSwitchCase="'stt'" [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]"></p-dropdown>
-                        <p-dropdown *ngSwitchCase="'preEmbauche'" [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]" (onChange)="preEmbaucheChange($event)"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="'stt'"           [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="'preEmbauche'"   [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]" (onChange)="preEmbaucheChange($event)"></p-dropdown>
 
                         <p-calendar *ngSwitchCase="'dateEmbaucheOpen'" [(ngModel)]="selectedCollaborateur[field.name]" [showIcon]="true" [showButtonBar]="true"
                                     dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
@@ -149,7 +148,7 @@
                                     [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
                         </p-calendar>
 
-                        <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field.name]" style="width:auto">
+                        <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field.name]" [disabled]="field.readonly" [class]="(field.readonly) ? 'readonly' : ''" style="width:auto">
                     </div>
                 </div>
              </div>

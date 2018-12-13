@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ɵQueryValueType} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
 import {CategorieService, CollaborateurService} from '../../service/datas.service';
@@ -68,6 +68,7 @@ export class CollaborateursComponent implements OnInit {
 
     communServ : CommunATGService;
     styleObligatoire : string = "obligatoire"; // : object = {'border-bottom':'lightsteelblue solid thin'};
+    styleReadOnly    : string = "readonly"; // : object = {'border-bottom':'lightsteelblue solid thin'};
     //styleNormal : string = "";
     constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService,
                 private router: Router, private alertService: AlertService, private communATGService : CommunATGService) {
@@ -111,18 +112,36 @@ export class CollaborateursComponent implements OnInit {
         };
 
         this.selectColumns();
+
+        this.allStatusComboOptions = this.communServ.filterSelectItems(this.allstatus, this.allstatus );
+
         this.FieldsFichesVisu=[
-            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [{name:"trigramme",        type:"field", obligatoire:""},                      {name:"nom",         type:"field", obligatoire:""}, {name:"prenom",      type:"field", obligatoire:""}, {name:"categorisation",  type:"combo", obligatoire:this.styleObligatoire}, {name:"stt",             type:"combo", obligatoire:""}]},
-            {grp: "Mission",    grplabel : "Informations Mission",          fields : [{name:"dateDebutMission", type:"date", obligatoire:""},                       {name:"dateFinSg",   type:"date",  obligatoire:""}, {name:"dateA3Ans",   type:"date", obligatoire:""},  {name:"derogation",      type:"field", obligatoire:""}, {name:"statutMission",   type:"combo", obligatoire:""}, {name:"versionMission", type:"field", obligatoire:""} ]},
-            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [{name:"societeStt",       type:"field", obligatoire:this.styleObligatoire},   {name:"preEmbauche", type:"combo", obligatoire:""}, {name:"dateEmbaucheOpen", type:"date", obligatoire:""}]},
-            {grp: "Contact",    grplabel : "Informations de contact",       fields : [{name:"telPerso",         type:"field", obligatoire:""},                      {name:"telPro",      type:"field", obligatoire:""}, {name:"mailOpen",    type:"field", obligatoire:""}, {name:"mailSg",          type:"field", obligatoire:""}]}
+            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [
+                {name:"trigramme",        type:"field", obligatoire:"", readonly:true},                       {name:"nom",         type:"field", obligatoire:"", readonly:false}, {name:"prenom",      type:"field",    obligatoire:"", readonly:false},
+                {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},   {name:"stt",         type:"combo", obligatoire:"", readonly:false}]},
+            {grp: "Mission",    grplabel : "Informations Mission",          fields : [
+                {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateFinSg",   type:"date",  obligatoire:"", readonly:true},  {name:"dateA3Ans",   type:"date",     obligatoire:"", readonly:true},
+                {name:"derogation",       type:"combo", obligatoire:"", readonly:true, options:this.ouinonComboOptions},  {name:"statutMission",   type:"combo", obligatoire:"", readonly:true, options:this.allStatusComboOptions},
+                {name:"versionMission",   type:"field", obligatoire:"", readonly:true} ]},
+            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [
+                {name:"societeStt",       type:"field", obligatoire:this.styleObligatoire, readonly:false},   {name:"preEmbauche", type:"combo", obligatoire:"", readonly:false}, {name:"dateEmbaucheOpen", type:"date",obligatoire:"", readonly:false}]},
+            {grp: "Contact",    grplabel : "Informations de contact",       fields : [
+                {name:"telPerso",         type:"field", obligatoire:"", readonly:false},                      {name:"telPro",      type:"field", obligatoire:"", readonly:false}, {name:"mailOpen",    type:"field",    obligatoire:"", readonly:false},
+                {name:"mailSg",           type:"field", obligatoire:"", readonly:false}]}
         ];
 
         this.FieldsFichesCreation=[
-            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [{name:"trigramme",        type:"field", obligatoire:""},                      {name:"nom",         type:"field", obligatoire:""}, {name:"prenom",      type:"field", obligatoire:""}, {name:"categorisation",  type:"combo", obligatoire:this.styleObligatoire}, {name:"stt",             type:"combo", obligatoire:""}]},
-            {grp: "Mission",    grplabel : "Informations Mission",          fields : [{name:"dateDebutMission", type:"date", obligatoire:""},                       {name:"dateFinSg",   type:"date",  obligatoire:""}, {name:"dateA3Ans",   type:"date", obligatoire:""},  {name:"derogation",      type:"field", obligatoire:""} ]},
-            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [{name:"societeStt",       type:"field", obligatoire:this.styleObligatoire},   {name:"preEmbauche", type:"combo", obligatoire:""}, {name:"dateEmbaucheOpen", type:"date", obligatoire:""}]},
-            {grp: "Contact",    grplabel : "Informations de contact",       fields : [{name:"telPerso",         type:"field", obligatoire:""},                      {name:"telPro",      type:"field", obligatoire:""}, {name:"mailOpen",    type:"field", obligatoire:""}, {name:"mailSg",          type:"field", obligatoire:""}]}
+            {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [
+                {name:"trigramme",        type:"field", obligatoire:"", readonly:false},                      {name:"nom",         type:"field", obligatoire:"", readonly:false}, {name:"prenom",      type:"field",    obligatoire:"", readonly:false},
+                {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},               {name:"stt",             type:"combo", obligatoire:"", readonly:false}]},
+            {grp: "Mission",    grplabel : "Informations Mission",          fields : [
+                {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateFinSg",   type:"date",  obligatoire:"", readonly:true},  {name:"dateA3Ans",   type:"date",     obligatoire:"", readonly:true},
+                {name:"derogation",       type:"combo", obligatoire:"", readonly:true, options:this.ouinonComboOptions} ]},
+            {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [
+                {name:"societeStt",       type:"field", obligatoire:this.styleObligatoire, readonly:false},   {name:"preEmbauche", type:"combo", obligatoire:"", readonly:false}, {name:"dateEmbaucheOpen", type:"date",obligatoire:"", readonly:false}]},
+            {grp: "Contact",    grplabel : "Informations de contact",       fields : [
+                {name:"telPerso",         type:"field", obligatoire:"", readonly:false},                      {name:"telPro",      type:"field", obligatoire:"", readonly:false}, {name:"mailOpen",    type:"field",    obligatoire:"", readonly:false},
+                {name:"mailSg",           type:"field", obligatoire:"", readonly:false}]}
         ];
 
         this.FieldsFiches = this.FieldsFichesVisu;
@@ -136,8 +155,6 @@ export class CollaborateursComponent implements OnInit {
             "ReOpen"    : {label:"Réactiver le collaborateur",  disabled:true },
             "Cancel"    : {label:"Annuler",                     disabled:true,  fnc : ()=>{this.cancelEditCollab();} }
         };
-
-        this.allStatusComboOptions = this.communServ.filterSelectItems(this.allstatus, this.allstatus );
 
         this.loadAllCollaborateurs();
 
@@ -253,14 +270,13 @@ export class CollaborateursComponent implements OnInit {
         this.afficherLaSaisie();
 
         // Buttons
-        this.buttons["Save"].disabled   = false;
+        this.buttons["Save"].disabled   = (this.selectedCollaborateur.statutCollab=="E") ? false : true;;
         this.buttons["Create"].disabled = false;
         this.buttons["Prestas"].disabled = (this.selectedCollaborateur.prestations==null || this.selectedCollaborateur.prestations.length==0) ? true : false;
         this.buttons["EndMission"].disabled = (this.lastMission) ? (this.lastMission.statutMission=="T") ? true : false : true;
         this.buttons["Delete"].disabled     = (this.lastMission) ? true : false;
         this.buttons["ReOpen"].disabled = true;
         this.buttons["Cancel"].disabled = false;
-
     }
 
     getDateIfMoreRecent(datestr, lastDate ) {
@@ -364,11 +380,16 @@ export class CollaborateursComponent implements OnInit {
 
     // Indicat field dateEmbauche obligatory or not (depends on preEmbauche)
     preEmbaucheChange(event) {
+        var obl = (this.selectedCollaborateur["preEmbauche"]=="Oui") ? this.styleObligatoire : "";
+        this.setFieldValue("ST", "dateEmbaucheOpen", "obligatoire", obl);
+    }
+
+    setFieldValue(pGrp, pFld, pProp, value) {
         this.FieldsFiches.forEach(grp => {
-            if (grp.grp == "ST") {
+            if (grp.grp == pGrp ) {
                 grp.fields.forEach(fld => {
-                    if  (fld.name == "dateEmbaucheOpen")
-                        fld.obligatoire = (this.selectedCollaborateur["preEmbauche"]=="Oui") ? this.styleObligatoire : "";
+                    if (fld.name == pFld)
+                        fld[pProp] = value;
                 });
             }
         });
