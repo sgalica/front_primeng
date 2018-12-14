@@ -6,7 +6,6 @@ import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
 import {Collaborateur, CommercialOpen, Contrat, Prestation} from "../../model/referentiel";
 import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService} from "../../service/datas.service";
-import {DatePipe} from "@angular/common";
 import {CommunATGService} from "../../service/communATG.service";
 
 @Component({
@@ -80,11 +79,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
         private equipeService : EquipeService, // Departement, Pôle, Domaine, 
         private donneurOrdreService: DonneurOrdreService,
         private commercialOpenService: CommercialOpenService,
-        // private respPoleService: Service, // Resp pôle
+        // private respPoleService: Service,
 
         private router: Router, private route: ActivatedRoute,
         private alertService: AlertService,
-        private datePipe:DatePipe,
         private communATGService : CommunATGService
     ) {}
 
@@ -249,15 +247,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
                 // Format dates
                 try {
-                    var datearr=[];
-                    if (typeof row.dateDebutPrestation == "string" ) {
-                        datearr = row.dateDebutPrestation.split("/"); //dd/mm/yyyy
-                        row.dateDebutPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
-                    }
-                    if (typeof row.dateFinPrestation == "string" ) {
-                        datearr = row.dateFinPrestation.split("/");
-                        row.dateFinPrestation = new Date(datearr[2], datearr[1] - 1, datearr[0]);
-                    }
+                    if (typeof row.dateDebutPrestation == "string" )
+                        row.dateDebutPrestation = this.communServ.convertStrToDate(row.dateDebutPrestation);
+                    if (typeof row.dateFinPrestation == "string" )
+                        row.dateFinPrestation = this.communServ.convertStrToDate(row.dateFinPrestation);
                 }
                 catch (error) {
                     console.log("Error : "+ error + ", Row : "); console.log(row );
@@ -330,20 +323,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
     pt_filter(event, pt, field: string) {
         var condition = {cond:this.coldefs[ field ].filtercond, value:this.coldefs[field].selected};
         if (this.coldefs[field].filtertype == "date")
-            condition = this.convertDateGteLteToGtLt(condition);
+            condition = this.communServ.convertDateGteLteToGtLt(condition);
 
         this.pt.filter(condition.value, field, condition.cond);
-    }
-
-    convertDateGteLteToGtLt(pCondition) {
-        var condition = {cond:"gt", value:0};
-
-        if (pCondition.value!=null) {
-            condition.value = pCondition.value.valueOf(); //valuedate = event.valueOf().toString(); //valuedate = this.datePipe.transform(value, 'yyyy-MM-dd');
-            if      (pCondition.cond=="gte") { condition.cond="gt"; condition.value -= 86400000; } // 86400000 = 1 jour en millis
-            else if (pCondition.cond=="lte") { condition.cond="lt"; condition.value += 86400000; }
-        }
-        return condition;
     }
 
     selectPrestation(event: Event, prestation: Prestation) {

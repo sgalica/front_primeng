@@ -10,6 +10,11 @@ import {PrestationsComponent} from "../prestations/prestations.component";
 import {DataTable} from "primeng/primeng";
 import {CommunATGService} from "../../service/communATG.service"
 
+interface OuiNon {
+ label: string,
+ value: string
+}
+
 @Component({
     selector: 'app-collaborateurs',
     templateUrl: './collaborateurs.component.html',
@@ -43,7 +48,7 @@ export class CollaborateursComponent implements OnInit {
 
     references   : any[]=[];
 
-    ouinonComboOptions : { label: string, value: string }[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
+    ouinonComboOptions : OuiNon[] = [{value: "Oui", label: "Oui"}, {value: "Non", label: "Non"} ];
 
     private msgs    : Message[];
     private selectedfile: any;
@@ -276,7 +281,6 @@ export class CollaborateursComponent implements OnInit {
 
     getLastMission(missions) {
         var lastMission = null;
-        this.lastMission = null;
         missions.forEach( mission => {
             var lastDate = (lastMission != null && typeof lastMission['dateDebutMission'] == "string") ? lastMission['dateDebutMission'] : null;
             if (this.communServ.getDateIfMoreRecent( mission['dateDebutMission'], lastDate))
@@ -358,9 +362,7 @@ export class CollaborateursComponent implements OnInit {
                 this.update("E");
             }
         }
-        else {
-            this.alertService.error(errmsg);
-        }
+        else this.alertService.error(errmsg);
     }
 
     cancelEditCollab() {
@@ -474,6 +476,28 @@ export class CollaborateursComponent implements OnInit {
         if (this.lastMission != null)
             this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.alertService.error(error);} );
 
+    }
+
+    changeDerogation(event) {
+        // Check if not a running prestation exceeding 3 years
+        if (event.value=="Non") {
+            var hasDateExceeding3Years = false;
+            var debutMission = this.communServ.convertStrToDate(this.lastMission.dateDebutMission);
+            var date3ans = this.communServ.addToDate( debutMission, [0,0,3] )
+            this.selectedCollaborateur.prestations.forEach(prestation => {
+                if ( prestation.identifiantMission == this.lastMission.identifiantMission) {
+                    if ( prestation.dateFinPrestation > date3ans )
+                        hasDateExceeding3Years = true;
+                }
+            });
+            if (hasDateExceeding3Years) {
+
+                this.lastMission.derogation="Oui";
+
+                this.alertService.error("La dérogation ne peut être annulée du aux prestations déjà dérogées ");
+                event.preventDefault();
+            }
+        }
     }
 
     newPrestation() { }

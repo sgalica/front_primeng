@@ -219,14 +219,49 @@ export class CommunATGService {
 
     // Retourne la date si plus récente (null autrement)
     getDateIfMoreRecent(datestr, lastDate ) {
+        var dateTst = this.convertStrToDate(datestr);
+        return ( dateTst > (this.convertStrToDate(lastDate)) ) ? dateTst : null;
+    }
 
-        var dateArr = datestr.split("/"); //dd/mm/yyyy
-        var dateTst = new Date(dateArr[2], dateArr[1], dateArr[0]);
+    convertStrToDate(datestr) {
+        if (datestr) {
+            if (typeof datestr=="string") {
+                var dateArr = datestr.split("/"); //dd/mm/yyyy
+                return new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0]));
+            }
+            else
+             return datestr;
+        }
+        else
+            return new Date(0);
+    }
 
-        if (lastDate) dateArr = lastDate.split("/");
-        var dateLast = (lastDate) ? new Date(dateArr[2], dateArr[1], dateArr[0]) : new Date(0);
+    addToDate(date, datearr) { // [d,m,y]
+        var newDate = new Date(date);
+        if (datearr[0] > 0)  // days
+            newDate = new Date (newDate.valueOf() + (86400000 * datearr[0]) )
 
-        return ( dateTst > dateLast ) ? dateTst : null;
+        if (datearr[1] > 0) { // months
+            var nmonths = newDate.getMonth() + datearr[1];
+            newDate = new Date (newDate.getFullYear() + (nmonths / 12), nmonths%12, newDate.getDate()  )
+        }
+        if (datearr[2] > 0)  // years
+            newDate = new Date (newDate.getFullYear() + datearr[2], newDate.getMonth(), newDate.getDate()  )
+
+        return newDate;
+    }
+
+    // Transforms object {cond:"gte/lte", value} => {cond:"gt/lt", value}
+    convertDateGteLteToGtLt(pCondition) {
+
+        var condition = {cond:"gt", value:0};
+
+        if (pCondition.value != null) {
+            condition.value = pCondition.value.valueOf(); //valuedate = event.valueOf().toString();
+            if      (pCondition.cond=="gte") { condition.cond="gt"; condition.value -= 86400000; } // 86400000 = 1 jour en millis
+            else if (pCondition.cond=="lte") { condition.cond="lt"; condition.value += 86400000; }
+        }
+        return condition;
     }
 
 }

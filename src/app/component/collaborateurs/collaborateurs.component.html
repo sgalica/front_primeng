@@ -109,9 +109,11 @@
                                     dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
                                     [disabled]="field.readonly" [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
                         </p-calendar>
-
-                        <p-dropdown *ngSwitchCase="'combo'" [options]="field.options" [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly" [ngStyle]="{'flex-grow':'3'}"></p-dropdown>
-
+                        <div *ngSwitchCase="'combo'" [ngStyle]="{'flex-grow':'3'}" [ngSwitch]="field.name">
+                            <p-dropdown *ngSwitchCase="'derogation'" [options]="field.options" [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly"
+                                         (onChange)="changeDerogation($event)"></p-dropdown>
+                            <p-dropdown *ngSwitchDefault [options]="field.options" [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly"></p-dropdown>
+                        </div>
                         <input *ngSwitchDefault type="text" pInputText [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly" [ngStyle]="{'flex-grow':'3', 'width':'auto'}">
                     </div>
                 </div>
