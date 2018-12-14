@@ -27,16 +27,9 @@ export class CommunATGService {
 
     constructor( private datePipe:DatePipe  ){}
 
+    // SelectItems
     orderSelectItems(a, b)      { var fld="value"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
     orderSelectItemsLabel(a, b) { var fld="label"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
-
-    convertMapToArray(map : {}) : any[] {
-        var list=[];
-        for (var key in map ) {
-            list.push(key);
-        }
-        return list;
-    }
 
     // Return list of SelectItems based on array et labels (if present)
     createSelectItemsFromArray(array, labels ) : any[] {
@@ -53,7 +46,6 @@ export class CommunATGService {
         }
         return list;
     }
-
 
     // Return list of SelectItems based on table filtered on coltst
     filterTableSelectItems (tableIn:{}, coltst:string, labelfld:string) : any[] {
@@ -77,6 +69,16 @@ export class CommunATGService {
         return list;
     }
 
+    // Array
+    convertMapToArray(map : {}) : any[] {
+        var list=[];
+        for (var key in map ) { list.push(key); }
+        return list;
+    }
+
+    // TABLE
+
+    // Initialise la propriété de la colonne selon son type (valistype si type, othervalue otherwise)
     clearTableCol(table, col, coltst, type, valistype, othervalue) {
         for( var column in table) {
             var typevalue = (table[column][coltst] == type) ? typeof valistype : typeof othervalue;
@@ -87,7 +89,7 @@ export class CommunATGService {
         }
     }
 
-    
+    // Récupère une liste dans la forme (key-value) de la table (pour combos)
     loadTableKeyValues(flds, tableService, itemsarray, uniquevalues, addEmptyValue=false) {
 
         tableService.list()
@@ -133,6 +135,8 @@ export class CommunATGService {
             );
     }
 
+    // Enregistre les valeurs des colonnes d'une ligne comme clés
+    // Les valeurs undefined, null, espace comme "", Les valeurs sont débarassées de leur espaces sauf si clé.
     setKeys(coldefs, row) {
 
         for (var column in coldefs) {
@@ -154,16 +158,17 @@ export class CommunATGService {
     }
 
 
+    // ELEMENTS
+    // Rajoute les valeurs des autres colonnes comme complément d'info à la colonne dans la forme : colonne (autres colonnes)
     setLabel(labels, element, column, addlabelfields: string[] ) {
 
-        if (element!=undefined) {
+        if (element != undefined) {
             labels[ element[ column ] ] = element[ column ] ;
 
             var label="";
             var first=true;
             addlabelfields.forEach(fld =>  {
-                if (!first)
-                    label += " ";
+                if (!first) label += " ";
                 label += element[fld];
                 first=false;
             });
@@ -173,7 +178,17 @@ export class CommunATGService {
         }
     }
 
-    /*** Fonctions Date ***/
+    setObjectValues(obj, property, newvalues) {
+        for (var key in newvalues ) {
+            if (property==null)
+                obj[key] = newvalues[key]
+            else
+                obj[key][property] = newvalues[key]
+        }
+    }
+
+
+    // DATE
     dateStr(pDate) {
         if (pDate != undefined && pDate!=null && typeof pDate.getMonth === "function")
             return this.datePipe.transform(pDate, this.datefmt);
@@ -185,7 +200,6 @@ export class CommunATGService {
             return this.datePipe.transform(pDate, this.datetimefmt);
         return pDate;
     }
-
 
     setTimeStamp(obj) {
 
@@ -201,6 +215,18 @@ export class CommunATGService {
         obj.updatedBy = currentUser.id;
         obj.updatedAt = this.dateTimeStr(new Date());
 
+    }
+
+    // Retourne la date si plus récente (null autrement)
+    getDateIfMoreRecent(datestr, lastDate ) {
+
+        var dateArr = datestr.split("/"); //dd/mm/yyyy
+        var dateTst = new Date(dateArr[2], dateArr[1], dateArr[0]);
+
+        if (lastDate) dateArr = lastDate.split("/");
+        var dateLast = (lastDate) ? new Date(dateArr[2], dateArr[1], dateArr[0]) : new Date(0);
+
+        return ( dateTst > dateLast ) ? dateTst : null;
     }
 
 }

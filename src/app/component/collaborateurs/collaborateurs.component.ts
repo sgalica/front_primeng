@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, ɵQueryValueType} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {CategorieService, CollaborateurService} from '../../service/datas.service';
+import {CategorieService, CollaborateurService, MissionService} from '../../service/datas.service';
 import {Collaborateur, Mission} from '../../model/referentiel';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
@@ -70,7 +70,7 @@ export class CollaborateursComponent implements OnInit {
     styleObligatoire : string = "obligatoire"; // : object = {'border-bottom':'lightsteelblue solid thin'};
     styleReadOnly    : string = "readonly"; // : object = {'border-bottom':'lightsteelblue solid thin'};
     //styleNormal : string = "";
-    constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService,
+    constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService, private missionService: MissionService,
                 private router: Router, private alertService: AlertService, private communATGService : CommunATGService) {
     }
     /*   ngOnChanges(): void { }*/
@@ -121,7 +121,7 @@ export class CollaborateursComponent implements OnInit {
                 {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},   {name:"stt",         type:"combo", obligatoire:"", readonly:false}]},
             {grp: "Mission",    grplabel : "Informations Mission",          fields : [
                 {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateFinSg",   type:"date",  obligatoire:"", readonly:true},  {name:"dateA3Ans",   type:"date",     obligatoire:"", readonly:true},
-                {name:"derogation",       type:"combo", obligatoire:"", readonly:true, options:this.ouinonComboOptions},  {name:"statutMission",   type:"combo", obligatoire:"", readonly:true, options:this.allStatusComboOptions},
+                {name:"derogation",       type:"combo", obligatoire:"", readonly:false, options:this.ouinonComboOptions},  {name:"statutMission",   type:"combo", obligatoire:"", readonly:true, options:this.allStatusComboOptions},
                 {name:"versionMission",   type:"field", obligatoire:"", readonly:true} ]},
             {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [
                 {name:"societeStt",       type:"field", obligatoire:this.styleObligatoire, readonly:false},   {name:"preEmbauche", type:"combo", obligatoire:"", readonly:false}, {name:"dateEmbaucheOpen", type:"date",obligatoire:"", readonly:false}]},
@@ -136,7 +136,7 @@ export class CollaborateursComponent implements OnInit {
                 {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},               {name:"stt",             type:"combo", obligatoire:"", readonly:false}]},
             {grp: "Mission",    grplabel : "Informations Mission",          fields : [
                 {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateFinSg",   type:"date",  obligatoire:"", readonly:true},  {name:"dateA3Ans",   type:"date",     obligatoire:"", readonly:true},
-                {name:"derogation",       type:"combo", obligatoire:"", readonly:true, options:this.ouinonComboOptions} ]},
+                {name:"derogation",       type:"combo", obligatoire:"", readonly:false, options:this.ouinonComboOptions} ]},
             {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [
                 {name:"societeStt",       type:"field", obligatoire:this.styleObligatoire, readonly:false},   {name:"preEmbauche", type:"combo", obligatoire:"", readonly:false}, {name:"dateEmbaucheOpen", type:"date",obligatoire:"", readonly:false}]},
             {grp: "Contact",    grplabel : "Informations de contact",       fields : [
@@ -252,12 +252,7 @@ export class CollaborateursComponent implements OnInit {
         this.FieldsFiches = this.FieldsFichesVisu;
 
         // Last mission
-        this.lastMission = null;
-        this.selectedCollaborateur.missions.forEach(missionCollab => {
-            var lastDate = (this.lastMission!=null && typeof this.lastMission['dateDebutMission'] == "string") ? this.lastMission['dateDebutMission'] : null;
-            if (this.getDateIfMoreRecent( missionCollab['dateDebutMission'], lastDate ))
-                this.lastMission = missionCollab;
-        });
+        this.lastMission = this.getLastMission(this.selectedCollaborateur.missions);
 
         // S/T = Non par défaut
         if (this.selectedCollaborateur.stt == "") this.selectedCollaborateur.stt="Non";
@@ -266,28 +261,28 @@ export class CollaborateursComponent implements OnInit {
         // Indicate field preEmbauche obligatory (if preEmbauche selected)
         this.preEmbaucheChange(null);
 
-
         this.afficherLaSaisie();
 
         // Buttons
-        this.buttons["Save"].disabled   = (this.selectedCollaborateur.statutCollab=="E") ? false : true;;
-        this.buttons["Create"].disabled = false;
-        this.buttons["Prestas"].disabled = (this.selectedCollaborateur.prestations==null || this.selectedCollaborateur.prestations.length==0) ? true : false;
-        this.buttons["EndMission"].disabled = (this.lastMission) ? (this.lastMission.statutMission=="T") ? true : false : true;
-        this.buttons["Delete"].disabled     = (this.lastMission) ? true : false;
-        this.buttons["ReOpen"].disabled = true;
-        this.buttons["Cancel"].disabled = false;
+        this.communServ.setObjectValues(this.buttons, "disabled",{
+            Save        : (this.selectedCollaborateur.statutCollab=="A") ? true : false,
+            Create      : false,
+            Prestas     : (this.selectedCollaborateur.prestations==null || this.selectedCollaborateur.prestations.length==0) ? true : false,
+            EndMission  : (this.lastMission) ? (this.lastMission.statutMission=="T") ? true : false : true,
+            Delete      : (this.lastMission) ? true : false,
+            ReOpen      : true,
+            Cancel      : false } );
     }
 
-    getDateIfMoreRecent(datestr, lastDate ) {
-
-        var dateArr = datestr.split("/"); //dd/mm/yyyy
-        var dateTst = new Date(dateArr[2], dateArr[1], dateArr[0]);
-
-        if (lastDate) dateArr = lastDate.split("/");
-        var dateLast = (lastDate) ? new Date(dateArr[2], dateArr[1], dateArr[0]) : new Date(0);
-
-        return ( dateTst > dateLast ) ? dateTst : null;
+    getLastMission(missions) {
+        var lastMission = null;
+        this.lastMission = null;
+        missions.forEach( mission => {
+            var lastDate = (lastMission != null && typeof lastMission['dateDebutMission'] == "string") ? lastMission['dateDebutMission'] : null;
+            if (this.communServ.getDateIfMoreRecent( mission['dateDebutMission'], lastDate))
+                lastMission = mission;
+        });
+        return lastMission;
     }
 
     afficherLaSaisie() { this.displayDialog = true; }
@@ -330,13 +325,8 @@ export class CollaborateursComponent implements OnInit {
         this.lastMission = new Mission();
 
         // Buttons
-        this.buttons["Save"].disabled=false;
-        this.buttons["Create"].disabled=true;
-        this.buttons["Prestas"].disabled=true;
-        this.buttons["EndMission"].disabled=true;
-        this.buttons["Delete"].disabled=true;
-        this.buttons["ReOpen"].disabled=true;
-        this.buttons["Cancel"].disabled=false;
+        this.communServ.setObjectValues(this.buttons, "disabled",{ Save : false, Create : true, Prestas : true, EndMission : true, Delete : true, ReOpen : true, Cancel : false });
+
         this.FieldsFiches = this.FieldsFichesCreation;
 
         this.afficherLaSaisie();
@@ -378,7 +368,7 @@ export class CollaborateursComponent implements OnInit {
         else this.selectCollaborateur(null, this.selectedEmployeeOriginalValue);
     }
 
-    // Indicat field dateEmbauche obligatory or not (depends on preEmbauche)
+    // Indicate field dateEmbauche obligatory or not (depends on preEmbauche)
     preEmbaucheChange(event) {
         var obl = (this.selectedCollaborateur["preEmbauche"]=="Oui") ? this.styleObligatoire : "";
         this.setFieldValue("ST", "dateEmbaucheOpen", "obligatoire", obl);
@@ -438,28 +428,17 @@ export class CollaborateursComponent implements OnInit {
 
         // Old value
         var collabfordbold = new Collaborateur (this.selectedEmployeeOriginalValue);
-        collabfordbold.trigramme += "." + collabfordbold.versionCollab;
-        collabfordbold.statutCollab = "A";
-        collabfordbold.dateEmbaucheOpen = this.communServ.dateStr( collabfordbold.dateEmbaucheOpen );
-        collabfordbold.missions = []; // Don't save the missions
-        collabfordbold.prestations = []; // Don't save the prestations
-
+        this.communServ.setObjectValues(collabfordbold, null, {trigramme : collabfordbold["trigramme"] + "." + collabfordbold.versionCollab, statutCollab: "A", dateEmbaucheOpen : this.communServ.dateStr( collabfordbold.dateEmbaucheOpen),
+            missions : [], prestations : []}); // Don't save the missions neither prestations
         // New value
-        var collabfordbnew = new Collaborateur( this.selectedCollaborateur) ;
-        collabfordbnew.statutCollab = action; // S / E
-        collabfordbnew.versionCollab = Number(collabfordbnew.versionCollab) + 1;
-        collabfordbnew.dateEmbaucheOpen = this.communServ.dateStr( collabfordbnew.dateEmbaucheOpen );
-        collabfordbnew.missions = []; // Don't save the missions
-        collabfordbnew.prestations = []; // Don't save the prestations
+        var collabfordbnew = new Collaborateur( this.selectedCollaborateur );
+        this.communServ.setObjectValues(collabfordbnew, null, {statutCollab : action, // S / E
+            versionCollab : Number(collabfordbnew.versionCollab) + 1, dateEmbaucheOpen : this.communServ.dateStr( collabfordbnew.dateEmbaucheOpen), missions : [], prestations : []});
 
-        var collabfordbupd = collabfordbold; //collabfordbnew;
-        var collabupd = this.selectedEmployeeOriginalValue; //this.selectedCollaborateur;
+        var collabfordbupd  = collabfordbold; var collabupd  = this.selectedEmployeeOriginalValue;
+        var collabfordbadd  = collabfordbnew; var collabadd  = this.selectedCollaborateur;
 
-        var collabfordbadd = collabfordbnew; // collabfordbold;
-        var collabadd = this.selectedCollaborateur; // this.selectedEmployeeOriginalValue;
-
-        // this.communServ.setTimeStamp(collabfordbupd );
-        // UPDATE
+        // UPDATE // this.communServ.setTimeStamp(collabfordbupd );
         this.collaborateurService.update(collabfordbupd).pipe(first()).subscribe(data => {
 
             // Update collab on success
@@ -470,8 +449,7 @@ export class CollaborateursComponent implements OnInit {
 
             this.alertService.success("Enregistré");
 
-            // this.communServ.setTimeStamp(collabfordbadd);
-            // ADD
+            // ADD // this.communServ.setTimeStamp(collabfordbadd);
             collabfordbadd.id = 0;
             this.collaborateurService.create(collabfordbadd).pipe(first()).subscribe(data => {
 
@@ -481,23 +459,20 @@ export class CollaborateursComponent implements OnInit {
                 // Update list
                 this.updatelist("add", data);
 
-
                 // Manage Buttons
-                if (action=="S") {
-                    this.buttons["EndMission"].disabled = true;  this.buttons["Delete"].disabled = true;
-                }
-                else {
-                    this.buttons["EndMission"].disabled = false; this.buttons["Delete"].disabled = false;
-                }
+                if (action=="S") { this.buttons["EndMission"].disabled = true;  this.buttons["Delete"].disabled = true;  }
+                else {             this.buttons["EndMission"].disabled = false; this.buttons["Delete"].disabled = false; }
 
                 // Actual value becomes original value
                 this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
-            },
-            error => { this.alertService.error(error);  }
+            }, error => { this.alertService.error(error);  }
             );
-        },
-        error => { this.alertService.error(error);  }
+        },error => { this.alertService.error(error);  }
         );
+
+        // Update last mission
+        if (this.lastMission != null)
+            this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.alertService.error(error);} );
 
     }
 
