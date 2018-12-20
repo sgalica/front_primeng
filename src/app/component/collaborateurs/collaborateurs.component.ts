@@ -274,10 +274,10 @@ export class CollaborateursComponent implements OnInit {
         return fieldsFiches;
     }
 
-    selectCollaborateur(event: Event, collaborateur: Collaborateur, showFiche=true) {
+    selectCollaborateur(event: Event, collaborateur: Collaborateur) {
 
-        this.selectedCollaborateur = new Collaborateur(collaborateur);
-        this.selectedEmployeeOriginalValue = new Collaborateur(collaborateur);
+        this.selectedCollaborateur          = new Collaborateur(collaborateur);
+        this.selectedEmployeeOriginalValue  = new Collaborateur(collaborateur);
 
         // Last mission
         this.lastMission = this.communServ.getLastItem(this.selectedCollaborateur.missions, 'dateDebutMission', 'versionMission');
@@ -290,8 +290,6 @@ export class CollaborateursComponent implements OnInit {
         // Indicate field preEmbauche obligatory (if preEmbauche selected)
         this.preEmbaucheChange(null);
 
-        if (showFiche)
-            this.afficherLaSaisie("Visu");
     }
 
     getStatutCollab(statutCollab, lastMission) {
@@ -373,6 +371,7 @@ export class CollaborateursComponent implements OnInit {
 
         this.lastMission = new Mission();
 
+        this.displayDialog = true;
         this.afficherLaSaisie("New");
     }
 
@@ -463,7 +462,7 @@ export class CollaborateursComponent implements OnInit {
 
     }
 
-    update(action, showFiche=true) {
+    update(action) {
 
         // Old value
         var dbold = new Collaborateur (this.selectedEmployeeOriginalValue);
@@ -499,7 +498,7 @@ export class CollaborateursComponent implements OnInit {
                 // Update list
                 this.updatelist("add", data);
 
-                this.onUpdateComplete(action, showFiche);
+                this.onUpdateComplete(action);
 
             }, error => {
                 this.alertService.error("Collaboratueur Update() - create : "+ error); } );
@@ -507,15 +506,14 @@ export class CollaborateursComponent implements OnInit {
             this.alertService.error("Collaborateur Update() : "+error); } );
     }
 
-    onUpdateComplete(action: string, showFiche) {
+    onUpdateComplete(action: string) {
 
         this.alertService.success("Enregistré");
 
         // Actual value becomes original value
         this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
 
-        if (showFiche)
-            this.afficherLaSaisie("Visu");
+        this.afficherLaSaisie("Visu");
     }
 
 
@@ -592,17 +590,17 @@ export class CollaborateursComponent implements OnInit {
 
     suppCollab(collab=null) {
 
-        // Check if can be deleted
+        // Check if can be deleted (see canDelete()) : not necessary because btns already disables
 
         // Delete (after confirmation)
         this.confirmationService.confirm({
             message: "Confirmez-vous la suppression ?",
             accept: () => {
-                debugger;
-                if (collab)
-                    this.selectCollaborateur(null, collab, false);
 
-                this.update("S", false);
+                if (collab)
+                    this.selectCollaborateur(null, collab);
+
+                this.update("S");
 
                 /*this.collaborateurService.delete(this.selectedCollaborateur.id).pipe(first()).subscribe( data => {
                             this.selectedCollaborateur = new Collaborateur();

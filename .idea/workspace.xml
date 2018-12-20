@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="Fiche collaborateur Add et save">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/_versions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/_versions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/app.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/model/referentiel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/model/referentiel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/service/communATG.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/service/communATG.service.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -276,19 +271,19 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="css" value="1072" />
-          <entry key="html" value="3859" />
+          <entry key="html" value="3866" />
           <entry key="scss" value="208" />
-          <entry key="ts" value="32617" />
+          <entry key="ts" value="32852" />
           <entry key="txt" value="562" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="1072" />
-          <entry key="HTML" value="3859" />
+          <entry key="HTML" value="3866" />
           <entry key="PLAIN_TEXT" value="562" />
           <entry key="SCSS" value="208" />
-          <entry key="TypeScript" value="32617" />
+          <entry key="TypeScript" value="32852" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.run.usages" />
@@ -320,8 +315,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="77" column="22" lean-forward="true" selection-start-line="77" selection-start-column="22" selection-end-line="77" selection-end-column="22" />
+            <state relative-caret-position="267">
+              <caret line="75" column="107" lean-forward="true" selection-start-line="75" selection-start-column="107" selection-end-line="75" selection-end-column="107" />
               <folding>
                 <element signature="n#style#0;n#span#0;n#div#0;n#p-toolbar#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#0;n#p-toolbar#0;n#!!top" expanded="true" />
@@ -336,25 +331,25 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="605" lean-forward="true" selection-start-line="605" selection-end-line="605" />
+            <state relative-caret-position="437">
+              <caret line="603" lean-forward="true" selection-start-line="603" selection-end-line="603" />
               <folding>
                 <element signature="e#0#76#0" expanded="true" />
                 <element signature="n#!!block;n#ngOnInit#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
+                <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#loadCategorisations#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#updateFilters#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#manageFieldsFiche#0;n#CollaborateursComponent#0" />
+                <element signature="n#!!block;n#getStatutCollab#0;n#CollaborateursComponent#0" />
+                <element signature="n#!!block;n#canDelete#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#buttonsFunctions#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#updatelist#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#new#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#save#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#cancelEditCollab#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#preEmbaucheChange#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#setFieldValue#0;n#CollaborateursComponent#0" />
-                <element signature="n#!!block;n#add#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#updateMission#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#onUpdateMissionCompleted#0;n#CollaborateursComponent#0" />
                 <element signature="n#!!block;n#changeDerogation#0;n#CollaborateursComponent#0" />
@@ -487,16 +482,16 @@
       <find>onUpdateComplete</find>
       <find>onUpdateMissionCompleted</find>
       <find>debugger</find>
-      <find>afficherLaSaisie</find>
       <find>closewindowPrestas</find>
       <find>manageFieldsFiche</find>
       <find>suppCollab</find>
       <find>this.buttons</find>
       <find>OuiNon</find>
-      <find>selectCollaborateur</find>
       <find>collaborateurs</find>
       <find>disabled</find>
+      <find>selectCollaborateur</find>
       <find>update</find>
+      <find>afficherLaSaisie</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -935,7 +930,7 @@
       <workItem from="1544431715280" duration="60690000" />
       <workItem from="1544715639592" duration="22381000" />
       <workItem from="1545036512852" duration="39885000" />
-      <workItem from="1545211459889" duration="22640000" />
+      <workItem from="1545211459889" duration="24793000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1534730228097</created>
@@ -1266,11 +1261,18 @@
       <option name="project" value="LOCAL" />
       <updated>1544803746547</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Fiche collaborateur Add et save">
+      <created>1545302935432</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1545302935432</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="771395000" />
+    <option name="totallyTimeSpent" value="773548000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1779,8 +1781,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="77" column="22" lean-forward="true" selection-start-line="77" selection-start-column="22" selection-end-line="77" selection-end-column="22" />
+        <state relative-caret-position="267">
+          <caret line="75" column="107" lean-forward="true" selection-start-line="75" selection-start-column="107" selection-end-line="75" selection-end-column="107" />
           <folding>
             <element signature="n#style#0;n#span#0;n#div#0;n#p-toolbar#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#0;n#p-toolbar#0;n#!!top" expanded="true" />
@@ -1793,25 +1795,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="605" lean-forward="true" selection-start-line="605" selection-end-line="605" />
+        <state relative-caret-position="437">
+          <caret line="603" lean-forward="true" selection-start-line="603" selection-end-line="603" />
           <folding>
             <element signature="e#0#76#0" expanded="true" />
             <element signature="n#!!block;n#ngOnInit#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#loadCategorisations#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#updateFilters#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#manageFieldsFiche#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#getStatutCollab#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#canDelete#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#buttonsFunctions#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#updatelist#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#new#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#save#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#cancelEditCollab#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#preEmbaucheChange#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#setFieldValue#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#add#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#updateMission#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#onUpdateMissionCompleted#0;n#CollaborateursComponent#0" />
             <element signature="n#!!block;n#changeDerogation#0;n#CollaborateursComponent#0" />
