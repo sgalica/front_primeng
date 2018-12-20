@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild, ɵQueryValueType} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild, ɵQueryValueType} from '@angular/core';
 import {Message, SelectItem} from 'primeng/api';
 import {first} from 'rxjs/operators';
-import {CategorieService, CollaborateurService, MissionService} from '../../service/datas.service';
+import {CategorieService, CollaborateurService, MissionService, PrestationService} from '../../service/datas.service';
 import {Collaborateur, Mission} from '../../model/referentiel';
 import {Router} from "@angular/router";
 import {AlertService} from "../../service/alert.service";
@@ -9,16 +9,16 @@ import {ApiResponse} from "../../model/apiresponse";
 import {PrestationsComponent} from "../prestations/prestations.component";
 import {DataTable} from "primeng/primeng";
 import {CommunATGService} from "../../service/communATG.service"
+import {ConfirmationService} from "primeng/api";
 
-interface OuiNon {
- label: string,
- value: string
-}
+interface OuiNon { label: string, value: string}
+//interface StatutCollab { statutCollab: string, hasMission: boolean, hasHadMission: boolean, activeCollab : boolean, activeOrNew : boolean }
 
 @Component({
     selector: 'app-collaborateurs',
     templateUrl: './collaborateurs.component.html',
-    styleUrls: ['./collaborateurs.component.css']
+    styleUrls: ['./collaborateurs.component.css'],
+    providers : [ConfirmationService]
 })
 export class CollaborateursComponent implements OnInit {
 
@@ -62,6 +62,7 @@ export class CollaborateursComponent implements OnInit {
     componentRef: any;
     @ViewChild(PrestationsComponent)
     private prestasComponent : PrestationsComponent ;
+
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
     buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Visualiser les prestations"]; idxBtnPrestations : number =0;
     buttonsList    : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
@@ -75,8 +76,12 @@ export class CollaborateursComponent implements OnInit {
     styleObligatoire : string = "obligatoire"; // : object = {'border-bottom':'lightsteelblue solid thin'};
     styleReadOnly    : string = "readonly"; // : object = {'border-bottom':'lightsteelblue solid thin'};
     //styleNormal : string = "";
-    constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService, private missionService: MissionService,
-                private router: Router, private alertService: AlertService, private communATGService : CommunATGService) {
+
+    showDerogation : boolean = true;
+
+    constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService, private missionService: MissionService, private prestationService : PrestationService,
+                private router: Router, private alertService: AlertService, private communATGService : CommunATGService, private confirmationService : ConfirmationService) {
+        communATGService.updateCompleted$.subscribe(x => this.onUpdateMissionCompleted(x));
     }
     /*   ngOnChanges(): void { }*/
 
@@ -109,6 +114,7 @@ export class CollaborateursComponent implements OnInit {
             dateA3Ans:       {header:"Date à 3 ans",         filtertype : "",       filtercond:"", selected: "", values: "", keys: {}, showInList:false, keycol:false},
             derogation:      {header:"Dérogation",           filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false},
             statutMission:   {header:"Statut",               filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false},
+            statutMissionLabel: {header:"Statut",            filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false},
             versionMission:  {header:"Version",              filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false}
             //{header: 'created_at', field: camelCase('created_at')},
             //{header: 'created_by', field: camelCase('created_by')},
@@ -126,7 +132,7 @@ export class CollaborateursComponent implements OnInit {
                 {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},   {name:"stt",         type:"combo", obligatoire:"", readonly:false}]},
             {grp: "Mission",    grplabel : "Informations Mission",          fields : [
                 {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateFinSg",   type:"date",  obligatoire:"", readonly:true},  {name:"dateA3Ans",   type:"date",     obligatoire:"", readonly:true},
-                {name:"derogation",       type:"combo", obligatoire:"", readonly:false, options:this.ouinonComboOptions},  {name:"statutMission",   type:"combo", obligatoire:"", readonly:true, options:this.allStatusComboOptions},
+                {name:"derogation",       type:"combo", obligatoire:"", readonly:false, options:this.ouinonComboOptions},  {name:"statutMissionLabel",   type:"field", obligatoire:"", readonly:true, options:this.allStatusComboOptions},
                 {name:"versionMission",   type:"field", obligatoire:"", readonly:true} ]},
             {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [
                 {name:"societeStt",       type:"field", obligatoire:this.styleObligatoire, readonly:false},   {name:"preEmbauche", type:"combo", obligatoire:"", readonly:false}, {name:"dateEmbaucheOpen", type:"date",obligatoire:"", readonly:false}]},
@@ -157,7 +163,7 @@ export class CollaborateursComponent implements OnInit {
             "Prestas"   : {label:this.buttonPrestationsLabels[0],disabled:false,fnc : ()=>{this.showPrestations();} },
             "EndMission": {label:"Terminer la mission",         disabled:true,  fnc : ()=>{this.endMission();} },
             "Delete"    : {label:"Supprimer le collaborateur",  disabled:true,  fnc : ()=>{this.suppCollab();} },
-            "ReOpen"    : {label:"Réactiver le collaborateur",  disabled:true },
+            "ReOpen"    : {label:"Réactiver le collaborateur",  disabled:true,  fnc : ()=>{this.save();} },
             "Cancel"    : {label:"Annuler",                     disabled:true,  fnc : ()=>{this.cancelEditCollab();} }
         };
 
@@ -166,6 +172,7 @@ export class CollaborateursComponent implements OnInit {
         this.loadCategorisations();
         // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
         // Prestations (dynamique) : this.loadPrestationComponent();
+
     }
 
     selectColumns() {
@@ -250,14 +257,31 @@ export class CollaborateursComponent implements OnInit {
         this.dt.filter(value, field, this.coldefs[ field ].filtercond);
     }
 
-    selectCollaborateur(event: Event, collaborateur: Collaborateur) {
+    manageFieldsFiche(action, state) {
+
+        var fieldsFiches : any[] = (action=="Visu") ? this.FieldsFichesVisu : this.FieldsFichesCreation;
+        // Make fields readonly if state "Terminée"
+        if (state=="T") {
+            var prop = "readonly";
+            var value = true;
+            this.FieldsFiches.forEach(grp => {
+                grp.fields.forEach(fld => {
+                        fld[prop] = value;
+                });
+            });
+        }
+
+        return fieldsFiches;
+    }
+
+    selectCollaborateur(event: Event, collaborateur: Collaborateur, showFiche=true) {
 
         this.selectedCollaborateur = new Collaborateur(collaborateur);
         this.selectedEmployeeOriginalValue = new Collaborateur(collaborateur);
-        this.FieldsFiches = this.FieldsFichesVisu;
 
         // Last mission
-        this.lastMission = this.getLastMission(this.selectedCollaborateur.missions);
+        this.lastMission = this.communServ.getLastItem(this.selectedCollaborateur.missions, 'dateDebutMission', 'versionMission');
+        if (this.lastMission) this.lastMission["statutMissionLabel"] = this.allstatus[this.lastMission.statutMission];
 
         // S/T = Non par défaut
         if (this.selectedCollaborateur.stt == "") this.selectedCollaborateur.stt="Non";
@@ -266,30 +290,51 @@ export class CollaborateursComponent implements OnInit {
         // Indicate field preEmbauche obligatory (if preEmbauche selected)
         this.preEmbaucheChange(null);
 
-        this.afficherLaSaisie();
+        if (showFiche)
+            this.afficherLaSaisie("Visu");
+    }
+
+    getStatutCollab(statutCollab, lastMission) {
+        var statutMission = (lastMission) ? lastMission.statutMission : "";
+        var activeCollab  = (statutCollab == "E");
+        return { statutCollab : statutCollab,
+                 hasMission : (statutMission!="" && statutMission!="T"),
+                 hasHadMission : (lastMission) ? (statutMission!="") ? true : false : false,
+                 activeCollab : activeCollab,
+                 activeOrNew: activeCollab || (statutCollab == "") }
+    }
+
+    canDelete(collab) {
+
+        // Si pas en cours : Non
+        if (collab.statutCollab != "E")
+            return false;
+
+        // S'il n'a pas (eu) une mission
+        var lastMission = this.communServ.getLastItem(collab.missions, 'dateDebutMission', 'versionMission');
+        var statutCollab = this.getStatutCollab(collab.statutCollab, lastMission);
+        return !statutCollab.hasHadMission;
+    }
+
+    afficherLaSaisie(action) {
+
+        this.displayDialog = true;
+
+        var statutCollab = this.getStatutCollab(this.selectedCollaborateur.statutCollab, this.lastMission);
+
+        this.FieldsFiches = this.manageFieldsFiche(action, this.selectedCollaborateur.statutCollab );
 
         // Buttons
         this.communServ.setObjectValues(this.buttons, "disabled",{
-            Save        : (this.selectedCollaborateur.statutCollab=="A") ? true : false,
-            Create      : false,
-            Prestas     : (this.selectedCollaborateur.prestations==null || this.selectedCollaborateur.prestations.length==0) ? true : false,
-            EndMission  : (this.lastMission) ? (this.lastMission.statutMission=="T") ? true : false : true,
-            Delete      : (this.lastMission) ? true : false,
-            ReOpen      : true,
+            Save        : !statutCollab.activeOrNew,                                    // Ne pas Enregistrer si : collab Pas Actif ou Nouveau
+            Create      : !statutCollab.activeCollab || !statutCollab.hasMission,       // Ne pas Créer prestation si : collab pas actif ou pas mission en cours
+                                                                                        // Ne pas Voir Prestas si : il y en a pas
+            Prestas     : (this.selectedCollaborateur.prestations == null || this.selectedCollaborateur.prestations.length == 0),
+            EndMission  : !statutCollab.activeCollab || !statutCollab.hasMission,       // Ne pas mettre Fin à la mission si : collab pas actif ou pas mission en cours
+            Delete      : statutCollab.hasHadMission || !statutCollab.activeCollab,     // Ne pas Supprimer le collab si : il a (eu) une mission ou pas actif (E / donc pas T, A ou déjà S)
+            ReOpen      : statutCollab.activeOrNew,                                     // Ne pas Réactiver si : Actif ou Nouveau
             Cancel      : false } );
     }
-
-    getLastMission(missions) {
-        var lastMission = null;
-        missions.forEach( mission => {
-            var lastDate = (lastMission != null && typeof lastMission['dateDebutMission'] == "string") ? lastMission['dateDebutMission'] : null;
-            if (this.communServ.getDateIfMoreRecent( mission['dateDebutMission'], lastDate))
-                lastMission = mission;
-        });
-        return lastMission;
-    }
-
-    afficherLaSaisie() { this.displayDialog = true; }
 
     buttonsFunctions(btn:string) {
         this.buttons[btn].fnc.call();
@@ -328,12 +373,7 @@ export class CollaborateursComponent implements OnInit {
 
         this.lastMission = new Mission();
 
-        // Buttons
-        this.communServ.setObjectValues(this.buttons, "disabled",{ Save : false, Create : true, Prestas : true, EndMission : true, Delete : true, ReOpen : true, Cancel : false });
-
-        this.FieldsFiches = this.FieldsFichesCreation;
-
-        this.afficherLaSaisie();
+        this.afficherLaSaisie("New");
     }
 
     save() {
@@ -360,14 +400,21 @@ export class CollaborateursComponent implements OnInit {
             // UPDATE
             else {
                 this.update("E");
+
+                // Update last mission
+                if (this.lastMission != null)
+                    this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.alertService.error(error);} );
+
             }
         }
         else this.alertService.error(errmsg);
     }
 
     cancelEditCollab() {
-        if (this.selectedCollaborateur.id == 0) this.new();
-        else this.selectCollaborateur(null, this.selectedEmployeeOriginalValue);
+        if (this.selectedCollaborateur.id == 0)
+            this.new();
+        else
+            this.selectCollaborateur(null, this.selectedEmployeeOriginalValue);
     }
 
     // Indicate field dateEmbauche obligatory or not (depends on preEmbauche)
@@ -397,13 +444,7 @@ export class CollaborateursComponent implements OnInit {
                     this.collaborateurService.create(collabfordb).pipe(first()).subscribe(data => {
 
                         // Update collab on success
-                        this.updateCollabVar(this.selectedCollaborateur, data);
-
-                        // Manage Buttons
-                        this.buttons["Create"].disabled = false;
-                        this.buttons["Prestas"].disabled = false;
-                        this.buttons["EndMission"].disabled = false;
-                        this.buttons["Delete"].disabled = false;
+                        this.communServ.updateVersion("Collab", this.selectedCollaborateur, data);
 
                         // Update list
                         this.updatelist("add", this.selectedCollaborateur);
@@ -411,71 +452,91 @@ export class CollaborateursComponent implements OnInit {
                         // Actual value becomes original value
                         this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
 
-                        this.alertService.success("Enregistré");
-                    },
-                    error => {
-                        this.alertService.error(error);
-                    });
+                        this.alertService.success("Collaborateur enregistré");
+                        this.afficherLaSaisie("Visu");
+                        },
+                    error => { this.alertService.error(error); });
                 }
                 else
                     this.alertService.error("Un collaborateur avec trigramme "+ collabfordb.trigramme+ " existe déjà.");
-        },
-            error => { this.alertService.error(error); }
-        );
-
+        }, error => { this.alertService.error(error); } );
 
     }
 
-    update(action) {
+    update(action, showFiche=true) {
 
         // Old value
-        var collabfordbold = new Collaborateur (this.selectedEmployeeOriginalValue);
-        this.communServ.setObjectValues(collabfordbold, null, {trigramme : collabfordbold["trigramme"] + "." + collabfordbold.versionCollab, statutCollab: "A", dateEmbaucheOpen : this.communServ.dateStr( collabfordbold.dateEmbaucheOpen),
+        var dbold = new Collaborateur (this.selectedEmployeeOriginalValue);
+        this.communServ.setObjectValues(dbold, null, {trigramme : dbold["trigramme"] + "." + dbold.versionCollab, statutCollab: "A", dateEmbaucheOpen : this.communServ.dateStr( dbold.dateEmbaucheOpen),
             missions : [], prestations : []}); // Don't save the missions neither prestations
         // New value
-        var collabfordbnew = new Collaborateur( this.selectedCollaborateur );
-        this.communServ.setObjectValues(collabfordbnew, null, {statutCollab : action, // S / E
-            versionCollab : Number(collabfordbnew.versionCollab) + 1, dateEmbaucheOpen : this.communServ.dateStr( collabfordbnew.dateEmbaucheOpen), missions : [], prestations : []});
+        var dbnew = new Collaborateur( this.selectedCollaborateur );
+        this.communServ.setObjectValues(dbnew, null, {statutCollab : action, // S / E / T
+            versionCollab : Number(dbnew.versionCollab) + 1, dateEmbaucheOpen : this.communServ.dateStr( dbnew.dateEmbaucheOpen), missions : [], prestations : []});
 
-        var collabfordbupd  = collabfordbold; var collabupd  = this.selectedEmployeeOriginalValue;
-        var collabfordbadd  = collabfordbnew; var collabadd  = this.selectedCollaborateur;
+        //var dbupd  = dbold; var upd  = this.selectedEmployeeOriginalValue;
+        //var dbadd  = dbnew; var add  = this.selectedCollaborateur;
+        var dbupd  = dbnew; var upd  = this.selectedCollaborateur;
+        var dbadd  = dbold; var add  = this.selectedEmployeeOriginalValue;
 
-        // UPDATE // this.communServ.setTimeStamp(collabfordbupd );
-        this.collaborateurService.update(collabfordbupd).pipe(first()).subscribe(data => {
+        var dbService = this.collaborateurService;
+        var entity = "Collab";
 
+        // UPDATE // this.communServ.setTimeStamp(dbupd );
+        dbService.update(dbupd).pipe(first()).subscribe(data => {
             // Update collab on success
-            this.updateCollabVar(collabupd, data );
+            this.communServ.updateVersion(entity, upd, data );
 
             // Update list
-            this.updatelist("change", collabupd);
+            this.updatelist("change", upd);
 
-            this.alertService.success("Enregistré");
-
-            // ADD // this.communServ.setTimeStamp(collabfordbadd);
-            collabfordbadd.id = 0;
-            this.collaborateurService.create(collabfordbadd).pipe(first()).subscribe(data => {
-
+            // ADD // this.communServ.setTimeStamp(dbadd);
+            dbadd.id = 0;
+            dbService.create(dbadd).pipe(first()).subscribe(data => {
                 // Update collab on success
-                this.updateCollabVar(collabadd, data );
+                this.communServ.updateVersion(entity, add, data );
 
                 // Update list
                 this.updatelist("add", data);
 
-                // Manage Buttons
-                if (action=="S") { this.buttons["EndMission"].disabled = true;  this.buttons["Delete"].disabled = true;  }
-                else {             this.buttons["EndMission"].disabled = false; this.buttons["Delete"].disabled = false; }
+                this.onUpdateComplete(action, showFiche);
 
-                // Actual value becomes original value
-                this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
-            }, error => { this.alertService.error(error);  }
-            );
-        },error => { this.alertService.error(error);  }
-        );
+            }, error => {
+                this.alertService.error("Collaboratueur Update() - create : "+ error); } );
+        },error => {
+            this.alertService.error("Collaborateur Update() : "+error); } );
+    }
 
-        // Update last mission
-        if (this.lastMission != null)
-            this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.alertService.error(error);} );
+    onUpdateComplete(action: string, showFiche) {
 
+        this.alertService.success("Enregistré");
+
+        // Actual value becomes original value
+        this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
+
+        if (showFiche)
+            this.afficherLaSaisie("Visu");
+    }
+
+
+    // Todo : put function in 'MissionComponent'
+    updateMission(entity: string, action : string, item : Mission, dbService : MissionService) {
+
+        if (item==undefined || item==null) return;
+
+        // Old value
+        var dbold = new Mission(item); this.communServ.setObjectValues(dbold, null, { statutMission: "A"} );
+        // New value
+        var dbnew = new Mission(item); this.communServ.setObjectValues(dbnew, null, { statutMission : action,  // "T"
+            versionMission : Number(dbnew.versionMission) + 1 });
+
+        var dbupd  = dbold; var upd = new Mission(item);
+        var dbadd  = dbnew; var add = item; // Keep last value in memory
+        this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, true, null, true, this ); // Save & Clear value
+    }
+
+    onUpdateMissionCompleted(param) {
+        this.lastMission = null;
     }
 
     changeDerogation(event) {
@@ -494,35 +555,61 @@ export class CollaborateursComponent implements OnInit {
 
                 this.lastMission.derogation="Oui";
 
-                this.alertService.error("La dérogation ne peut être annulée du aux prestations déjà dérogées ");
-                event.preventDefault();
+                this.alertService.error("La dérogation ne peut être annulée du à la présence de prestations dépassant la période autorisée.");
+                //event.preventDefault();
+
+                // Refresh screen
+                this.showDerogation=false;
+                setTimeout(()=>this.showDerogation=true, 0);
+
             }
         }
     }
 
     newPrestation() { }
-    endMission() { }
 
-    suppCollab() {
+    endMission() {
+        this.confirmationService.confirm({
+            message: "Terminer la mission mettra fin à la prestation en cours et à l'activité du collaborateur. Confirmez-vous cette action ?",
+            accept: () => {
+                // Updates :
+                if (this.lastMission) {
 
-        this.update("S");
+                    // - Mission
+                    this.updateMission("Mission", "T", this.lastMission, this.missionService);
 
-        /*this.collaborateurService.delete(this.selectedCollaborateur.id)
-            .pipe(first())
-            .subscribe(
-                data => {
-                    this.selectedCollaborateur= new Collaborateur();
-                },
-                error => { this.alertService.error(error);  });
-        */
+                    // - Prestation (last of Mission)
+                    var prestationsMission  = this.communServ.getItemsCond(this.selectedCollaborateur.prestations, 'identifiantMission', this.lastMission.identifiantMission);
+                    var lastPrestation      = this.communServ.getLastItem(prestationsMission, 'dateDebutPrestation', 'versionPrestation');
+                    this.prestasComponent.update("Prestation", "T", lastPrestation, this.prestationService, this.selectedCollaborateur.prestations);
+                }
+
+                // - Collaborateur && Adapte screen
+                this.update("T");
+            }
+        });
     }
 
-    updateCollabVar(myvar, data ) {
-        myvar.id = data.id;
-        myvar.statutCollab  = data.statutCollab;
-        myvar.versionCollab = data.versionCollab;
-        myvar.createdBy = data.createdBy; myvar.createdAt = data.createdAt;
-        myvar.updatedBy = data.updatedBy; myvar.updatedAt = data.updatedAt;
+    suppCollab(collab=null) {
+
+        // Check if can be deleted
+
+        // Delete (after confirmation)
+        this.confirmationService.confirm({
+            message: "Confirmez-vous la suppression ?",
+            accept: () => {
+                debugger;
+                if (collab)
+                    this.selectCollaborateur(null, collab, false);
+
+                this.update("S", false);
+
+                /*this.collaborateurService.delete(this.selectedCollaborateur.id).pipe(first()).subscribe( data => {
+                            this.selectedCollaborateur = new Collaborateur();
+                  }, error => { this.alertService.error(error); });   */
+            }
+        });
+
     }
 
 
@@ -547,9 +634,7 @@ export class CollaborateursComponent implements OnInit {
         //(<PrestationsComponent>this.componentRef.instance).selectPrestations(this.selectedCollaborateur.prestations);
     }
 
-    onClosewindowPrestas() {
-        this.displayDialog2=false;
-    }
+    onClosewindowPrestas() { this.displayDialog2=false; }
     
 
 

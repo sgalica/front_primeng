@@ -63,7 +63,7 @@ import {
     ToolbarModule,
     TooltipModule,
     TreeModule,
-    TreeTableModule,
+    TreeTableModule
 } from 'primeng/primeng';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 
@@ -97,6 +97,7 @@ import {AuthGuard} from './service/auth.guard';
 import {JwtInterceptor} from './service/jwt.interceptor';
 import {ErrorInterceptor} from './service/error.interceptor';
 import {AlertService} from './service/alert.service';
+import {ConfirmationService} from 'primeng/api';
 import {UserService} from './service/user.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PrestationsComponent} from './component/prestations/prestations.component';
@@ -105,6 +106,7 @@ import {AuthService} from './service/auth.service';
 import {NewsComponent} from './news/news.component';
 import {AdministratorComponent} from "./administrator/administrator.component";
 import {NotFoundComponent} from './not-found/not-found.component';
+
 import {DataService} from "./service/data.service";
 import {
     CategorieService,
@@ -123,7 +125,6 @@ import {
 } from "./service/datas.service";
 import {CommunATGService} from "./service/communATG.service";
 import {DatePipe} from "@angular/common";
-
 
 export function tokenGetter() {
     return localStorage.getItem('accessToken');
@@ -231,12 +232,13 @@ export function tokenGetter() {
         PrestationsComponent,
         MenuComponent,
         NewsComponent,
-        NotFoundComponent,
+        NotFoundComponent
     ],
     providers: [
         EventService,
         AuthGuard,
         AlertService,
+        ConfirmationService,
         DataService,
         ReferentielService,
         NumAtgService,

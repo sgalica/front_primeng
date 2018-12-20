@@ -4,7 +4,7 @@ import {first} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
-import {Collaborateur, CommercialOpen, Contrat, Prestation} from "../../model/referentiel";
+import {Collaborateur, CommercialOpen, Contrat, Mission, Prestation} from "../../model/referentiel";
 import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService} from "../../service/datas.service";
 import {CommunATGService} from "../../service/communATG.service";
 
@@ -337,15 +337,32 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.selectedPrestation.collaborateur = this.collab;
     }
 
-    save() {
+    save() { // On save do add or update
         this.prestationService.create(this.selectedPrestation)
             .pipe(first())
             .subscribe(
                 data => {
-                    // To do : message save ok
-                    //this.router.navigate(["/prestations"]);
+                    // To do :
                 },
                 error => { this.alertService.error(error);  });
+    }
+
+    update(entity : string, action : string, item : Prestation, dbService : PrestationService, listToBeUpdated) {
+        if (item==undefined || item==null) return;
+
+        // Old value
+        var dbold = new Prestation(item); this.communServ.setObjectValues(dbold, null, { statutPrestation: "A",
+            dateDebutPrestation : this.communServ.dateStr(dbold.dateDebutPrestation), dateFinPrestation : this.communServ.dateStr(dbold.dateFinPrestation )
+        } );
+        // New value
+        var dbnew = new Prestation(item); this.communServ.setObjectValues(dbnew, null, { statutPrestation : action,  // "T"
+            versionPrestation : Number(dbnew.versionPrestation) + 1,
+            dateDebutPrestation : this.communServ.dateStr(dbnew.dateDebutPrestation), dateFinPrestation : this.communServ.dateStr(dbnew.dateFinPrestation )
+        });
+
+        var dbupd  = dbold; var upd = item;
+        var dbadd  = dbnew; var add = new Prestation(item); // Item not changed with add value
+        this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, false, listToBeUpdated, null );
     }
 
     delete() {

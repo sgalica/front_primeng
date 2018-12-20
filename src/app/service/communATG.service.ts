@@ -1,12 +1,20 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {first} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 
 import {Collaborateur} from "../model/referentiel";
-//import {AlertService} from "../service/alert.service";
+import {AlertService} from "../service/alert.service";
 
 @Injectable()
 export class CommunATGService {
+
+    public updateCompleted$ : EventEmitter<boolean> ;
+
+    constructor( private datePipe : DatePipe, private alertService : AlertService ){
+        this.updateCompleted$ = new EventEmitter();
+    }
+
+    // **** DATE *****
 
     // Intl
     fr = {
@@ -21,13 +29,93 @@ export class CommunATGService {
     };
 
     datefmtCalendarInput = "dd/mm/yy";
-    datefmt = "dd/MM/yyyy";
+    datefmt     = "dd/MM/yyyy";
     datetimefmt = "dd/MM/yyyy hh:mm:SS";
 
+    dateStr(pDate) {
+        if (pDate != undefined && pDate!=null && typeof pDate.getMonth === "function")
+            return this.datePipe.transform(pDate, this.datefmt);
+        return pDate;
+    }
 
-    constructor( private datePipe:DatePipe  ){}
+    dateTimeStr(pDate) {
+        if (pDate != undefined && pDate!=null && typeof pDate.getMonth === "function")
+            return this.datePipe.transform(pDate, this.datetimefmt);
+        return pDate;
+    }
 
-    // SelectItems
+    setTimeStamp(obj) {
+
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        // Created if new
+        if (obj.createdAt == 0 ) {
+            obj.createdBy = currentUser.id;
+            obj.createdAt = this.dateTimeStr(new Date());
+        }
+
+        // Update
+        obj.updatedBy = currentUser.id;
+        obj.updatedAt = this.dateTimeStr(new Date());
+
+    }
+
+    // Retourne 1 si date1 >, -1 si date1<, 0 si =
+    compareDates(date1Str, date2Str ) {
+        var date1 = this.convertStrToDate(date1Str);
+        var date2 = this.convertStrToDate(date2Str);
+        return ( date1 > date2 ) ? 1 : (date1 < date2) ? -1 : 0 ;
+    }
+
+    // Retourne la date si plus récente (null autrement)
+    getDateIfMoreRecent(datestr, lastDate ) {
+        var dateTst = this.convertStrToDate(datestr);
+        return ( dateTst > (this.convertStrToDate(lastDate)) ) ? dateTst : null;
+    }
+
+    convertStrToDate(datestr) {
+        if (datestr) {
+            if (typeof datestr=="string") {
+                var dateArr = datestr.split("/"); //dd/mm/yyyy
+                return new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0]));
+            }
+            else
+                return datestr;
+        }
+        else
+            return new Date(0);
+    }
+
+    addToDate(date, datearr) { // [d,m,y]
+        var newDate = new Date(date);
+        if (datearr[0] > 0)  // days
+            newDate = new Date (newDate.valueOf() + (86400000 * datearr[0]) )
+
+        if (datearr[1] > 0) { // months
+            var nmonths = newDate.getMonth() + datearr[1];
+            newDate = new Date (newDate.getFullYear() + (nmonths / 12), nmonths%12, newDate.getDate()  )
+        }
+        if (datearr[2] > 0)  // years
+            newDate = new Date (newDate.getFullYear() + datearr[2], newDate.getMonth(), newDate.getDate()  )
+
+        return newDate;
+    }
+
+    // Transforms object {cond:"gte/lte", value} => {cond:"gt/lt", value}
+    convertDateGteLteToGtLt(pCondition) {
+
+        var condition = {cond:"gt", value:0};
+
+        if (pCondition.value != null) {
+            condition.value = pCondition.value.valueOf(); //valuedate = event.valueOf().toString();
+            if      (pCondition.cond=="gte") { condition.cond="gt"; condition.value -= 86400000; } // 86400000 = 1 jour en millis
+            else if (pCondition.cond=="lte") { condition.cond="lt"; condition.value += 86400000; }
+        }
+        return condition;
+    }
+
+
+    // **** SelectItems ****
     orderSelectItems(a, b)      { var fld="value"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
     orderSelectItemsLabel(a, b) { var fld="label"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
 
@@ -69,14 +157,46 @@ export class CommunATGService {
         return list;
     }
 
-    // Array
+    // ***** Array ****
     convertMapToArray(map : {}) : any[] {
         var list=[];
         for (var key in map ) { list.push(key); }
         return list;
     }
 
-    // TABLE
+    getLastItem(items, dateFld, versionFld) {
+
+        var lastItem = null;
+        if (items) {
+            items.forEach( item => {
+                var lastDate = (lastItem != null && typeof lastItem[dateFld] == "string") ? lastItem[dateFld] : null;
+                var compDates = this.compareDates(item[dateFld], lastDate);
+                if (compDates==1) {
+                    lastItem = item;
+                }
+                else if (compDates==0) { // Dates identiques, comparer version
+                    var lastVersion = (lastItem != null) ? Number(lastItem[versionFld]) : 0;
+                    if (Number(item[versionFld])>lastVersion)
+                        lastItem = item;
+                }
+            });
+        }
+        return lastItem;
+    }
+
+    getItemsCond(items, fld, value ) {
+        var selectedItems : any[] = null;
+        if (items) {
+            selectedItems = [];
+            items.forEach(item => {
+                if ( item[fld] == value)
+                    selectedItems.push(item);
+            });
+        }
+        return selectedItems;
+    }
+
+    // **** TABLE *****
 
     // Initialise la propriété de la colonne selon son type (valistype si type, othervalue otherwise)
     clearTableCol(table, col, coltst, type, valistype, othervalue) {
@@ -158,7 +278,7 @@ export class CommunATGService {
     }
 
 
-    // ELEMENTS
+    // ***** ELEMENTS ******
     // Rajoute les valeurs des autres colonnes comme complément d'info à la colonne dans la forme : colonne (autres colonnes)
     setLabel(labels, element, column, addlabelfields: string[] ) {
 
@@ -187,81 +307,37 @@ export class CommunATGService {
         }
     }
 
-
-    // DATE
-    dateStr(pDate) {
-        if (pDate != undefined && pDate!=null && typeof pDate.getMonth === "function")
-            return this.datePipe.transform(pDate, this.datefmt);
-        return pDate;
+    updateVersion(entite, myvar, newvalue) {
+        myvar.id = newvalue.id;
+        myvar["statut"+entite]  = newvalue["statut"+entite];
+        myvar["version"+entite] = newvalue["version"+entite];
+        myvar.createdBy = newvalue.createdBy; myvar.createdAt = newvalue.createdAt;
+        myvar.updatedBy = newvalue.updatedBy; myvar.updatedAt = newvalue.updatedAt;
     }
 
-    dateTimeStr(pDate) {
-        if (pDate != undefined && pDate!=null && typeof pDate.getMonth === "function")
-            return this.datePipe.transform(pDate, this.datetimefmt);
-        return pDate;
+    // ****** DB ******
+    updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear, listToBeUpdated, callback, callingclass=null ) {
+
+        // UPDATE
+        dbService.update(dbupd).pipe(first()).subscribe(data => {
+            // Update var on success
+            this.updateVersion(entity, upd, data);
+
+            // ADD
+            dbadd.id = 0;
+            dbService.create(dbadd).pipe(first()).subscribe(data => {
+                // Update var on success
+                this.updateVersion(entity, add, data);
+
+                if (listToBeUpdated) listToBeUpdated.push(add);
+
+                if (clear) add = null;
+
+                if (callback) this.updateCompleted$.emit(true); //callbackfunc.call(callingclass);
+
+            }, error => {
+                this.alertService.error("updateWithBackup("+entity+") - create : "+error); });
+        }, error => {
+            this.alertService.error("updateWithBackup("+entity+")- update : "+error);  });
     }
-
-    setTimeStamp(obj) {
-
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-        // Created if new
-        if (obj.createdAt == 0 ) {
-            obj.createdBy = currentUser.id;
-            obj.createdAt = this.dateTimeStr(new Date());
-        }
-
-        // Update
-        obj.updatedBy = currentUser.id;
-        obj.updatedAt = this.dateTimeStr(new Date());
-
-    }
-
-    // Retourne la date si plus récente (null autrement)
-    getDateIfMoreRecent(datestr, lastDate ) {
-        var dateTst = this.convertStrToDate(datestr);
-        return ( dateTst > (this.convertStrToDate(lastDate)) ) ? dateTst : null;
-    }
-
-    convertStrToDate(datestr) {
-        if (datestr) {
-            if (typeof datestr=="string") {
-                var dateArr = datestr.split("/"); //dd/mm/yyyy
-                return new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0]));
-            }
-            else
-             return datestr;
-        }
-        else
-            return new Date(0);
-    }
-
-    addToDate(date, datearr) { // [d,m,y]
-        var newDate = new Date(date);
-        if (datearr[0] > 0)  // days
-            newDate = new Date (newDate.valueOf() + (86400000 * datearr[0]) )
-
-        if (datearr[1] > 0) { // months
-            var nmonths = newDate.getMonth() + datearr[1];
-            newDate = new Date (newDate.getFullYear() + (nmonths / 12), nmonths%12, newDate.getDate()  )
-        }
-        if (datearr[2] > 0)  // years
-            newDate = new Date (newDate.getFullYear() + datearr[2], newDate.getMonth(), newDate.getDate()  )
-
-        return newDate;
-    }
-
-    // Transforms object {cond:"gte/lte", value} => {cond:"gt/lt", value}
-    convertDateGteLteToGtLt(pCondition) {
-
-        var condition = {cond:"gt", value:0};
-
-        if (pCondition.value != null) {
-            condition.value = pCondition.value.valueOf(); //valuedate = event.valueOf().toString();
-            if      (pCondition.cond=="gte") { condition.cond="gt"; condition.value -= 86400000; } // 86400000 = 1 jour en millis
-            else if (pCondition.cond=="lte") { condition.cond="lt"; condition.value += 86400000; }
-        }
-        return condition;
-    }
-
 }

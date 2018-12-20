@@ -36,6 +36,7 @@ export class Referentiel {
 }
 
 export class Collaborateur {
+
     id: any = 0;
     trigramme: any = "";
     nom: any = "";
@@ -87,6 +88,15 @@ export class Mission {
     updatedAt           : any = 0;
     updatedBy           : any = 0;
 
+    constructor( param ?: Mission) {
+        if (param) {
+            for (var attribut in param) {
+                if (typeof this[attribut] !== "object")
+                    this[attribut] = param[attribut];
+            }
+        }
+    }
+
 }
 
 export class Prestation {
@@ -120,8 +130,14 @@ export class Prestation {
     updatedAt           : any = 0;
     updatedBy           : any = 0;
 
-    dateDebutPrestationTri: any = 0;
-    dateFinPrestationTri: any = 0;
+    constructor( param ?: Prestation) {
+        if (param) {
+            for (var attribut in param) {
+                if (typeof this[attribut] !== "object")
+                    this[attribut] = param[attribut];
+            }
+        }
+    }
     
 }
 

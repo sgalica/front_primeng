@@ -74,7 +74,7 @@
                 <div class="ui-toolbar-group-right">
                     <button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, rowData)"></button>
                     <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
-                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger"></button>
+                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger" (click)="suppCollab(rowData)" [disabled]="canDelete(rowData)"></button>
                 </div>
             </td>
         </tr>
@@ -110,8 +110,10 @@
                                     [disabled]="field.readonly" [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
                         </p-calendar>
                         <div *ngSwitchCase="'combo'" [ngStyle]="{'flex-grow':'3'}" [ngSwitch]="field.name">
+                            <div *ngIf="showDerogation">
                             <p-dropdown *ngSwitchCase="'derogation'" [options]="field.options" [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly"
                                          (onChange)="changeDerogation($event)"></p-dropdown>
+                            </div>
                             <p-dropdown *ngSwitchDefault [options]="field.options" [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly"></p-dropdown>
                         </div>
                         <input *ngSwitchDefault type="text" pInputText [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly" [ngStyle]="{'flex-grow':'3', 'width':'auto'}">
@@ -130,7 +132,7 @@
 
                     <div [class]="field.obligatoire">
 
-                        <p-dropdown *ngSwitchCase="'categorisation'" [options]="references['categorisations']" [(ngModel)]="selectedCollaborateur[field.name]" filter="true" > <!--[style]="field.obligatoire"-->
+                        <p-dropdown *ngSwitchCase="'categorisation'" [options]="references['categorisations']" [(ngModel)]="selectedCollaborateur[field.name]" filter="true" [disabled]="field.readonly" > <!--[style]="field.obligatoire"-->
                              <ng-template let-item pTemplate="selectedItem">
                                  <span>{{item.label}}</span>
                              </ng-template>
@@ -141,16 +143,16 @@
                              </ng-template>
                         </p-dropdown>
 
-                        <p-dropdown *ngSwitchCase="'stt'"           [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]"></p-dropdown>
-                        <p-dropdown *ngSwitchCase="'preEmbauche'"   [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]" (onChange)="preEmbaucheChange($event)"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="'stt'"           [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]" [disabled]="field.readonly"></p-dropdown>
+                        <p-dropdown *ngSwitchCase="'preEmbauche'"   [options]="ouinonComboOptions" [(ngModel)]="selectedCollaborateur[field.name]" (onChange)="preEmbaucheChange($event)" [disabled]="field.readonly"></p-dropdown>
 
                         <p-calendar *ngSwitchCase="'dateEmbaucheOpen'" [(ngModel)]="selectedCollaborateur[field.name]" [showIcon]="true" [showButtonBar]="true"
-                                    dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
+                                    dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [disabled]="field.readonly"
                                     [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                     [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
                         </p-calendar>
 
-                        <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field.name]" [disabled]="field.readonly" [class]="(field.readonly) ? 'readonly' : ''" style="width:auto">
+                        <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field.name]" [disabled]="field.readonly"  style="width:auto">
                     </div>
                 </div>
              </div>
@@ -230,3 +232,4 @@
 </p-dialog>
 
 
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
