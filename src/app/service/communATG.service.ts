@@ -354,6 +354,28 @@ export class CommunATGService {
         }
     }
 
+    updatelist(list, action, item, rowval, colDefs, colStatut, dateFields, sortFunc, allstatus ) {
+
+        // Replace date values in dateformat dd/mm/yyyy
+        this.datePropsToStr(rowval, dateFields);
+
+        if (action == "add") {
+
+            list.push(rowval);
+            this.updateFilters(list, sortFunc, colDefs, colStatut, allstatus);
+        }
+        else if (action == "change") {
+            var index=0;
+            for (let row of list) {
+                if (row["id"] == item["id"]) {
+                    list[index] = rowval;
+                    break;
+                }
+                index++;
+            }
+        }
+        return list;
+    }
 
     // ***** ELEMENTS ******
 
@@ -376,7 +398,9 @@ export class CommunATGService {
         }
     }
 
+    // if property indicated, values of this property of the object will be set instead of obj
     setObjectValues(obj, property, newvalues) {
+
         for (var key in newvalues ) {
             if (property==null)
                 obj[key] = newvalues[key]
@@ -400,6 +424,21 @@ export class CommunATGService {
         myvar.createdBy = newvalue.createdBy; myvar.createdAt = newvalue.createdAt;
         myvar.updatedBy = newvalue.updatedBy; myvar.updatedAt = newvalue.updatedAt;
     }
+
+    // FORM
+    setFieldValue(fieldDefsArray, pGrp, pFld, pProp, value) {
+
+        fieldDefsArray.forEach(grp => {
+            if (grp.grp == pGrp ) {
+                grp.fields.forEach(fld => {
+                    if (fld.name == pFld)
+                        fld[pProp] = value;
+                });
+            }
+        });
+        return fieldDefsArray;
+    }
+
 
     // ****** DB ******
     updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear, listToBeUpdated, callback, callingclass=null ) {

@@ -270,7 +270,6 @@ export class CollaborateursComponent implements OnInit {
         return !statutCollab.hasHadMission;
     }
 
-
     afficherLaSaisie(action) {
 
         this.displayDialog = true;
@@ -291,31 +290,12 @@ export class CollaborateursComponent implements OnInit {
             Cancel      : false } );
     }
 
-    updatelist(list, action, item, rowval, dateFields, sortFunc ) {
-
-        // Replace date values in dateformat dd/mm/yyyy
-        this.communServ.datePropsToStr(rowval, dateFields);
-
-        if (action == "add") {
-
-            list.push(rowval);
-            this.communServ.updateFilters(list, sortFunc, this.coldefs, "statutCollab", this.allstatus);
-        }
-        else if (action == "change") {
-            var index=0;
-            for (let row of list) {
-                if (row["id"] == item["id"]) {
-                    list[index] = rowval;
-                    break;
-                }
-                index++;
-            }
-        }
-    }
-
     new() {
 
+        // Create empty item
         this.selectedCollaborateur = new Collaborateur();
+
+        // Set default values
         // S/T = Non par défaut
         this.selectedCollaborateur.stt = "Non";
         // Préembauche = Non par défaut
@@ -323,30 +303,38 @@ export class CollaborateursComponent implements OnInit {
 
         this.lastMission = new Mission();
 
+        // Show form
         this.displayDialog = true;
         this.afficherLaSaisie("New");
     }
 
+    checkInput(item) {
+        var errmsg="";
+        if (item.categorisation=="")
+            errmsg += "- Veuillez sélectionner une catégorie. ";
+        else if (item.stt=="Oui" && item.societeStt=="" )
+            errmsg += "- Le nom de la société STT est obligatoire. ";
+        else if (item.stt=="Oui" && item.preEmbauche=="Oui" && !(item["dateEmbaucheOpen"]>0) )
+            errmsg += "- La date d'embauche est obligatoire. ";
+        return errmsg;
+    }
+
     save() {
 
+        var item = this.selectedCollaborateur;
         // CHECK input
-        var errmsg="";
-        if (this.selectedCollaborateur.categorisation=="")
-            errmsg += "- Veuillez sélectionner une catégorie. ";
-        else if (this.selectedCollaborateur.stt=="Oui" && this.selectedCollaborateur.societeStt=="" )
-            errmsg += "- Le nom de la société STT est obligatoire. ";
-        else if (this.selectedCollaborateur.stt=="Oui" && this.selectedCollaborateur.preEmbauche=="Oui" && !(this.selectedCollaborateur.dateEmbaucheOpen>0) )
-            errmsg += "- La date d'embauche est obligatoire. ";
-
+        var errmsg = this.checkInput(item);
+        var result = "";
         if (errmsg=="") {
-            // Save
-            var collabfordb = new Collaborateur( this.selectedCollaborateur ) ;
-            collabfordb.dateEmbaucheOpen = this.communServ.dateStr( this.selectedCollaborateur.dateEmbaucheOpen );
-
-            // ADD
-            if (collabfordb.id == 0) {
-                collabfordb.statutCollab="E"; collabfordb.versionCollab=1;
-                this.add(collabfordb);
+            // ADD new value
+            if (item.id == 0) {
+                var newItem = new Collaborateur(item);
+                this.communServ.setObjectValues(newItem, null, {
+                    // Set State to "En cours" Version "1"
+                    statutCollab : "E", versionCollab : 1,
+                    dateEmbaucheOpen : this.communServ.dateStr(item.dateEmbaucheOpen)
+                });
+                this.add(newItem);
             }
             // UPDATE
             else {
@@ -355,7 +343,6 @@ export class CollaborateursComponent implements OnInit {
                 // Update last mission
                 if (this.lastMission != null)
                     this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.alertService.error(error);} );
-
             }
         }
         else this.alertService.error(errmsg);
@@ -371,47 +358,40 @@ export class CollaborateursComponent implements OnInit {
     // Indicate field dateEmbauche obligatory or not (depends on preEmbauche)
     preEmbaucheChange(event) {
         var obl = (this.selectedCollaborateur["preEmbauche"]=="Oui") ? this.styleObligatoire : "";
-        this.setFieldValue("ST", "dateEmbaucheOpen", "obligatoire", obl);
+        this.FieldsFiches = this.communServ.setFieldValue(this.FieldsFiches, "ST", "dateEmbaucheOpen", "obligatoire", obl);
     }
 
-    setFieldValue(pGrp, pFld, pProp, value) {
-        this.FieldsFiches.forEach(grp => {
-            if (grp.grp == pGrp ) {
-                grp.fields.forEach(fld => {
-                    if (fld.name == pFld)
-                        fld[pProp] = value;
-                });
-            }
-        });
-    }
 
-    add (collabfordb) {
+    add (itemfordb) {
 
-        this.communServ.setTimeStamp(collabfordb);
         // Check if not already in db
-        this.collaborateurService.findByTrigramme(collabfordb.trigramme).pipe(first()).subscribe(data => {
+        this.collaborateurService.findByTrigramme(itemfordb.trigramme).pipe(first()).subscribe(data => {
+            if (data == null) {
 
-                if (data == null) {
-                    this.collaborateurService.create(collabfordb).pipe(first()).subscribe(data => {
+                this.communServ.setTimeStamp(itemfordb);
+                this.collaborateurService.create(itemfordb).pipe(first()).subscribe(data => {
 
-                        // Update collab on success
-                        this.communServ.updateVersion("Collab", this.selectedCollaborateur, data);
+                    let list = "collaborateurs";
+                    let entity = "Collab";
+                    var item = this.selectedCollaborateur;
+                    // Update collab on success
+                    this.communServ.updateVersion(entity, item, data);
 
-                        // Update list
-                        this.updatelist( this["collaborateurs"],"add", this.selectedCollaborateur, new Collaborateur(this.selectedCollaborateur), ["dateEmbaucheOpen"], this.orderTrigrammeVersion );
+                    var newItem = new Collaborateur(item);
 
-                        // Actual value becomes original value
-                        this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
+                    // Update list
+                    this[list] = this.communServ.updatelist( this[list],"add", item,
+                        newItem, this.coldefs, "statut"+entity,["dateEmbaucheOpen"], this.orderTrigrammeVersion, this.allstatus );
 
-                        this.alertService.success("Collaborateur enregistré");
-                        this.afficherLaSaisie("Visu");
-                        },
-                    error => { this.alertService.error(error); });
-                }
-                else
-                    this.alertService.error("Un collaborateur avec trigramme "+ collabfordb.trigramme+ " existe déjà.");
+                    // Actual value becomes original value
+                    this.selectedEmployeeOriginalValue = newItem;
+
+                    this.alertService.success("Enregistré");
+                    this.afficherLaSaisie("Visu");
+                 }, error => { this.alertService.error(error); });
+            }
+            else this.alertService.error("Un collaborateur avec trigramme "+ itemfordb.trigramme+ " existe déjà.");
         }, error => { this.alertService.error(error); } );
-
     }
 
     update(action) {
@@ -434,12 +414,14 @@ export class CollaborateursComponent implements OnInit {
         var entity = "Collab";
 
         // UPDATE // this.communServ.setTimeStamp(dbupd );
+        let list = "collaborateurs";
         dbService.update(dbupd).pipe(first()).subscribe(data => {
+
             // Update collab on success
             this.communServ.updateVersion(entity, upd, data );
 
             // Update list
-            this.updatelist(this["collaborateurs"],"change", upd, new Collaborateur(upd), ["dateEmbaucheOpen"], this.orderTrigrammeVersion);
+            this[list] = this.communServ.updatelist( this[list],"change", upd, new Collaborateur(upd), this.coldefs, "statutCollab", ["dateEmbaucheOpen"], this.orderTrigrammeVersion, this.allstatus);
 
             // ADD // this.communServ.setTimeStamp(dbadd);
             dbadd.id = 0;
@@ -448,14 +430,14 @@ export class CollaborateursComponent implements OnInit {
                 this.communServ.updateVersion(entity, add, data );
 
                 // Update list
-                this.updatelist(this["collaborateurs"], "add", data, new Collaborateur(data), ["dateEmbaucheOpen"], this.orderTrigrammeVersion);
+                this[list] = this.communServ.updatelist( this[list], "add", data, new Collaborateur(data), this.coldefs, "statutCollab", ["dateEmbaucheOpen"], this.orderTrigrammeVersion, this.allstatus);
 
                 this.onUpdateComplete(action);
 
             }, error => {
-                this.alertService.error("Collaboratueur Update() - create : "+ error); } );
+                this.alertService.error(list+" Update() - create : "+ error); } );
         },error => {
-            this.alertService.error("Collaborateur Update() : "+error); } );
+            this.alertService.error(list+" Update() : "+ error); } );
     }
 
     onUpdateComplete(action: string) {

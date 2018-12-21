@@ -9,6 +9,8 @@ import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeServic
 import {CommunATGService} from "../../service/communATG.service";
 import {ConfirmationService} from "primeng/api";
 
+//this.prestations=this.communServ.updatelist(this.prestations, action, item, new Prestation(item), this.coldefs, "statutPrestation", ["dateDebutPrestation","dateFinPrestation"], this.orderDateDebutEtVersion, this.allstatus);
+
 @Component({
     selector: 'app-prestations',
     templateUrl: './prestations.component.html',
@@ -326,34 +328,80 @@ export class PrestationsComponent implements OnInit, OnChanges {
             Cancel      : false } );
     }
 
-    //updatelist(this.prestations, action, item, new Prestation(item), ["dateDebutPrestation","dateFinPrestation"], this.orderDateDebutEtVersion);
-    updatelist(list, action, item, rowval, dateFields, sortFunc ) {
+    new() {
+        // Create empty item
+        this.selectedPrestation = new Prestation();
 
-        this.communServ.datePropsToStr(rowval, dateFields);
+        // Set default values
 
-        if (action == "add") {
+        // Show form
+        this.displayDialogPresta = true;
+        this.afficherLaSaisie("New");
+    }
 
-            list.push(rowval);
-            this.communServ.updateFilters(this.prestations, sortFunc, this.coldefs, "statutPrestation", this.allstatus, ["dateDebutPrestation", "dateFinPrestation"], "collaborateur");
-            return list;
+    checkInput(item) {
+        var errmsg="";
+        // Do check here
+        return errmsg;
+    }
+
+    save() { // On save do add or update
+        var item = this.selectedPrestation;
+        // CHECK input
+        var errmsg = this.checkInput(item);
+        var result = "";
+        if (errmsg=="") {
+            // ADD new value
+            if (item.id == 0) {
+                var newItem = new Prestation(item);
+                this.communServ.setObjectValues(newItem, null, {
+                    // Set State to "En cours" Version "1"
+                    statutPrestation : "E", versioPrestation : 1,
+                    dateDebutPrestation : this.communServ.dateStr(item.dateDebutPrestation),
+                    dateFinPrestation : this.communServ.dateStr(item.dateFinPrestation)
+                });
+                this.add(newItem);
+            }
+            // UPDATE
+            else {
+                // TO DO !!!!
+                //this.update("E");
+                // Evt. Update related edited tables
+            }
         }
-        else if (action == "change") {
+        else this.alertService.error(errmsg);
+    }
 
-            list.forEach(function (row, index, array) {
-                if (row["id"] == item["id"]) {
-                    array[index] = rowval;
-                    return list;
-                }
-            });
-        }
+    cancelEditPresta() {
+        if (this.selectedPrestation.id == 0)
+            this.new();
+        else
+            this.selectPrestation(null, this.selectedPrestationOriginalValue);
     }
 
 
-    save() { // On save do add or update
-        this.prestationService.create(this.selectedPrestation).pipe(first()).subscribe( data => {
-                    // To do :
-                },
-                error => { this.alertService.error(error);  });
+    add(itemfordb) {
+        this.communServ.setTimeStamp(itemfordb);
+        this.prestationService.create(itemfordb).pipe(first()).subscribe(data => {
+
+            let list = "prestations";
+            let entity = "Prestation";
+            var item = this.selectedPrestation;
+            // Update item on success
+            this.communServ.updateVersion(entity, item, data);
+
+            var newItem = new Prestation(item);
+
+            // Update list
+            this[list] = this.communServ.updatelist( this[list],"add", item,
+                newItem, this.coldefs, "statut"+entity,["dateEmbaucheOpen"], this.orderDateDebutEtVersion, this.allstatus );
+
+            // Actual value becomes original value
+            this.selectedPrestationOriginalValue = newItem;
+
+            this.alertService.success("Enregistré");
+            this.afficherLaSaisie("Visu");
+        }, error => { this.alertService.error(error); });
     }
 
     // !! Also called from collab :
