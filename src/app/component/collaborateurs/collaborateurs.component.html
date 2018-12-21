@@ -164,7 +164,7 @@
     <!-- FOOTER -->
     <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix" [ngStyle]="{'text-align':'left'}">
-            <button *ngFor="let btnid of buttonsList; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttonsFunctions(btnid)" [disabled]="buttons[btnid].disabled"></button>
+            <button *ngFor="let btnid of buttonsList; " pButton type="button" label="{{buttons[btnid].label}}" class="ui-button-success" (click)="buttons[btnid].fnc.call()" [disabled]="buttons[btnid].disabled"></button>
         </div>
     </p-footer>
 

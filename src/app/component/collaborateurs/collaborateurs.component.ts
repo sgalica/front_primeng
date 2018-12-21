@@ -12,7 +12,6 @@ import {CommunATGService} from "../../service/communATG.service"
 import {ConfirmationService} from "primeng/api";
 
 interface OuiNon { label: string, value: string}
-//interface StatutCollab { statutCollab: string, hasMission: boolean, hasHadMission: boolean, activeCollab : boolean, activeOrNew : boolean }
 
 @Component({
     selector: 'app-collaborateurs',
@@ -176,22 +175,22 @@ export class CollaborateursComponent implements OnInit {
     }
 
     selectColumns() {
+
         this.selectedColumns = this.communServ.filterTableSelectItems(this.coldefs, 'showInList', 'header');
         this.cols = this.selectedColumns;
     }
 
     loadAllCollaborateurs() {
 
-        this.collaborateurService.list().pipe(first()).subscribe(
-        collaborateurs => {
-            this.collaborateurs = collaborateurs.sort(this.orderTrigrammeVersion);
-            this.updateFilters();
-        },
-        error => { this.alertService.error(error);  }
-        );
+        this.collaborateurService.list().pipe(first()).subscribe(collaborateurs => {
+            this.collaborateurs = collaborateurs;
+            this.communServ.updateFilters( this.collaborateurs, this.orderTrigrammeVersion, this.coldefs, "statutCollab", this.allstatus);
+            this.showHistSelect = false;
+        },error => { this.alertService.error(error); } );
     }
 
     loadCategorisations() {
+
         this.references["categorisations"] = [];
 
         var flds = [{ref:"categorisations", key:"categorisation", label:"categorisation", labelbis:"libelle"}] ;
@@ -199,45 +198,7 @@ export class CollaborateursComponent implements OnInit {
         this.communServ.loadTableKeyValues(flds, this.categorieService, this.references, null, true );
     }
 
-    updateFilters() {
 
-        // Clear
-        if (this.communServ) {
-            this.communServ.clearTableCol(this.coldefs, "values",   "filtertype", "liste", [], "");
-            this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
-            this.communServ.clearTableCol(this.coldefs, "keys",     "filtertype", "liste", [], []);
-        }
-        this.showHistSelect = false;
-
-
-        // Get keys
-        var labels: string[] = [];  // Labels collabs
-        this.collaborateurs.forEach(row => {
-            this.communServ.setKeys(this.coldefs, row );
-            this.communServ.setLabel(labels, row, "trigramme",["nom", "prenom"]);
-        });
-
-        // Create SelectItems of columns from keys
-        for (var column in this.coldefs) {
-            let selectitems : SelectItem[] ;
-
-            switch (column) {
-
-                case "statutCollab" :
-                    // Add labels ordered as E, T, S, A
-                    selectitems = this.communServ.filterSelectItems(this.allstatus, this.coldefs[ column ].keys);
-                    break;
-
-                default :
-                    // Sort keys
-                    var colSort = this.communServ.convertMapToArray(this.coldefs[ column ].keys); colSort.sort();
-                    // Add to liste
-                    selectitems = this.communServ.createSelectItemsFromArray(colSort, labels );
-                    break;
-            }
-            this.coldefs[ column ].values = selectitems;
-        }
-    }
 
     // Tri sur trigramme (asc) et version (desc)
     orderTrigrammeVersion(a, b) {
@@ -259,19 +220,14 @@ export class CollaborateursComponent implements OnInit {
 
     manageFieldsFiche(action, state) {
 
+        // Copie template definition
         var fieldsFiches : any[] = (action=="Visu") ? this.FieldsFichesVisu : this.FieldsFichesCreation;
-        // Make fields readonly if state "Terminée"
-        if (state=="T") {
-            var prop = "readonly";
-            var value = true;
-            this.FieldsFiches.forEach(grp => {
-                grp.fields.forEach(fld => {
-                        fld[prop] = value;
-                });
-            });
-        }
 
-        return fieldsFiches;
+        // Make fields readonly if state "Terminée"
+        if (state=="T")
+            fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "fields","readonly", true);
+
+        return fieldsFiches ;
     }
 
     selectCollaborateur(event: Event, collaborateur: Collaborateur) {
@@ -314,6 +270,7 @@ export class CollaborateursComponent implements OnInit {
         return !statutCollab.hasHadMission;
     }
 
+
     afficherLaSaisie(action) {
 
         this.displayDialog = true;
@@ -334,30 +291,25 @@ export class CollaborateursComponent implements OnInit {
             Cancel      : false } );
     }
 
-    buttonsFunctions(btn:string) {
-        this.buttons[btn].fnc.call();
-    }
+    updatelist(list, action, item, rowval, dateFields, sortFunc ) {
 
-    updatelist(action, item) {
-
-        var rowval = new Collaborateur(item);
-        rowval.dateEmbaucheOpen = this.communServ.dateStr(rowval.dateEmbaucheOpen);
+        // Replace date values in dateformat dd/mm/yyyy
+        this.communServ.datePropsToStr(rowval, dateFields);
 
         if (action == "add") {
 
-            this.collaborateurs.push(rowval);
-            this.collaborateurs.sort(this.orderTrigrammeVersion);
-            this.updateFilters();
-
+            list.push(rowval);
+            this.communServ.updateFilters(list, sortFunc, this.coldefs, "statutCollab", this.allstatus);
         }
-        else if (action=="change") {
-
-            this.collaborateurs.forEach(function (row, index, array) {
-                if (row.trigramme == item.trigramme) {
-                    array[index] = rowval;
-                    return;
+        else if (action == "change") {
+            var index=0;
+            for (let row of list) {
+                if (row["id"] == item["id"]) {
+                    list[index] = rowval;
+                    break;
                 }
-            });
+                index++;
+            }
         }
     }
 
@@ -446,7 +398,7 @@ export class CollaborateursComponent implements OnInit {
                         this.communServ.updateVersion("Collab", this.selectedCollaborateur, data);
 
                         // Update list
-                        this.updatelist("add", this.selectedCollaborateur);
+                        this.updatelist( this["collaborateurs"],"add", this.selectedCollaborateur, new Collaborateur(this.selectedCollaborateur), ["dateEmbaucheOpen"], this.orderTrigrammeVersion );
 
                         // Actual value becomes original value
                         this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
@@ -487,7 +439,7 @@ export class CollaborateursComponent implements OnInit {
             this.communServ.updateVersion(entity, upd, data );
 
             // Update list
-            this.updatelist("change", upd);
+            this.updatelist(this["collaborateurs"],"change", upd, new Collaborateur(upd), ["dateEmbaucheOpen"], this.orderTrigrammeVersion);
 
             // ADD // this.communServ.setTimeStamp(dbadd);
             dbadd.id = 0;
@@ -496,7 +448,7 @@ export class CollaborateursComponent implements OnInit {
                 this.communServ.updateVersion(entity, add, data );
 
                 // Update list
-                this.updatelist("add", data);
+                this.updatelist(this["collaborateurs"], "add", data, new Collaborateur(data), ["dateEmbaucheOpen"], this.orderTrigrammeVersion);
 
                 this.onUpdateComplete(action);
 
@@ -588,7 +540,7 @@ export class CollaborateursComponent implements OnInit {
         });
     }
 
-    suppCollab(collab=null) {
+    suppCollab(item=null) {
 
         // Check if can be deleted (see canDelete()) : not necessary because btns already disables
 
@@ -597,8 +549,8 @@ export class CollaborateursComponent implements OnInit {
             message: "Confirmez-vous la suppression ?",
             accept: () => {
 
-                if (collab)
-                    this.selectCollaborateur(null, collab);
+                if (item)
+                    this.selectCollaborateur(null, item);
 
                 this.update("S");
 
@@ -607,7 +559,6 @@ export class CollaborateursComponent implements OnInit {
                   }, error => { this.alertService.error(error); });   */
             }
         });
-
     }
 
 

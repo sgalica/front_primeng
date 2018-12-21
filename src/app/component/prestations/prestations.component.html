@@ -97,9 +97,9 @@
 
             <td>
                 <div class="ui-toolbar-group-right">
-                    <button pButton type="button" (click)="selectPrestation($event, rowData)" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom"></button>
+                    <button pButton type="button" (click)="selectPrestation($event, rowData); afficherLaSaisie('Visu');" icon="pi pi-search" pTooltip="Voir" tooltipPosition="bottom" ></button>
                     <button pButton type="button" icon="pi pi-calendar" class="ui-button-success" pTooltip="Historique" tooltipPosition="bottom"></button>
-                    <button pButton type="button" (click)="deletePrestation($event, rowData)" icon="pi pi-times" class="ui-button-danger" pTooltip="Supprimer" tooltipPosition="bottom"></button>
+                    <button pButton type="button" (click)="suppPrestation(rowData)" icon="pi pi-times" class="ui-button-danger" pTooltip="Supprimer" tooltipPosition="bottom" [disabled]="canDelete(rowData)"></button>
                 </div>
             </td>
         </tr>

@@ -4,6 +4,7 @@ import {DatePipe} from "@angular/common";
 
 import {Collaborateur} from "../model/referentiel";
 import {AlertService} from "../service/alert.service";
+import {SelectItem} from "primeng/api";
 
 @Injectable()
 export class CommunATGService {
@@ -13,6 +14,7 @@ export class CommunATGService {
     constructor( private datePipe : DatePipe, private alertService : AlertService ){
         this.updateCompleted$ = new EventEmitter();
     }
+
 
     // **** DATE *****
 
@@ -36,6 +38,33 @@ export class CommunATGService {
         if (pDate != undefined && pDate!=null && typeof pDate.getMonth === "function")
             return this.datePipe.transform(pDate, this.datefmt);
         return pDate;
+    }
+
+    convertStrToDate(datestr) {
+        if (datestr) {
+            if (typeof datestr=="string") {
+                var dateArr = datestr.split("/"); //dd/mm/yyyy
+                return new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0]));
+            }
+            else
+                return datestr;
+        }
+        else
+            return new Date(0);
+    }
+
+    datePropsToStr(item, dateFields) {
+        dateFields.forEach(x => {
+            if (item[x] != undefined)
+                item[x] = this.dateStr(item[x]);
+        } );
+    }
+
+    datePropsToDate(item, dateFields) {
+        dateFields.forEach(x => {
+            if (typeof item[x] == "string" )
+                item[x] = this.convertStrToDate(item[x]);
+        } );
     }
 
     dateTimeStr(pDate) {
@@ -73,19 +102,6 @@ export class CommunATGService {
         return ( dateTst > (this.convertStrToDate(lastDate)) ) ? dateTst : null;
     }
 
-    convertStrToDate(datestr) {
-        if (datestr) {
-            if (typeof datestr=="string") {
-                var dateArr = datestr.split("/"); //dd/mm/yyyy
-                return new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0]));
-            }
-            else
-                return datestr;
-        }
-        else
-            return new Date(0);
-    }
-
     addToDate(date, datearr) { // [d,m,y]
         var newDate = new Date(date);
         if (datearr[0] > 0)  // days
@@ -116,6 +132,7 @@ export class CommunATGService {
 
 
     // **** SelectItems ****
+
     orderSelectItems(a, b)      { var fld="value"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
     orderSelectItemsLabel(a, b) { var fld="label"; return (a[fld] > b[fld]) ? 1 : (a[fld] < b[fld]) ? -1 : 0; }
 
@@ -157,7 +174,9 @@ export class CommunATGService {
         return list;
     }
 
+
     // ***** Array ****
+
     convertMapToArray(map : {}) : any[] {
         var list=[];
         for (var key in map ) { list.push(key); }
@@ -196,6 +215,7 @@ export class CommunATGService {
         return selectedItems;
     }
 
+
     // **** TABLE *****
 
     // Initialise la propriété de la colonne selon son type (valistype si type, othervalue otherwise)
@@ -207,6 +227,14 @@ export class CommunATGService {
             else
                 table[column][col]=[];
         }
+    }
+
+    clearTableCols(colDefs, cols) {
+        cols.forEach(x =>{
+            var othervalue = (x=="keys") ? [] : "";
+            this.clearTableCol(colDefs, x,   "filtertype", "liste", [], othervalue);
+
+        })
     }
 
     // Récupère une liste dans la forme (key-value) de la table (pour combos)
@@ -277,8 +305,58 @@ export class CommunATGService {
         }
     }
 
+    updateFilters(list, sortFunc, colDefs, colStatut, allstatus, dateFields=[], pCollabDef=null) {
+
+        if (list != undefined) list.sort(sortFunc);
+
+        // Clear
+        this.clearTableCols(colDefs, ["values", "selected", "keys"]);
+
+        // (Trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version)
+        var labels: {} = {};  // Labels collabs
+        if (list != undefined) {
+            list.forEach( row => {
+
+                // Prestations :
+                // Retrieve trigramme if acces by table presta (done here to avoid double foreach)
+                if (row.collaborateur != undefined)
+                    row.trigramme = row.collaborateur.trigramme;
+                // Convert dateStrs to Date
+                this.datePropsToDate(row, dateFields);
+
+                // >>>> Get keys <<<<<
+                this.setKeys(colDefs, row );
+                var collabDef = (pCollabDef ==null ) ? row : row[pCollabDef];
+                this.setLabel(labels, collabDef, "trigramme",["nom", "prenom"]);
+
+            });
+        }
+
+        for (var column in colDefs) {
+            let selectitems: SelectItem[];
+
+            switch (column) {
+
+                case colStatut :
+                    // Add labels ordered as E, T, S, A
+                    selectitems = this.filterSelectItems(allstatus, colDefs[ column ].keys);
+                    // Version :  // this.filtres["Version"] = {selected : "", values:[ {label: 'Historique', value: 'H'},  {label: 'Dernière', value: ''} ], keys:[] };
+                    break;
+
+                default : // trigramme, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type
+                    // Sort keys
+                    var colSort = this.convertMapToArray(colDefs[ column ].keys); colSort.sort();
+                    // Add to filterlist
+                    selectitems = this.createSelectItemsFromArray(colSort, labels );
+                    break;
+            }
+            colDefs[column].values = selectitems;
+        }
+    }
+
 
     // ***** ELEMENTS ******
+
     // Rajoute les valeurs des autres colonnes comme complément d'info à la colonne dans la forme : colonne (autres colonnes)
     setLabel(labels, element, column, addlabelfields: string[] ) {
 
@@ -305,6 +383,14 @@ export class CommunATGService {
             else
                 obj[key][property] = newvalues[key]
         }
+    }
+
+    setSubArrayProperty(mainarray, subarray, prop, value) {
+        return mainarray.forEach(grp => {
+            grp["fields"].forEach(fld => {
+                fld[prop] = value;
+            });
+        });
     }
 
     updateVersion(entite, myvar, newvalue) {

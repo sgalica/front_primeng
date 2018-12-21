@@ -7,11 +7,13 @@ import {DataTable} from "primeng/primeng";
 import {Collaborateur, CommercialOpen, Contrat, Mission, Prestation} from "../../model/referentiel";
 import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService} from "../../service/datas.service";
 import {CommunATGService} from "../../service/communATG.service";
+import {ConfirmationService} from "primeng/api";
 
 @Component({
     selector: 'app-prestations',
     templateUrl: './prestations.component.html',
-    styleUrls: [ './prestations.component.css' ]
+    styleUrls: [ './prestations.component.css' ],
+    providers : [ConfirmationService]
 })
 export class PrestationsComponent implements OnInit, OnChanges {
 
@@ -38,11 +40,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     // Fiche/Detail
     selectedPrestation: Prestation = new Prestation();
+    selectedPrestationOriginalValue : Prestation;
     displayDialogPresta: boolean = false;
 
     // Références
     missions : { label: string, value: number }[];
-    allstatus = { E : "En cours", T: "Terminées", S: "Supprimées", A: "Archivées" };
+    allstatus = { E : "En cours", T: "Terminée", S: "Supprimée", A: "Archivée" };
     contrats : SelectItem[]=[];
     references : any[]=[];
 
@@ -54,6 +57,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     FieldsFiches : any[];
 
     communServ : CommunATGService;
+    styleObligatoire : string = "obligatoire";
+    styleReadOnly    : string = "readonly";
 
     // Sorting
     //sortOptions: SelectItem[]; //sortField: string; sortOrder: number;
@@ -83,8 +88,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         private router: Router, private route: ActivatedRoute,
         private alertService: AlertService,
-        private communATGService : CommunATGService
-    ) {}
+        private communATGService : CommunATGService,
+        private confirmationService : ConfirmationService
+    ) {
+        communATGService.updateCompleted$.subscribe(x => this.onUpdateMissionCompleted(x));
+    }
 
 
     ngOnInit() {
@@ -105,35 +113,35 @@ export class PrestationsComponent implements OnInit, OnChanges {
         //    "nom", "prenom", "dateDebutContrat", "dateFinContrat", "adresseMail", "telephonePortable", "telephoneFixe"];
 
         this.coldefs = {
-            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: ["testclear","testclearbis" ], values:[], keys:[], keycol:true},
-            dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:"", keycol:false},
-            dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:"", keycol:false},
-            contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            numAtg:                 {header: 'ATG',                 filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            departement:            {header: 'Département',         filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            pole:                   {header: 'Pôle',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            domaine:                {header: 'Domaine',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            localisation:           {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            numeroPu:               {header: 'PU',                  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:false},
-            responsablePole:        {header: 'Responsable de pôle', filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            topAtg:                 {header: 'Type',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:false},
-            statutPrestation:       {header: 'Statut',              filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:false},
-            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:true},
-            versionPrestation:      {header: 'Version',             filtertype: "",      showInList:true,  filtercond: null,  selected: [], values:[], keys:[], keycol:false},
+            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: ["testclear","testclearbis" ], values:[], keys:{}, keycol:true},
+            dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:{}, keycol:false},
+            dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:{}, keycol:false},
+            contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            numAtg:                 {header: 'ATG',                 filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            departement:            {header: 'Département',         filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            pole:                   {header: 'Pôle',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            domaine:                {header: 'Domaine',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            localisation:           {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            numeroPu:               {header: 'PU',                  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
+            responsablePole:        {header: 'Responsable de pôle', filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            topAtg:                 {header: 'Type',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
+            statutPrestation:       {header: 'Statut',              filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
+            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            versionPrestation:      {header: 'Version',             filtertype: "",      showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
 
             // Collaborateur
-            nom:                    {header: "Nom",                 filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:false},
-            prenom:                 {header: "Prénom",              filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[], keycol:false},
+            nom:                    {header: "Nom",                 filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
+            prenom:                 {header: "Prénom",              filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
 
             // Contrat
-            dateDebutContrat:       {header: "Date début",          filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
-            dateFinContrat:         {header: "Date fin",            filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
+            dateDebutContrat:       {header: "Date début",          filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
+            dateFinContrat:         {header: "Date fin",            filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
 
             // Commercial Open
-            adresseMail:            {header: "Mail",                filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
-            telephonePortable:      {header: "Tél. portable",       filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]},
-            telephoneFixe:          {header: "Tél. fixe",           filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:[]}
+            adresseMail:            {header: "Mail",                filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
+            telephonePortable:      {header: "Tél. portable",       filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
+            telephoneFixe:          {header: "Tél. fixe",           filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:false}
 
             /* {header: 'date_c', field:'prestDateCreation'}, {header: 'user_c', field:'prestUserCreation'}, {header: 'date_m', field:'prestDateMaj'}, {header: 'user_m', field:'prestUserMaj'},   */
         };
@@ -142,17 +150,17 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         this.FieldsFiches=[
             {grp: "collaborateur",  grplabel : "Prestataire",
-                fields :   [{name:"trigramme",      type:"field"},                 {name:"nom",                 type:"field"},                  {name:"prenom",             type:"field"}]},
+                fields :   [{name:"trigramme",      type:"field", obligatoire:"", readonly:true},                 {name:"nom",                 type:"field", obligatoire:"", readonly:true},                  {name:"prenom",             type:"field", obligatoire:"", readonly:true}]},
             {grp: "contrat",        grplabel : "Contrat",
-                fields :   [{name:"contratAppli",   type:"combo", editable:false}, {name:"dateDebutContrat",    type:"date"},                   {name:"dateFinContrat",     type:"date"}]},
+                fields :   [{name:"contratAppli",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"dateDebutContrat",    type:"date", obligatoire:"", readonly:false},                   {name:"dateFinContrat",     type:"date", obligatoire:"", readonly:false}]},
             {grp: "Prestation",     grplabel : "Prestation",
-                fields :   [{name:"localisation",   type:"combo", editable:false}, {name:"numAtg",              type:"combo", editable:false},
-                            {name:"departement",    type:"combo", editable:false}, {name:"pole",                type:"combo", editable:false},  {name:"domaine",            type:"combo", editable:false},
-                            {name:"numeroPu",       type:"field"},                 {name:"dateDebutPrestation", type:"date"},                   {name:"dateFinPrestation",  type:"date"},
-                            {name:"responsablePole",type:"combo", editable:true},
-                            {name:"donneurOrdre",   type:"combo", editable:false}]},
+                fields :   [{name:"localisation",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"numAtg",              type:"combo", obligatoire:"", readonly:false, editable:false},
+                            {name:"departement",    type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"pole",                type:"combo", obligatoire:"", readonly:false, editable:false},  {name:"domaine",            type:"combo", obligatoire:"", readonly:false, editable:false},
+                            {name:"numeroPu",       type:"field", obligatoire:"", readonly:false},                 {name:"dateDebutPrestation", type:"date", obligatoire:"", readonly:false},                   {name:"dateFinPrestation",  type:"date", obligatoire:"", readonly:false},
+                            {name:"responsablePole",type:"combo", obligatoire:"", readonly:false, editable:true},
+                            {name:"donneurOrdre",   type:"combo", obligatoire:"", readonly:false, editable:false}]},
             {grp: "commercialOpenInfo", grplabel : "Commercial OPEN",
-                fields :   [{name:"commercialOpen", type:"combo", editable:false}, {name:"adresseMail",         type:"field"},                  {name:"telephonePortable",  type:"field"},      {name:"telephoneFixe", type:"field"} ] }
+                fields :   [{name:"commercialOpen", type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"adresseMail",         type:"field", obligatoire:"", readonly:false},                  {name:"telephonePortable",  type:"field", obligatoire:"", readonly:false},      {name:"telephoneFixe", type:"field", obligatoire:"", readonly:false} ] }
         ];
 
         this.displayDialogPresta = false;
@@ -160,9 +168,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.buttons = {
             "Save"   : {label:"Enregistrer", disabled:true,  fnc : ()=>{this.save();} },
             "End"    : {label:"Terminer",    disabled:true,  fnc : ()=>{this.end();} },
-            "Delete" : {label:"Supprimer",   disabled:false, fnc : ()=>{this.delete();} },
+            "Delete" : {label:"Supprimer",   disabled:false, fnc : ()=>{this.suppPrestation();} },
             "Cancel" : {label:"Annuler",     disabled:true,  fnc : ()=>{this.cancel();} },
-            "Reopen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.reopen();} }
+            "Reopen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.save();} }
         };
 
         if (!this.modeCollab)
@@ -191,98 +199,35 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if (this.modeCollab) {
             var pos = 0;
             this.selectedColumns.forEach( colval => {
-                if (colval.field=="trigramme") {
+                if (colval.field == "trigramme")
                     this.selectedColumns.splice(pos, 1);
-                }
                 else
                     pos++;
             });
         }
 
-        this.cols=this.selectedColumns;
+        this.cols = this.selectedColumns;
     }
 
     loadAllPrestations() {
-        this.prestationService.list()
-            .pipe(first())
-            .subscribe(prestations => {
-                    this.selectPrestations(prestations);
-                    this.filterVersions();
-                    // RespsPole : If all prestations loaded, we can take values from filters
-                    var ref = "responsablePole";
-                    Array.prototype.push.apply(this.references[ref], this.coldefs[ref].values);
-                    //this.alertService.success(prestations);
-                },
-                error => { this.alertService.error(error);  });
+
+        this.prestationService.list().pipe(first()).subscribe(prestations => {
+            this.selectPrestations(prestations);
+            this.filterVersions();
+            // RespsPole : If all prestations loaded, we can take values from filters
+            var ref = "responsablePole";
+            Array.prototype.push.apply(this.references[ref], this.coldefs[ref].values);
+            //this.alertService.success(prestations);
+        },error => { this.alertService.error(error); });
     }
 
-    selectPrestations(param_prestations: Prestation[]) {
+    selectPrestations(p_prestations: Prestation[]) {
 
-        this.prestations = param_prestations;
-        this.updateFilters();
-        if (this.prestations!=undefined)
-            this.prestations.sort(this.orderDateDebutEtVersion); //this.filterVersions();
-
-    }
-
-    updateFilters() {
-
-        // Clear
-        if (this.communServ) {
-            this.communServ.clearTableCol(this.coldefs, "values",   "filtertype", "liste", [], "");
-            this.communServ.clearTableCol(this.coldefs, "selected", "filtertype", "liste", [], "");
-            this.communServ.clearTableCol(this.coldefs, "keys",     "filtertype", "liste", [], []);
-        }
-
+        this.prestations = p_prestations;
+        this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.coldefs, "statutPrestation", this.allstatus, ["dateDebutPrestation", "dateFinPrestation"], "collaborateur" );
         this.showHistSelect = false;
-
-        // trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version
-        var labels: {} = {};  // Labels collabs
-        if (this.prestations != undefined) {
-            this.prestations.forEach(row => {
-
-                // Retrieve trigramme if acces by table presta (done here to avoid double foreach)
-                if (row.collaborateur != undefined)
-                    row.trigramme = row.collaborateur.trigramme;
-
-                // Format dates
-                try {
-                    if (typeof row.dateDebutPrestation == "string" )
-                        row.dateDebutPrestation = this.communServ.convertStrToDate(row.dateDebutPrestation);
-                    if (typeof row.dateFinPrestation == "string" )
-                        row.dateFinPrestation = this.communServ.convertStrToDate(row.dateFinPrestation);
-                }
-                catch (error) {
-                    console.log("Error : "+ error + ", Row : "); console.log(row );
-                }
-
-                // >>>> Get keys <<<<<
-                this.communServ.setKeys(this.coldefs, row );
-                this.communServ.setLabel(labels, row.collaborateur, "trigramme",["nom", "prenom"]);
-
-            });
-        }
-
-        for (var column in this.coldefs) {
-            let selectitems: SelectItem[];
-            switch (column) {
-
-                case "statutPrestation" :
-                    // Add labels ordered as E, T, S, A
-                    selectitems = this.communServ.filterSelectItems(this.allstatus, this.coldefs[ column ].keys);
-                    // Version :  // this.filtres["Version"] = {selected : "", values:[ {label: 'Historique', value: 'H'},  {label: 'Dernière', value: ''} ], keys:[] };
-                    break;
-
-                default : // trigramme, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type
-                    // Sort keys
-                    var colSort = this.communServ.convertMapToArray(this.coldefs[ column ].keys); colSort.sort();
-                    // Add to filterlist
-                    selectitems = this.communServ.createSelectItemsFromArray(colSort, labels );
-                    break;
-            }
-            this.coldefs[column].values = selectitems;
-        }
     }
+
 
     /*// Get collab info
     loadPrestationsCollab(idemployee) {
@@ -328,26 +273,92 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.pt.filter(condition.value, field, condition.cond);
     }
 
+    manageFieldsFiche(action, state) {
+
+        var fieldsFiches : any[] = this.FieldsFiches;
+        // To do : evt  adapte if not same for fields with creation
+        //var fieldsFiches : any[] = (action=="Visu") ? this.FieldsFichesVisu : this.FieldsFichesCreation;
+        // Make fields readonly if state "Terminée"
+
+        if (state=="T")
+            fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "fields", "readonly", true);
+
+        return fieldsFiches;
+    }
+
     selectPrestation(event: Event, prestation: Prestation) {
 
-        this.displayDialogPresta = true;
+        this.selectedPrestation              = new Prestation(prestation);
+        this.selectedPrestationOriginalValue = new Prestation(prestation);
 
-        this.selectedPrestation = prestation;
-        if (prestation.collaborateur == undefined) // We come from collaborateur so prestation not loaded by hibernate
+        // We come from collaborateur so collab of prestation not loaded by hibernate
+        if (prestation.collaborateur == undefined)
             this.selectedPrestation.collaborateur = this.collab;
     }
 
+    getStatut(statut) {
+        var active  = (statut == "E");
+        return { statut : statut,
+                 active : active,
+                 activeOrNew: active || (statut == "") }
+    }
+
+    canDelete(item) {
+
+        // Si En cours
+        return (item.statutCollab == "E") ;
+
+        //var statut = this.getStatut(item.statutPrestation);
+    }
+
+    afficherLaSaisie(action) {
+
+        this.displayDialogPresta = true;
+
+        var statut = this.getStatut(this.selectedPrestation.statutPrestation);
+
+        this.FieldsFiches = this.manageFieldsFiche(action, this.selectedPrestation.statutPrestation );
+
+        // Buttons
+        this.communServ.setObjectValues(this.buttons, "disabled",{
+            Save        : !statut.activeOrNew,         // Ne pas Enregistrer si :
+            ReOpen      : statut.activeOrNew,          // Ne pas Réactiver si : Actif ou Nouveau
+            Cancel      : false } );
+    }
+
+    //updatelist(this.prestations, action, item, new Prestation(item), ["dateDebutPrestation","dateFinPrestation"], this.orderDateDebutEtVersion);
+    updatelist(list, action, item, rowval, dateFields, sortFunc ) {
+
+        this.communServ.datePropsToStr(rowval, dateFields);
+
+        if (action == "add") {
+
+            list.push(rowval);
+            this.communServ.updateFilters(this.prestations, sortFunc, this.coldefs, "statutPrestation", this.allstatus, ["dateDebutPrestation", "dateFinPrestation"], "collaborateur");
+            return list;
+        }
+        else if (action == "change") {
+
+            list.forEach(function (row, index, array) {
+                if (row["id"] == item["id"]) {
+                    array[index] = rowval;
+                    return list;
+                }
+            });
+        }
+    }
+
+
     save() { // On save do add or update
-        this.prestationService.create(this.selectedPrestation)
-            .pipe(first())
-            .subscribe(
-                data => {
+        this.prestationService.create(this.selectedPrestation).pipe(first()).subscribe( data => {
                     // To do :
                 },
                 error => { this.alertService.error(error);  });
     }
 
+    // !! Also called from collab :
     update(entity : string, action : string, item : Prestation, dbService : PrestationService, listToBeUpdated) {
+
         if (item==undefined || item==null) return;
 
         // Old value
@@ -363,23 +374,36 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var dbupd  = dbold; var upd = item;
         var dbadd  = dbnew; var add = new Prestation(item); // Item not changed with add value
         this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, false, listToBeUpdated, null );
+
     }
 
     delete() {
         this.selectedPrestation.statutPrestation = (this.selectedPrestation.statutPrestation == "S") ? "E" : "S";
-        this.prestationService.delete(this.selectedPrestation.id)
-            .pipe(first())
-            .subscribe(
-                data => {
-                },
+        this.prestationService.delete(this.selectedPrestation.id).pipe(first()).subscribe(data => {          },
                 error => { this.alertService.error(error);  });
     }
 
     end() { }
     cancel() { }
-    reopen() { }
-    
- 
+
+    suppPrestation(item=null) {
+
+        this.confirmationService.confirm({
+            message: "Confirmez-vous la suppression ?",
+            accept: () => {
+
+                if (item) this.selectPrestation(null, item);
+                // ToDo
+               // this.update("S");
+            }
+        });
+    }
+
+    onUpdateMissionCompleted(param) {
+       // this.lastMission = null;
+    }
+
+
     loadReferences() {
         this.references = [];
         var referenceslist=[
