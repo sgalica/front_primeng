@@ -228,7 +228,11 @@
 
 <p-dialog [(visible)]="displayDialog2" [responsive]="true" [modal]="true" (onHide)="displayDialog2=false" [styleClass]="'importcsv'" [contentStyle]="{'overflow':'visible', 'padding':'0px', 'border':'0px'}"
           [showHeader]="false">
-    <app-prestations [collab]="selectedCollaborateur" (closewindowPrestas)="onClosewindowPrestas($event)"></app-prestations>
+    <app-prestations [collab]="selectedCollaborateur"
+                     (closewindowPrestas)="onClosewindowPrestas($event)"
+                     (updatePrestationCompleted)="onUpdatePrestationCompleted($event)">
+    >
+    </app-prestations>
 </p-dialog>
 
 

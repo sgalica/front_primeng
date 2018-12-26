@@ -23,6 +23,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     @Input()  collab : Collaborateur;
     @Output() closewindowPrestas = new EventEmitter<boolean>();
+    @Output() updatePrestationCompleted = new EventEmitter<boolean>();
 
     @ViewChild(('pt'))
     pt: DataTable;
@@ -62,6 +63,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     styleObligatoire : string = "obligatoire";
     styleReadOnly    : string = "readonly";
 
+    refresh : boolean;
     // Sorting
     //sortOptions: SelectItem[]; //sortField: string; sortOrder: number;
     //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'nom'}, {label: 'Brand', value: 'brand'}        ];
@@ -78,6 +80,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }*/
 
     constructor(
+
         private prestationService: PrestationService,
 
         private contratService: ContratService,
@@ -93,7 +96,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         private communATGService : CommunATGService,
         private confirmationService : ConfirmationService
     ) {
-        communATGService.updateCompleted$.subscribe(x => this.onUpdateMissionCompleted(x));
+        communATGService.updatePrestationCompleted$.subscribe(x => this.onUpdatePrestationCompleted(x));
     }
 
 
@@ -171,7 +174,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             "Save"   : {label:"Enregistrer", disabled:true,  fnc : ()=>{this.save();} },
             "End"    : {label:"Terminer",    disabled:true,  fnc : ()=>{this.end();} },
             "Delete" : {label:"Supprimer",   disabled:false, fnc : ()=>{this.suppPrestation();} },
-            "Cancel" : {label:"Annuler",     disabled:true,  fnc : ()=>{this.cancel();} },
+            "Cancel" : {label:"Annuler",     disabled:true,  fnc : ()=>{this.cancelEditPresta();} },
             "Reopen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.save();} }
         };
 
@@ -372,13 +375,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
         else this.alertService.error(errmsg);
     }
 
+    end() { }
+
     cancelEditPresta() {
         if (this.selectedPrestation.id == 0)
             this.new();
         else
             this.selectPrestation(null, this.selectedPrestationOriginalValue);
     }
-
 
     add(itemfordb) {
         this.communServ.setTimeStamp(itemfordb);
@@ -404,35 +408,52 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }, error => { this.alertService.error(error); });
     }
 
-    // !! Also called from collab :
-    update(entity : string, action : string, item : Prestation, dbService : PrestationService, listToBeUpdated) {
+    // !! Also called from collab (refresh=false) :
+    update( action : string, refresh : boolean=true) {
 
-        if (item==undefined || item==null) return;
-
-        // Old value
-        var dbold = new Prestation(item); this.communServ.setObjectValues(dbold, null, { statutPrestation: "A",
+        this.refresh=refresh;
+        // Old value : Archive old value
+        var dbold = new Prestation(this.selectedPrestationOriginalValue);
+        this.communServ.setObjectValues(dbold, null, { statutPrestation: "A",
             dateDebutPrestation : this.communServ.dateStr(dbold.dateDebutPrestation), dateFinPrestation : this.communServ.dateStr(dbold.dateFinPrestation )
         } );
-        // New value
-        var dbnew = new Prestation(item); this.communServ.setObjectValues(dbnew, null, { statutPrestation : action,  // "T"
+        // New value : statut = action, version++
+        var dbnew = new Prestation(this.selectedPrestation); this.communServ.setObjectValues(dbnew, null, { statutPrestation : action,  // "T"
             versionPrestation : Number(dbnew.versionPrestation) + 1,
             dateDebutPrestation : this.communServ.dateStr(dbnew.dateDebutPrestation), dateFinPrestation : this.communServ.dateStr(dbnew.dateFinPrestation )
         });
 
-        var dbupd  = dbold; var upd = item;
-        var dbadd  = dbnew; var add = new Prestation(item); // Item not changed with add value
-        this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, false, listToBeUpdated, null );
+        var dbupd = dbold; var upd = this.selectedPrestationOriginalValue;
+        var dbadd = dbnew; var add = this.selectedPrestation;
+        this.communServ.updateWithBackup("Prestation", upd, dbupd, add, dbadd, this.prestationService, false );
+    }
+
+
+    onUpdatePrestationCompleted(param) {
+
+        // If update from collab form only update info presta of collab no refresh
+        if (!this.refresh)
+            this.updatePrestationCompleted.emit();
+        else {
+            // Update list with new and archived values
+            let list = this["prestations"];
+            list = this.communServ.updatelist(list, "change",   this.selectedPrestationOriginalValue, new Prestation(this.selectedPrestationOriginalValue), this.coldefs, "statutPrestation", ["dateDebutPrestation", "dateFinPrestation"], this.orderDateDebutEtVersion, this.allstatus);
+            list = this.communServ.updatelist(list, "add",      this.selectedPrestation, new Prestation(this.selectedPrestation), this.coldefs, "statutPrestation", ["dateDebutPrestation", "dateFinPrestation"], this.orderDateDebutEtVersion, this.allstatus);
+
+            // New value becomes last value
+            this.selectedPrestationOriginalValue = new Prestation(this.selectedPrestation);
+
+            // Refresh screen
+            this.afficherLaSaisie("Visu");
+        }
 
     }
 
-    delete() {
+    /*delete() {
         this.selectedPrestation.statutPrestation = (this.selectedPrestation.statutPrestation == "S") ? "E" : "S";
         this.prestationService.delete(this.selectedPrestation.id).pipe(first()).subscribe(data => {          },
                 error => { this.alertService.error(error);  });
-    }
-
-    end() { }
-    cancel() { }
+    }*/
 
     suppPrestation(item=null) {
 
@@ -445,10 +466,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
                // this.update("S");
             }
         });
-    }
-
-    onUpdateMissionCompleted(param) {
-       // this.lastMission = null;
     }
 
 

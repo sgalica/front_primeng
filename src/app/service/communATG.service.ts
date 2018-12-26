@@ -9,10 +9,14 @@ import {SelectItem} from "primeng/api";
 @Injectable()
 export class CommunATGService {
 
-    public updateCompleted$ : EventEmitter<boolean> ;
+    public updateCollabCompleted$       : EventEmitter<boolean> ;
+    public updateMissionCompleted$      : EventEmitter<boolean> ;
+    public updatePrestationCompleted$   : EventEmitter<boolean> ;
 
     constructor( private datePipe : DatePipe, private alertService : AlertService ){
-        this.updateCompleted$ = new EventEmitter();
+        this.updateCollabCompleted$     = new EventEmitter();
+        this.updateMissionCompleted$    = new EventEmitter();
+        this.updatePrestationCompleted$ = new EventEmitter();
     }
 
 
@@ -21,13 +25,13 @@ export class CommunATGService {
     // Intl
     fr = {
         firstDayOfWeek: 1,
-        dayNames: [ "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi" ],
-        dayNamesShort: [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ],
-        dayNamesMin: [ "di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ],
-        monthNames: [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
-        monthNamesShort: [ "Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jui", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
-        today: 'Aujourd\'hui',
-        clear: 'Effacer'
+        dayNames:       [ "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi" ],
+        dayNamesShort:  [ "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam" ],
+        dayNamesMin:    [ "di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ],
+        monthNames:     [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ],
+        monthNamesShort:[ "Jan", "Fév", "Mar", "Avr", "Mai", "Jui", "Jui", "Aoû", "Sep", "Oct", "Nov", "Déc" ],
+        today:          'Aujourd\'hui',
+        clear:          'Effacer'
     };
 
     datefmtCalendarInput = "dd/mm/yy";
@@ -310,7 +314,8 @@ export class CommunATGService {
         if (list != undefined) list.sort(sortFunc);
 
         // Clear
-        this.clearTableCols(colDefs, ["values", "selected", "keys"]);
+        if (colDefs)
+            this.clearTableCols(colDefs, ["values", "selected", "keys"]);
 
         // (Trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version)
         var labels: {} = {};  // Labels collabs
@@ -326,7 +331,7 @@ export class CommunATGService {
 
                 // >>>> Get keys <<<<<
                 this.setKeys(colDefs, row );
-                var collabDef = (pCollabDef ==null ) ? row : row[pCollabDef];
+                var collabDef = (pCollabDef == null ) ? row : row[pCollabDef];
                 this.setLabel(labels, collabDef, "trigramme",["nom", "prenom"]);
 
             });
@@ -362,7 +367,8 @@ export class CommunATGService {
         if (action == "add") {
 
             list.push(rowval);
-            this.updateFilters(list, sortFunc, colDefs, colStatut, allstatus);
+            if (colDefs)
+                this.updateFilters(list, sortFunc, colDefs, colStatut, allstatus);
         }
         else if (action == "change") {
             var index=0;
@@ -441,7 +447,12 @@ export class CommunATGService {
 
 
     // ****** DB ******
-    updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear, listToBeUpdated, callback, callingclass=null ) {
+
+    // Update with old value BackedUp
+    // The variables and lists are actualised after successfull save,
+    // and an event is triggered when treatment finished
+    // if clear=true then the new (added) value is cleared (null)
+    updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear ) {
 
         // UPDATE
         dbService.update(dbupd).pipe(first()).subscribe(data => {
@@ -451,14 +462,18 @@ export class CommunATGService {
             // ADD
             dbadd.id = 0;
             dbService.create(dbadd).pipe(first()).subscribe(data => {
+
                 // Update var on success
                 this.updateVersion(entity, add, data);
 
-                if (listToBeUpdated) listToBeUpdated.push(add);
-
+                //if (listToBeUpdated) listToBeUpdated.push(add);
+                // Clear
                 if (clear) add = null;
 
-                if (callback) this.updateCompleted$.emit(true); //callbackfunc.call(callingclass);
+                // Callback trigger
+                if (entity == "Mission") this.updateMissionCompleted$.emit(true); //callbackfunc.call(callingclass);
+                else if (entity == "Collab") this.updateCollabCompleted$.emit(true);
+                else if (entity == "Prestation") this.updatePrestationCompleted$.emit(true);
 
             }, error => {
                 this.alertService.error("updateWithBackup("+entity+") - create : "+error); });
