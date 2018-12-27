@@ -130,7 +130,7 @@ export class CollaborateursComponent implements OnInit {
 
         this.allStatusComboOptions = this.communServ.filterSelectItems(this.allstatus, this.allstatus );
 
-        this.FieldsFichesVisu=[
+        this.FieldsFichesVisu = [
             {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [
                 {name:"trigramme",        type:"field", obligatoire:"", readonly:true},                       {name:"nom",         type:"field", obligatoire:"", readonly:false}, {name:"prenom",      type:"field",    obligatoire:"", readonly:false},
                 {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},   {name:"stt",         type:"combo", obligatoire:"", readonly:false}]},
@@ -145,7 +145,7 @@ export class CollaborateursComponent implements OnInit {
                 {name:"mailSg",           type:"field", obligatoire:"", readonly:false}]}
         ];
 
-        this.FieldsFichesCreation=[
+        this.FieldsFichesCreation = [
             {grp: "Collab",     grplabel : "Informations collaborateur",    fields : [
                 {name:"trigramme",        type:"field", obligatoire:"", readonly:false},                      {name:"nom",         type:"field", obligatoire:"", readonly:false}, {name:"prenom",      type:"field",    obligatoire:"", readonly:false},
                 {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},               {name:"stt",             type:"combo", obligatoire:"", readonly:false}]},
@@ -226,10 +226,10 @@ export class CollaborateursComponent implements OnInit {
     manageFieldsFiche(action, state) {
 
         // Copie template definition
-        var fieldsFiches : any[] = (action=="Visu") ? this.FieldsFichesVisu : this.FieldsFichesCreation;
+        var fieldsFiches : any[] = (action == "Visu") ? this.FieldsFichesVisu : this.FieldsFichesCreation;
 
         // Make fields readonly if state "Terminée"
-        if (state=="T")
+        if (state == "T")
             fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "fields","readonly", true);
 
         return fieldsFiches ;
@@ -300,11 +300,8 @@ export class CollaborateursComponent implements OnInit {
         // Create empty item
         this.selectedCollaborateur = new Collaborateur();
 
-        // Set default values
-        // S/T = Non par défaut
-        this.selectedCollaborateur.stt = "Non";
-        // Préembauche = Non par défaut
-        this.selectedCollaborateur.preEmbauche="Non";
+        // Set default values : S/T = Non, Préembauche = Non
+        this.communServ.setObjectValues(this.selectedCollaborateur, null,{stt:"Non", preEmbauche: "Non"});
 
         this.lastMission = new Mission();
 
@@ -327,9 +324,9 @@ export class CollaborateursComponent implements OnInit {
     save() {
 
         var item = this.selectedCollaborateur;
+
         // CHECK input
         var errmsg = this.checkInput(item);
-        var result = "";
         if (errmsg=="") {
             // ADD new value
             if (item.id == 0) {
@@ -375,20 +372,18 @@ export class CollaborateursComponent implements OnInit {
                 this.communServ.setTimeStamp(itemfordb);
                 this.collaborateurService.create(itemfordb).pipe(first()).subscribe(data => {
 
-                    let list = "collaborateurs";
-                    let entity = "Collab";
                     var item = this.selectedCollaborateur;
 
                     // Update collab (on successful creation)
-                    this.communServ.updateVersion(entity, item, data);
+                    this.communServ.updateVersion( "Collab", item, data);
 
                     // Update list
                     this.updateCollabList("add", item );
 
                     // Actual value becomes original value
-                    this.selectedEmployeeOriginalValue = this.selectedCollaborateur;
+                    this.selectedEmployeeOriginalValue = item;
 
-                    this.alertService.success("Enregistré");
+                    this.alertService.success("Collaborateur ajouté");
                     this.afficherLaSaisie("Visu");
                  }, error => { this.alertService.error(error); });
             }
@@ -401,11 +396,12 @@ export class CollaborateursComponent implements OnInit {
         // Old value : set Archived (change trigramme to trigramme_(version)
         var dbold = new Collaborateur (this.selectedEmployeeOriginalValue);
         this.communServ.setObjectValues(dbold, null, {trigramme : dbold["trigramme"] + "." + dbold.versionCollab, statutCollab: "A", dateEmbaucheOpen : this.communServ.dateStr( dbold.dateEmbaucheOpen),
-            missions : [], prestations : []}); // Don't save the missions neither prestations
+            missions : [], prestations : []}); // Don't save the missions neither prestations automatically
         // New value : statut : Action, version++
         var dbnew = new Collaborateur( this.selectedCollaborateur );
         this.communServ.setObjectValues(dbnew, null, {statutCollab : action, // S / E / T
-            versionCollab : Number(dbnew.versionCollab) + 1, dateEmbaucheOpen : this.communServ.dateStr( dbnew.dateEmbaucheOpen), missions : [], prestations : []});
+            versionCollab : Number(dbnew.versionCollab) + 1, dateEmbaucheOpen : this.communServ.dateStr( dbnew.dateEmbaucheOpen),
+            missions : [], prestations : []}); // ,,
 
         //var dbupd  = dbold; var upd  = this.selectedEmployeeOriginalValue;
         //var dbadd  = dbnew; var add  = this.selectedCollaborateur;

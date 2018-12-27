@@ -105,7 +105,7 @@ export class Prestation {
     identifiantPrestation: any = 0;
     identifiantMission: any = 0;
     contratAppli: any = 0;
-    trigramme: any = 0;
+    trigramme: any = "";
     departement: any = 0;
     pole: any = 0;
     domaine: any = 0;
@@ -118,10 +118,10 @@ export class Prestation {
     donneurOrdre: any = 0;
     commercialOpen: any = 0;
     topAtg: any = 0;
-    statutPrestation: any = 0;
+    statutPrestation: any = "";
     versionPrestation: any = 0;
 
-    collaborateur: Collaborateur;
+    collaborateur : Collaborateur;
     contrat : Contrat;
     commercialOpenInfo : CommercialOpen;
 

@@ -103,12 +103,14 @@
                 <div *ngIf="lastMission">
                     <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
 
-                        <span class="ui-inputgroup-addon" [ngStyle]="{'flex-grow':'0', 'flex-basis':'25%', 'text-align':'left', 'background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
+                        <span class="ui-inputgroup-addon" [ngStyle]="{'flex-basis':'25%', 'flex-grow':'0', 'text-align':'left', 'background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
 
                         <p-calendar *ngSwitchCase="'date'" [(ngModel)]="lastMission[field.name]" [showButtonBar]="true"
                                     dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
-                                    [disabled]="field.readonly" [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
+                                    [disabled]="field.readonly"
+                                    [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
                         </p-calendar>
+
                         <div *ngSwitchCase="'combo'" [ngStyle]="{'flex-grow':'3'}" [ngSwitch]="field.name">
                             <div *ngIf="showDerogation">
                             <p-dropdown *ngSwitchCase="'derogation'" [options]="field.options" [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly"
@@ -116,6 +118,7 @@
                             </div>
                             <p-dropdown *ngSwitchDefault [options]="field.options" [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly"></p-dropdown>
                         </div>
+
                         <input *ngSwitchDefault type="text" pInputText [(ngModel)]="lastMission[field.name]" [disabled]="field.readonly" [ngStyle]="{'flex-grow':'3', 'width':'auto'}">
                     </div>
                 </div>
@@ -231,7 +234,6 @@
     <app-prestations [collab]="selectedCollaborateur"
                      (closewindowPrestas)="onClosewindowPrestas($event)"
                      (updatePrestationCompleted)="onUpdatePrestationCompleted($event)">
-    >
     </app-prestations>
 </p-dialog>
 

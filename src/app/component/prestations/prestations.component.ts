@@ -11,12 +11,8 @@ import {ConfirmationService} from "primeng/api";
 
 //this.prestations=this.communServ.updatelist(this.prestations, action, item, new Prestation(item), this.coldefs, "statutPrestation", ["dateDebutPrestation","dateFinPrestation"], this.orderDateDebutEtVersion, this.allstatus);
 
-@Component({
-    selector: 'app-prestations',
-    templateUrl: './prestations.component.html',
-    styleUrls: [ './prestations.component.css' ],
-    providers : [ConfirmationService]
-})
+@Component({ selector: 'app-prestations', templateUrl: './prestations.component.html', styleUrls: [ './prestations.component.css' ],
+    providers : [ConfirmationService] })
 export class PrestationsComponent implements OnInit, OnChanges {
 
     title : string = "Prestation";
@@ -35,7 +31,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     prestations : Prestation[] = [];
     cols        : any[];
     selectedColumns : any[];
-    coldefs     : {}; //{ header: string, field: string, filtertype: string, filtercond: string, selected:[]/"" showInList: boolean }[];
+    colDefs     : {}; //{ header: string, field: string, filtertype: string, filtercond: string, selected:[]/"" showInList: boolean }[];
 
     // Collaborateur
     id: string;
@@ -54,10 +50,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     showHistSelect: boolean = false;
 
-    buttonsList : String[] = ["Save", "End", "Delete", "Cancel", "Reopen"];
+    buttonsList : String[] = ["Save", "End", "Delete", "Cancel", "ReOpen"];
     buttons : Object; // {label:String, disabled:Boolean}[] = []
 
-    FieldsFiches : any[];
+    fieldsFiches : any[];
+    fieldsFichesDefault : any[];
 
     communServ : CommunATGService;
     styleObligatoire : string = "obligatoire";
@@ -108,16 +105,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if (this.route.snapshot.url[ 0 ].path != ("prestations"))
             this.modeCollab = true;
         this.prestations = [];
-        this.selectedPrestation.collaborateur = new Collaborateur();
-        this.selectedPrestation.contrat = new Contrat();
-        this.selectedPrestation.commercialOpenInfo = new CommercialOpen();
+        this.communServ.setObjectValues(this.selectedPrestation, null,{
+            collaborateur: new Collaborateur(), contrat: new Contrat(), commercialOpenInfo: new CommercialOpen()});
 
         // Columns
         // Cols depending on ID
         //this.col_list = ["trigramme", "dateDebutPrestation", "dateFinPrestation", "contratAppli", "numAtg", "departement", "pole", "domaine", "localisation", "numeroPu", "responsablePole", "donneurOrdre", "topAtg", "statutPrestation", "commercialOpen", "versionPrestation",
         //    "nom", "prenom", "dateDebutContrat", "dateFinContrat", "adresseMail", "telephonePortable", "telephoneFixe"];
 
-        this.coldefs = {
+        this.colDefs = {
             trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: ["testclear","testclearbis" ], values:[], keys:{}, keycol:true},
             dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:{}, keycol:false},
             dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:{}, keycol:false},
@@ -153,20 +149,21 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         this.selectColumns();
 
-        this.FieldsFiches=[
+        this.fieldsFiches = [
             {grp: "collaborateur",  grplabel : "Prestataire",
-                fields :   [{name:"trigramme",      type:"field", obligatoire:"", readonly:true},                 {name:"nom",                 type:"field", obligatoire:"", readonly:true},                  {name:"prenom",             type:"field", obligatoire:"", readonly:true}]},
+                fields :   [{name:"trigramme",      type:"field", obligatoire:"", readonly:true},                  {name:"nom",                 type:"field", obligatoire:"", readonly:true},                   {name:"prenom",             type:"field", obligatoire:"", readonly:true}]},
             {grp: "contrat",        grplabel : "Contrat",
-                fields :   [{name:"contratAppli",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"dateDebutContrat",    type:"date", obligatoire:"", readonly:false},                   {name:"dateFinContrat",     type:"date", obligatoire:"", readonly:false}]},
+                fields :   [{name:"contratAppli",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"dateDebutContrat",    type:"date",  obligatoire:"", readonly:false},                  {name:"dateFinContrat",     type:"date",  obligatoire:"", readonly:false}]},
             {grp: "Prestation",     grplabel : "Prestation",
                 fields :   [{name:"localisation",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"numAtg",              type:"combo", obligatoire:"", readonly:false, editable:false},
                             {name:"departement",    type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"pole",                type:"combo", obligatoire:"", readonly:false, editable:false},  {name:"domaine",            type:"combo", obligatoire:"", readonly:false, editable:false},
-                            {name:"numeroPu",       type:"field", obligatoire:"", readonly:false},                 {name:"dateDebutPrestation", type:"date", obligatoire:"", readonly:false},                   {name:"dateFinPrestation",  type:"date", obligatoire:"", readonly:false},
+                            {name:"numeroPu",       type:"field", obligatoire:"", readonly:false},                 {name:"dateDebutPrestation", type:"date",  obligatoire:"", readonly:false},                  {name:"dateFinPrestation",  type:"date",  obligatoire:"", readonly:false},
                             {name:"responsablePole",type:"combo", obligatoire:"", readonly:false, editable:true},
                             {name:"donneurOrdre",   type:"combo", obligatoire:"", readonly:false, editable:false}]},
             {grp: "commercialOpenInfo", grplabel : "Commercial OPEN",
                 fields :   [{name:"commercialOpen", type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"adresseMail",         type:"field", obligatoire:"", readonly:false},                  {name:"telephonePortable",  type:"field", obligatoire:"", readonly:false},      {name:"telephoneFixe", type:"field", obligatoire:"", readonly:false} ] }
         ];
+        this.fieldsFichesDefault = this.fieldsFiches;
 
         this.displayDialogPresta = false;
 
@@ -175,7 +172,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             "End"    : {label:"Terminer",    disabled:true,  fnc : ()=>{this.end();} },
             "Delete" : {label:"Supprimer",   disabled:false, fnc : ()=>{this.suppPrestation();} },
             "Cancel" : {label:"Annuler",     disabled:true,  fnc : ()=>{this.cancelEditPresta();} },
-            "Reopen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.save();} }
+            "ReOpen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.save();} }
         };
 
         if (!this.modeCollab)
@@ -189,14 +186,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if (pCollab != null)
             this.collab = pCollab;
 
-        this.id = this.collab.trigramme;
-        this.employee_name = this.collab.prenom + " " + this.collab.nom;
+        this.id             = this.collab.trigramme;
+        this.employee_name  = this.collab.prenom + " " + this.collab.nom;
         this.selectPrestations(this.collab.prestations);
     }
 
     selectColumns() {
 
-        this.selectedColumns = this.communServ.filterTableSelectItems(this.coldefs, 'showInList', 'header');
+        this.selectedColumns = this.communServ.filterTableSelectItems(this.colDefs, 'showInList', 'header');
 
         // Cols depend on all or collab prestations
         // Remove trigramme if mode collab
@@ -221,7 +218,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.filterVersions();
             // RespsPole : If all prestations loaded, we can take values from filters
             var ref = "responsablePole";
-            Array.prototype.push.apply(this.references[ref], this.coldefs[ref].values);
+            Array.prototype.push.apply(this.references[ref], this.colDefs[ref].values);
             //this.alertService.success(prestations);
         },error => { this.alertService.error(error); });
     }
@@ -229,7 +226,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     selectPrestations(p_prestations: Prestation[]) {
 
         this.prestations = p_prestations;
-        this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.coldefs, "statutPrestation", this.allstatus, ["dateDebutPrestation", "dateFinPrestation"], "collaborateur" );
+        this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, ["dateDebutPrestation", "dateFinPrestation"], "collaborateur" );
         this.showHistSelect = false;
     }
 
@@ -254,7 +251,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var statushist: string[];
 
         // Multiselect
-        var status: string[] = this.coldefs["statutPrestation"].selected; // this.selectedPrestas.status;
+        var status: string[] = this.colDefs["statutPrestation"].selected; // this.selectedPrestas.status;
 
         /*// Combo : si pas de sélection : afficher tout
         status=[this.selectedPrestas.statut];
@@ -271,8 +268,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     pt_filter(event, pt, field: string) {
-        var condition = {cond:this.coldefs[ field ].filtercond, value:this.coldefs[field].selected};
-        if (this.coldefs[field].filtertype == "date")
+        var condition = {cond:this.colDefs[ field ].filtercond, value:this.colDefs[field].selected};
+        if (this.colDefs[field].filtertype == "date")
             condition = this.communServ.convertDateGteLteToGtLt(condition);
 
         this.pt.filter(condition.value, field, condition.cond);
@@ -280,12 +277,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     manageFieldsFiche(action, state) {
 
-        var fieldsFiches : any[] = this.FieldsFiches;
-        // To do : evt  adapte if not same for fields with creation
-        //var fieldsFiches : any[] = (action=="Visu") ? this.FieldsFichesVisu : this.FieldsFichesCreation;
-        // Make fields readonly if state "Terminée"
+        // Copie template definition
+        var fieldsFiches : any[] = this.fieldsFichesDefault;
 
-        if (state=="T")
+        // To do : evt  adapte if not same for fields with creation
+        // var fieldsFiches : any[] = (action=="Visu") ? this.fieldsFichesVisu : this.fieldsFichesCreation;
+
+        // Make all fields readonly if state "Terminée"
+        if (state == "T")
             fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "fields", "readonly", true);
 
         return fieldsFiches;
@@ -322,7 +321,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         var statut = this.getStatut(this.selectedPrestation.statutPrestation);
 
-        this.FieldsFiches = this.manageFieldsFiche(action, this.selectedPrestation.statutPrestation );
+        this.fieldsFiches = this.manageFieldsFiche(action, this.selectedPrestation.statutPrestation );
 
         // Buttons
         this.communServ.setObjectValues(this.buttons, "disabled",{
@@ -336,6 +335,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.selectedPrestation = new Prestation();
 
         // Set default values
+        this.communServ.setObjectValues(this.selectedPrestation, null,{
+            trigramme       : this.collab.trigramme,
+            collaborateur   : this.collab,
+            contrat         : new Contrat(),
+            commercialOpenInfo: new CommercialOpen()});
 
         // Show form
         this.displayDialogPresta = true;
@@ -349,10 +353,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     save() { // On save do add or update
+
         var item = this.selectedPrestation;
+
         // CHECK input
         var errmsg = this.checkInput(item);
-        var result = "";
         if (errmsg=="") {
             // ADD new value
             if (item.id == 0) {
@@ -367,8 +372,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
             }
             // UPDATE
             else {
-                // TO DO !!!!
-                //this.update("E");
+                this.update("E");
+
                 // Evt. Update related edited tables
             }
         }
@@ -389,22 +394,19 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.communServ.setTimeStamp(itemfordb);
         this.prestationService.create(itemfordb).pipe(first()).subscribe(data => {
 
-            let list = "prestations";
             let entity = "Prestation";
             var item = this.selectedPrestation;
+
             // Update item on success
             this.communServ.updateVersion(entity, item, data);
 
-            var newItem = new Prestation(item);
-
             // Update list
-            this[list] = this.communServ.updatelist( this[list],"add", item,
-                newItem, this.coldefs, "statut"+entity,["dateEmbaucheOpen"], this.orderDateDebutEtVersion, this.allstatus );
+            this.updatelist("add", item);
 
             // Actual value becomes original value
-            this.selectedPrestationOriginalValue = newItem;
+            this.selectedPrestationOriginalValue = item;
 
-            this.alertService.success(entity+" enregistrée");
+            this.alertService.success(entity+" ajoutée");
             this.afficherLaSaisie("Visu");
 
         }, error => { this.alertService.error(error); });
@@ -420,19 +422,20 @@ export class PrestationsComponent implements OnInit, OnChanges {
     updatePrestation(entity, action, currentValue, lastValue, callback=null ) {
 
         var dbService = this.prestationService;
-        var dateFields = ["dateDebutPrestation","dateFinPrestation"];
+        var dateFields = ["dateDebutPrestation", "dateFinPrestation"];
         this.callback = callback;
         // Old value : Archive old value
         var dbold = new Prestation(lastValue);
-        this.communServ.setObjectValues(dbold, null, { statutPrestation: "A" } );
+        this.communServ.setObjectValues(dbold, null, { statutPrestation: "A",
+            collaborateur : null, contrat : null, commercialOpenInfo : null } ); // Don't save collaborateur, contrat et commercial automatically
         this.communServ.datePropsToStr(dbold, dateFields);
 
         // New value : statut = action (T", ...), version++
         var dbnew = new Prestation(currentValue);
         this.communServ.setObjectValues(dbnew, null,{
             statutPrestation    : action,
-            versionPrestation   : Number(dbnew["versionPrestation"]) + 1 }
-        );
+            versionPrestation   : Number(dbnew["versionPrestation"]) + 1,
+            collaborateur : null, contrat : null, commercialOpenInfo : null } ); // ,,
         this.communServ.datePropsToStr(dbnew, dateFields);
 
         var dbupd = dbold; var upd = lastValue;
@@ -466,7 +469,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     updatelist(action, value) {
         let list = "prestations";
         var dateFields = ["dateDebutPrestation", "dateFinPrestation"];
-        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.coldefs, "statutPrestation", dateFields, this.orderDateDebutEtVersion, this.allstatus);
+        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", dateFields, this.orderDateDebutEtVersion, this.allstatus);
     }
 
     /*delete() {
