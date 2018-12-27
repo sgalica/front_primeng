@@ -63,7 +63,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     styleObligatoire : string = "obligatoire";
     styleReadOnly    : string = "readonly";
 
-    refresh : boolean;
+    callback : EventEmitter<boolean>;
     // Sorting
     //sortOptions: SelectItem[]; //sortField: string; sortOrder: number;
     //this.sortOptions = [ {label: 'Newest First', value: '!nom'}, {label: 'Oldest First', value: 'nom'}, {label: 'Brand', value: 'brand'}        ];
@@ -385,6 +385,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     add(itemfordb) {
+
         this.communServ.setTimeStamp(itemfordb);
         this.prestationService.create(itemfordb).pipe(first()).subscribe(data => {
 
@@ -403,42 +404,55 @@ export class PrestationsComponent implements OnInit, OnChanges {
             // Actual value becomes original value
             this.selectedPrestationOriginalValue = newItem;
 
-            this.alertService.success("Enregistré");
+            this.alertService.success(entity+" enregistrée");
             this.afficherLaSaisie("Visu");
+
         }, error => { this.alertService.error(error); });
     }
 
     // !! Also called from collab (refresh=false) :
     update( action : string, refresh : boolean=true) {
 
-        this.refresh=refresh;
-        // Old value : Archive old value
-        var dbold = new Prestation(this.selectedPrestationOriginalValue);
-        this.communServ.setObjectValues(dbold, null, { statutPrestation: "A",
-            dateDebutPrestation : this.communServ.dateStr(dbold.dateDebutPrestation), dateFinPrestation : this.communServ.dateStr(dbold.dateFinPrestation )
-        } );
-        // New value : statut = action, version++
-        var dbnew = new Prestation(this.selectedPrestation); this.communServ.setObjectValues(dbnew, null, { statutPrestation : action,  // "T"
-            versionPrestation : Number(dbnew.versionPrestation) + 1,
-            dateDebutPrestation : this.communServ.dateStr(dbnew.dateDebutPrestation), dateFinPrestation : this.communServ.dateStr(dbnew.dateFinPrestation )
-        });
+        this.updatePrestation("Prestation", action, this.selectedPrestation, this.selectedPrestationOriginalValue);
 
-        var dbupd = dbold; var upd = this.selectedPrestationOriginalValue;
-        var dbadd = dbnew; var add = this.selectedPrestation;
-        this.communServ.updateWithBackup("Prestation", upd, dbupd, add, dbadd, this.prestationService, false );
+    }
+
+    updatePrestation(entity, action, currentValue, lastValue, callback=null ) {
+
+        var dbService = this.prestationService;
+        var dateFields = ["dateDebutPrestation","dateFinPrestation"];
+        this.callback = callback;
+        // Old value : Archive old value
+        var dbold = new Prestation(lastValue);
+        this.communServ.setObjectValues(dbold, null, { statutPrestation: "A" } );
+        this.communServ.datePropsToStr(dbold, dateFields);
+
+        // New value : statut = action (T", ...), version++
+        var dbnew = new Prestation(currentValue);
+        this.communServ.setObjectValues(dbnew, null,{
+            statutPrestation    : action,
+            versionPrestation   : Number(dbnew["versionPrestation"]) + 1 }
+        );
+        this.communServ.datePropsToStr(dbnew, dateFields);
+
+        var dbupd = dbold; var upd = lastValue;
+        var dbadd = dbnew; var add = currentValue;
+        this.communServ.updateWithBackup("Prestation", upd, dbupd, add, dbadd, dbService, false );
     }
 
 
     onUpdatePrestationCompleted(param) {
 
+        console.log("Prestations - onUpdatePrestationCompleted triggered");
+
         // If update from collab form only update info presta of collab no refresh
-        if (!this.refresh)
-            this.updatePrestationCompleted.emit();
+        // Only signal finished don't do default behavior
+        if (this.callback)
+            this.callback.emit();
         else {
             // Update list with new and archived values
-            let list = this["prestations"];
-            list = this.communServ.updatelist(list, "change",   this.selectedPrestationOriginalValue, new Prestation(this.selectedPrestationOriginalValue), this.coldefs, "statutPrestation", ["dateDebutPrestation", "dateFinPrestation"], this.orderDateDebutEtVersion, this.allstatus);
-            list = this.communServ.updatelist(list, "add",      this.selectedPrestation, new Prestation(this.selectedPrestation), this.coldefs, "statutPrestation", ["dateDebutPrestation", "dateFinPrestation"], this.orderDateDebutEtVersion, this.allstatus);
+            this.updatelist("change",   this.selectedPrestationOriginalValue );
+            this.updatelist("add",      this.selectedPrestation );
 
             // New value becomes last value
             this.selectedPrestationOriginalValue = new Prestation(this.selectedPrestation);
@@ -447,6 +461,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.afficherLaSaisie("Visu");
         }
 
+    }
+
+    updatelist(action, value) {
+        let list = "prestations";
+        var dateFields = ["dateDebutPrestation", "dateFinPrestation"];
+        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.coldefs, "statutPrestation", dateFields, this.orderDateDebutEtVersion, this.allstatus);
     }
 
     /*delete() {
@@ -461,9 +481,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
             message: "Confirmez-vous la suppression ?",
             accept: () => {
 
-                if (item) this.selectPrestation(null, item);
-                // ToDo
-               // this.update("S");
+               if (item) this.selectPrestation(null, item);
+               this.update("S");
             }
         });
     }
