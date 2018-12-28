@@ -55,6 +55,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     fieldsFiches : any[];
     fieldsFichesDefault : any[];
+    dateFields : string[] = ["dateDebutPrestation", "dateFinPrestation"];
 
     communServ : CommunATGService;
     styleObligatoire : string = "obligatoire";
@@ -148,20 +149,19 @@ export class PrestationsComponent implements OnInit, OnChanges {
         };
 
         this.selectColumns();
-
         this.fieldsFiches = [
             {grp: "collaborateur",  grplabel : "Prestataire",
                 fields :   [{name:"trigramme",      type:"field", obligatoire:"", readonly:true},                  {name:"nom",                 type:"field", obligatoire:"", readonly:true},                   {name:"prenom",             type:"field", obligatoire:"", readonly:true}]},
             {grp: "contrat",        grplabel : "Contrat",
-                fields :   [{name:"contratAppli",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"dateDebutContrat",    type:"date",  obligatoire:"", readonly:false},                  {name:"dateFinContrat",     type:"date",  obligatoire:"", readonly:false}]},
+                fields :   [{name:"contratAppli",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"dateDebutContrat",    type:"date",  obligatoire:"", readonly:true},                   {name:"dateFinContrat",     type:"date",  obligatoire:"", readonly:true}]},
             {grp: "Prestation",     grplabel : "Prestation",
-                fields :   [{name:"localisation",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"numAtg",              type:"combo", obligatoire:"", readonly:false, editable:false},
-                            {name:"departement",    type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"pole",                type:"combo", obligatoire:"", readonly:false, editable:false},  {name:"domaine",            type:"combo", obligatoire:"", readonly:false, editable:false},
-                            {name:"numeroPu",       type:"field", obligatoire:"", readonly:false},                 {name:"dateDebutPrestation", type:"date",  obligatoire:"", readonly:false},                  {name:"dateFinPrestation",  type:"date",  obligatoire:"", readonly:false},
+                fields :   [{name:"localisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false}, {name:"numAtg",              type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},
+                            {name:"departement",    type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false}, {name:"pole",                type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},  {name:"domaine",            type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},
+                            {name:"numeroPu",       type:"field", obligatoire:this.styleObligatoire, readonly:false},                 {name:"dateDebutPrestation", type:"date",  obligatoire:this.styleObligatoire, readonly:false},                  {name:"dateFinPrestation",  type:"date",  obligatoire:"", readonly:false},
                             {name:"responsablePole",type:"combo", obligatoire:"", readonly:false, editable:true},
                             {name:"donneurOrdre",   type:"combo", obligatoire:"", readonly:false, editable:false}]},
             {grp: "commercialOpenInfo", grplabel : "Commercial OPEN",
-                fields :   [{name:"commercialOpen", type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"adresseMail",         type:"field", obligatoire:"", readonly:false},                  {name:"telephonePortable",  type:"field", obligatoire:"", readonly:false},      {name:"telephoneFixe", type:"field", obligatoire:"", readonly:false} ] }
+                fields :   [{name:"commercialOpen", type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"adresseMail",         type:"field", obligatoire:"", readonly:true},                   {name:"telephonePortable",  type:"field", obligatoire:"", readonly:true},      {name:"telephoneFixe", type:"field", obligatoire:"", readonly:true} ] }
         ];
         this.fieldsFichesDefault = this.fieldsFiches;
 
@@ -226,7 +226,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     selectPrestations(p_prestations: Prestation[]) {
 
         this.prestations = p_prestations;
-        this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, ["dateDebutPrestation", "dateFinPrestation"], "collaborateur" );
+        this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur" );
         this.showHistSelect = false;
     }
 
@@ -346,9 +346,27 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.afficherLaSaisie("New");
     }
 
-    checkInput(item) {
-        var errmsg="";
-        // Do check here
+    checkInput(item : Prestation) {
+
+        let errmsg = "";
+        let fieldsGrp = this.communServ.getArrayItemProp(this.fieldsFiches, "grp", "Prestation", "fields");
+        fieldsGrp.forEach( fld => {
+            if (fld.obligatoire != "") {
+                if (errmsg != "") errmsg += ", ";
+                errmsg += fld.name;
+            }
+        } );
+        if (errmsg != "") errmsg += " est/sont obligatoire(s)!";
+
+        // RGs date début prestation :
+        // La date de début de prestation doit être supérieure ou égale à la date de début du contrat et strictement inférieure à la date de fin de contrat.
+        if (item.contratAppli!="") {
+
+        }
+        // Elle doit être strictement inférieure à la date de fin de prestation si renseignée.
+        // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur), elle doit être strictement inférieure à la date à 3 ans.
+        // S'il n'existe pas de mission en cours, s'il existe une mission terminée, la date de début de prestation doit être supérieure à la date de fin de la dernière mission + 1 an.
+
         return errmsg;
     }
 
@@ -358,16 +376,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // CHECK input
         var errmsg = this.checkInput(item);
-        if (errmsg=="") {
+        if (errmsg == "") {
             // ADD new value
             if (item.id == 0) {
-                var newItem = new Prestation(item);
+                let newItem = new Prestation(item);
+                let version = this.getLastVersion()+1;
                 this.communServ.setObjectValues(newItem, null, {
                     // Set State to "En cours" Version "1"
-                    statutPrestation : "E", versioPrestation : 1,
-                    dateDebutPrestation : this.communServ.dateStr(item.dateDebutPrestation),
-                    dateFinPrestation : this.communServ.dateStr(item.dateFinPrestation)
-                });
+                    statutPrestation : "E", versionPrestation : version });
+                this.communServ.datePropsToStr(item, this.dateFields );
                 this.add(newItem);
             }
             // UPDATE
@@ -378,6 +395,16 @@ export class PrestationsComponent implements OnInit, OnChanges {
             }
         }
         else this.alertService.error(errmsg);
+    }
+
+    getLastVersion() {
+        let lastVersion=0;
+        this.prestations.forEach(presta => {
+                if (presta.versionPrestation>lastVersion)
+                    lastVersion = presta.versionPrestation;
+            }
+        );
+        return lastVersion;
     }
 
     end() { }
@@ -406,8 +433,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
             // Actual value becomes original value
             this.selectedPrestationOriginalValue = item;
 
-            this.alertService.success(entity+" ajoutée");
             this.afficherLaSaisie("Visu");
+            this.alertService.success(entity + " ajoutée");
 
         }, error => { this.alertService.error(error); });
     }
@@ -422,27 +449,27 @@ export class PrestationsComponent implements OnInit, OnChanges {
     updatePrestation(entity, action, currentValue, lastValue, callback=null ) {
 
         var dbService = this.prestationService;
-        var dateFields = ["dateDebutPrestation", "dateFinPrestation"];
         this.callback = callback;
         // Old value : Archive old value
         var dbold = new Prestation(lastValue);
         this.communServ.setObjectValues(dbold, null, { statutPrestation: "A",
             collaborateur : null, contrat : null, commercialOpenInfo : null } ); // Don't save collaborateur, contrat et commercial automatically
-        this.communServ.datePropsToStr(dbold, dateFields);
+        this.communServ.datePropsToStr(dbold, this.dateFields);
 
         // New value : statut = action (T", ...), version++
         var dbnew = new Prestation(currentValue);
+        let version = this.getLastVersion()+1;
+
         this.communServ.setObjectValues(dbnew, null,{
             statutPrestation    : action,
-            versionPrestation   : Number(dbnew["versionPrestation"]) + 1,
+            versionPrestation   : version,
             collaborateur : null, contrat : null, commercialOpenInfo : null } ); // ,,
-        this.communServ.datePropsToStr(dbnew, dateFields);
+        this.communServ.datePropsToStr(dbnew, this.dateFields);
 
         var dbupd = dbold; var upd = lastValue;
         var dbadd = dbnew; var add = currentValue;
         this.communServ.updateWithBackup("Prestation", upd, dbupd, add, dbadd, dbService, false );
     }
-
 
     onUpdatePrestationCompleted(param) {
 
@@ -468,8 +495,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     updatelist(action, value) {
         let list = "prestations";
-        var dateFields = ["dateDebutPrestation", "dateFinPrestation"];
-        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", dateFields, this.orderDateDebutEtVersion, this.allstatus);
+        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", this.dateFields, this.orderDateDebutEtVersion, this.allstatus);
     }
 
     /*delete() {
@@ -492,6 +518,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
 
     loadReferences() {
+
         this.references = [];
         var referenceslist=[
             {flds :[{ref:"contratAppli",    key:"contratAppli", label:"contratAppli"} ],       service:this.contratService,     uniquefilter : false},
@@ -509,12 +536,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
             defref => {
                 // Clear references of field
                 defref.flds.forEach( fld => { this.references[fld.ref]=[]; });
-                // Load references of field
+                // Load references of field (except if already loaded (responsable pole in global list))
                 if (defref.flds[0].ref != "responsablePole" || this.modeCollab)
-                    this.communServ.loadTableKeyValues(defref.flds, defref.service, this.references, defref.uniquefilter );
+                    this.communServ.loadTableKeyValues(defref.flds, defref.service, this.references, defref.uniquefilter, true );
             }
         );
-
     }
 
     ngOnChanges(changes: SimpleChanges) {

@@ -208,6 +208,7 @@ export class CommunATGService {
     }
 
     getItemsCond(items, fld, value ) {
+
         var selectedItems : any[] = null;
         if (items) {
             selectedItems = [];
@@ -219,6 +220,12 @@ export class CommunATGService {
         return selectedItems;
     }
 
+    getArrayItemProp(array, fldCond, valueCond, prop) {
+        for ( let item of array) {
+            if (item[fldCond] == valueCond)
+                return (prop) ? item[prop] : item;
+        }
+    }
 
     // **** TABLE *****
 

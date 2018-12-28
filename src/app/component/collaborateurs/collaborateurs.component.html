@@ -33,10 +33,10 @@
 
         <!-- FILTRES -->
         <tr>
-            <th *ngFor="let col of columns" [ngSwitch]="coldefs[col.field].filtertype">
+            <th *ngFor="let col of columns" [ngSwitch]="colDefs[col.field].filtertype">
 
-                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="coldefs[col.field].values"
-                               [(ngModel)]="coldefs[col.field].selected"
+                <p-multiSelect *ngSwitchCase="'liste'" defaultLabel="Sélectionnez" [options]="colDefs[col.field].values"
+                               [(ngModel)]="colDefs[col.field].selected"
                                [style]="{'max-width':'100%', 'min-width':'auto'}"
                                [panelStyle]="{'min-width':'140px'}"
                                (onChange)="dt.filter($event.value, col.field, 'in')"
@@ -46,7 +46,7 @@
                 </p-multiSelect>
 
                 <div *ngSwitchCase="'date'" [ngStyle]="{'padding-right':'2em'}">
-                    <p-calendar [(ngModel)]="coldefs[col.field].selected" [showIcon]="true" [showButtonBar]="true"
+                    <p-calendar [(ngModel)]="colDefs[col.field].selected" [showIcon]="true" [showButtonBar]="true"
                                 dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" (onSelect)="co_filter(col.field);"
                                 (onClearClick)="co_filter(col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
@@ -103,7 +103,7 @@
                 <div *ngIf="lastMission">
                     <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
 
-                        <span class="ui-inputgroup-addon" [ngStyle]="{'flex-basis':'25%', 'flex-grow':'0', 'text-align':'left', 'background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
+                        <span class="ui-inputgroup-addon" [ngStyle]="{'flex-basis':'25%', 'flex-grow':'0', 'text-align':'left', 'background-color':'#f5fafb'}">{{colDefs[field.name].header}} :</span>
 
                         <p-calendar *ngSwitchCase="'date'" [(ngModel)]="lastMission[field.name]" [showButtonBar]="true"
                                     dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
@@ -131,7 +131,7 @@
             <div *ngSwitchDefault>
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.name" >
 
-                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{coldefs[field.name].header}} :</span>
+                    <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{colDefs[field.name].header}} :</span>
 
                     <div [class]="field.obligatoire">
 

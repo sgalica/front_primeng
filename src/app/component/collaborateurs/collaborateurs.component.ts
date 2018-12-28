@@ -30,7 +30,7 @@ export class CollaborateursComponent implements OnInit {
     collaborateurs  : Collaborateur[] = [];
     cols            : any[];
     selectedColumns : any[];
-    coldefs         : {}; // { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean, selected, values, keys }[];
+    colDefs         : {}; // { header: string, field: any, filtertype: string, filtercond: string, showInList:boolean, selected, values, keys }[];
     showHistSelect  : boolean = false;
     // sortOptions: SelectItem[]; sortKey: string; sortField: string; sortOrder: number;
 
@@ -97,7 +97,7 @@ export class CollaborateursComponent implements OnInit {
 
         const camelCase = require('camelcase');
 
-        this.coldefs = {
+        this.colDefs = {
             trigramme :      {header: 'Identifiant Pilot',   filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:true},
             nom :            {header: 'Nom',                 filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
             prenom :         {header: 'Prénom',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
@@ -176,12 +176,11 @@ export class CollaborateursComponent implements OnInit {
         this.loadCategorisations();
         // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
         // Prestations (dynamique) : this.loadPrestationComponent();
-
     }
 
     selectColumns() {
 
-        this.selectedColumns = this.communServ.filterTableSelectItems(this.coldefs, 'showInList', 'header');
+        this.selectedColumns = this.communServ.filterTableSelectItems(this.colDefs, 'showInList', 'header');
         this.cols = this.selectedColumns;
     }
 
@@ -189,7 +188,7 @@ export class CollaborateursComponent implements OnInit {
 
         this.collaborateurService.list().pipe(first()).subscribe(collaborateurs => {
             this.collaborateurs = collaborateurs;
-            this.communServ.updateFilters( this.collaborateurs, this.orderTrigrammeVersion, this.coldefs, "statutCollab", this.allstatus);
+            this.communServ.updateFilters( this.collaborateurs, this.orderTrigrammeVersion, this.colDefs, "statutCollab", this.allstatus);
             this.showHistSelect = false;
         },error => { this.alertService.error(error); } );
     }
@@ -217,10 +216,10 @@ export class CollaborateursComponent implements OnInit {
 
     // Filtrer liste collaborateurs
     co_filter(field: string) {
-        var value = this.coldefs[ field ].selected;
+        var value = this.colDefs[ field ].selected;
         //if (this.filtres[ field ].filtertype == "date")
         //    value = this.datePipe.transform(value, 'yyyy-MM-dd');
-        this.dt.filter(value, field, this.coldefs[ field ].filtercond);
+        this.dt.filter(value, field, this.colDefs[ field ].filtercond);
     }
 
     manageFieldsFiche(action, state) {
@@ -378,7 +377,7 @@ export class CollaborateursComponent implements OnInit {
                     this.communServ.updateVersion( "Collab", item, data);
 
                     // Update list
-                    this.updateCollabList("add", item );
+                    this["collaborateurs"] = this.updateCollabList("add", this["collaborateurs"], item );
 
                     // Actual value becomes original value
                     this.selectedEmployeeOriginalValue = item;
@@ -417,8 +416,9 @@ export class CollaborateursComponent implements OnInit {
         this.alertService.success("Enregistré");
 
         // Update list with new and archived values
-        this.updateCollabList("change",this.selectedCollaborateur     );
-        this.updateCollabList("add",   this.selectedEmployeeOriginalValue );
+        let list = this["collaborateurs"];
+        this["collaborateurs"] = this.updateCollabList("change", list, this.selectedCollaborateur );
+        this["collaborateurs"] = this.updateCollabList("add",    list, this.selectedEmployeeOriginalValue );
 
         // New value becomes last value
         this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
@@ -508,18 +508,17 @@ export class CollaborateursComponent implements OnInit {
 
         console.log("Collaborateurs - onUpdatePrestationCompleted triggered");
         // Update list with new and archived values
-        var dateFields = ["dateDebutPrestation", "dateFinPrestation"];
-        this.updatePrestasList("change","prestations", "selectedCollaborateur", this.lastPrestation,       new Prestation(this.lastPrestation),    dateFields, null );
-        this.updatePrestasList("add",   "prestations", "selectedCollaborateur", this.currentPrestation,    new Prestation(this.currentPrestation), dateFields, null );
+        let list = "prestations"; let prop = "selectedCollaborateur";
+        this[prop][list] = this.updatePrestasList("change", this[prop][list], this.lastPrestation       );
+        this[prop][list] = this.updatePrestasList("add",    this[prop][list], this.currentPrestation    );
    }
 
-    updatePrestasList(action, list, prop, value, rowval, dateFields, colDefs) {
-        this[prop][list] = this.communServ.updatelist( this[prop][list], action, value, rowval, colDefs,null, dateFields,null,null);
+    updatePrestasList(action, list, value) {
+        return this.communServ.updatelist( list, action, value, new Prestation(value),   null,null, ["dateDebutPrestation", "dateFinPrestation"],null,null);
     }
 
-    updateCollabList(action, value) {
-        let list="collaborateurs";
-        this[list] = this.communServ.updatelist( this[list], action, value, new Collaborateur(value), this.coldefs,"statutCollab", ["dateEmbaucheOpen"], this.orderTrigrammeVersion, this.allstatus);
+    updateCollabList(action, list, value) {
+        return this.communServ.updatelist( list, action, value, new Collaborateur(value), this.colDefs,"statutCollab", ["dateEmbaucheOpen"], this.orderTrigrammeVersion, this.allstatus);
     }
 
     suppCollab(item=null) {
