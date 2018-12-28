@@ -36,11 +36,21 @@ export class DonneurOrdreService extends ResourceService<DonneurOrdre> {
     }
 }@Injectable()
 export class CommercialOpenService extends ResourceService<CommercialOpen> {
+
+    httpClient : HttpClient;
+
     constructor(httpClient: HttpClient) {
         super(
             httpClient,
             'api',
             'commercialopens');
+        this.httpClient = httpClient;
+    }
+
+    findByName(name : string): Observable<CommercialOpen> {
+        return this.httpClient
+            .get(`api/commercialopens/name/${name}`)
+            .map((data: any) => data as CommercialOpen);
     }
 }
 
@@ -126,12 +136,20 @@ export class PrestationService extends ResourceService<Prestation> {
 }
 @Injectable()
 export class ContratService extends ResourceService<Contrat> {
+
+    httpClient : HttpClient;
+
     constructor(httpClient: HttpClient) {
-        super(
-            httpClient,
-            'api',
-            'contrats');
+        super(httpClient, 'api','contrats');
+        this.httpClient = httpClient;
     }
+
+    findByContrat(contrat : string): Observable<Contrat> {
+        return this.httpClient
+            .get(`api/contrats/contrat/${contrat}`)
+            .map((data: any) => data as Contrat);
+    }
+
 }
 @Injectable()
 export class CategorieService extends ResourceService<Categorie> {

@@ -136,14 +136,13 @@
                                 [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
                     </p-calendar>
 
-                    <!-- Un seul combo : celui du contrat -->
-                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [disabled]="field.readonly" [editable]="field.editable" [style]="{'width':'100%'}">
+                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" filter="true" [disabled]="field.readonly" [editable]="field.editable" [style]="{'width':'100%'}" (onChange)="field.fnc.call()">
                         <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle; margin-left:0em">{{item.label}}</span>
                         </ng-template>
-                        <ng-template let-contrat pTemplate="item">
+                        <ng-template let-itembis pTemplate="item">
                             <div class="ui-helper-clearfix" style="position:relative;">
-                                <div style="font-size:14px;float:left;margin-top:4px">{{contrat.label}}</div>
+                                <div style="font-size:14px;float:left;margin-top:4px">{{itembis.label}}</div>
                             </div>
                         </ng-template>
                     </p-dropdown>

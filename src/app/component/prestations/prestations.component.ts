@@ -153,7 +153,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             {grp: "collaborateur",  grplabel : "Prestataire",
                 fields :   [{name:"trigramme",      type:"field", obligatoire:"", readonly:true},                  {name:"nom",                 type:"field", obligatoire:"", readonly:true},                   {name:"prenom",             type:"field", obligatoire:"", readonly:true}]},
             {grp: "contrat",        grplabel : "Contrat",
-                fields :   [{name:"contratAppli",   type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"dateDebutContrat",    type:"date",  obligatoire:"", readonly:true},                   {name:"dateFinContrat",     type:"date",  obligatoire:"", readonly:true}]},
+                fields :   [{name:"contratAppli",   type:"combo", obligatoire:"", readonly:false, editable:false, fnc: ()=>{this.contratChanged();} }, {name:"dateDebutContrat",    type:"date",  obligatoire:"", readonly:true},                   {name:"dateFinContrat",     type:"date",  obligatoire:"", readonly:true}]},
             {grp: "Prestation",     grplabel : "Prestation",
                 fields :   [{name:"localisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false}, {name:"numAtg",              type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},
                             {name:"departement",    type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false}, {name:"pole",                type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},  {name:"domaine",            type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},
@@ -161,7 +161,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                             {name:"responsablePole",type:"combo", obligatoire:"", readonly:false, editable:true},
                             {name:"donneurOrdre",   type:"combo", obligatoire:"", readonly:false, editable:false}]},
             {grp: "commercialOpenInfo", grplabel : "Commercial OPEN",
-                fields :   [{name:"commercialOpen", type:"combo", obligatoire:"", readonly:false, editable:false}, {name:"adresseMail",         type:"field", obligatoire:"", readonly:true},                   {name:"telephonePortable",  type:"field", obligatoire:"", readonly:true},      {name:"telephoneFixe", type:"field", obligatoire:"", readonly:true} ] }
+                fields :   [{name:"commercialOpen", type:"combo", obligatoire:"", readonly:false, editable:false, fnc: ()=>{this.commercialOpenChanged();} }, {name:"adresseMail",         type:"field", obligatoire:"", readonly:true},                   {name:"telephonePortable",  type:"field", obligatoire:"", readonly:true},      {name:"telephoneFixe", type:"field", obligatoire:"", readonly:true} ] }
         ];
         this.fieldsFichesDefault = this.fieldsFiches;
 
@@ -226,7 +226,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     selectPrestations(p_prestations: Prestation[]) {
 
         this.prestations = p_prestations;
-        this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur" );
+        if (this.communServ != undefined)
+            this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur" );
         this.showHistSelect = false;
     }
 
@@ -359,9 +360,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if (errmsg != "") errmsg += " est/sont obligatoire(s)!";
 
         // RGs date début prestation :
-        // La date de début de prestation doit être supérieure ou égale à la date de début du contrat et strictement inférieure à la date de fin de contrat.
-        if (item.contratAppli!="") {
-
+        // La date de début de prestation doit être :
+        // - supérieure ou égale à la date de début du contrat
+        // - et strictement inférieure à la date de fin de contrat.
+        if (item.contratAppli != "") {
+            // TOutDOux <<<<<<<<<<<<<<<<
         }
         // Elle doit être strictement inférieure à la date de fin de prestation si renseignée.
         // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur), elle doit être strictement inférieure à la date à 3 ans.
@@ -516,7 +519,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         });
     }
 
-
     loadReferences() {
 
         this.references = [];
@@ -548,6 +550,28 @@ export class PrestationsComponent implements OnInit, OnChanges {
             if (propName == "collab")     //let curVal= changes[propName].currentValue;
                 this.showCollab(null);
         }
+    }
+
+    // Load contrat (on value change)
+    contratChanged() {
+        let grp = "contrat"; let item = "contratAppli"; let notFoundValue = new Contrat();
+        var dbServ = this.contratService;
+        let selected = this.itemChanged(grp, item );
+        dbServ.findByContrat(selected).pipe(first()).subscribe(data => { this.selectedPrestation[grp] = (data != null) ? data : notFoundValue;  });
+    }
+
+    // Load commercial (on value change)
+    commercialOpenChanged() {
+        let grp = "commercialOpenInfo"; let item = "commercialOpen"; let notFoundValue = new CommercialOpen();
+        var dbServ = this.commercialOpenService;
+        let selected = this.itemChanged(grp, item );
+        dbServ.findByName(selected).pipe(first()).subscribe(data => { this.selectedPrestation[grp] = (data != null) ? data : notFoundValue;  });
+    }
+
+    itemChanged(grp, item) {
+        let selected = this.selectedPrestation[grp][item]; // Selection of subobject
+        this.selectedPrestation[item] = selected; // Save in prestation object
+        return selected;
     }
 
     closeDialog() { this.closewindowPrestas.emit(); }

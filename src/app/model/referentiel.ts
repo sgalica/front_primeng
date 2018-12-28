@@ -116,7 +116,7 @@ export class Prestation {
     localisation: any = 0;
     responsablePole: any = 0;
     donneurOrdre: any = 0;
-    commercialOpen: any = 0;
+    commercialOpen: any = "";
     topAtg: any = 0;
     statutPrestation: any = "";
     versionPrestation: any = 0;
@@ -246,7 +246,7 @@ export class CommercialOpen {
     id: any = 0;
     cleCommercialOpen: any = 0;
     commercialOpen: any = 0;
-    adresseMail : any = "";
+    adresseMail: any = "";
     telephonePortable: any = "";
     telephoneFixe: any = "";
 
