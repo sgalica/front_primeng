@@ -5,9 +5,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AlertService} from "../../service/alert.service";
 import {DataTable} from "primeng/primeng";
 import {Collaborateur, CommercialOpen, Contrat, Mission, Prestation} from "../../model/referentiel";
-import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService} from "../../service/datas.service";
+import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService, MissionService} from "../../service/datas.service";
 import {CommunATGService} from "../../service/communATG.service";
 import {ConfirmationService} from "primeng/api";
+import {isNullOrUndefined} from "util";
+import {BehaviorSubject} from "rxjs";
+import {AuthService} from "../../service/auth.service";
 
 //this.prestations=this.communServ.updatelist(this.prestations, action, item, new Prestation(item), this.coldefs, "statutPrestation", ["dateDebutPrestation","dateFinPrestation"], this.orderDateDebutEtVersion, this.allstatus);
 
@@ -76,12 +79,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 this.sortField = field;
             }
         }*/
+    isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
 
     constructor(
 
         private prestationService: PrestationService,
 
         private contratService: ContratService,
+        private missionService : MissionService,
         private siteService: SiteService,
         private numAtgService: NumAtgService,
         private equipeService : EquipeService, // Departement, Pôle, Domaine, 
@@ -92,7 +97,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         private router: Router, private route: ActivatedRoute,
         private alertService: AlertService,
         private communATGService : CommunATGService,
-        private confirmationService : ConfirmationService
+        private confirmationService : ConfirmationService,
+        private authService : AuthService
     ) {
         communATGService.updatePrestationCompleted$.subscribe(x => this.onUpdatePrestationCompleted(x));
     }
@@ -179,6 +185,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.loadAllPrestations();
 
         this.loadReferences();
+
+        if (localStorage.getItem('currentUser')) {
+            this.authService.isAdmin.subscribe((value) => {
+                this.isAdmin$.next(value);
+            });
+        }
+
     }
 
     showCollab(pCollab:Collaborateur) {
@@ -320,35 +333,54 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         this.displayDialogPresta = true;
 
-        var statut = this.getStatut(this.selectedPrestation.statutPrestation);
-
         this.fieldsFiches = this.manageFieldsFiche(action, this.selectedPrestation.statutPrestation );
 
         // Buttons
+        let statut = this.getStatut(this.selectedPrestation.statutPrestation);
+
+
         this.communServ.setObjectValues(this.buttons, "disabled",{
-            Save        : !statut.activeOrNew,         // Ne pas Enregistrer si :
-            ReOpen      : statut.activeOrNew,          // Ne pas Réactiver si : Actif ou Nouveau
+            Save        : !statut.activeOrNew,         // Ne pas Enregistrer si : pas (Actif ou Nouveau)
+                                                       // On ne peut mettre fin à la prestation si :
+                                                       //> pas statut En cours ||
+                                                       //> la date de début n'est pas révolue (Une prestation non commencée ne peut pas être terminée. Elle pourra être supprimée.)
+            End         : !statut.active || (new Date() < this.selectedPrestation.dateDebutPrestation),
+            // On ne peut pas réactiver si : statut != 'T' ou collab!=actif ou user != admin
+            ReOpen      : statut.statut!="T" || this.collab.statutCollab != "E" || !this.isAdmin$ ,
             Cancel      : false } );
     }
 
+
     new() {
-        // Create empty item
-        this.selectedPrestation = new Prestation();
 
-        // Set default values
-        this.communServ.setObjectValues(this.selectedPrestation, null,{
-            trigramme       : this.collab.trigramme,
-            collaborateur   : this.collab,
-            contrat         : new Contrat(),
-            commercialOpenInfo: new CommercialOpen()});
+        // Check if not already prestation running
+        // S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée.
+        if (this.collab) {
+            let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
+            if (actualPrestation)
+                this.alertService.error("La création d'une prestation n'est pas possible parce qu'une prestation est encore en cours.");
+        }
+        else {
 
-        // Show form
-        this.displayDialogPresta = true;
-        this.afficherLaSaisie("New");
+            // Create new item with default values
+            this.selectedPrestation = new Prestation();
+            this.communServ.setObjectValues(this.selectedPrestation, null, {
+                trigramme    : this.collab.trigramme,
+                collaborateur: this.collab,
+                contrat      : new Contrat(),
+                commercialOpenInfo: new CommercialOpen()
+            });
+
+            // Show form
+            this.displayDialogPresta = true;
+            this.afficherLaSaisie("New");
+        }
     }
+
 
     checkInput(item : Prestation) {
 
+        let errmsgs = [];
         let errmsg = "";
         let fieldsGrp = this.communServ.getArrayItemProp(this.fieldsFiches, "grp", "Prestation", "fields");
         fieldsGrp.forEach( fld => {
@@ -357,21 +389,77 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 errmsg += fld.name;
             }
         } );
-        if (errmsg != "") errmsg += " est/sont obligatoire(s)!";
+        if (errmsg != "") {
+            errmsg += " est/sont obligatoire(s)!";
+            errmsgs.push(errmsg);
+        }
 
         // RGs date début prestation :
         // La date de début de prestation doit être :
         // - supérieure ou égale à la date de début du contrat
         // - et strictement inférieure à la date de fin de contrat.
         if (item.contratAppli != "") {
-            // TOutDOux <<<<<<<<<<<<<<<<
+            if ( (item.contrat.dateDebutContrat > 0) && (item.dateDebutPrestation < item.contrat.dateDebutContrat) )
+                errmsgs.push("La date de début de prestation doit être supérieure ou égale à la date de début du contrat");
+            if ( (item.contrat.dateFinContrat > 0) && (item.dateDebutPrestation > item.contrat.dateFinContrat) )
+                errmsgs.push("La date de début de prestation doit être antérieure à la date de fin du contrat");
         }
         // Elle doit être strictement inférieure à la date de fin de prestation si renseignée.
-        // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur), elle doit être strictement inférieure à la date à 3 ans.
-        // S'il n'existe pas de mission en cours, s'il existe une mission terminée, la date de début de prestation doit être supérieure à la date de fin de la dernière mission + 1 an.
+        if ( (item.dateFinPrestation > 0) && (item.dateDebutPrestation > item.dateFinPrestation) )
+            errmsgs.push("La date de début de prestation ne peut pas être après la date de fin");
 
-        return errmsg;
+        // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur),
+        // elle doit être strictement inférieure à la date à 3 ans.
+        let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
+        if (actualMission && (actualMission.dateDebutMission > 0) && (item.dateDebutPrestation >= this.communServ.addToDate(actualMission.dateDebutMission,[0,0,3])))
+            errmsgs.push("La date de début de prestation ne peut pas être plus que 3 ans après la date de début de la mission en cours.");
+
+        // S'il n'existe pas de mission en cours, mais il existe une mission terminée,
+        // la date de début de prestation doit être supérieure à la date de fin de la dernière mission + 1 an.
+        let terminatedMissions      = this.communServ.getItemsCond(this.collab.missions, "statutMission", "T");
+        let lastTerminatedMission   = this.communServ.getLastItem(terminatedMissions, 'dateDebutMission', 'versionMission');
+        if (lastTerminatedMission && (lastTerminatedMission.dateFinSG > 0) && (item.dateDebutPrestation <= this.communServ.addToDate(lastTerminatedMission.dateFinSG,[0,0,1])))
+            errmsgs.push("La date de début de prestation ne peut être à moins d'1 an après la fin de la dernière mission.");
+
+
+        // RGs date de fin de la prestation :
+
+        // Si la date de fin de la prestation est renseignée,
+        if (item.dateFinPrestation > 0) {
+            // > elle doit être supérieure ou égale à la date de début du contrat
+            // et strictement inférieure à la date de fin de contrat.
+            if (item.contratAppli != "") {
+                if ((item.contrat.dateDebutContrat > 0) && (item.dateFinPrestation < item.contrat.dateDebutContrat))
+                    errmsgs.push("La date de fin de prestation doit être supérieure ou égale à la date de début du contrat");
+                if ((item.contrat.dateFinContrat > 0) && (item.dateFinPrestation > item.contrat.dateFinContrat))
+                    errmsgs.push("La date de fin de prestation doit être antérieure à la date de fin du contrat");
+            }
+            // > elle doit être strictement supérieure à la date de début de la prestation.
+            if ( !(item.dateDebutPrestation > 0) || ( (item.dateDebutPrestation > 0) && (item.dateFinPrestation < item.dateDebutPrestation) ) )
+                errmsgs.push("La date de fin de prestation ne peut pas être avant la date de début");
+        }
+
+        // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur)
+        if (actualMission) {
+            // -&& et s'il n'y a pas dérogation, elle doit être inférieure ou égale à la date à 3 ans.
+            if (actualMission.derogation=="Non") {
+                if ( (actualMission.dateDebutMission > 0) && (item.dateFinPrestation >= this.communServ.addToDate(actualMission.dateDebutMission,[0,0,3])))
+                    errmsgs.push("La date de fin de prestation ne peut pas être plus que 3 ans après la date de début de la mission en cours.");
+            }
+            // -&& et sinon s'il y a dérogation, elle peut être supérieure à la date à 3 ans en restant inférieure ou égale à la date à 3 ans + durée de la dérogation. ??
+            else {
+                // Todo :  ajouter check avec durée dérogation
+            }
+
+        }
+
+        // S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée.
+        // Ceci est court-circuité au nouveau du bouton
+
+
+        return errmsgs.join(" - ");
     }
+
 
     save() { // On save do add or update
 
@@ -380,15 +468,28 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // CHECK input
         var errmsg = this.checkInput(item);
         if (errmsg == "") {
+
             // ADD new value
             if (item.id == 0) {
-                let newItem = new Prestation(item);
-                let version = this.getLastVersion()+1;
-                this.communServ.setObjectValues(newItem, null, {
-                    // Set State to "En cours" Version "1"
+
+                // Set State of item to "En cours" Version "1"
+                let newItemForDb = new Prestation(item);
+                let version      = this.getLastVersion()+1;
+                this.communServ.setObjectValues(newItemForDb, null, {
                     statutPrestation : "E", versionPrestation : version });
-                this.communServ.datePropsToStr(item, this.dateFields );
-                this.add(newItem);
+
+                // Si la date de fin de prestation n'a pas été renseignée, elle prendra la valeur de la date à 3 ans de la mission.
+                if (!(newItemForDb.dateFinPrestation > 0)) {
+                    let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
+                    if (actualMission)
+                        newItemForDb.dateFinPrestation = this.communServ.addToDate(actualMission.dateDebutMission,[0,0,3]);
+                }
+
+                // Conversion dates en strings
+                this.communServ.datePropsToStr(newItemForDb, this.dateFields );
+
+                this.add(newItemForDb);
+
             }
             // UPDATE
             else {
@@ -410,7 +511,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
         return lastVersion;
     }
 
-    end() { }
+    end() {
+        this.confirmationService.confirm({
+            message: "Confirmez vous la fermeture de la prestation ?",
+            accept: () => {
+                this.update("T");
+            }
+        });
+    }
 
     cancelEditPresta() {
         if (this.selectedPrestation.id == 0)
@@ -439,16 +547,51 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.afficherLaSaisie("Visu");
             this.alertService.success(entity + " ajoutée");
 
+            // Si aucune mission en créer une avec comme date celle de la prestation
+            if (this.collab.missions==undefined || this.collab.missions==null || this.collab.missions.length==0)
+                this.addMission(null, item.dateDebutPrestation );
+
         }, error => { this.alertService.error(error); });
     }
 
-    // !! Also called from collab (refresh=false) :
-    update( action : string, refresh : boolean=true) {
+
+    addMission(mission ?: Mission, dateDeb ?: any) {
+        // Create a new one
+        if (!mission) {
+            let newMission = new Mission();
+            let date3ans = this.communServ.addToDate(dateDeb,[0,0,3]);
+            this.communServ.setObjectValues( newMission, null, {
+                id                : 0, identifiantMission : "IDMI",
+                identifiantPilote : this.collab.trigramme,
+                dateDebutMission  : dateDeb, dateFinSg : date3ans, dateA3Ans : date3ans,
+                derogation        : "Non", // Toutdoux : Ajouter durée dérogation
+                statutMission     : "E", versionMission : 1
+            });
+            let itemfordb = new Mission(newMission);
+            this.communServ.datePropsToStr(itemfordb, ["dateDebutMission","dateFinSg","dateA3Ans"] );
+            this.communServ.setTimeStamp(itemfordb);
+            this.missionService.create(itemfordb).pipe(first()).subscribe(data => {
+
+                let entity = "Mission";
+
+                // Update item on success
+                this.communServ.updateVersion(entity, newMission, data);
+
+                // Add to list of collab
+                if (!Array.isArray(this.collab.missions ) )
+                    this.collab.missions = [];
+                this.collab.missions.push(newMission);
+            });
+        }
+    }
+
+    update( action : string) {
 
         this.updatePrestation("Prestation", action, this.selectedPrestation, this.selectedPrestationOriginalValue);
 
     }
 
+    // !! Also called from collab :
     updatePrestation(entity, action, currentValue, lastValue, callback=null ) {
 
         var dbService = this.prestationService;

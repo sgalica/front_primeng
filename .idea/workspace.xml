@@ -4,10 +4,9 @@
     <list default="true" id="3248679c-b34d-4d40-9f62-408259b0f625" name="Default" comment="Fiche collaborateur Add et save">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/_versions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/_versions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/model/referentiel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/model/referentiel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/service/datas.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/service/datas.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/service/communATG.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/service/communATG.service.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -252,11 +251,11 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="18" />
-          <entry key="html" value="44" />
+          <entry key="html" value="48" />
           <entry key="java" value="1" />
           <entry key="json" value="1" />
           <entry key="scss" value="3" />
-          <entry key="ts" value="186" />
+          <entry key="ts" value="187" />
           <entry key="users" value="1" />
         </counts>
       </usages-collector>
@@ -264,11 +263,11 @@
         <counts>
           <entry key="CSS" value="18" />
           <entry key="Database Element" value="1" />
-          <entry key="HTML" value="44" />
+          <entry key="HTML" value="48" />
           <entry key="JSON" value="1" />
           <entry key="SCSS" value="3" />
           <entry key="Scratch" value="2" />
-          <entry key="TypeScript" value="185" />
+          <entry key="TypeScript" value="186" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -276,7 +275,7 @@
           <entry key="css" value="1072" />
           <entry key="html" value="3991" />
           <entry key="scss" value="208" />
-          <entry key="ts" value="43573" />
+          <entry key="ts" value="47197" />
           <entry key="txt" value="562" />
         </counts>
       </usages-collector>
@@ -286,25 +285,26 @@
           <entry key="HTML" value="3991" />
           <entry key="PLAIN_TEXT" value="562" />
           <entry key="SCSS" value="208" />
-          <entry key="TypeScript" value="43573" />
+          <entry key="TypeScript" value="47197" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.run.usages" />
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="Angular2LanguageService" value="8" />
+          <entry key="Angular2LanguageService" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="8" />
+          <entry key="project.closed" value="9" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.3" value="3" />
           <entry key="project.open.time.31" value="1" />
           <entry key="project.open.time.37" value="1" />
+          <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="8" />
+          <entry key="project.opened" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.spring.boot.mvc.usages" />
@@ -314,115 +314,15 @@
     <favorites_list name="avalon" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.46449137">
+    <splitter split-orientation="horizontal" split-proportion="0.4050465">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1392">
-                  <caret line="133" column="141" selection-start-line="133" selection-start-column="141" selection-end-line="133" selection-end-column="141" />
-                  <folding>
-                    <element signature="n#style#0;n#span#0;n#div#0;n#p-toolbar#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#button#0;n#p-toolbar#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#div#0;n#ng-template#0;n#p-table#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/model/referentiel.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="200">
-                  <caret line="119" column="20" lean-forward="true" selection-start-line="119" selection-start-column="20" selection-end-line="119" selection-end-column="20" />
-                  <folding>
-                    <element signature="n#AtgModel#0" />
-                    <element signature="n#Referentiel#0" />
-                    <element signature="n#Mission#0" />
-                    <element signature="n#NumAtg#0" />
-                    <element signature="n#SocieteStt#0" />
-                    <element signature="n#Categorie#0" />
-                    <element signature="n#ContactsStt#0" />
-                    <element signature="n#Site#0" />
-                    <element signature="n#Equipe#0" />
-                    <element signature="n#DonneurOrdre#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/app/service/communATG.service.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="107">
-                  <caret line="461" column="62" selection-start-line="461" selection-start-column="53" selection-end-line="461" selection-end-column="62" />
-                  <folding>
-                    <element signature="n#!!block;n#dateStr#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#convertStrToDate#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#datePropsToStr#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#datePropsToDate#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#dateTimeStr#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#setTimeStamp#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#compareDates#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#getDateIfMoreRecent#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#addToDate#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#convertDateGteLteToGtLt#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#createSelectItemsFromArray#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#filterTableSelectItems#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#filterSelectItems#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#convertMapToArray#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#getLastItem#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#getItemsCond#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#clearTableCol#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#clearTableCols#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#loadTableKeyValues#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#setKeys#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#updateFilters#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#updatelist#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#setLabel#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#setObjectValues#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#setSubArrayProperty#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#updateVersion#0;n#CommunATGService#0" />
-                    <element signature="n#!!block;n#setFieldValue#0;n#CommunATGService#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/app/service/datas.service.ts">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="481">
-                  <caret line="148" column="15" selection-start-line="148" selection-start-column="15" selection-end-line="148" selection-end-column="15" />
-                  <folding>
-                    <element signature="e#0#41#0" expanded="true" />
-                    <element signature="n#ContactsSttService#0" />
-                    <element signature="n#DonneurOrdreService#0" />
-                    <element signature="n#!!block;n#constructor#0;n#CommercialOpenService#0" />
-                    <element signature="n#!!block;n#constructor#0;n#CollaborateurService#0" />
-                    <element signature="n#ReferentielService#0" />
-                    <element signature="n#SiteService#0" />
-                    <element signature="n#MissionService#0" />
-                    <element signature="n#NumAtgService#0" />
-                    <element signature="n#EquipeService#0" />
-                    <element signature="n#PrestationService#0" />
-                    <element signature="n#CategorieService#0" />
-                    <element signature="n#SocieteSttService#0" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="365" lean-forward="true" selection-start-line="365" selection-end-line="365" />
+                <state relative-caret-position="194">
+                  <caret line="591" column="63" selection-start-line="591" selection-start-column="59" selection-end-line="591" selection-end-column="63" />
                   <folding>
-                    <element signature="e#11634#12444#0" />
                     <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#loadCategorisations#0;n#CollaborateursComponent#0" />
@@ -434,19 +334,22 @@
                     <element signature="n#!!block;n#canDelete#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#afficherLaSaisie#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#new#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#checkInput#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#save#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#cancelEditCollab#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#preEmbaucheChange#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#add#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#update#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#onUpdateComplete#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#updateMission#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#onUpdateMissionCompleted#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#changeDerogation#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#endMission#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#onUpdatePrestationCompleted#0;n#CollaborateursComponent#0" />
+                    <element signature="n#!!block;n#updatePrestasList#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#suppCollab#0;n#CollaborateursComponent#0" />
-                    <element signature="e#28399#28750#0" />
                     <element signature="n#!!block;n#showPrestations#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#onClosewindowPrestas#0;n#CollaborateursComponent#0" />
-                    <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#onUpload#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#getDataRecordsArrayFromCSVFile#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#isCSVFile#0;n#CollaborateursComponent#0" />
@@ -456,6 +359,104 @@
                     <element signature="n#!!block;n#fileChangeListener#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#csvUploader#0;n#CollaborateursComponent#0" />
                     <element signature="n#!!block;n#readcsvcontent#0;n#CollaborateursComponent#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/model/referentiel.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="85">
+                  <caret line="37" column="27" selection-start-line="37" selection-start-column="27" selection-end-line="37" selection-end-column="27" />
+                  <folding>
+                    <element signature="n#AtgModel#0" />
+                    <element signature="n#Referentiel#0" />
+                    <element signature="n#Collaborateur#0" />
+                    <element signature="n#Mission#0" />
+                    <element signature="n#Prestation#0" />
+                    <element signature="n#NumAtg#0" />
+                    <element signature="n#SocieteStt#0" />
+                    <element signature="n#Categorie#0" />
+                    <element signature="n#ContactsStt#0" />
+                    <element signature="n#Contrat#0" />
+                    <element signature="n#Site#0" />
+                    <element signature="n#Equipe#0" />
+                    <element signature="n#DonneurOrdre#0" />
+                    <element signature="n#CommercialOpen#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/service/communATG.service.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="415">
+                  <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
+                  <folding>
+                    <element signature="e#863#1480#0" />
+                    <element signature="n#!!block;n#dateStr#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#convertStrToDate#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#datePropsToStr#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#datePropsToDate#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#dateTimeStr#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#compareDates#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#getDateIfMoreRecent#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#addToDate#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#convertDateGteLteToGtLt#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#createSelectItemsFromArray#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#filterTableSelectItems#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#filterSelectItems#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#convertMapToArray#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#getLastItem#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#getItemsCond#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#getArrayItemProp#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#clearTableCol#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#clearTableCols#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#loadTableKeyValues#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#setKeys#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#updateFilters#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#updatelist#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#setLabel#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#setObjectValues#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#setSubArrayProperty#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#setFieldValue#0;n#CommunATGService#0" />
+                    <element signature="n#!!block;n#updateWithBackup#0;n#CommunATGService#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="550">
+                  <caret line="35" lean-forward="true" selection-start-line="30" selection-end-line="35" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="194">
+                  <caret line="152" column="39" selection-start-line="152" selection-start-column="31" selection-end-line="152" selection-end-column="39" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="366">
+                  <caret line="235" column="64" selection-start-line="235" selection-start-column="52" selection-end-line="235" selection-end-column="64" />
+                  <folding>
+                    <element signature="n#style#0;n#span#0;n#div#0;n#p-toolbar#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#button#0;n#p-toolbar#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#ng-template#0;n#p-table#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -491,28 +492,29 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="260">
-                  <caret line="366" column="40" selection-start-line="366" selection-start-column="40" selection-end-line="366" selection-end-column="40" />
+                <state relative-caret-position="211">
+                  <caret line="348" column="84" selection-start-line="348" selection-start-column="84" selection-end-line="348" selection-end-column="84" />
                   <folding>
                     <element signature="e#0#114#0" expanded="true" />
-                    <element signature="e#4892#9229#0" />
+                    <element signature="e#4974#9311#0" />
                     <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#selectColumns#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
-                    <element signature="e#13947#14189#0" />
                     <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
-                    <element signature="n#!!block;n#manageFieldsFiche#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#getStatut#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#canDelete#0;n#PrestationsComponent#0" />
-                    <element signature="n#!!block;n#afficherLaSaisie#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#new#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#checkInput#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#save#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#getLastVersion#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#end#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#cancelEditPresta#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#add#0;n#PrestationsComponent#0" />
+                    <element signature="n#!!block;n#addMission#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#update#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#updatePrestation#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#onUpdatePrestationCompleted#0;n#PrestationsComponent#0" />
@@ -521,7 +523,6 @@
                     <element signature="n#!!block;n#ngOnChanges#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#contratChanged#0;n#PrestationsComponent#0" />
                     <element signature="n#!!block;n#commercialOpenChanged#0;n#PrestationsComponent#0" />
-                    <element signature="n#!!block;n#loadItem#0;n#PrestationsComponent#0" />
                   </folding>
                 </state>
               </provider>
@@ -543,24 +544,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>successf</find>
-      <find>new</find>
-      <find>showcollab</find>
-      <find>collab</find>
-      <find>successful</find>
-      <find>flex</find>
-      <find>showPrestations</find>
-      <find>fieldsFiches</find>
-      <find>FieldsFiches</find>
-      <find>editable</find>
-      <find>disabled</find>
-      <find>combo</find>
-      <find>ReOpen</find>
-      <find>responsablePole</find>
-      <find>dateFields</find>
-      <find>datedebutpresta</find>
-      <find>updatePrestasList</find>
-      <find>updateCollabList</find>
       <find>coldefs</find>
       <find>entity</find>
       <find>forEach</find>
@@ -573,6 +556,24 @@
       <find>contratService</find>
       <find>dbService</find>
       <find>click</find>
+      <find>collab</find>
+      <find>this.modeCollab</find>
+      <find>this.modeCollab</find>
+      <find>lastMission</find>
+      <find>checkInput</find>
+      <find>datefinpre</find>
+      <find>set</find>
+      <find>dialog</find>
+      <find>confirm</find>
+      <find>this.prestasComponent.update</find>
+      <find>update(</find>
+      <find>updatePresta(</find>
+      <find>update</find>
+      <find>buttons</find>
+      <find>updatePresta</find>
+      <find>auth</find>
+      <find>user</find>
+      <find>isAdmin$</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -676,10 +677,10 @@
         <option value="$PROJECT_DIR$/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html" />
         <option value="$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/service/communATG.service.ts" />
         <option value="$PROJECT_DIR$/src/app/service/datas.service.ts" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.html" />
         <option value="$PROJECT_DIR$/src/app/model/referentiel.ts" />
+        <option value="$PROJECT_DIR$/src/app/service/communATG.service.ts" />
         <option value="$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts" />
       </list>
     </option>
@@ -720,8 +721,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1915" />
-    <option name="y" value="12" />
+    <option name="x" value="1914" />
+    <option name="y" value="3" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
@@ -791,15 +792,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="collaborateurs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
-              <item name="atf_front_primeng" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
-              <item name="prestations" type="462c0819:PsiDirectoryNode" />
+              <item name="app-dashboard" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="atf_front_primeng" type="b2602c69:ProjectViewProjectNode" />
@@ -840,7 +833,7 @@
     <property name="SearchEverywhereHistoryKey" value="app-dashboard&#9;null&#9;null&#10;header&#9;null&#9;null&#10;Headers&#9;null&#9;null&#10;avalon&#9;null&#9;null&#10;logo&#9;FILE&#9;file://C:/Users/UNIK/WebstormProjects/ATG_avalon_theme/src/assets/layout/images/logo-dark.png&#10;.layout-wrapper .layout-menu-container&#9;null&#9;null&#10;topbar-logo&#9;null&#9;null&#10;core-topbar&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546011501654" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546011532993" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="TypeScript" />
     <property name="database.console.LAST_STATE" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -1021,14 +1014,8 @@
       <workItem from="1544715639592" duration="22381000" />
       <workItem from="1545036512852" duration="39885000" />
       <workItem from="1545211459889" duration="51804000" />
-      <workItem from="1545815482198" duration="56901000" />
-    </task>
-    <task id="LOCAL-00007" summary="add list collab and presta">
-      <created>1534771228089</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1534771228089</updated>
+      <workItem from="1545815482198" duration="56940000" />
+      <workItem from="1546419048780" duration="19684000" />
     </task>
     <task id="LOCAL-00008" summary="update icons and fix login issues">
       <created>1535207050594</created>
@@ -1366,11 +1353,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545993579450</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Fiche collaborateur Add et save">
+      <created>1546011513231</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1546011513231</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="857460000" />
+    <option name="totallyTimeSpent" value="877183000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1382,10 +1376,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1915" y="12" width="1936" height="1056" extended-state="0" />
+    <frame x="1914" y="3" width="1936" height="1056" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49484536" visible="true" weight="0.16684435" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49484536" visible="true" weight="0.19722815" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -1395,7 +1389,7 @@
       <window_info id="npm" order="7" sideWeight="0.50428814" side_tool="true" weight="0.20152314" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28494042" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28494042" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1407,6 +1401,7 @@
       <window_info anchor="bottom" id="Messages" order="11" />
       <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32936078" />
+      <window_info anchor="right" id="Preview" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1510,13 +1505,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Fiche collaborateur Add et save" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/component/login/login.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/proxy.conf.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -1697,20 +1685,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="30" column="26" lean-forward="true" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/app.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="199">
@@ -1778,82 +1752,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="365" lean-forward="true" selection-start-line="365" selection-end-line="365" />
-          <folding>
-            <element signature="e#11634#12444#0" />
-            <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#loadCategorisations#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#manageFieldsFiche#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#selectCollaborateur#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#getStatutCollab#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#canDelete#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#afficherLaSaisie#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#new#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#cancelEditCollab#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#preEmbaucheChange#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#update#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#onUpdateComplete#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#updateMission#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#onUpdateMissionCompleted#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#changeDerogation#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#endMission#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#suppCollab#0;n#CollaborateursComponent#0" />
-            <element signature="e#28399#28750#0" />
-            <element signature="n#!!block;n#showPrestations#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#onClosewindowPrestas#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#saveimportedCollaborateurs#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#onUpload#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#getDataRecordsArrayFromCSVFile#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#isCSVFile#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#fileReset#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#onSelectImage#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#onRemoveImage#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#fileChangeListener#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#csvUploader#0;n#CollaborateursComponent#0" />
-            <element signature="n#!!block;n#readcsvcontent#0;n#CollaborateursComponent#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/model/referentiel.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="119" column="20" lean-forward="true" selection-start-line="119" selection-start-column="20" selection-end-line="119" selection-end-column="20" />
-          <folding>
-            <element signature="n#AtgModel#0" />
-            <element signature="n#Referentiel#0" />
-            <element signature="n#Mission#0" />
-            <element signature="n#NumAtg#0" />
-            <element signature="n#SocieteStt#0" />
-            <element signature="n#Categorie#0" />
-            <element signature="n#ContactsStt#0" />
-            <element signature="n#Site#0" />
-            <element signature="n#Equipe#0" />
-            <element signature="n#DonneurOrdre#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1392">
-          <caret line="133" column="141" selection-start-line="133" selection-start-column="141" selection-end-line="133" selection-end-column="141" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#div#0;n#p-toolbar#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#p-toolbar#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#ng-template#0;n#p-table#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/service/datas.service.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="481">
@@ -1872,42 +1770,6 @@
             <element signature="n#PrestationService#0" />
             <element signature="n#CategorieService#0" />
             <element signature="n#SocieteSttService#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/service/communATG.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="461" column="62" selection-start-line="461" selection-start-column="53" selection-end-line="461" selection-end-column="62" />
-          <folding>
-            <element signature="n#!!block;n#dateStr#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#convertStrToDate#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#datePropsToStr#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#datePropsToDate#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#dateTimeStr#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#setTimeStamp#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#compareDates#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#getDateIfMoreRecent#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#addToDate#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#convertDateGteLteToGtLt#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#createSelectItemsFromArray#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#filterTableSelectItems#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#filterSelectItems#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#convertMapToArray#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#getLastItem#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#getItemsCond#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#clearTableCol#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#clearTableCols#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#loadTableKeyValues#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#setKeys#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#updateFilters#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#updatelist#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#setLabel#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#setObjectValues#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#setSubArrayProperty#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#updateVersion#0;n#CommunATGService#0" />
-            <element signature="n#!!block;n#setFieldValue#0;n#CommunATGService#0" />
           </folding>
         </state>
       </provider>
@@ -1933,30 +1795,167 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="235" column="64" selection-start-line="235" selection-start-column="52" selection-end-line="235" selection-end-column="64" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#div#0;n#p-toolbar#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#p-toolbar#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#ng-template#0;n#p-table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#ng-template#1;n#p-table#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/model/referentiel.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="37" column="27" selection-start-line="37" selection-start-column="27" selection-end-line="37" selection-end-column="27" />
+          <folding>
+            <element signature="n#AtgModel#0" />
+            <element signature="n#Referentiel#0" />
+            <element signature="n#Collaborateur#0" />
+            <element signature="n#Mission#0" />
+            <element signature="n#Prestation#0" />
+            <element signature="n#NumAtg#0" />
+            <element signature="n#SocieteStt#0" />
+            <element signature="n#Categorie#0" />
+            <element signature="n#ContactsStt#0" />
+            <element signature="n#Contrat#0" />
+            <element signature="n#Site#0" />
+            <element signature="n#Equipe#0" />
+            <element signature="n#DonneurOrdre#0" />
+            <element signature="n#CommercialOpen#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/collaborateurs/collaborateurs.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="591" column="63" selection-start-line="591" selection-start-column="59" selection-end-line="591" selection-end-column="63" />
+          <folding>
+            <element signature="n#!!block;n#selectColumns#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#loadAllCollaborateurs#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#loadCategorisations#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#orderTrigrammeVersion#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#co_filter#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#manageFieldsFiche#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#selectCollaborateur#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#getStatutCollab#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#canDelete#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#afficherLaSaisie#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#new#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#checkInput#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#save#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#cancelEditCollab#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#preEmbaucheChange#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#add#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#update#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#onUpdateComplete#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#updateMission#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#onUpdateMissionCompleted#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#changeDerogation#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#endMission#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#onUpdatePrestationCompleted#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#updatePrestasList#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#suppCollab#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#showPrestations#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#onClosewindowPrestas#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#onUpload#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#getDataRecordsArrayFromCSVFile#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#isCSVFile#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#fileReset#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#onSelectImage#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#onRemoveImage#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#fileChangeListener#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#csvUploader#0;n#CollaborateursComponent#0" />
+            <element signature="n#!!block;n#readcsvcontent#0;n#CollaborateursComponent#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/menu/menu.component.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/service/communATG.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
+          <folding>
+            <element signature="e#863#1480#0" />
+            <element signature="n#!!block;n#dateStr#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#convertStrToDate#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#datePropsToStr#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#datePropsToDate#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#dateTimeStr#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#compareDates#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#getDateIfMoreRecent#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#addToDate#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#convertDateGteLteToGtLt#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#createSelectItemsFromArray#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#filterTableSelectItems#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#filterSelectItems#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#convertMapToArray#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#getLastItem#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#getItemsCond#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#getArrayItemProp#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#clearTableCol#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#clearTableCols#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#loadTableKeyValues#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#setKeys#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#updateFilters#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#updatelist#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#setLabel#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#setObjectValues#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#setSubArrayProperty#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#setFieldValue#0;n#CommunATGService#0" />
+            <element signature="n#!!block;n#updateWithBackup#0;n#CommunATGService#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="194">
+          <caret line="152" column="39" selection-start-line="152" selection-start-column="31" selection-end-line="152" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/component/app-dashboard/app-dashboard.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="35" lean-forward="true" selection-start-line="30" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/component/prestations/prestations.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="366" column="40" selection-start-line="366" selection-start-column="40" selection-end-line="366" selection-end-column="40" />
+        <state relative-caret-position="211">
+          <caret line="348" column="84" selection-start-line="348" selection-start-column="84" selection-end-line="348" selection-end-column="84" />
           <folding>
             <element signature="e#0#114#0" expanded="true" />
-            <element signature="e#4892#9229#0" />
+            <element signature="e#4974#9311#0" />
             <element signature="n#!!block;n#showCollab#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#selectColumns#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#loadAllPrestations#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#selectPrestations#0;n#PrestationsComponent#0" />
-            <element signature="e#13947#14189#0" />
             <element signature="n#!!block;n#orderDateDebutEtVersion#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#filterVersions#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#pt_filter#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#manageFieldsFiche#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#selectPrestation#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#getStatut#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#canDelete#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#afficherLaSaisie#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#new#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#checkInput#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#save#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#getLastVersion#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#end#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#cancelEditPresta#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#add#0;n#PrestationsComponent#0" />
+            <element signature="n#!!block;n#addMission#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#update#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#updatePrestation#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#onUpdatePrestationCompleted#0;n#PrestationsComponent#0" />
@@ -1965,7 +1964,6 @@
             <element signature="n#!!block;n#ngOnChanges#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#contratChanged#0;n#PrestationsComponent#0" />
             <element signature="n#!!block;n#commercialOpenChanged#0;n#PrestationsComponent#0" />
-            <element signature="n#!!block;n#loadItem#0;n#PrestationsComponent#0" />
           </folding>
         </state>
       </provider>

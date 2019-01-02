@@ -73,6 +73,7 @@ export class Collaborateur {
 }
 
 export class Mission {
+
     id: any = 0;
     identifiantMission: any = 0;
     identifiantPilote: any = 0;
@@ -88,7 +89,7 @@ export class Mission {
     updatedAt           : any = 0;
     updatedBy           : any = 0;
 
-    constructor( param ?: Mission) {
+    constructor( param ?: Mission ) {
         if (param) {
             for (var attribut in param) {
                 if (typeof this[attribut] !== "object")

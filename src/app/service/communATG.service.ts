@@ -82,7 +82,7 @@ export class CommunATGService {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
         // Created if new
-        if (obj.createdAt == 0 ) {
+        if ( obj.createdAt == 0 ) {
             obj.createdBy = currentUser.id;
             obj.createdAt = this.dateTimeStr(new Date());
         }
@@ -197,7 +197,7 @@ export class CommunATGService {
                 if (compDates==1) {
                     lastItem = item;
                 }
-                else if (compDates==0) { // Dates identiques, comparer version
+                else if ( compDates==0 ) { // Dates identiques, comparer version
                     var lastVersion = (lastItem != null) ? Number(lastItem[versionFld]) : 0;
                     if (Number(item[versionFld])>lastVersion)
                         lastItem = item;
@@ -225,6 +225,7 @@ export class CommunATGService {
             if (item[fldCond] == valueCond)
                 return (prop) ? item[prop] : item;
         }
+        return null;
     }
 
     // **** TABLE *****
