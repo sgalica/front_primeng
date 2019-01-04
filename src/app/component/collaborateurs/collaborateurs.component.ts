@@ -159,7 +159,7 @@ export class CollaborateursComponent implements OnInit {
                 {name:"mailSg",           type:"field", obligatoire:"", readonly:false}]}
         ];
 
-        this.FieldsFiches = this.FieldsFichesVisu;
+        this.FieldsFiches = this.communServ.copyObj(this.FieldsFichesVisu);
 
         this.buttons = {
             "Save"      : {label:"Enregistrer",                 disabled:true,  fnc : ()=>{this.save();} },
@@ -177,6 +177,8 @@ export class CollaborateursComponent implements OnInit {
         // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
         // Prestations (dynamique) : this.loadPrestationComponent();
     }
+
+
 
     selectColumns() {
 
@@ -226,6 +228,7 @@ export class CollaborateursComponent implements OnInit {
 
         // Copie template definition
         var fieldsFiches : any[] = (action == "Visu") ? this.FieldsFichesVisu : this.FieldsFichesCreation;
+        fieldsFiches = this.communServ.copyObj(fieldsFiches);
 
         // Make fields readonly if state "Terminée"
         if (state == "T")
@@ -239,9 +242,14 @@ export class CollaborateursComponent implements OnInit {
         this.selectedCollaborateur          = new Collaborateur(collaborateur);
         this.selectedEmployeeOriginalValue  = new Collaborateur(collaborateur);
 
-        // Last mission
-        this.lastMission = this.communServ.getLastItem(this.selectedCollaborateur.missions, 'dateDebutMission', 'versionMission');
-        if (this.lastMission) this.lastMission["statutMissionLabel"] = this.allstatus[this.lastMission.statutMission];
+        // Get last mission
+        this.missionService.getMissionsCollab(this.selectedCollaborateur.trigramme).pipe(first()).subscribe(data => {
+            this.selectedCollaborateur.missions = data;
+            this.lastMission = this.communServ.getLastItem( this.selectedCollaborateur.missions, 'dateDebutMission', 'versionMission');
+            if (this.lastMission) this.lastMission["statutMissionLabel"] = this.allstatus[this.lastMission.statutMission];
+
+        },error => { this.alertService.error(error);} );
+
 
         // S/T = Non par défaut
         if (this.selectedCollaborateur.stt == "") this.selectedCollaborateur.stt="Non";
@@ -251,6 +259,7 @@ export class CollaborateursComponent implements OnInit {
         this.preEmbaucheChange(null);
 
     }
+
 
     getStatutCollab(statutCollab, lastMission) {
         var statutMission = (lastMission) ? lastMission.statutMission : "";
@@ -269,8 +278,8 @@ export class CollaborateursComponent implements OnInit {
             return false;
 
         // S'il n'a pas (eu) une mission
-        var lastMission = this.communServ.getLastItem(collab.missions, 'dateDebutMission', 'versionMission');
-        var statutCollab = this.getStatutCollab(collab.statutCollab, lastMission);
+        var lastMission = this.communServ.getLastItem( collab.missions, 'dateDebutMission', 'versionMission' );
+        var statutCollab = this.getStatutCollab( collab.statutCollab, lastMission );
         return !statutCollab.hasHadMission;
     }
 
@@ -302,7 +311,7 @@ export class CollaborateursComponent implements OnInit {
         // Set default values : S/T = Non, Préembauche = Non
         this.communServ.setObjectValues(this.selectedCollaborateur, null,{stt:"Non", preEmbauche: "Non"});
 
-        this.lastMission = new Mission();
+        this.lastMission = null;
 
         // Show form
         this.displayDialog = true;
@@ -416,9 +425,9 @@ export class CollaborateursComponent implements OnInit {
         this.alertService.success("Enregistré");
 
         // Update list with new and archived values
-        let list = this["collaborateurs"];
-        this["collaborateurs"] = this.updateCollabList("change", list, this.selectedCollaborateur );
-        this["collaborateurs"] = this.updateCollabList("add",    list, this.selectedEmployeeOriginalValue );
+        let list = "collaborateurs";
+        this[list] = this.updateCollabList("change", this[list], this.selectedCollaborateur );
+        this[list] = this.updateCollabList("add",    this[list], this.selectedEmployeeOriginalValue );
 
         // New value becomes last value
         this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
@@ -427,13 +436,13 @@ export class CollaborateursComponent implements OnInit {
         this.afficherLaSaisie("Visu");
     }
 
-    // Todo : place this function in 'MissionComponent'
-    updateMission(entity: string, action : string, item : Mission, dbService : MissionService, clear : boolean = false) {
+    // MISSION, Todo : place this function in 'MissionComponent'
+/*    updateMission(entity: string, action : string, item : Mission, dbService : MissionService, clear : boolean = false) {
 
         if (item==undefined || item==null) return;
 
         // Old value
-        var dbold = new Mission(item); this.communServ.setObjectValues(dbold, null, { statutMission: "A"} );
+        var dbold = new Mission(item); this.communServ.setObjectValues(dbold, null, { statutMission : "A"} );
         // New value
         var dbnew = new Mission(item); this.communServ.setObjectValues(dbnew, null, { statutMission : action,  // "T"
             versionMission : Number(dbnew.versionMission) + 1 });
@@ -443,9 +452,10 @@ export class CollaborateursComponent implements OnInit {
         // Save & Clear value
         this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear);
     }
-
-    onUpdateMissionCompleted(param) {
-        this.lastMission = null;
+*/
+    onUpdateMissionCompleted( param: Mission ) {
+        this.lastMission = param;
+        if (this.lastMission.statutMission=='T')  this.lastMission= null;
     }
 
     changeDerogation(event) {
@@ -478,6 +488,7 @@ export class CollaborateursComponent implements OnInit {
     createPrestation() { }
 
     endMission() {
+
         this.confirmationService.confirm({
             message: "Terminer la mission mettra fin à la prestation en cours et à l'activité du collaborateur. Confirmez-vous cette action ?", accept: () => {
 
@@ -487,13 +498,13 @@ export class CollaborateursComponent implements OnInit {
                 if (this.lastMission) {
 
                     // - Mission
-                    this.updateMission("Mission", "T", this.lastMission, this.missionService, true);
+                    this.missionService.updateMission("Mission", "T", this.lastMission, this.missionService, true);
 
                     // - Prestation (last of Mission)
-                    var prestationsMission  = this.communServ.getItemsCond(this.selectedCollaborateur.prestations, 'identifiantMission', this.lastMission.identifiantMission);
-                    this.currentPrestation      = this.communServ.getLastItem(prestationsMission, 'dateDebutPrestation', 'versionPrestation');
-                    if (this.currentPrestation != undefined && this.currentPrestation != null) {
-                        this.lastPrestation = new Prestation(this.currentPrestation); // Last value = current value but archived
+                    let prestationsMission = this.communServ.getItemsCond( this.selectedCollaborateur.prestations, 'identifiantMission', this.lastMission.identifiantMission );
+                    this.currentPrestation = this.communServ.getLastItem( prestationsMission, 'dateDebutPrestation', 'versionPrestation' );
+                    if ( this.currentPrestation != undefined && this.currentPrestation != null ) {
+                        this.lastPrestation = new Prestation(this.currentPrestation); // Last value = current value archived
                         this.prestasComponent.updatePrestation("Prestation", "T", this.currentPrestation, this.lastPrestation, this.prestasComponent.updatePrestationCompleted );
                     }
                 }
@@ -509,12 +520,15 @@ export class CollaborateursComponent implements OnInit {
         console.log("Collaborateurs - onUpdatePrestationCompleted triggered");
         // Update list with new and archived values
         let list = "prestations"; let prop = "selectedCollaborateur";
-        this[prop][list] = this.updatePrestasList("change", this[prop][list], this.lastPrestation       );
-        this[prop][list] = this.updatePrestasList("add",    this[prop][list], this.currentPrestation    );
+        // as currentPrestation has become new (add) value by prestasComponent.updatePrestation
+        // and list updated with this new value, add only old value :
+        this[prop][list] = this.updatePrestasList("add", this[prop][list], this.lastPrestation       );
+        //this[prop][list] = this.updatePrestasList("add",    this[prop][list], this.currentPrestation    );
    }
 
     updatePrestasList(action, list, value) {
-        return this.communServ.updatelist( list, action, value, new Prestation(value),   null,null, ["dateDebutPrestation", "dateFinPrestation"],null,null);
+        let dateFields = []; //Ne pas convertir les dates (["dateDebutPrestation", "dateFinPrestation"]) en str
+        return this.communServ.updatelist( list, action, value, new Prestation(value),   null,null, dateFields,null,null);
     }
 
     updateCollabList(action, list, value) {

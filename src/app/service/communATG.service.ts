@@ -297,23 +297,33 @@ export class CommunATGService {
 
     // Enregistre les valeurs des colonnes d'une ligne comme clés
     // Les valeurs undefined, null, espace comme "", Les valeurs sont débarassées de leur espaces sauf si clé.
-    setKeys(coldefs, row) {
+    setKeys(colDefs, row) {
 
-        for (var column in coldefs) {
+        for (var column in colDefs) {
 
-            if (coldefs[column].filtertype == "date" ) {}
-            else if (row[ column ] == undefined || row[ column ] == null )
-                row[ column ] = "";
-            else if (coldefs[column].keycol) {
-                var valuetrim = row[ column ].trim();
-                if (valuetrim=="") row[ column ] = "";
+            let property = row[column];
+            let colDef   = colDefs[column];
+
+            try {
+
+                if (colDef.filtertype == "date") {
+                }
+                else if (property == undefined || property == null)
+                    property = "";
+                else if (colDef.keycol) {
+                    let valuetrim = property.trim();
+                    if (valuetrim == "") property = "";
+                }
+                else if (typeof property == "string")
+                    property = property.trim();
+
+                row[column] = property;
+                colDefs[column].keys[ property ] = "";
             }
-            else {
-                if (typeof row[column]== "string")
-                    row[column] = row[column].trim();
+            catch (e) {
+                debugger;
             }
 
-            coldefs[column].keys[ row[ column ] ] = "";
         }
     }
 
@@ -371,7 +381,6 @@ export class CommunATGService {
 
         // Replace date values in dateformat dd/mm/yyyy
         this.datePropsToStr(rowval, dateFields);
-
         if (action == "add") {
 
             list.push(rowval);
@@ -423,12 +432,35 @@ export class CommunATGService {
         }
     }
 
-    setSubArrayProperty(mainarray, subarray, prop, value) {
-        return mainarray.forEach(grp => {
-            grp["fields"].forEach(fld => {
+    setSubArrayProperty(mainArray, subArray, prop, value) {
+        mainArray.forEach(grp => {
+            grp[subArray].forEach(fld => {
                 fld[prop] = value;
             });
         });
+        return mainArray;
+    }
+
+    copyObj(obj) {
+
+        let isArray = Array.isArray(obj);
+        let copy : any = (isArray) ? [] : {};
+        if (isArray) { // Obj = Array
+            obj.forEach(item => {
+                let itemCopy = this.copyObj(item);
+                copy.push(itemCopy);
+            });
+        }
+        else { // Obj = Objet ; copy elements
+            for (var attribut in obj) {
+                if (typeof obj[attribut] !== "object")
+                    copy[attribut] = obj[attribut];
+                else if (Array.isArray(obj[attribut])) {
+                    copy[attribut] = this.copyObj(obj[attribut]);
+                }
+            }
+        }
+        return copy;
     }
 
     updateVersion(entite, myvar, newvalue) {
@@ -479,13 +511,11 @@ export class CommunATGService {
                 if (clear) add = null;
 
                 // Callback trigger
-                if (entity == "Mission") this.updateMissionCompleted$.emit(true); //callbackfunc.call(callingclass);
-                else if (entity == "Collab") this.updateCollabCompleted$.emit(true);
+                if      (entity == "Mission")    this.updateMissionCompleted$.emit(add); //callbackfunc.call(callingclass);
+                else if (entity == "Collab")     this.updateCollabCompleted$.emit(true);
                 else if (entity == "Prestation") this.updatePrestationCompleted$.emit(true);
 
-            }, error => {
-                this.alertService.error("updateWithBackup("+entity+") - create : "+error); });
-        }, error => {
-            this.alertService.error("updateWithBackup("+entity+")- update : "+error);  });
+            }, error => { this.alertService.error("updateWithBackup("+entity+") - create : "+error); });
+        },     error => { this.alertService.error("updateWithBackup("+entity+") - update : "+error); });
     }
 }

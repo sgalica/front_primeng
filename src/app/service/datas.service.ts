@@ -17,6 +17,7 @@ import {
 } from "../model/referentiel";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {CommunATGService} from "./communATG.service"
 
 @Injectable()
 export class ContactsSttService extends ResourceService<ContactsStt> {
@@ -98,13 +99,47 @@ export class SiteService extends ResourceService<Site> {
 
 @Injectable()
 export class MissionService extends ResourceService<Mission> {
-    constructor(httpClient: HttpClient) {
+
+    communServ : CommunATGService;
+    httpClient : HttpClient;
+
+    constructor(httpClient: HttpClient, private communATGService : CommunATGService) {
         super(
             httpClient,
             'api',
             'missions');
+
+        this.communServ = communATGService;
+        this.httpClient = httpClient;
     }
+
+
+    updateMission(entity: string, action : string, item : Mission, dbService : MissionService, clear : boolean = false) {
+
+        if (item==undefined || item==null) return;
+
+        // Old value
+        var dbold = new Mission(item); this.communServ.setObjectValues(dbold, null, { statutMission : "A"} );
+        // New value
+        var dbnew = new Mission(item); this.communServ.setObjectValues(dbnew, null, { statutMission : action,  // "T"
+            versionMission : Number(dbnew.versionMission) + 1 });
+
+        var dbupd  = dbold; var upd = new Mission(item);
+        var dbadd  = dbnew; var add = item; // Keep last value in memory
+        // Save & Clear value
+        this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear);
+    }
+
+    getMissionsCollab(collab: string): Observable<Mission[]> {
+        return this.httpClient
+            .get(`api/missions/collab/${collab}`)
+            .map((data: any) => data as Mission[]);
+    }
+
+
 }
+
+
 @Injectable()
 export class NumAtgService extends ResourceService<NumAtg> {
     constructor(httpClient: HttpClient) {

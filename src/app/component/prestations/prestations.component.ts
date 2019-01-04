@@ -8,7 +8,6 @@ import {Collaborateur, CommercialOpen, Contrat, Mission, Prestation} from "../..
 import {CommercialOpenService, ContratService, DonneurOrdreService, EquipeService, NumAtgService, PrestationService, SiteService, MissionService} from "../../service/datas.service";
 import {CommunATGService} from "../../service/communATG.service";
 import {ConfirmationService} from "primeng/api";
-import {isNullOrUndefined} from "util";
 import {BehaviorSubject} from "rxjs";
 import {AuthService} from "../../service/auth.service";
 
@@ -169,7 +168,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             {grp: "commercialOpenInfo", grplabel : "Commercial OPEN",
                 fields :   [{name:"commercialOpen", type:"combo", obligatoire:"", readonly:false, editable:false, fnc: ()=>{this.commercialOpenChanged();} }, {name:"adresseMail",         type:"field", obligatoire:"", readonly:true},                   {name:"telephonePortable",  type:"field", obligatoire:"", readonly:true},      {name:"telephoneFixe", type:"field", obligatoire:"", readonly:true} ] }
         ];
-        this.fieldsFichesDefault = this.fieldsFiches;
+        this.fieldsFichesDefault = this.communServ.copyObj(this.fieldsFiches);
 
         this.displayDialogPresta = false;
 
@@ -292,7 +291,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     manageFieldsFiche(action, state) {
 
         // Copie template definition
-        var fieldsFiches : any[] = this.fieldsFichesDefault;
+        var fieldsFiches : any[] = this.communServ.copyObj(this.fieldsFichesDefault);
 
         // To do : evt  adapte if not same for fields with creation
         // var fieldsFiches : any[] = (action=="Visu") ? this.fieldsFichesVisu : this.fieldsFichesCreation;
@@ -350,7 +349,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
             Cancel      : false } );
     }
 
-
     new() {
 
         // Check if not already prestation running
@@ -376,7 +374,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.afficherLaSaisie("New");
         }
     }
-
 
     checkInput(item : Prestation) {
 
@@ -460,7 +457,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         return errmsgs.join(" - ");
     }
 
-
     save() { // On save do add or update
 
         var item = this.selectedPrestation;
@@ -474,7 +470,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
                 // Set State of item to "En cours" Version "1"
                 let newItemForDb = new Prestation(item);
-                let version      = this.getLastVersion()+1;
+                let version      = Number(this.getLastVersion()) + 1;
                 this.communServ.setObjectValues(newItemForDb, null, {
                     statutPrestation : "E", versionPrestation : version });
 
@@ -502,10 +498,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     getLastVersion() {
-        let lastVersion=0;
+        let lastVersion = 0;
         this.prestations.forEach(presta => {
-                if (presta.versionPrestation>lastVersion)
-                    lastVersion = presta.versionPrestation;
+                let version = Number(presta.versionPrestation);
+                if ( version > lastVersion)
+                    lastVersion = version;
             }
         );
         return lastVersion;
@@ -547,16 +544,17 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.afficherLaSaisie("Visu");
             this.alertService.success(entity + " ajoutée");
 
-            // Si aucune mission en créer une avec comme date celle de la prestation
+            // Si aucune mission, en créer une avec comme date celle de la prestation
             if (this.collab.missions==undefined || this.collab.missions==null || this.collab.missions.length==0)
                 this.addMission(null, item.dateDebutPrestation );
 
         }, error => { this.alertService.error(error); });
     }
 
-
+    // MISSION
     addMission(mission ?: Mission, dateDeb ?: any) {
         // Create a new one
+        // identifiant collab, dates de début, fin et à 3 ans, dérogation et statut pré-remplit.
         if (!mission) {
             let newMission = new Mission();
             let date3ans = this.communServ.addToDate(dateDeb,[0,0,3]);
@@ -596,16 +594,16 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         var dbService = this.prestationService;
         this.callback = callback;
+
         // Old value : Archive old value
         var dbold = new Prestation(lastValue);
         this.communServ.setObjectValues(dbold, null, { statutPrestation: "A",
             collaborateur : null, contrat : null, commercialOpenInfo : null } ); // Don't save collaborateur, contrat et commercial automatically
         this.communServ.datePropsToStr(dbold, this.dateFields);
 
-        // New value : statut = action (T", ...), version++
+        // New value : statut = action (T, ...), version++
         var dbnew = new Prestation(currentValue);
-        let version = this.getLastVersion()+1;
-
+        let version = Number(this.getLastVersion())+1;
         this.communServ.setObjectValues(dbnew, null,{
             statutPrestation    : action,
             versionPrestation   : version,
@@ -615,6 +613,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var dbupd = dbold; var upd = lastValue;
         var dbadd = dbnew; var add = currentValue;
         this.communServ.updateWithBackup("Prestation", upd, dbupd, add, dbadd, dbService, false );
+
+        // Todo : If lastValue.statutPrestation was 'T' -> reopen Mission
+        let missionPrestation = null; // ?
+        this.missionService.updateMission("Mission", "E", missionPrestation , this.missionService, false);
+
     }
 
     onUpdatePrestationCompleted(param) {
@@ -641,7 +644,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     updatelist(action, value) {
         let list = "prestations";
-        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", this.dateFields, this.orderDateDebutEtVersion, this.allstatus);
+        let dateFields = []; // Ne pas convertir les dates (this.dateFields) en str
+        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", dateFields, this.orderDateDebutEtVersion, this.allstatus);
     }
 
     /*delete() {
