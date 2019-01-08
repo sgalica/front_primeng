@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {ResourceService} from "./resource.service";
 import {
     Categorie,
@@ -18,6 +18,7 @@ import {
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {CommunATGService} from "./communATG.service"
+import {first} from "rxjs/operators";
 
 @Injectable()
 export class ContactsSttService extends ResourceService<ContactsStt> {
@@ -102,32 +103,23 @@ export class MissionService extends ResourceService<Mission> {
 
     communServ : CommunATGService;
     httpClient : HttpClient;
+    public missionAdded$  : EventEmitter<Mission> ;
 
     constructor(httpClient: HttpClient, private communATGService : CommunATGService) {
-        super(
-            httpClient,
-            'api',
-            'missions');
+
+        super(  httpClient, 'api', 'missions');
 
         this.communServ = communATGService;
         this.httpClient = httpClient;
+
+        this.missionAdded$ = new EventEmitter();
     }
 
 
-    updateMission(entity: string, action : string, item : Mission, dbService : MissionService, clear : boolean = false) {
-
-        if (item==undefined || item==null) return;
-
-        // Old value
-        var dbold = new Mission(item); this.communServ.setObjectValues(dbold, null, { statutMission : "A"} );
-        // New value
-        var dbnew = new Mission(item); this.communServ.setObjectValues(dbnew, null, { statutMission : action,  // "T"
-            versionMission : Number(dbnew.versionMission) + 1 });
-
-        var dbupd  = dbold; var upd = new Mission(item);
-        var dbadd  = dbnew; var add = item; // Keep last value in memory
-        // Save & Clear value
-        this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear);
+    getMission(id: string): Observable<Mission> {
+        return this.httpClient
+            .get(`api/missions/id/${id}`)
+            .map((data: any) => data as Mission);
     }
 
     getMissionsCollab(collab: string): Observable<Mission[]> {
@@ -136,6 +128,59 @@ export class MissionService extends ResourceService<Mission> {
             .map((data: any) => data as Mission[]);
     }
 
+    updateMission(entity: string, action : string, item : Mission, dbService : MissionService, clear : boolean = false) {
+
+        if (item==undefined || item==null) return;
+        let dateFields =  ["dateDebutMission" , "dateFinSg", "dateA3Ans"];
+
+        // Old value
+        var dbold = new Mission(item); this.communServ.setObjectValues(dbold, null, { statutMission : "A"} );
+        this.communServ.datePropsToStr(dbold, dateFields );
+
+        // New value
+        var dbnew = new Mission(item); this.communServ.setObjectValues(dbnew, null, { statutMission : action,  // "T"
+            versionMission : Number(dbnew.versionMission) + 1 });
+        this.communServ.datePropsToStr(dbnew, dateFields );
+
+        var dbupd  = dbold; var upd = new Mission(item);
+        var dbadd  = dbnew; var add = item; // Keep last value in memory
+        // Save & Clear value
+        this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear);
+    }
+
+    addMission(mission : Mission, dateDeb : any, prestation : Prestation) {
+
+        // Create a new one
+        // identifiant collab, dates de début, fin et à 3 ans, dérogation et statut pré-remplit.
+        if (!mission) {
+
+            let newMission = new Mission();
+            let date3ans = this.communServ.addToDate(dateDeb,[0,0,3]);
+            this.communServ.setObjectValues( newMission, null, {
+                id                : 0,
+                identifiantMission: "IDMI",
+                identifiantPilote : prestation.trigramme,
+                dateDebutMission  : dateDeb,
+                dateFinSg         : date3ans,
+                dateA3Ans         : date3ans,
+                derogation        : "Non", // Todo : Ajouter durée dérogation
+                statutMission     : "E", versionMission : 1
+            });
+            let itemfordb = new Mission(newMission);
+            this.communServ.datePropsToStr(itemfordb, ["dateDebutMission", "dateFinSg", "dateA3Ans"] );
+            this.communServ.setTimeStamp(itemfordb);
+            this.create(itemfordb).pipe(first()).subscribe(data => {
+
+                let entity = "Mission";
+
+                // Update item on success
+                this.communServ.updateVersion(entity, newMission, data);
+
+                this.missionAdded$.emit(newMission);
+
+            });
+        }
+    }
 
 }
 
@@ -169,6 +214,7 @@ export class PrestationService extends ResourceService<Prestation> {
             'prestations');
     }
 }
+
 @Injectable()
 export class ContratService extends ResourceService<Contrat> {
 

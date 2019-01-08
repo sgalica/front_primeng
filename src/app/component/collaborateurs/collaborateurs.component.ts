@@ -85,9 +85,11 @@ export class CollaborateursComponent implements OnInit {
 
         communATGService.updateCollabCompleted$.subscribe(x => this.onUpdateComplete(x));
         communATGService.updateMissionCompleted$.subscribe(x => this.onUpdateMissionCompleted(x));
+        missionService.missionAdded$.subscribe(x => this.onMissionAdded(x));
 
     }
     /*   ngOnChanges(): void { }*/
+
 
     ngOnInit() {
 
@@ -135,9 +137,9 @@ export class CollaborateursComponent implements OnInit {
                 {name:"trigramme",        type:"field", obligatoire:"", readonly:true},                       {name:"nom",         type:"field", obligatoire:"", readonly:false}, {name:"prenom",      type:"field",    obligatoire:"", readonly:false},
                 {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},   {name:"stt",         type:"combo", obligatoire:"", readonly:false}]},
             {grp: "Mission",    grplabel : "Informations Mission",          fields : [
-                {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateFinSg",   type:"date",  obligatoire:"", readonly:true},  {name:"dateA3Ans",   type:"date",     obligatoire:"", readonly:true},
-                {name:"derogation",       type:"combo", obligatoire:"", readonly:false, options:this.ouinonComboOptions},  {name:"statutMissionLabel",   type:"field", obligatoire:"", readonly:true, options:this.allStatusComboOptions},
-                {name:"versionMission",   type:"field", obligatoire:"", readonly:true} ]},
+                {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateA3Ans",   type:"date",  obligatoire:"", readonly:true},  {name:"dateFinSg",   type:"date",     obligatoire:"", readonly:true},
+                {name:"derogation",       type:"combo", obligatoire:"", readonly:false, options:this.ouinonComboOptions},
+                {name:"statutMissionLabel",   type:"field", obligatoire:"", readonly:true, options:this.allStatusComboOptions},   {name:"versionMission",   type:"field", obligatoire:"", readonly:true} ]},
             {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [
                 {name:"societeStt",       type:"field", obligatoire:this.styleObligatoire, readonly:false},   {name:"preEmbauche", type:"combo", obligatoire:"", readonly:false}, {name:"dateEmbaucheOpen", type:"date",obligatoire:"", readonly:false}]},
             {grp: "Contact",    grplabel : "Informations de contact",       fields : [
@@ -150,7 +152,7 @@ export class CollaborateursComponent implements OnInit {
                 {name:"trigramme",        type:"field", obligatoire:"", readonly:false},                      {name:"nom",         type:"field", obligatoire:"", readonly:false}, {name:"prenom",      type:"field",    obligatoire:"", readonly:false},
                 {name:"categorisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false},               {name:"stt",             type:"combo", obligatoire:"", readonly:false}]},
             {grp: "Mission",    grplabel : "Informations Mission",          fields : [
-                {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateFinSg",   type:"date",  obligatoire:"", readonly:true},  {name:"dateA3Ans",   type:"date",     obligatoire:"", readonly:true},
+                {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateA3Ans",   type:"date",  obligatoire:"", readonly:true},  {name:"dateFinSg",   type:"date",     obligatoire:"", readonly:true},
                 {name:"derogation",       type:"combo", obligatoire:"", readonly:false, options:this.ouinonComboOptions} ]},
             {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [
                 {name:"societeStt",       type:"field", obligatoire:this.styleObligatoire, readonly:false},   {name:"preEmbauche", type:"combo", obligatoire:"", readonly:false}, {name:"dateEmbaucheOpen", type:"date",obligatoire:"", readonly:false}]},
@@ -188,7 +190,10 @@ export class CollaborateursComponent implements OnInit {
 
     loadAllCollaborateurs() {
 
-        this.collaborateurService.list().pipe(first()).subscribe(collaborateurs => {
+        this.collaborateurService.list()
+            //.pipe(first())
+            .subscribe(collaborateurs => {
+                console.log("Collaborateurs chargés");
             this.collaborateurs = collaborateurs;
             this.communServ.updateFilters( this.collaborateurs, this.orderTrigrammeVersion, this.colDefs, "statutCollab", this.allstatus);
             this.showHistSelect = false;
@@ -200,7 +205,7 @@ export class CollaborateursComponent implements OnInit {
         this.references["categorisations"] = [];
 
         var flds = [{ref:"categorisations", key:"categorisation", label:"categorisation", labelbis:"libelle"}] ;
-        
+
         this.communServ.loadTableKeyValues(flds, this.categorieService, this.references, null, true );
     }
 
@@ -232,7 +237,11 @@ export class CollaborateursComponent implements OnInit {
 
         // Make fields readonly if state "Terminée"
         if (state == "T")
-            fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "fields","readonly", true);
+            fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "","fields", "","readonly", true);
+        else {
+            // Enable/disable change of dateFinSG depending on mission derogation oui/non
+            this.refreshDerogationInput();
+        }
 
         return fieldsFiches ;
     }
@@ -243,10 +252,14 @@ export class CollaborateursComponent implements OnInit {
         this.selectedEmployeeOriginalValue  = new Collaborateur(collaborateur);
 
         // Get last mission
-        this.missionService.getMissionsCollab(this.selectedCollaborateur.trigramme).pipe(first()).subscribe(data => {
+        this.missionService.getMissionsCollab( this.selectedCollaborateur.trigramme).pipe(first()).subscribe(data => {
+
             this.selectedCollaborateur.missions = data;
             this.lastMission = this.communServ.getLastItem( this.selectedCollaborateur.missions, 'dateDebutMission', 'versionMission');
             if (this.lastMission) this.lastMission["statutMissionLabel"] = this.allstatus[this.lastMission.statutMission];
+
+            // Enable/disable change of dateFinSG depending on mission derogation oui/non
+            this.refreshDerogationInput();
 
         },error => { this.alertService.error(error);} );
 
@@ -336,6 +349,7 @@ export class CollaborateursComponent implements OnInit {
         // CHECK input
         var errmsg = this.checkInput(item);
         if (errmsg=="") {
+
             // ADD new value
             if (item.id == 0) {
                 var newItem = new Collaborateur(item);
@@ -346,8 +360,10 @@ export class CollaborateursComponent implements OnInit {
                 });
                 this.add(newItem);
             }
+
             // UPDATE
             else {
+
                 this.update("E");
 
                 // Update last mission
@@ -430,7 +446,7 @@ export class CollaborateursComponent implements OnInit {
         this[list] = this.updateCollabList("add",    this[list], this.selectedEmployeeOriginalValue );
 
         // New value becomes last value
-        this.selectedEmployeeOriginalValue = new Collaborateur(this.selectedCollaborateur);
+        this.selectedEmployeeOriginalValue = new Collaborateur( this.selectedCollaborateur );
 
         // Refresh screen
         this.afficherLaSaisie("Visu");
@@ -453,13 +469,45 @@ export class CollaborateursComponent implements OnInit {
         this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear);
     }
 */
-    onUpdateMissionCompleted( param: Mission ) {
+
+    onUpdateMissionCompleted( param: Mission ) {  this.onMissionChange(param, "update"); }
+    onMissionAdded(param : Mission) { this.onMissionChange(param, "add"); }
+
+    onMissionChange(param:Mission, change:string) {
+
         this.lastMission = param;
-        if (this.lastMission.statutMission=='T')  this.lastMission= null;
+
+        // Update missions list of collab
+        if (change=="update")
+            this.communServ.updatelist( this.selectedCollaborateur.missions, "change", param, new Mission(param),   null,null, [],null,null);
+        else {// add
+            // Update missions list of collab (add)
+            if (!Array.isArray(this.selectedCollaborateur.missions))
+                this.selectedCollaborateur.missions = [];
+            this.selectedCollaborateur.missions.push(param);
+        }
+
+        // Enable/disable change of dateFinSG depending on mission derogation oui/non
+        this.refreshDerogationInput();
+
+        // If terminated hide it
+        if (this.lastMission.statutMission == 'T')
+            this.lastMission = null;
+
     }
 
+
+    refreshDerogationInput() {
+
+        let readonly = (this.lastMission && this.lastMission.derogation=="Oui") ? false : true;
+        this.communServ.setSubArrayProperty(this.FieldsFiches, "Mission","fields", "dateFinSg","readonly", readonly);
+    }
+
+    // On combo change :
     changeDerogation(event) {
+
         // Check if not a running prestation exceeding 3 years
+        let valueChanged = 1;
         if (event.value=="Non") {
             var hasDateExceeding3Years = false;
             var debutMission = this.communServ.convertStrToDate(this.lastMission.dateDebutMission);
@@ -475,21 +523,27 @@ export class CollaborateursComponent implements OnInit {
                 this.lastMission.derogation="Oui";
 
                 this.alertService.error("La dérogation ne peut être annulée du à la présence de prestations dépassant la période autorisée.");
-                //event.preventDefault();
 
                 // Refresh screen
                 this.showDerogation=false;
                 setTimeout(()=>this.showDerogation=true, 0);
-
+                valueChanged = 0;
             }
+
         }
+
+        if (valueChanged == 1)
+            this.refreshDerogationInput();
+
     }
 
     createPrestation() { }
 
+    // Terminate mission
     endMission() {
 
         this.confirmationService.confirm({
+
             message: "Terminer la mission mettra fin à la prestation en cours et à l'activité du collaborateur. Confirmez-vous cette action ?", accept: () => {
 
                 // Updates :
@@ -500,7 +554,7 @@ export class CollaborateursComponent implements OnInit {
                     // - Mission
                     this.missionService.updateMission("Mission", "T", this.lastMission, this.missionService, true);
 
-                    // - Prestation (last of Mission)
+                    // - Last Prestation of Mission
                     let prestationsMission = this.communServ.getItemsCond( this.selectedCollaborateur.prestations, 'identifiantMission', this.lastMission.identifiantMission );
                     this.currentPrestation = this.communServ.getLastItem( prestationsMission, 'dateDebutPrestation', 'versionPrestation' );
                     if ( this.currentPrestation != undefined && this.currentPrestation != null ) {

@@ -100,6 +100,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         private authService : AuthService
     ) {
         communATGService.updatePrestationCompleted$.subscribe(x => this.onUpdatePrestationCompleted(x));
+        missionService.missionAdded$.subscribe(x => this.onMissionAdded(x));
     }
 
 
@@ -120,7 +121,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         //    "nom", "prenom", "dateDebutContrat", "dateFinContrat", "adresseMail", "telephonePortable", "telephoneFixe"];
 
         this.colDefs = {
-            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: ["testclear","testclearbis" ], values:[], keys:{}, keycol:true},
+            trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
             dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:{}, keycol:false},
             dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:{}, keycol:false},
             contratAppli :          {header: 'Contrat',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
@@ -134,8 +135,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
             donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
             topAtg:                 {header: 'Type',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
             statutPrestation:       {header: 'Statut',              filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
-            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
             versionPrestation:      {header: 'Version',             filtertype: "",      showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
+            commercialOpen:         {header: 'Nom prénom',          filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            identifiantMission:     {header: 'Mission',             filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
 
             // Collaborateur
             nom:                    {header: "Nom",                 filtertype: "",      showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
@@ -164,7 +166,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
                             {name:"departement",    type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false}, {name:"pole",                type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},  {name:"domaine",            type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},
                             {name:"numeroPu",       type:"field", obligatoire:this.styleObligatoire, readonly:false},                 {name:"dateDebutPrestation", type:"date",  obligatoire:this.styleObligatoire, readonly:false},                  {name:"dateFinPrestation",  type:"date",  obligatoire:"", readonly:false},
                             {name:"responsablePole",type:"combo", obligatoire:"", readonly:false, editable:true},
-                            {name:"donneurOrdre",   type:"combo", obligatoire:"", readonly:false, editable:false}]},
+                            {name:"donneurOrdre",   type:"combo", obligatoire:"", readonly:false, editable:false},
+                            {name:"identifiantMission",type:"combo", obligatoire:"", readonly:false, editable:false}]},
             {grp: "commercialOpenInfo", grplabel : "Commercial OPEN",
                 fields :   [{name:"commercialOpen", type:"combo", obligatoire:"", readonly:false, editable:false, fnc: ()=>{this.commercialOpenChanged();} }, {name:"adresseMail",         type:"field", obligatoire:"", readonly:true},                   {name:"telephonePortable",  type:"field", obligatoire:"", readonly:true},      {name:"telephoneFixe", type:"field", obligatoire:"", readonly:true} ] }
         ];
@@ -198,9 +201,21 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if (pCollab != null)
             this.collab = pCollab;
 
+        // Name & id collab
         this.id             = this.collab.trigramme;
         this.employee_name  = this.collab.prenom + " " + this.collab.nom;
+        // Prestations collab
         this.selectPrestations(this.collab.prestations);
+
+        // Init combo missions with missions of Collab
+        let list = [];
+        list.push({label: " [Vide]", value: ""});
+        this.collab.missions.forEach(mission => {
+                list.push({label:mission.identifiantMission , value: mission.identifiantMission});
+            }
+        );
+        this.colDefs["identifiantMission"].values = list;
+
     }
 
     selectColumns() {
@@ -225,7 +240,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     loadAllPrestations() {
 
-        this.prestationService.list().pipe(first()).subscribe(prestations => {
+        this.prestationService.list()
+            .subscribe(prestations => {
             this.selectPrestations(prestations);
             this.filterVersions();
             // RespsPole : If all prestations loaded, we can take values from filters
@@ -298,7 +314,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // Make all fields readonly if state "Terminée"
         if (state == "T")
-            fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "fields", "readonly", true);
+            fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "", "fields", "", "readonly", true);
 
         return fieldsFiches;
     }
@@ -308,9 +324,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
         this.selectedPrestation              = new Prestation(prestation);
         this.selectedPrestationOriginalValue = new Prestation(prestation);
 
-        // We come from collaborateur so collab of prestation not loaded by hibernate
+        // Set collaborateur (we come from collaborateur so collab of prestation not loaded by hibernate)
         if (prestation.collaborateur == undefined)
             this.selectedPrestation.collaborateur = this.collab;
+
     }
 
     getStatut(statut) {
@@ -336,8 +353,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // Buttons
         let statut = this.getStatut(this.selectedPrestation.statutPrestation);
-
-
         this.communServ.setObjectValues(this.buttons, "disabled",{
             Save        : !statut.activeOrNew,         // Ne pas Enregistrer si : pas (Actif ou Nouveau)
                                                        // On ne peut mettre fin à la prestation si :
@@ -345,7 +360,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                                                        //> la date de début n'est pas révolue (Une prestation non commencée ne peut pas être terminée. Elle pourra être supprimée.)
             End         : !statut.active || (new Date() < this.selectedPrestation.dateDebutPrestation),
             // On ne peut pas réactiver si : statut != 'T' ou collab!=actif ou user != admin
-            ReOpen      : statut.statut!="T" || this.collab.statutCollab != "E" || !this.isAdmin$ ,
+            ReOpen      : statut.statut != "T" || this.collab.statutCollab != "E" || !this.isAdmin$ ,
             Cancel      : false } );
     }
 
@@ -355,18 +370,22 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée.
         if (this.collab) {
             let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
-            if (actualPrestation)
-                this.alertService.error("La création d'une prestation n'est pas possible parce qu'une prestation est encore en cours.");
+            if (actualPrestation) this.alertService.error("La création d'une prestation n'est pas possible parce qu'une prestation est encore en cours.");
         }
         else {
 
-            // Create new item with default values
+            // Create new prestation affected to collab and actual mission
             this.selectedPrestation = new Prestation();
+            // Set default value mission with active mission of collab
+            let actualMission  = this.communServ.getArrayItemProp( this.collab.missions,"statutMission", "E", null);
+            let defaultMission = (actualMission) ? actualMission.identifiantMission : "";
+
             this.communServ.setObjectValues(this.selectedPrestation, null, {
                 trigramme    : this.collab.trigramme,
                 collaborateur: this.collab,
                 contrat      : new Contrat(),
-                commercialOpenInfo: new CommercialOpen()
+                commercialOpenInfo: new CommercialOpen(),
+                identifiantMission : defaultMission
             });
 
             // Show form
@@ -468,24 +487,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
             // ADD new value
             if (item.id == 0) {
 
-                // Set State of item to "En cours" Version "1"
-                let newItemForDb = new Prestation(item);
-                let version      = Number(this.getLastVersion()) + 1;
-                this.communServ.setObjectValues(newItemForDb, null, {
-                    statutPrestation : "E", versionPrestation : version });
-
-                // Si la date de fin de prestation n'a pas été renseignée, elle prendra la valeur de la date à 3 ans de la mission.
-                if (!(newItemForDb.dateFinPrestation > 0)) {
-                    let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
-                    if (actualMission)
-                        newItemForDb.dateFinPrestation = this.communServ.addToDate(actualMission.dateDebutMission,[0,0,3]);
-                }
-
-                // Conversion dates en strings
-                this.communServ.datePropsToStr(newItemForDb, this.dateFields );
-
-                this.add(newItemForDb);
-
+                // Si aucune mission, en créer une avec comme date celle de la prestation, ensuite créer la presta avec l'id de la mission
+                if (this.collab.missions==undefined || this.collab.missions==null || this.collab.missions.length==0)
+                    this.missionService.addMission(null, item.dateDebutPrestation, item );
+                else
+                    this.addPrepare(item);
             }
             // UPDATE
             else {
@@ -524,6 +530,33 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.selectPrestation(null, this.selectedPrestationOriginalValue);
     }
 
+    onMissionAdded(mission) {
+        // Once mission added, add Prestation with id of mission
+        this.selectedPrestation.identifiantMission = mission.id;
+        this.addPrepare(this.selectedPrestation);
+    }
+
+    addPrepare(item) {
+
+        // Set State of prestation to "En cours" Version "1"
+        let newItemForDb = new Prestation(item);
+        let version      = Number(this.getLastVersion()) + 1;
+        this.communServ.setObjectValues(newItemForDb, null, {
+            statutPrestation : "E", versionPrestation : version });
+
+        // Si la date de fin de prestation n'a pas été renseignée, elle prendra la valeur de la date à 3 ans de la mission.
+        if (!(newItemForDb.dateFinPrestation > 0)) {
+            let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
+            if (actualMission)
+                newItemForDb.dateFinPrestation = this.communServ.addToDate(actualMission.dateDebutMission,[0,0,3]);
+        }
+
+        // Conversion dates en strings
+        this.communServ.datePropsToStr(newItemForDb, this.dateFields );
+
+        this.add(newItemForDb);
+    }
+
     add(itemfordb) {
 
         this.communServ.setTimeStamp(itemfordb);
@@ -544,49 +577,23 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.afficherLaSaisie("Visu");
             this.alertService.success(entity + " ajoutée");
 
-            // Si aucune mission, en créer une avec comme date celle de la prestation
-            if (this.collab.missions==undefined || this.collab.missions==null || this.collab.missions.length==0)
-                this.addMission(null, item.dateDebutPrestation );
-
         }, error => { this.alertService.error(error); });
-    }
-
-    // MISSION
-    addMission(mission ?: Mission, dateDeb ?: any) {
-        // Create a new one
-        // identifiant collab, dates de début, fin et à 3 ans, dérogation et statut pré-remplit.
-        if (!mission) {
-            let newMission = new Mission();
-            let date3ans = this.communServ.addToDate(dateDeb,[0,0,3]);
-            this.communServ.setObjectValues( newMission, null, {
-                id                : 0, identifiantMission : "IDMI",
-                identifiantPilote : this.collab.trigramme,
-                dateDebutMission  : dateDeb, dateFinSg : date3ans, dateA3Ans : date3ans,
-                derogation        : "Non", // Toutdoux : Ajouter durée dérogation
-                statutMission     : "E", versionMission : 1
-            });
-            let itemfordb = new Mission(newMission);
-            this.communServ.datePropsToStr(itemfordb, ["dateDebutMission","dateFinSg","dateA3Ans"] );
-            this.communServ.setTimeStamp(itemfordb);
-            this.missionService.create(itemfordb).pipe(first()).subscribe(data => {
-
-                let entity = "Mission";
-
-                // Update item on success
-                this.communServ.updateVersion(entity, newMission, data);
-
-                // Add to list of collab
-                if (!Array.isArray(this.collab.missions ) )
-                    this.collab.missions = [];
-                this.collab.missions.push(newMission);
-            });
-        }
     }
 
     update( action : string) {
 
+        let state = this.selectedPrestationOriginalValue.statutPrestation;
+
         this.updatePrestation("Prestation", action, this.selectedPrestation, this.selectedPrestationOriginalValue);
 
+        // On save but last state was terminated : reOpen mission
+        if ( action == "E" && state == 'T') {
+            // Get mission of presta to update it
+            this.missionService.getMission(this.selectedPrestation.identifiantMission).pipe(first()).subscribe(mission => {
+                if (mission!=undefined && mission!=null)
+                    this.missionService.updateMission("Mission", action, mission, this.missionService, false);
+            },error => { this.alertService.error(error); });
+        }
     }
 
     // !! Also called from collab :
@@ -614,9 +621,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var dbadd = dbnew; var add = currentValue;
         this.communServ.updateWithBackup("Prestation", upd, dbupd, add, dbadd, dbService, false );
 
-        // Todo : If lastValue.statutPrestation was 'T' -> reopen Mission
-        let missionPrestation = null; // ?
-        this.missionService.updateMission("Mission", "E", missionPrestation , this.missionService, false);
 
     }
 

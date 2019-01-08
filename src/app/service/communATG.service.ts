@@ -2,7 +2,7 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {first} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 
-import {Collaborateur} from "../model/referentiel";
+import {Collaborateur, Mission} from "../model/referentiel";
 import {AlertService} from "../service/alert.service";
 import {SelectItem} from "primeng/api";
 
@@ -10,7 +10,7 @@ import {SelectItem} from "primeng/api";
 export class CommunATGService {
 
     public updateCollabCompleted$       : EventEmitter<boolean> ;
-    public updateMissionCompleted$      : EventEmitter<boolean> ;
+    public updateMissionCompleted$      : EventEmitter<Mission> ;
     public updatePrestationCompleted$   : EventEmitter<boolean> ;
 
     constructor( private datePipe : DatePipe, private alertService : AlertService ){
@@ -148,7 +148,7 @@ export class CommunATGService {
             if (array[key] == "")
                 label = " [ Vide ]";
             else {
-                var labelfld = labels[ array[key]];
+                var labelfld = labels[ array[key] ];
                 label = (labelfld) ? labelfld : array[key] ;
             }
             list.push({label: label, value: array[key]});
@@ -187,19 +187,21 @@ export class CommunATGService {
         return list;
     }
 
+    // Returns last item, comparing date and version number
     getLastItem(items, dateFld, versionFld) {
 
         var lastItem = null;
         if (items) {
             items.forEach( item => {
-                var lastDate = (lastItem != null && typeof lastItem[dateFld] == "string") ? lastItem[dateFld] : null;
-                var compDates = this.compareDates(item[dateFld], lastDate);
-                if (compDates==1) {
+
+                let lastDate = (lastItem != null) ? lastItem[dateFld] : null;
+                let compDates = this.compareDates( item[dateFld], lastDate);
+                if (compDates == 1)
                     lastItem = item;
-                }
-                else if ( compDates==0 ) { // Dates identiques, comparer version
-                    var lastVersion = (lastItem != null) ? Number(lastItem[versionFld]) : 0;
-                    if (Number(item[versionFld])>lastVersion)
+                // Dates identiques, comparer version
+                else if ( compDates==0 ) {
+                    let lastVersion = (lastItem != null) ? Number(lastItem[versionFld]) : 0;
+                    if (Number(item[versionFld]) > lastVersion)
                         lastItem = item;
                 }
             });
@@ -432,11 +434,13 @@ export class CommunATGService {
         }
     }
 
-    setSubArrayProperty(mainArray, subArray, prop, value) {
+    setSubArrayProperty(mainArray, pGrp, subArray, pFld, prop, value) {
         mainArray.forEach(grp => {
-            grp[subArray].forEach(fld => {
-                fld[prop] = value;
-            });
+            if (pGrp=="" || (pGrp==grp) )
+                grp[subArray].forEach(fld => {
+                    if (pFld=="" || (pFld==fld) )
+                         fld[prop] = value;
+                });
         });
         return mainArray;
     }

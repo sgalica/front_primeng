@@ -98,16 +98,17 @@
         <div *ngFor="let fiche of FieldsFiches" class="ui-g-12 ui-md-6" >
         <p-fieldset legend="{{fiche.grplabel}}" [ngSwitch]="fiche.grp" *ngIf="fiche.grp!='ST' || this.selectedCollaborateur.stt=='Oui'" >
 
-            <div *ngSwitchCase="'Mission'">
+            <div *ngSwitchCase = "'Mission'">
 
                 <div *ngIf="lastMission">
+
                     <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
 
                         <span class="ui-inputgroup-addon" [ngStyle]="{'flex-basis':'25%', 'flex-grow':'0', 'text-align':'left', 'background-color':'#f5fafb'}">{{colDefs[field.name].header}} :</span>
 
-                        <p-calendar *ngSwitchCase="'date'" [(ngModel)]="lastMission[field.name]" [showButtonBar]="true"
-                                    dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
-                                    [disabled]="field.readonly"
+                        <p-calendar *ngSwitchCase="'date'" [(ngModel)]="lastMission[field.name]" [showIcon]="true" [showButtonBar]="true"
+                                    dateFormat = "{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
+                                    [disabled] = "field.readonly"
                                     [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
                         </p-calendar>
 
@@ -123,9 +124,7 @@
                     </div>
                 </div>
 
-                <div *ngIf="lastMission==null">
-                    Il n'existe aucune mission pour ce collaborateur.
-                </div>
+                <div *ngIf="lastMission==null">Il n'existe aucune mission pour ce collaborateur.</div>
             </div>
 
             <div *ngSwitchDefault>
