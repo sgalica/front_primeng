@@ -76,10 +76,10 @@ export class Mission {
 
     id: any = 0;
     identifiantMission: any = 0;
-    identifiantPilote: any = 0;
-    dateDebutMission: any = 0;
-    dateFinSg: any = 0;
-    dateA3Ans: any = 0;
+    identifiantPilote: any = "";
+    dateDebutMission: any = "";
+    dateFinSg: any = "";
+    dateA3Ans: any = "";
     derogation: any = "";
     statutMission: any = "";
     versionMission: any = 0;

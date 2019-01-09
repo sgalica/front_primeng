@@ -238,10 +238,8 @@ export class CollaborateursComponent implements OnInit {
         // Make fields readonly if state "Terminée"
         if (state == "T")
             fieldsFiches = this.communServ.setSubArrayProperty(fieldsFiches, "","fields", "","readonly", true);
-        else {
-            // Enable/disable change of dateFinSG depending on mission derogation oui/non
+        else // Enable/disable change of dateFinSG depending on mission derogation oui/non
             this.refreshDerogationInput();
-        }
 
         return fieldsFiches ;
     }
@@ -531,7 +529,7 @@ export class CollaborateursComponent implements OnInit {
             }
 
         }
-
+debugger;
         if (valueChanged == 1)
             this.refreshDerogationInput();
 

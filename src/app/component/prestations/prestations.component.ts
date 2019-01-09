@@ -210,11 +210,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // Init combo missions with missions of Collab
         let list = [];
         list.push({label: " [Vide]", value: ""});
-        this.collab.missions.forEach(mission => {
-                list.push({label:mission.identifiantMission , value: mission.identifiantMission});
-            }
-        );
-        this.colDefs["identifiantMission"].values = list;
+        if (this.collab.missions)
+            this.collab.missions.forEach(mission => {
+                list.push({label: mission.identifiantMission , value: mission.identifiantMission});
+            });
+        if (this.colDefs)
+            this.colDefs["identifiantMission"].values = list;
 
     }
 
@@ -414,64 +415,77 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // La date de début de prestation doit être :
         // - supérieure ou égale à la date de début du contrat
         // - et strictement inférieure à la date de fin de contrat.
+        let dateTest = item.dateDebutPrestation;
         if (item.contratAppli != "") {
-            if ( (item.contrat.dateDebutContrat > 0) && (item.dateDebutPrestation < item.contrat.dateDebutContrat) )
+            if ( this.communServ.checkDate(dateTest, "<", item.contrat.dateDebutContrat) )
                 errmsgs.push("La date de début de prestation doit être supérieure ou égale à la date de début du contrat");
-            if ( (item.contrat.dateFinContrat > 0) && (item.dateDebutPrestation > item.contrat.dateFinContrat) )
+            if ( this.communServ.checkDate(dateTest, ">", item.contrat.dateFinContrat) )
                 errmsgs.push("La date de début de prestation doit être antérieure à la date de fin du contrat");
         }
         // Elle doit être strictement inférieure à la date de fin de prestation si renseignée.
-        if ( (item.dateFinPrestation > 0) && (item.dateDebutPrestation > item.dateFinPrestation) )
+        if ( (item.dateFinPrestation > 0) && (dateTest > item.dateFinPrestation) )
             errmsgs.push("La date de début de prestation ne peut pas être après la date de fin");
 
         // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur),
         // elle doit être strictement inférieure à la date à 3 ans.
         let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
-        if (actualMission && (actualMission.dateDebutMission > 0) && (item.dateDebutPrestation >= this.communServ.addToDate(actualMission.dateDebutMission,[0,0,3])))
-            errmsgs.push("La date de début de prestation ne peut pas être plus que 3 ans après la date de début de la mission en cours.");
+        if (actualMission) {
+            let dateLimite = this.communServ.convertStrToDate(actualMission["dateDebutMission"]);
+            if ((dateLimite > 0) && (dateTest >= this.communServ.addToDate(dateLimite, [0, 0, 3]) ) )
+                errmsgs.push("La date de début de prestation ne peut pas être plus que 3 ans après la date de début de la mission en cours.");
+        }
 
         // S'il n'existe pas de mission en cours, mais il existe une mission terminée,
         // la date de début de prestation doit être supérieure à la date de fin de la dernière mission + 1 an.
         let terminatedMissions      = this.communServ.getItemsCond(this.collab.missions, "statutMission", "T");
         let lastTerminatedMission   = this.communServ.getLastItem(terminatedMissions, 'dateDebutMission', 'versionMission');
-        if (lastTerminatedMission && (lastTerminatedMission.dateFinSG > 0) && (item.dateDebutPrestation <= this.communServ.addToDate(lastTerminatedMission.dateFinSG,[0,0,1])))
-            errmsgs.push("La date de début de prestation ne peut être à moins d'1 an après la fin de la dernière mission.");
+        if (lastTerminatedMission) {
+            let dateLimite = this.communServ.convertStrToDate(lastTerminatedMission["dateFinSG"]);
+            if (( dateLimite > 0) && (dateTest <= this.communServ.addToDate(dateLimite,[0,0,1])))
+                errmsgs.push("La date de début de prestation ne peut être à moins d'1 an après la fin de la dernière mission.");
+        }
 
 
         // RGs date de fin de la prestation :
 
+        dateTest = item.dateFinPrestation;
         // Si la date de fin de la prestation est renseignée,
-        if (item.dateFinPrestation > 0) {
+        if (dateTest > 0) {
             // > elle doit être supérieure ou égale à la date de début du contrat
             // et strictement inférieure à la date de fin de contrat.
             if (item.contratAppli != "") {
-                if ((item.contrat.dateDebutContrat > 0) && (item.dateFinPrestation < item.contrat.dateDebutContrat))
+                if ( this.communServ.checkDate(dateTest, "<", item.contrat["dateDebutContrat"]) )
                     errmsgs.push("La date de fin de prestation doit être supérieure ou égale à la date de début du contrat");
-                if ((item.contrat.dateFinContrat > 0) && (item.dateFinPrestation > item.contrat.dateFinContrat))
+                if ( this.communServ.checkDate(dateTest, ">", item.contrat["dateFinContrat"]) )
                     errmsgs.push("La date de fin de prestation doit être antérieure à la date de fin du contrat");
             }
             // > elle doit être strictement supérieure à la date de début de la prestation.
-            if ( !(item.dateDebutPrestation > 0) || ( (item.dateDebutPrestation > 0) && (item.dateFinPrestation < item.dateDebutPrestation) ) )
+            if ( !(item.dateDebutPrestation > 0) || ( this.communServ.checkDate(dateTest, "<", item["dateDebutPrestation"]) ) )
                 errmsgs.push("La date de fin de prestation ne peut pas être avant la date de début");
         }
 
         // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur)
-        if (actualMission) {
-            // -&& et s'il n'y a pas dérogation, elle doit être inférieure ou égale à la date à 3 ans.
-            if (actualMission.derogation=="Non") {
-                if ( (actualMission.dateDebutMission > 0) && (item.dateFinPrestation >= this.communServ.addToDate(actualMission.dateDebutMission,[0,0,3])))
-                    errmsgs.push("La date de fin de prestation ne peut pas être plus que 3 ans après la date de début de la mission en cours.");
+        if ( actualMission ) {
+            // -&& et s'il n'y a pas dérogation, la prestation ne peut pas dépasser 3 ans.
+            if ( actualMission.derogation == "Non" ) {
+                let dateLimite = this.communServ.convertStrToDate( actualMission["dateDebutMission"] );
+                let dateLimite2 = this.communServ.addToDate( dateLimite,[0,0,3]);
+                if ( ( dateLimite > 0 ) && ( dateTest >= dateLimite2))
+                    errmsgs.push("La prestation ne peut pas dépasser la limite de 3 ans d'une mission.");
+                // ToDo ? : check ne pas dépasser la durée de la mission (dateFinSg avant limite de 3 ans, comme dérogation).
             }
-            // -&& et sinon s'il y a dérogation, elle peut être supérieure à la date à 3 ans en restant inférieure ou égale à la date à 3 ans + durée de la dérogation. ??
+            // -&& et sinon s'il y a dérogation, la prestation ne peut pas dépasser la limite de la dérogation.
             else {
-                // Todo :  ajouter check avec durée dérogation
+                let dateLimite = this.communServ.convertStrToDate( actualMission["dateFinSg"] );
+                let dateLimite2 = dateLimite;
+                if ( ( dateLimite > 0 ) && ( dateTest > dateLimite2 ) )
+                    errmsgs.push("La prestation ne peut pas dépasser la durée de la mission ("+ actualMission["dateFinSg"] + ").");
             }
 
         }
 
-        // S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée.
-        // Ceci est court-circuité au nouveau du bouton
-
+        // (S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée :
+        // Ceci est géré par desactivation du bouton.)
 
         return errmsgs.join(" - ");
     }
@@ -484,20 +498,18 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var errmsg = this.checkInput(item);
         if (errmsg == "") {
 
-            // ADD new value
+            // >= ADD =<
             if (item.id == 0) {
 
                 // Si aucune mission, en créer une avec comme date celle de la prestation, ensuite créer la presta avec l'id de la mission
-                if (this.collab.missions==undefined || this.collab.missions==null || this.collab.missions.length==0)
+                if ( this.collab.missions == undefined || this.collab.missions == null || this.collab.missions.length == 0)
                     this.missionService.addMission(null, item.dateDebutPrestation, item );
                 else
                     this.addPrepare(item);
             }
-            // UPDATE
+            // >= UPDATE =<
             else {
                 this.update("E");
-
-                // Evt. Update related edited tables
             }
         }
         else this.alertService.error(errmsg);
@@ -531,7 +543,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     onMissionAdded(mission) {
-        // Once mission added, add Prestation with id of mission
+
+        // Once mission added, add the Prestation with id of mission
         this.selectedPrestation.identifiantMission = mission.id;
         this.addPrepare(this.selectedPrestation);
     }
@@ -546,9 +559,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // Si la date de fin de prestation n'a pas été renseignée, elle prendra la valeur de la date à 3 ans de la mission.
         if (!(newItemForDb.dateFinPrestation > 0)) {
-            let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
+            let actualMission = this.communServ.getArrayItemProp( this.collab.missions, "statutMission", "E", null);
             if (actualMission)
-                newItemForDb.dateFinPrestation = this.communServ.addToDate(actualMission.dateDebutMission,[0,0,3]);
+                newItemForDb.dateFinPrestation = this.communServ.addToDate( actualMission.dateDebutMission,[0,0,3]);
         }
 
         // Conversion dates en strings
@@ -590,7 +603,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if ( action == "E" && state == 'T') {
             // Get mission of presta to update it
             this.missionService.getMission(this.selectedPrestation.identifiantMission).pipe(first()).subscribe(mission => {
-                if (mission!=undefined && mission!=null)
+                if (mission != undefined && mission != null)
                     this.missionService.updateMission("Mission", action, mission, this.missionService, false);
             },error => { this.alertService.error(error); });
         }

@@ -44,14 +44,15 @@ export class CommunATGService {
         return pDate;
     }
 
-    convertStrToDate(datestr) {
-        if (datestr) {
-            if (typeof datestr=="string") {
-                var dateArr = datestr.split("/"); //dd/mm/yyyy
+    convertStrToDate(pDate) {
+
+        if (pDate) {
+            if (typeof pDate == "string") {
+                var dateArr = pDate.split("/"); //dd/mm/yyyy
                 return new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0]));
             }
             else
-                return datestr;
+                return pDate;
         }
         else
             return new Date(0);
@@ -100,23 +101,43 @@ export class CommunATGService {
         return ( date1 > date2 ) ? 1 : (date1 < date2) ? -1 : 0 ;
     }
 
+    checkDate(dateTest, comp, dateLimite) {
+
+        // Si pas de date comparaison : return false
+        if (!(dateLimite > 0))
+            return false;
+
+        if (comp == "<")
+            return (dateTest < dateLimite) ;
+        else if (comp == ">")
+            return (dateTest > dateLimite) ;
+        else if (comp == "<=")
+            return (dateTest <= dateLimite) ;
+        else if (comp == ">=")
+            return (dateTest >= dateLimite) ;
+
+    }
+
+
     // Retourne la date si plus récente (null autrement)
     getDateIfMoreRecent(datestr, lastDate ) {
         var dateTst = this.convertStrToDate(datestr);
         return ( dateTst > (this.convertStrToDate(lastDate)) ) ? dateTst : null;
     }
 
-    addToDate(date, datearr) { // [d,m,y]
-        var newDate = new Date(date);
-        if (datearr[0] > 0)  // days
-            newDate = new Date (newDate.valueOf() + (86400000 * datearr[0]) )
+    addToDate(pDate, dateArr) { // [d,m,y]
 
-        if (datearr[1] > 0) { // months
-            var nmonths = newDate.getMonth() + datearr[1];
+        var newDate = new Date(this.convertStrToDate(pDate));
+
+        if (dateArr[0] > 0)  // days
+            newDate = new Date (newDate.valueOf() + (86400000 * dateArr[0]) )
+
+        if (dateArr[1] > 0) { // months
+            var nmonths = newDate.getMonth() + dateArr[1];
             newDate = new Date (newDate.getFullYear() + (nmonths / 12), nmonths%12, newDate.getDate()  )
         }
-        if (datearr[2] > 0)  // years
-            newDate = new Date (newDate.getFullYear() + datearr[2], newDate.getMonth(), newDate.getDate()  )
+        if (dateArr[2] > 0)  // years
+            newDate = new Date (newDate.getFullYear() + dateArr[2], newDate.getMonth(), newDate.getDate()  )
 
         return newDate;
     }
@@ -133,6 +154,7 @@ export class CommunATGService {
         }
         return condition;
     }
+
 
 
     // **** SelectItems ****
@@ -193,15 +215,13 @@ export class CommunATGService {
         var lastItem = null;
         if (items) {
             items.forEach( item => {
-
-                let lastDate = (lastItem != null) ? lastItem[dateFld] : null;
-                let compDates = this.compareDates( item[dateFld], lastDate);
+                let compDates = (lastItem != null) ? this.compareDates(item[dateFld], lastItem[dateFld]) : 1; // new item by default (if first item)
                 if (compDates == 1)
                     lastItem = item;
                 // Dates identiques, comparer version
-                else if ( compDates==0 ) {
+                else if ( compDates == 0 ) {
                     let lastVersion = (lastItem != null) ? Number(lastItem[versionFld]) : 0;
-                    if (Number(item[versionFld]) > lastVersion)
+                    if (Number( item[versionFld]) > lastVersion)
                         lastItem = item;
                 }
             });
