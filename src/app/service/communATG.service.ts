@@ -49,12 +49,12 @@ export class CommunATGService {
         if (pDate) {
             if (typeof pDate == "string") {
                 var dateArr = pDate.split("/"); //dd/mm/yyyy
-                return new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0]));
+                return (dateArr.length==3) ? new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0])) : new Date(0);
             }
             else
                 return pDate;
         }
-        else
+        else // null
             return new Date(0);
     }
 
@@ -96,8 +96,7 @@ export class CommunATGService {
 
     // Retourne 1 si date1 >, -1 si date1<, 0 si =
     compareDates(date1Str, date2Str ) {
-        var date1 = this.convertStrToDate(date1Str);
-        var date2 = this.convertStrToDate(date2Str);
+        let date1 = this.convertStrToDate(date1Str); let date2 = this.convertStrToDate(date2Str);
         return ( date1 > date2 ) ? 1 : (date1 < date2) ? -1 : 0 ;
     }
 
@@ -454,11 +453,13 @@ export class CommunATGService {
         }
     }
 
+    // I.e.:
+    //setSubArrayProperty(this.FieldsFiches, "Mission", "fields", "dateFinSg","readonly", readonly);
     setSubArrayProperty(mainArray, pGrp, subArray, pFld, prop, value) {
-        mainArray.forEach(grp => {
-            if (pGrp=="" || (pGrp==grp) )
-                grp[subArray].forEach(fld => {
-                    if (pFld=="" || (pFld==fld) )
+        mainArray.forEach(groupe => {
+            if ( pGrp=="" || (pGrp==groupe.grp) )
+                groupe[subArray].forEach( fld => {
+                    if ( (pFld == "") || (pFld == fld.name) )
                          fld[prop] = value;
                 });
         });

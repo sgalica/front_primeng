@@ -79,6 +79,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
             }
         }*/
     isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
+    displayInfo = false;
+    errmsg = "";
 
     constructor(
 
@@ -399,11 +401,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         let errmsgs = [];
         let errmsg = "";
-        let fieldsGrp = this.communServ.getArrayItemProp(this.fieldsFiches, "grp", "Prestation", "fields");
+        let fieldsGrp = this.communServ.getArrayItemProp( this.fieldsFiches,"grp","Prestation","fields" );
+        debugger;
         fieldsGrp.forEach( fld => {
-            if (fld.obligatoire != "") {
-                if (errmsg != "") errmsg += ", ";
-                errmsg += fld.name;
+            if ( fld.obligatoire != "") {
+                if ( item[fld.name]==null || Number(item[fld.name]) == 0 ) {
+                    if (errmsg != "") errmsg += ", ";
+                    errmsg += fld.name;
+                }
             }
         } );
         if (errmsg != "") {
@@ -425,15 +430,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // Elle doit être strictement inférieure à la date de fin de prestation si renseignée.
         if ( (item.dateFinPrestation > 0) && (dateTest > item.dateFinPrestation) )
             errmsgs.push("La date de début de prestation ne peut pas être après la date de fin");
-
-        // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur),
-        // elle doit être strictement inférieure à la date à 3 ans.
-        let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
-        if (actualMission) {
-            let dateLimite = this.communServ.convertStrToDate(actualMission["dateDebutMission"]);
-            if ((dateLimite > 0) && (dateTest >= this.communServ.addToDate(dateLimite, [0, 0, 3]) ) )
-                errmsgs.push("La date de début de prestation ne peut pas être plus que 3 ans après la date de début de la mission en cours.");
-        }
 
         // S'il n'existe pas de mission en cours, mais il existe une mission terminée,
         // la date de début de prestation doit être supérieure à la date de fin de la dernière mission + 1 an.
@@ -464,7 +460,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 errmsgs.push("La date de fin de prestation ne peut pas être avant la date de début");
         }
 
+
         // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur)
+        let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
         if ( actualMission ) {
             // -&& et s'il n'y a pas dérogation, la prestation ne peut pas dépasser 3 ans.
             if ( actualMission.derogation == "Non" ) {
@@ -476,18 +474,28 @@ export class PrestationsComponent implements OnInit, OnChanges {
             }
             // -&& et sinon s'il y a dérogation, la prestation ne peut pas dépasser la limite de la dérogation.
             else {
-                let dateLimite = this.communServ.convertStrToDate( actualMission["dateFinSg"] );
-                let dateLimite2 = dateLimite;
-                if ( ( dateLimite > 0 ) && ( dateTest > dateLimite2 ) )
-                    errmsgs.push("La prestation ne peut pas dépasser la durée de la mission ("+ actualMission["dateFinSg"] + ").");
+                // Pas de dérogation en cas d'ajout d'une presta : date limite = date à 3 ans
+                // En cas de modif : 1 an de prolongation max, donc 4 ans maxi après début
+                let nans = (item.id > 0) ? 3 : 4;
+                let dateLimiteMax = this.communServ.convertStrToDate(actualMission["dateDebutMission"]);
+                dateLimiteMax = this.communServ.addToDate(dateLimiteMax, [0, 0, nans]);
+
+                let dateLimite = this.communServ.convertStrToDate(actualMission["dateFinSg"]);
+                // Si pas de date limite indiquée alors default
+                if ((dateLimite == 0) || (dateLimite > dateLimiteMax))
+                    dateLimite = dateLimiteMax;
+
+                if ( dateTest > dateLimite )
+                    errmsgs.push("La prestation ne peut pas dépasser la limite de la dérogation de la mission ("+ this.communServ.dateStr(dateLimite) + ").");
             }
 
         }
 
         // (S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée :
         // Ceci est géré par desactivation du bouton.)
-
-        return errmsgs.join(" - ");
+        errmsg = errmsgs.join("\n<br/> - ");
+        if (errmsgs.length>1) errmsg = " - " + errmsg
+        return errmsg ;
     }
 
     save() { // On save do add or update
@@ -495,8 +503,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var item = this.selectedPrestation;
 
         // CHECK input
-        var errmsg = this.checkInput(item);
-        if (errmsg == "") {
+        this.errmsg = this.checkInput(item);
+        if (this.errmsg == "") {
 
             // >= ADD =<
             if (item.id == 0) {
@@ -512,7 +520,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 this.update("E");
             }
         }
-        else this.alertService.error(errmsg);
+        else this.displayInfo = true;
     }
 
     getLastVersion() {
@@ -700,8 +708,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
         ];
         referenceslist.forEach(
             defref => {
+
                 // Clear references of field
                 defref.flds.forEach( fld => { this.references[fld.ref]=[]; });
+
                 // Load references of field (except if already loaded (responsable pole in global list))
                 if (defref.flds[0].ref != "responsablePole" || this.modeCollab)
                     this.communServ.loadTableKeyValues(defref.flds, defref.service, this.references, defref.uniquefilter, true );

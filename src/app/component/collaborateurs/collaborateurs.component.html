@@ -109,6 +109,7 @@
                         <p-calendar *ngSwitchCase="'date'" [(ngModel)]="lastMission[field.name]" [showIcon]="true" [showButtonBar]="true"
                                     dateFormat = "{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
                                     [disabled] = "field.readonly"
+                                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                     [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
                         </p-calendar>
 
@@ -150,6 +151,7 @@
 
                         <p-calendar *ngSwitchCase="'dateEmbaucheOpen'" [(ngModel)]="selectedCollaborateur[field.name]" [showIcon]="true" [showButtonBar]="true"
                                     dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [disabled]="field.readonly"
+                                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                     [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                     [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
                         </p-calendar>
@@ -238,3 +240,11 @@
 
 
 <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non"></p-confirmDialog>
+
+
+<p-dialog [(visible)]="displayInfo" appendTo="body" [draggable]="true" [responsive]="true" [closable]="true" [modal]="false"
+          [style]="{'max-width':'50%'}"
+          [contentStyle]="{'overflow':'visible', 'color':'red'}">
+    {{errmsg}}
+    <p-footer><button type="button" pButton (click)="displayInfo=false" label="OK"></button></p-footer>
+</p-dialog>

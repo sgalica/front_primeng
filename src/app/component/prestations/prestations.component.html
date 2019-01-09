@@ -53,10 +53,10 @@
                                 dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr"
                                 (onSelect)  ="pt_filter($event, pt, col.field);"
                                 (onClearClick)="pt_filter($event, pt, col.field);"
-                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [selectOtherMonths]="true"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis', 'padding':'6px 6px'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}"      >
-                        <p-header *ngIf="col.field=='dateDebutPrestation'" ><div style="width:200px">A partir de :</div></p-header>
+                        <p-header *ngIf="col.field=='dateDebutPrestation'"><div style="width:200px">A partir de :</div></p-header>
                         <p-header *ngIf="col.field=='dateFinPrestation'"><div style="width:200px">Jusqu'au :</div></p-header>
                     </p-calendar>
                 </div>
@@ -133,6 +133,7 @@
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" [showButtonBar]="true"
                                 dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [disabled]="field.readonly"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                 [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
                     </p-calendar>
 
@@ -156,7 +157,9 @@
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left','background-color':'#f5fafb'}">{{colDefs[field.name].header}}&nbsp;:</span>
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[field.name]" [showIcon]="true" [showButtonBar]="true"
-                                dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [disabled]="field.readonly" [inputStyle]="{}">
+                                dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [disabled]="field.readonly"
+                                [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
+                                [inputStyle]="{}">
                     </p-calendar>
 
                     <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [disabled]="field.readonly" [editable]="field.editable" [style]="{'width':'100%'}">
@@ -205,6 +208,13 @@
 
 </p-dialog>
 
+<p-dialog [(visible)]="displayInfo" appendTo="body" [draggable]="true" [responsive]="true" [closable]="true" [modal]="false" [style]="{'max-width':'50%'}"
+          [contentStyle]="{'overflow':'visible', 'color':'red'}">
+    {{errmsg}}
+    <p-footer>
+        <button type="button" pButton (click)="displayInfo=false" label="OK"></button>
+    </p-footer>
+</p-dialog>
 
 <!--<p-dataView #dv1 [style]="{'padding': '20px'}" [value]="prestations" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="nom"
 [sortField]="sortField" [sortOrder]="sortOrder">

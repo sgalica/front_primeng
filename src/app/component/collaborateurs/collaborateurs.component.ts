@@ -79,6 +79,8 @@ export class CollaborateursComponent implements OnInit {
     //styleNormal : string = "";
 
     showDerogation : boolean = true;
+    displayInfo = false;
+    errmsg = "";
 
     constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService, private missionService: MissionService,
                 private router: Router, private alertService: AlertService, private communATGService : CommunATGService, private confirmationService : ConfirmationService) {
@@ -179,8 +181,6 @@ export class CollaborateursComponent implements OnInit {
         // this.colsplice = this.selectedColumns; this.colsplice.splice(1,10);
         // Prestations (dynamique) : this.loadPrestationComponent();
     }
-
-
 
     selectColumns() {
 
@@ -331,11 +331,11 @@ export class CollaborateursComponent implements OnInit {
 
     checkInput(item) {
         var errmsg="";
-        if (item.categorisation=="")
+        if (item.categorisation == "")
             errmsg += "- Veuillez sélectionner une catégorie. ";
-        else if (item.stt=="Oui" && item.societeStt=="" )
+        else if (item.stt == "Oui" && item.societeStt == "" )
             errmsg += "- Le nom de la société STT est obligatoire. ";
-        else if (item.stt=="Oui" && item.preEmbauche=="Oui" && !(item["dateEmbaucheOpen"]>0) )
+        else if (item.stt == "Oui" && item.preEmbauche == "Oui" && !(item["dateEmbaucheOpen"] > 0) )
             errmsg += "- La date d'embauche est obligatoire. ";
         return errmsg;
     }
@@ -345,8 +345,8 @@ export class CollaborateursComponent implements OnInit {
         var item = this.selectedCollaborateur;
 
         // CHECK input
-        var errmsg = this.checkInput(item);
-        if (errmsg=="") {
+        this.errmsg = this.checkInput(item);
+        if (this.errmsg=="") {
 
             // ADD new value
             if (item.id == 0) {
@@ -369,7 +369,7 @@ export class CollaborateursComponent implements OnInit {
                     this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.alertService.error(error);} );
             }
         }
-        else this.alertService.error(errmsg);
+        else this.displayInfo = true;
     }
 
     cancelEditCollab() {
@@ -498,10 +498,10 @@ export class CollaborateursComponent implements OnInit {
     refreshDerogationInput() {
 
         let readonly = (this.lastMission && this.lastMission.derogation=="Oui") ? false : true;
-        this.communServ.setSubArrayProperty(this.FieldsFiches, "Mission","fields", "dateFinSg","readonly", readonly);
+        this.FieldsFiches = this.communServ.setSubArrayProperty(this.FieldsFiches,"Mission","fields","dateFinSg","readonly", readonly);
     }
 
-    // On combo change :
+    // On combo change
     changeDerogation(event) {
 
         // Check if not a running prestation exceeding 3 years
@@ -529,7 +529,6 @@ export class CollaborateursComponent implements OnInit {
             }
 
         }
-debugger;
         if (valueChanged == 1)
             this.refreshDerogationInput();
 
@@ -579,6 +578,7 @@ debugger;
    }
 
     updatePrestasList(action, list, value) {
+
         let dateFields = []; //Ne pas convertir les dates (["dateDebutPrestation", "dateFinPrestation"]) en str
         return this.communServ.updatelist( list, action, value, new Prestation(value),   null,null, dateFields,null,null);
     }
