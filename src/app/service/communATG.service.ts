@@ -2,21 +2,23 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {first} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 
-import {Collaborateur, Mission} from "../model/referentiel";
+import {Mission} from "../model/referentiel";
 import {AlertService} from "../service/alert.service";
 import {SelectItem} from "primeng/api";
 
 @Injectable()
 export class CommunATGService {
 
-    public updateCollabCompleted$       : EventEmitter<boolean> ;
-    public updateMissionCompleted$      : EventEmitter<Mission> ;
-    public updatePrestationCompleted$   : EventEmitter<boolean> ;
+    public updateCollabCompleted$       : EventEmitter<boolean>;
+    public updateMissionCompleted$      : EventEmitter<Mission>;
+    public updatePrestationCompleted$   : EventEmitter<boolean>;
+    public error$                       : EventEmitter<string>;
 
     constructor( private datePipe : DatePipe, private alertService : AlertService ){
         this.updateCollabCompleted$     = new EventEmitter();
         this.updateMissionCompleted$    = new EventEmitter();
         this.updatePrestationCompleted$ = new EventEmitter();
+        this.error$ = new EventEmitter<string>();
     }
 
 
@@ -273,47 +275,41 @@ export class CommunATGService {
     // Récupère une liste dans la forme (key-value) de la table (pour combos)
     loadTableKeyValues(flds, tableService, itemsarray, uniquevalues, addEmptyValue=false) {
 
-        tableService.list()
-            .pipe(first())
-            .subscribe( rows => {
+        tableService.list().pipe(first()).subscribe( rows => {
 
-                    flds.forEach( fld => {
+            flds.forEach( fld => {
 
-                            itemsarray[fld.ref]=[];
-                            if (addEmptyValue)
-                                itemsarray[fld.ref].push({value: "", label: "[Vide]"});
+                itemsarray[fld.ref]=[];
+                if (addEmptyValue)
+                    itemsarray[fld.ref].push({value: "", label: "[Vide]"});
 
-                            if (uniquevalues) {
+                if (uniquevalues) {
 
-                                // Unique values
-                                var keys = {};
-                                rows.forEach(row => {
-                                    row[fld.key] = (row[fld.key] == undefined || row[fld.key] == null) ? "" : row[fld.key].trim();
-                                    keys[row[fld.key]] = row[fld.label];
-                                });
-                                // Lists for combos
-                                for (var item in keys) {
-                                    itemsarray[fld.ref].push({value: item, label: keys[item]});
-                                }
-                            }
-                            else {
-                                var label = "";
-                                rows.forEach(row => {
-                                    label = row[fld.label];
-                                    label += (fld.labelbis) ? " (" + row[fld.labelbis] + ")" : "";
-
-                                    itemsarray[fld.ref].push({value: row[fld.key], label: label});
-                                });
-                            }
-
-                            // Sort
-                            itemsarray[fld.ref].sort(this.orderSelectItems);
-                        }
-                    );
-                },
-                error => {              //this.alertService.error(error);
+                    // Unique values
+                    let keys = {};
+                    rows.forEach(row => {
+                        row[fld.key] = (row[fld.key] == undefined || row[fld.key] == null) ? "" : row[fld.key].trim();
+                        keys[row[fld.key]] = row[fld.label];
+                    });
+                    // Lists for combos
+                    for (var item in keys) {
+                        itemsarray[fld.ref].push({value: item, label: keys[item]});
+                    }
                 }
-            );
+                else {
+                    let label = "";
+                    rows.forEach(row => {
+                        label = row[fld.label];
+                        label += (fld.labelbis) ? " (" + row[fld.labelbis] + ")" : "";
+
+                        itemsarray[fld.ref].push({value: row[fld.key], label: label});
+                    });
+                }
+
+                // Sort
+                itemsarray[fld.ref].sort(this.orderSelectItems);
+            });
+        },error => { this.error$.emit(error); }); //this.alertService.error(error);
     }
 
     // Enregistre les valeurs des colonnes d'une ligne comme clés
@@ -344,13 +340,12 @@ export class CommunATGService {
             catch (e) {
                 debugger;
             }
-
         }
     }
 
-    updateFilters(list, sortFunc, colDefs, colStatut, allstatus, dateFields=[], pCollabDef=null) {
+    updateFilters( list, sortFunc, colDefs, colStatut, allstatus, dateFields=[], pCollabDef=null, localisationsMap=null) {
 
-        if (list != undefined) list.sort(sortFunc);
+        if ( list != undefined) list.sort(sortFunc);
 
         // Clear
         if (colDefs)
@@ -359,17 +354,23 @@ export class CommunATGService {
         // (Trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version)
         var labels: {} = {};  // Labels collabs
         if (list != undefined) {
+
             list.forEach( row => {
 
                 // Prestations :
-                // Retrieve trigramme if acces by table presta (done here to avoid double foreach)
+                // If acces from table presta : show trigramme (stocked in collaborateur) (done here to avoid double foreach)
                 if (row.collaborateur != undefined)
                     row.trigramme = row.collaborateur.trigramme;
                 // Convert dateStrs to Date
                 this.datePropsToDate(row, dateFields);
+                // Set lib localisation
+                if (localisationsMap)
+                    row.localisationLib = localisationsMap[row.localisation];
+
 
                 // >>>> Get keys <<<<<
                 this.setKeys(colDefs, row );
+
                 var collabDef = (pCollabDef == null ) ? row : row[pCollabDef];
                 this.setLabel(labels, collabDef, "trigramme",["nom", "prenom"]);
 
@@ -398,10 +399,10 @@ export class CommunATGService {
         }
     }
 
-    updatelist(list, action, item, rowval, colDefs, colStatut, dateFields, sortFunc, allstatus ) {
+    updatelist(list, action, item, rowval, colDefs, colStatut, sortFunc, allstatus ) {
 
         // Replace date values in dateformat dd/mm/yyyy
-        this.datePropsToStr(rowval, dateFields);
+        //this.datePropsToStr(rowval, dateFields);
         if (action == "add") {
 
             list.push(rowval);
@@ -540,7 +541,7 @@ export class CommunATGService {
                 else if (entity == "Collab")     this.updateCollabCompleted$.emit(true);
                 else if (entity == "Prestation") this.updatePrestationCompleted$.emit(true);
 
-            }, error => { this.alertService.error("updateWithBackup("+entity+") - create : "+error); });
-        },     error => { this.alertService.error("updateWithBackup("+entity+") - update : "+error); });
+            }, error => { this.error$.emit("updateWithBackup("+entity+") - create : "+ error); });
+        },     error => { this.error$.emit("updateWithBackup("+entity+") - update : "+ error); });
     }
 }

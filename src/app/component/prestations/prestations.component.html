@@ -210,9 +210,9 @@
 
 <p-dialog [(visible)]="displayInfo" appendTo="body" [draggable]="true" [responsive]="true" [closable]="true" [modal]="false" [style]="{'max-width':'50%'}"
           [contentStyle]="{'overflow':'visible', 'color':'red'}">
-    {{errmsg}}
+    {{errMsg}}
     <p-footer>
-        <button type="button" pButton (click)="displayInfo=false" label="OK"></button>
+        <button type="button" pButton (click)="displayInfo=false; errMsg='';" label="OK"></button>
     </p-footer>
 </p-dialog>
 

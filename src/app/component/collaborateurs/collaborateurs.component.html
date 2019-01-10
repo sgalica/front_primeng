@@ -64,9 +64,10 @@
         <tr [pSelectableRow]="rowData">
 
             <!-- DataRows -->
-            <td *ngFor="let col of columns" class="tablecol">
+            <td *ngFor="let col of columns" class="tablecol" [ngSwitch]="colDefs[col.field].filtertype">
                 <div>
-                    <span>{{rowData[col.field]}}</span>
+                    <span *ngSwitchCase="'date'">{{rowData[col.field] | date:communServ.datefmt }}</span>
+                    <span *ngSwitchDefault>{{rowData[col.field]}}</span>
                 </div>
             </td>
 
@@ -245,6 +246,6 @@
 <p-dialog [(visible)]="displayInfo" appendTo="body" [draggable]="true" [responsive]="true" [closable]="true" [modal]="false"
           [style]="{'max-width':'50%'}"
           [contentStyle]="{'overflow':'visible', 'color':'red'}">
-    {{errmsg}}
-    <p-footer><button type="button" pButton (click)="displayInfo=false" label="OK"></button></p-footer>
+    {{errMsg}}
+    <p-footer><button type="button" pButton (click)="displayInfo=false; errMsg='';" label="OK"></button></p-footer>
 </p-dialog>

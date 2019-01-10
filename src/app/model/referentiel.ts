@@ -115,6 +115,7 @@ export class Prestation {
     dateFinPrestation: any = 0;
     numeroPu: any = 0;
     localisation: any = 0;
+    localisationLib: any = "";
     responsablePole: any = 0;
     donneurOrdre: any = 0;
     commercialOpen: any = "";
@@ -206,9 +207,10 @@ export class Contrat {
 }
 
 export class Site {
-    id: any = 0;
-    codeSite: any = 0;
-    libelleSite: any = 0;
+
+    id          : any = 0;
+    codeSite    : any = 0;
+    libelleSite : any = 0;
 
     createdAt           : any = 0;
     createdBy           : any = 0;

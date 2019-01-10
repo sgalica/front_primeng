@@ -9,7 +9,7 @@ import {UserService} from "../service/user.service";
 import {User} from "../model/user";
 import {AtgModel, Collaborateur, Referentiel} from "../model/referentiel";
 import {DataService} from "../service/data.service";
-import {MissionService, ReferentielService} from "../service/datas.service";
+import {MissionService, ReferentielService, SiteService} from "../service/datas.service";
 
 class Resource {
     id: number
@@ -65,6 +65,7 @@ export class AdministratorComponent implements OnInit {
                 private userService: UserService,
                 private missionService: MissionService,
                 private referentielService: ReferentielService,
+                private siteService: SiteService,
                 private alertService: AlertService) {
     }
 
@@ -229,7 +230,6 @@ export class AdministratorComponent implements OnInit {
             // on met a jour l'objet avec des colonnes camelisées
             this.alltable = temp;
 
-
         };
         fileReader.readAsArrayBuffer(this.file);
         this.resetRef=false;
@@ -358,31 +358,45 @@ export class AdministratorComponent implements OnInit {
     }
 
     saveRefTable(event: any, table: any, i:any) {
+
         this.loader[i]=true;
 
         // permet d'empecher la propagation de l'evenement click pour que l'accordeon ne qouvre pas apres appuis sur le bouton
         event.stopPropagation();
         event.preventDefault();
 
-
-        let convertedJson: any;
         let cons = this.getModelMatch(table);
 
+        // If table prestation : replace labelSite by code Site
+        if (cons.constructor.name=="Prestation"){
+            this.siteService.list().pipe(first()).subscribe( rows => {
+                let localisationMap = {};
+                rows.forEach(row => {
+                    localisationMap[row.libelleSite] = row.codeSite;
+                });
+                table.forEach(row => {
+                    row.localisation = localisationMap[row.localisation];
+                });
+
+                this.saveTable(cons, table, i);
+            });
+
+        }
+        else
+            this.saveTable(cons, table, i);
+
+    }
+
+    saveTable(cons, table, i) {
 
         console.log("LOGGING table:::::::::::::::::::::::", table);
         console.log("LOGGING cons :::::::::::::::::::::::", cons);
-        convertedJson = this.convertJsonToModel(table, cons);
+        let convertedJson = this.convertJsonToModel(table, cons);
         const temp = convertedJson.map(x => JSON.stringify(x));
         console.log("LOGGING convertedJson :::::::::::::::::::::::", convertedJson);
         console.log("LOGGING temp :::::::::::::::::::::::", temp);
 
-
-        // const temp = this.serviceMatcher.getServiceMatch(cons);
-        //console.log("LOGGING res :::::::::::::::::::::::", res);
-        //this.ReferentielService.createList(convertedJson)
-
         this.dataService.getServiceMatch(cons).createList(convertedJson)
-        //this.missionService.createList(convertedJson)
             .pipe(first())
             .subscribe(
                 data => {
@@ -404,7 +418,5 @@ export class AdministratorComponent implements OnInit {
                     this.alertService.error(error);
                 });
 
-
     }
-
 }

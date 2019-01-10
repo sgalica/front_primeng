@@ -80,7 +80,7 @@ export class CollaborateursComponent implements OnInit {
 
     showDerogation : boolean = true;
     displayInfo = false;
-    errmsg = "";
+    errMsg = "";
 
     constructor(private collaborateurService: CollaborateurService, private categorieService: CategorieService, private missionService: MissionService,
                 private router: Router, private alertService: AlertService, private communATGService : CommunATGService, private confirmationService : ConfirmationService) {
@@ -88,10 +88,15 @@ export class CollaborateursComponent implements OnInit {
         communATGService.updateCollabCompleted$.subscribe(x => this.onUpdateComplete(x));
         communATGService.updateMissionCompleted$.subscribe(x => this.onUpdateMissionCompleted(x));
         missionService.missionAdded$.subscribe(x => this.onMissionAdded(x));
+        communATGService.error$.subscribe(x => this.errmsg(x) );
 
     }
-    /*   ngOnChanges(): void { }*/
 
+    /*   ngOnChanges(): void { }*/
+    errmsg(x) {
+        this.errMsg += x +"\n";
+        this.displayInfo = true;
+    }
 
     ngOnInit() {
 
@@ -345,8 +350,8 @@ export class CollaborateursComponent implements OnInit {
         var item = this.selectedCollaborateur;
 
         // CHECK input
-        this.errmsg = this.checkInput(item);
-        if (this.errmsg=="") {
+        this.errMsg = this.checkInput(item);
+        if (this.errMsg == "") {
 
             // ADD new value
             if (item.id == 0) {
@@ -369,7 +374,7 @@ export class CollaborateursComponent implements OnInit {
                     this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.alertService.error(error);} );
             }
         }
-        else this.displayInfo = true;
+        else this.errmsg(this.errMsg);
     }
 
     cancelEditCollab() {
@@ -407,10 +412,10 @@ export class CollaborateursComponent implements OnInit {
 
                     this.alertService.success("Collaborateur ajouté");
                     this.afficherLaSaisie("Visu");
-                 }, error => { this.alertService.error(error); });
+                 }, error => { this.errmsg(error); });
             }
-            else this.alertService.error("Un collaborateur avec trigramme "+ itemfordb.trigramme+ " existe déjà.");
-        }, error => { this.alertService.error(error); } );
+            else this.errmsg("Un collaborateur avec trigramme "+ itemfordb.trigramme+ " existe déjà.");
+        }, error => { this.errmsg(error); } );
     }
 
     update(action) {
@@ -477,7 +482,7 @@ export class CollaborateursComponent implements OnInit {
 
         // Update missions list of collab
         if (change=="update")
-            this.communServ.updatelist( this.selectedCollaborateur.missions, "change", param, new Mission(param),   null,null, [],null,null);
+            this.communServ.updatelist( this.selectedCollaborateur.missions, "change", param, new Mission(param),   null,null, null,null);
         else {// add
             // Update missions list of collab (add)
             if (!Array.isArray(this.selectedCollaborateur.missions))
@@ -520,7 +525,7 @@ export class CollaborateursComponent implements OnInit {
 
                 this.lastMission.derogation="Oui";
 
-                this.alertService.error("La dérogation ne peut être annulée du à la présence de prestations dépassant la période autorisée.");
+                this.errmsg("La dérogation ne peut être annulée du à la présence de prestations dépassant la période autorisée.");
 
                 // Refresh screen
                 this.showDerogation=false;
@@ -578,13 +583,11 @@ export class CollaborateursComponent implements OnInit {
    }
 
     updatePrestasList(action, list, value) {
-
-        let dateFields = []; //Ne pas convertir les dates (["dateDebutPrestation", "dateFinPrestation"]) en str
-        return this.communServ.updatelist( list, action, value, new Prestation(value),   null,null, dateFields,null,null);
+        return this.communServ.updatelist( list, action, value, new Prestation(value),   null,null, null,null);
     }
 
     updateCollabList(action, list, value) {
-        return this.communServ.updatelist( list, action, value, new Collaborateur(value), this.colDefs,"statutCollab", ["dateEmbaucheOpen"], this.orderTrigrammeVersion, this.allstatus);
+        return this.communServ.updatelist( list, action, value, new Collaborateur(value), this.colDefs,"statutCollab",  this.orderTrigrammeVersion, this.allstatus);
     }
 
     suppCollab(item=null) {

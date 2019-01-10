@@ -20,7 +20,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     title : string = "Prestation";
 
     @Input()  collab : Collaborateur;
-    @Output() closewindowPrestas = new EventEmitter<boolean>();
+    @Output() closewindowPrestas        = new EventEmitter<boolean>();
     @Output() updatePrestationCompleted = new EventEmitter<boolean>();
 
     @ViewChild(('pt'))
@@ -40,26 +40,27 @@ export class PrestationsComponent implements OnInit, OnChanges {
     employee_name: string = "";
 
     // Fiche/Detail
-    selectedPrestation: Prestation = new Prestation();
+    selectedPrestation  : Prestation = new Prestation();
     selectedPrestationOriginalValue : Prestation;
-    displayDialogPresta: boolean = false;
+    displayDialogPresta : boolean = false;
 
     // Références
-    missions : { label: string, value: number }[];
+    missions    : { label: string, value: number }[];
     allstatus = { E : "En cours", T: "Terminée", S: "Supprimée", A: "Archivée" };
-    contrats : SelectItem[]=[];
-    references : any[]=[];
+    contrats    : SelectItem[]=[];
+    references  : any[]=[];
+    localisationMap : object = null;
 
-    showHistSelect: boolean = false;
+    showHistSelect : boolean = false;
 
     buttonsList : String[] = ["Save", "End", "Delete", "Cancel", "ReOpen"];
-    buttons : Object; // {label:String, disabled:Boolean}[] = []
+    buttons     : Object; // {label:String, disabled:Boolean}[] = []
 
-    fieldsFiches : any[];
+    fieldsFiches        : any[];
     fieldsFichesDefault : any[];
-    dateFields : string[] = ["dateDebutPrestation", "dateFinPrestation"];
+    dateFields          : string[] = ["dateDebutPrestation", "dateFinPrestation"];
 
-    communServ : CommunATGService;
+    communServ       : CommunATGService;
     styleObligatoire : string = "obligatoire";
     styleReadOnly    : string = "readonly";
 
@@ -80,7 +81,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }*/
     isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
     displayInfo = false;
-    errmsg = "";
+    errMsg = "";
+
 
     constructor(
 
@@ -103,8 +105,13 @@ export class PrestationsComponent implements OnInit, OnChanges {
     ) {
         communATGService.updatePrestationCompleted$.subscribe(x => this.onUpdatePrestationCompleted(x));
         missionService.missionAdded$.subscribe(x => this.onMissionAdded(x));
+        communATGService.error$.subscribe(x => this.errmsg(x) );
     }
 
+    errmsg(x) {
+        this.errMsg += x +" - ";
+        this.displayInfo = true;
+    }
 
     ngOnInit() {
 
@@ -131,7 +138,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
             departement:            {header: 'Département',         filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
             pole:                   {header: 'Pôle',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
             domaine:                {header: 'Domaine',             filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
-            localisation:           {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            localisation:           {header: 'Site',                filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
+            localisationLib:        {header: 'Site',                filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
             numeroPu:               {header: 'PU',                  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:false},
             responsablePole:        {header: 'Responsable de pôle', filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
             donneurOrdre:           {header: 'Donneur ordre SG',    filtertype: "liste", showInList:false, filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
@@ -190,6 +198,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         this.loadReferences();
 
+        // Is admin ?
         if (localStorage.getItem('currentUser')) {
             this.authService.isAdmin.subscribe((value) => {
                 this.isAdmin$.next(value);
@@ -199,6 +208,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     showCollab(pCollab:Collaborateur) {
+
+        this.errMsg = "";
 
         if (pCollab != null)
             this.collab = pCollab;
@@ -243,22 +254,32 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     loadAllPrestations() {
 
-        this.prestationService.list()
-            .subscribe(prestations => {
+        this.prestationService.list().subscribe(prestations => {
             this.selectPrestations(prestations);
             this.filterVersions();
             // RespsPole : If all prestations loaded, we can take values from filters
             var ref = "responsablePole";
             Array.prototype.push.apply(this.references[ref], this.colDefs[ref].values);
-            //this.alertService.success(prestations);
-        },error => { this.alertService.error(error); });
+        },error => { this.errmsg(error); });
     }
 
     selectPrestations(p_prestations: Prestation[]) {
 
         this.prestations = p_prestations;
-        if (this.communServ != undefined)
-            this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur" );
+        if ( this.communServ != undefined ) {
+            // Load localisation labels before showing table
+            if (this.localisationMap == null) {
+                this.localisationMap = {};
+                this.siteService.list().pipe(first()).subscribe( rows => {
+                    rows.forEach(row => {
+                        this.localisationMap[row.codeSite] = row.libelleSite;
+                    });
+                    this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur", this.localisationMap);
+                });
+            }
+            else
+                this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur", this.localisationMap );
+        }
         this.showHistSelect = false;
     }
 
@@ -373,7 +394,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée.
         if (this.collab) {
             let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
-            if (actualPrestation) this.alertService.error("La création d'une prestation n'est pas possible parce qu'une prestation est encore en cours.");
+            if (actualPrestation) this.errmsg("La création d'une prestation n'est pas possible parce qu'une prestation est encore en cours.");
         }
         else {
 
@@ -402,7 +423,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         let errmsgs = [];
         let errmsg = "";
         let fieldsGrp = this.communServ.getArrayItemProp( this.fieldsFiches,"grp","Prestation","fields" );
-        debugger;
         fieldsGrp.forEach( fld => {
             if ( fld.obligatoire != "") {
                 if ( item[fld.name]==null || Number(item[fld.name]) == 0 ) {
@@ -493,8 +513,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // (S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée :
         // Ceci est géré par desactivation du bouton.)
-        errmsg = errmsgs.join("\n<br/> - ");
-        if (errmsgs.length>1) errmsg = " - " + errmsg
+        errmsg = errmsgs.join(" - ");
+        if (errmsgs.length > 1) errmsg = " - " + errmsg;
         return errmsg ;
     }
 
@@ -503,8 +523,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var item = this.selectedPrestation;
 
         // CHECK input
-        this.errmsg = this.checkInput(item);
-        if (this.errmsg == "") {
+        this.errMsg = this.checkInput(item);
+        if (this.errMsg == "") {
 
             // >= ADD =<
             if (item.id == 0) {
@@ -520,7 +540,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 this.update("E");
             }
         }
-        else this.displayInfo = true;
+        else this.errmsg(this.errMsg);
     }
 
     getLastVersion() {
@@ -598,7 +618,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.afficherLaSaisie("Visu");
             this.alertService.success(entity + " ajoutée");
 
-        }, error => { this.alertService.error(error); });
+        }, error => { this.errmsg(error); });
     }
 
     update( action : string) {
@@ -613,7 +633,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.missionService.getMission(this.selectedPrestation.identifiantMission).pipe(first()).subscribe(mission => {
                 if (mission != undefined && mission != null)
                     this.missionService.updateMission("Mission", action, mission, this.missionService, false);
-            },error => { this.alertService.error(error); });
+            },error => { this.errmsg(error); });
         }
     }
 
@@ -664,13 +684,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
             // Refresh screen
             this.afficherLaSaisie("Visu");
         }
-
     }
 
-    updatelist(action, value) {
-        let list = "prestations";
-        let dateFields = []; // Ne pas convertir les dates (this.dateFields) en str
-        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", dateFields, this.orderDateDebutEtVersion, this.allstatus);
+    updatelist(action, value, list = "prestations") {
+        this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", this.orderDateDebutEtVersion, this.allstatus);
     }
 
     /*delete() {
@@ -694,7 +711,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     loadReferences() {
 
         this.references = [];
-        var referenceslist=[
+        var referenceslist = [
             {flds :[{ref:"contratAppli",    key:"contratAppli", label:"contratAppli"} ],       service:this.contratService,     uniquefilter : false},
             {flds :[{ref:"localisation",    key:"codeSite",     label:"libelleSite"} ],        service:this.siteService,        uniquefilter : false},
             {flds :[{ref:"numAtg",          key:"numeroAtg",    label:"numeroAtg"} ],          service:this.numAtgService,      uniquefilter : false},
