@@ -351,8 +351,8 @@ export class CollaborateursComponent implements OnInit {
         var item = this.selectedCollaborateur;
 
         // CHECK input
-        this.errMsg = this.checkInput(item);
-        if (this.errMsg == "") {
+        let errMsg = this.checkInput(item);
+        if (errMsg == "") {
 
             // ADD new value
             if (item.id == 0) {
@@ -376,7 +376,7 @@ export class CollaborateursComponent implements OnInit {
                     this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.errmsg(error); } );
             }
         }
-        else this.errmsg(this.errMsg);
+        else this.errmsg(errMsg);
     }
 
     cancelEditCollab() {

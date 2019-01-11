@@ -421,7 +421,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     checkInput(item : Prestation) {
-
         let errmsgs = [];
         let errmsg = "";
         let fieldsGrp = this.communServ.getArrayItemProp( this.fieldsFiches,"grp","Prestation","fields" );
@@ -525,8 +524,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var item = this.selectedPrestation;
 
         // CHECK input
-        this.errMsg = this.checkInput(item);
-        if (this.errMsg == "") {
+        let errMsg = this.checkInput(item);
+        if (errMsg == "") {
 
             // >= ADD =<
             if (item.id == 0) {
@@ -542,7 +541,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 this.update("E");
             }
         }
-        else this.errmsg(this.errMsg);
+        else this.errmsg(errMsg);
     }
 
     getLastVersion() {
