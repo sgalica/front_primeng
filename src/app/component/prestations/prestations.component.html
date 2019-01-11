@@ -3,6 +3,7 @@
 
         <button *ngIf="modeCollab" pButton type="button" styleClass="ui-button-icon" icon="pi pi-times" style="float:right; margin:0px 0px 0px 5px; background-color:transparent; color:gray; font-size: 1.2em; margin-top:-3px;" (click)="closeDialog()" ></button>
         <button *ngIf="modeCollab" pButton type="button" label="Nouvelle prestation" icon="pi pi-plus" (click)="new()" style="float:right; margin:0px;"></button>
+
         <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
         <!--<i class="pi pi-bars"></i>-->
 </p-toolbar>
@@ -207,6 +208,10 @@
     </p-footer>
 
 </p-dialog>
+
+
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" acceptLabel="Oui" rejectLabel="Non" appendTo="body"></p-confirmDialog>
+
 
 <p-dialog [(visible)]="displayInfo" appendTo="body" [draggable]="true" [responsive]="true" [closable]="true" [modal]="false" [style]="{'max-width':'50%'}"
           [contentStyle]="{'overflow':'visible', 'color':'red'}">

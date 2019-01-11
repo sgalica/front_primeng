@@ -388,32 +388,35 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     new() {
-
         // Check if not already prestation running
         // S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée.
         if (this.collab) {
             let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
-            if (actualPrestation) this.errmsg("La création d'une prestation n'est pas possible parce qu'une prestation est encore en cours.");
-        }
-        else {
+            if (actualPrestation) {
+                this.errmsg("La création d'une prestation n'est pas possible parce qu'une prestation est encore en cours.");
+            }
+            else {
 
-            // Create new prestation affected to collab and actual mission
-            this.selectedPrestation = new Prestation();
-            // Set default value mission with active mission of collab
-            let actualMission  = this.communServ.getArrayItemProp( this.collab.missions,"statutMission", "E", null);
-            let defaultMission = (actualMission) ? actualMission.identifiantMission : "";
+                // Create new prestation affected to collab and actual mission
+                this.selectedPrestation = new Prestation();
 
-            this.communServ.setObjectValues(this.selectedPrestation, null, {
-                trigramme    : this.collab.trigramme,
-                collaborateur: this.collab,
-                contrat      : new Contrat(),
-                commercialOpenInfo: new CommercialOpen(),
-                identifiantMission : defaultMission
-            });
+                // Set default values :
+                // - mission with active mission of collab
+                // - collab info
+                let actualMission  = this.communServ.getArrayItemProp( this.collab.missions,"statutMission", "E", null );
+                let defaultMission = (actualMission) ? actualMission.identifiantMission : "";
+                this.communServ.setObjectValues(this.selectedPrestation, null, {
+                    trigramme    : this.collab.trigramme,
+                    collaborateur: this.collab,
+                    contrat      : new Contrat(),
+                    commercialOpenInfo: new CommercialOpen(),
+                    identifiantMission: defaultMission
+                });
 
-            // Show form
-            this.displayDialogPresta = true;
-            this.afficherLaSaisie("New");
+                // Show form
+                this.displayDialogPresta = true;
+                this.afficherLaSaisie("New");
+            }
         }
     }
 
@@ -555,8 +558,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     end() {
         this.confirmationService.confirm({
-            message: "Confirmez vous la fermeture de la prestation ?",
-            accept: () => {
+            message: "Confirmez vous la fermeture de la prestation ?", accept: () => {
                 this.update("T");
             }
         });
