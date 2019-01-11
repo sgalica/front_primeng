@@ -13,7 +13,7 @@ import {AuthService} from "../../service/auth.service";
 
 //this.prestations=this.communServ.updatelist(this.prestations, action, item, new Prestation(item), this.coldefs, "statutPrestation", ["dateDebutPrestation","dateFinPrestation"], this.orderDateDebutEtVersion, this.allstatus);
 
-@Component({ selector: 'app-prestations', templateUrl: './prestations.component.html', styleUrls: [ './prestations.component.css' ],
+@Component({ selector: 'app-prestations', templateUrl: './prestations.component.html', styleUrls: ['./prestations.component.css' ],
     providers : [ConfirmationService] })
 export class PrestationsComponent implements OnInit, OnChanges {
 
@@ -32,7 +32,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     // Liste
     prestations : Prestation[] = [];
     cols        : any[];
-    selectedColumns : any[];
+    selectedColumns: any[];
     colDefs     : {}; //{ header: string, field: string, filtertype: string, filtercond: string, selected:[]/"" showInList: boolean }[];
 
     // Collaborateur
@@ -263,9 +263,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         },error => { this.errmsg(error); });
     }
 
-    selectPrestations(p_prestations: Prestation[]) {
+    selectPrestations( p_prestations: Prestation[]) {
 
-        this.prestations = p_prestations;
         if ( this.communServ != undefined ) {
             // Load localisation labels before showing table
             if (this.localisationMap == null) {
@@ -274,11 +273,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
                     rows.forEach(row => {
                         this.localisationMap[row.codeSite] = row.libelleSite;
                     });
-                    this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur", this.localisationMap);
+                    this.prestations = this.communServ.updateFilters(p_prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur", this.localisationMap);
                 });
             }
             else
-                this.communServ.updateFilters(this.prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur", this.localisationMap );
+                this.prestations = this.communServ.updateFilters(p_prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur", this.localisationMap );
         }
         this.showHistSelect = false;
     }

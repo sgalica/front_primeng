@@ -91,7 +91,7 @@
 
             <!-- DataRows -->
             <td *ngFor="let col of columns" [ngSwitch]="colDefs[col.field].filtertype">
-                <span *ngSwitchCase="'date'">{{rowData[col.field] | date:communServ.datefmt }}</span>
+                <span *ngSwitchCase = "'date'">{{rowData[col.field] | date:communServ.datefmt }}</span>
                 <span *ngSwitchDefault>{{rowData[col.field]}}</span>
             </td>
 

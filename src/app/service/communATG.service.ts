@@ -345,21 +345,21 @@ export class CommunATGService {
 
     updateFilters( list, sortFunc, colDefs, colStatut, allstatus, dateFields=[], pCollabDef=null, localisationsMap=null) {
 
-        if ( list != undefined) list.sort(sortFunc);
+        if ( list != undefined ) list.sort(sortFunc);
 
         // Clear
         if (colDefs)
             this.clearTableCols(colDefs, ["values", "selected", "keys"]);
 
         // (Trigramme, DateDebut, DateFin, Contrat, ATG, Departement, Pole, Domaine, Site, PU, Type, Statut, Version)
-        var labels: {} = {};  // Labels collabs
+        var labels : {} = {};  // Labels collabs
         if (list != undefined) {
 
             list.forEach( row => {
 
                 // Prestations :
                 // If acces from table presta : show trigramme (stocked in collaborateur) (done here to avoid double foreach)
-                if (row.collaborateur != undefined)
+                if ( row.collaborateur != undefined )
                     row.trigramme = row.collaborateur.trigramme;
                 // Convert dateStrs to Date
                 this.datePropsToDate(row, dateFields);
@@ -378,8 +378,8 @@ export class CommunATGService {
         }
 
         for (var column in colDefs) {
-            let selectitems: SelectItem[];
 
+            let selectitems: SelectItem[];
             switch (column) {
 
                 case colStatut :
@@ -397,6 +397,8 @@ export class CommunATGService {
             }
             colDefs[column].values = selectitems;
         }
+
+        return list;
     }
 
     updatelist(list, action, item, rowval, colDefs, colStatut, sortFunc, allstatus ) {

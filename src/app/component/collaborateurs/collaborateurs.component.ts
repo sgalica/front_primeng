@@ -69,9 +69,10 @@ export class CollaborateursComponent implements OnInit {
     buttonsList    : String[] = ["Save","Create","Prestas","EndMission","Delete", "ReOpen", "Cancel"];
     buttons        : Object;
 
-    FieldsFiches : any[];
-    FieldsFichesVisu : any[];
-    FieldsFichesCreation : any[];
+    FieldsFiches        : any[];
+    FieldsFichesVisu    : any[];
+    FieldsFichesCreation: any[];
+    dateFields          : string[] = ["dateEmbaucheOpen"];
 
     communServ : CommunATGService;
     styleObligatoire : string = "obligatoire"; // : object = {'border-bottom':'lightsteelblue solid thin'};
@@ -195,14 +196,10 @@ export class CollaborateursComponent implements OnInit {
 
     loadAllCollaborateurs() {
 
-        this.collaborateurService.list()
-            //.pipe(first())
-            .subscribe(collaborateurs => {
-                console.log("Collaborateurs chargés");
-            this.collaborateurs = collaborateurs;
-            this.communServ.updateFilters( this.collaborateurs, this.orderTrigrammeVersion, this.colDefs, "statutCollab", this.allstatus);
+        this.collaborateurService.list().subscribe(collaborateurs => { console.log("Collaborateurs chargés");
+            this.collaborateurs = this.communServ.updateFilters( collaborateurs, this.orderTrigrammeVersion, this.colDefs, "statutCollab", this.allstatus );
             this.showHistSelect = false;
-        },error => { this.alertService.error(error); } );
+        },error => { this.errmsg(error); } );
     }
 
     loadCategorisations() {
@@ -258,13 +255,17 @@ export class CollaborateursComponent implements OnInit {
         this.missionService.getMissionsCollab( this.selectedCollaborateur.trigramme).pipe(first()).subscribe(data => {
 
             this.selectedCollaborateur.missions = data;
+            // Change type of dates stocked as string into date
+            this.selectedCollaborateur.missions.map(mission => {
+                this.communServ.datePropsToDate(mission, ["dateDebutMission", "dateFinSg", "dateA3Ans"]);
+            });
             this.lastMission = this.communServ.getLastItem( this.selectedCollaborateur.missions, 'dateDebutMission', 'versionMission');
             if (this.lastMission) this.lastMission["statutMissionLabel"] = this.allstatus[this.lastMission.statutMission];
 
             // Enable/disable change of dateFinSG depending on mission derogation oui/non
             this.refreshDerogationInput();
 
-        },error => { this.alertService.error(error);} );
+        },error => { this.errmsg(error); } );
 
 
         // S/T = Non par défaut
@@ -358,9 +359,10 @@ export class CollaborateursComponent implements OnInit {
                 var newItem = new Collaborateur(item);
                 this.communServ.setObjectValues(newItem, null, {
                     // Set State to "En cours" Version "1"
-                    statutCollab : "E", versionCollab : 1,
-                    dateEmbaucheOpen : this.communServ.dateStr(item.dateEmbaucheOpen)
+                    statutCollab : "E", versionCollab : 1
                 });
+                this.communServ.datePropsToStr(newItem, this.dateFields );
+
                 this.add(newItem);
             }
 
@@ -371,7 +373,7 @@ export class CollaborateursComponent implements OnInit {
 
                 // Update last mission
                 if (this.lastMission != null)
-                    this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.alertService.error(error);} );
+                    this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.errmsg(error); } );
             }
         }
         else this.errmsg(this.errMsg);
@@ -422,13 +424,16 @@ export class CollaborateursComponent implements OnInit {
 
         // Old value : set Archived (change trigramme to trigramme_(version)
         var dbold = new Collaborateur (this.selectedEmployeeOriginalValue);
-        this.communServ.setObjectValues(dbold, null, {trigramme : dbold["trigramme"] + "." + dbold.versionCollab, statutCollab: "A", dateEmbaucheOpen : this.communServ.dateStr( dbold.dateEmbaucheOpen),
+        this.communServ.setObjectValues(dbold, null, {trigramme : dbold["trigramme"] + "." + dbold.versionCollab, statutCollab: "A",
             missions : [], prestations : []}); // Don't save the missions neither prestations automatically
+        this.communServ.datePropsToStr(dbold, this.dateFields );
+
         // New value : statut : Action, version++
         var dbnew = new Collaborateur( this.selectedCollaborateur );
         this.communServ.setObjectValues(dbnew, null, {statutCollab : action, // S / E / T
-            versionCollab : Number(dbnew.versionCollab) + 1, dateEmbaucheOpen : this.communServ.dateStr( dbnew.dateEmbaucheOpen),
+            versionCollab : Number(dbnew.versionCollab) + 1,
             missions : [], prestations : []}); // ,,
+        this.communServ.datePropsToStr(dbnew, this.dateFields );
 
         //var dbupd  = dbold; var upd  = this.selectedEmployeeOriginalValue;
         //var dbadd  = dbnew; var add  = this.selectedCollaborateur;
