@@ -308,12 +308,14 @@ export class CommunATGService {
 
                 // Sort
                 itemsarray[fld.ref].sort(this.orderSelectItems);
+
+                debugger;
             });
         },error => { this.error$.emit(error); }); //this.alertService.error(error);
     }
 
     // Enregistre les valeurs des colonnes d'une ligne comme clés
-    // Les valeurs undefined, null, espace comme "", Les valeurs sont débarassées de leur espaces sauf si clé.
+    // Les valeurs undefined, null, espace comme "", Les valeurs sont débarassées de leur espaces sauf si clé (dans ce cas seule les valeurs vides sont regroupées dans une espace vide).
     setKeys(colDefs, row) {
 
         for (var column in colDefs) {
@@ -328,8 +330,7 @@ export class CommunATGService {
                 else if (property == undefined || property == null)
                     property = "";
                 else if (colDef.keycol) {
-                    let valuetrim = property.trim();
-                    if (valuetrim == "") property = "";
+                    if (typeof property == "string" && property.trim() == "") property = "";
                 }
                 else if (typeof property == "string")
                     property = property.trim();
@@ -545,5 +546,16 @@ export class CommunATGService {
 
             }, error => { this.error$.emit("updateWithBackup("+entity+") - create : "+ error); });
         },     error => { this.error$.emit("updateWithBackup("+entity+") - update : "+ error); });
+    }
+
+
+    // LOGIC
+    isEmpty(param) {
+        if ( param == null)
+            return true;
+        else if (typeof param == "string")
+            return (param.trim() == "");
+        else
+            return (param == 0) ;
     }
 }

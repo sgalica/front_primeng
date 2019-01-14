@@ -105,7 +105,7 @@ export class Prestation {
     id: any = 0;
     identifiantPrestation: any = 0;
     identifiantMission: any = 0;
-    contratAppli: any = 0;
+    contratAppli: any = "";
     trigramme: any = "";
     departement: any = 0;
     pole: any = 0;

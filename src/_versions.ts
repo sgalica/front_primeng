@@ -1,2 +1,2 @@
 export const version = '0.0.1';
-export const versionLong = '0.0.1-101a154';
+export const versionLong = '0.0.1-bc03fb2';

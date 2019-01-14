@@ -351,6 +351,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if (prestation.collaborateur == undefined)
             this.selectedPrestation.collaborateur = this.collab;
 
+        // Create empty values for related items if not exists
+        if (this.selectedPrestation.contrat == null )               this.selectedPrestation.contrat             = new Contrat();
+        if (this.selectedPrestation.commercialOpenInfo == null )    this.selectedPrestation.commercialOpenInfo  = new CommercialOpen();
     }
 
     getStatut(statut) {
@@ -405,7 +408,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 // - collab info
                 let actualMission  = this.communServ.getArrayItemProp( this.collab.missions,"statutMission", "E", null );
                 let defaultMission = (actualMission) ? actualMission.identifiantMission : "";
-                this.communServ.setObjectValues(this.selectedPrestation, null, {
+                this.communServ.setObjectValues( this.selectedPrestation, null, {
                     trigramme    : this.collab.trigramme,
                     collaborateur: this.collab,
                     contrat      : new Contrat(),
@@ -421,19 +424,20 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     checkInput(item : Prestation) {
+
         let errmsgs = [];
         let errmsg = "";
         let fieldsGrp = this.communServ.getArrayItemProp( this.fieldsFiches,"grp","Prestation","fields" );
         fieldsGrp.forEach( fld => {
             if ( fld.obligatoire != "") {
-                if ( item[fld.name]==null || Number(item[fld.name]) == 0 ) {
+                if ( item[fld.name] == null || Number(item[fld.name]) == 0 ) {
                     if (errmsg != "") errmsg += ", ";
                     errmsg += fld.name;
                 }
             }
         } );
         if (errmsg != "") {
-            errmsg += " est/sont obligatoire(s)!";
+            errmsg += (errmsg.indexOf(",") > 0) ? " sont obligatoires !" : " est obligatoire !";
             errmsgs.push(errmsg);
         }
 
@@ -515,7 +519,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // (S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée :
         // Ceci est géré par desactivation du bouton.)
         errmsg = errmsgs.join(" - ");
-        if (errmsgs.length > 1) errmsg = " - " + errmsg;
+        if (errmsgs.length >= 1) errmsg = " - " + errmsg;
         return errmsg ;
     }
 
@@ -583,7 +587,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
         let newItemForDb = new Prestation(item);
         let version      = Number(this.getLastVersion()) + 1;
         this.communServ.setObjectValues(newItemForDb, null, {
-            statutPrestation : "E", versionPrestation : version });
+            statutPrestation : "E", versionPrestation : version,
+            collaborateur : null, contrat : null, commercialOpenInfo : null // Don't save linked tables automatically
+        });
 
         // Si la date de fin de prestation n'a pas été renseignée, elle prendra la valeur de la date à 3 ans de la mission.
         if (!(newItemForDb.dateFinPrestation > 0)) {
@@ -594,6 +600,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // Conversion dates en strings
         this.communServ.datePropsToStr(newItemForDb, this.dateFields );
+
+        // Set to null related columns if no value
+        if (this.communServ.isEmpty(newItemForDb.contratAppli)) newItemForDb.contratAppli=null;
+        // Set to null related columns if no value
+        if (this.communServ.isEmpty(newItemForDb.commercialOpen)) newItemForDb.commercialOpen = null;
 
         this.add(newItemForDb);
     }
@@ -618,7 +629,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.afficherLaSaisie("Visu");
             this.alertService.success(entity + " ajoutée");
 
-        }, error => { this.errmsg(error); });
+        }, error => {
+            this.errmsg(error); });
     }
 
     update( action : string) {
@@ -638,7 +650,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     // !! Also called from collab :
-    updatePrestation(entity, action, currentValue, lastValue, callback=null ) {
+    updatePrestation( entity, action, currentValue, lastValue, callback=null ) {
 
         var dbService = this.prestationService;
         this.callback = callback;
@@ -661,8 +673,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var dbupd = dbold; var upd = lastValue;
         var dbadd = dbnew; var add = currentValue;
         this.communServ.updateWithBackup("Prestation", upd, dbupd, add, dbadd, dbService, false );
-
-
     }
 
     onUpdatePrestationCompleted(param) {
@@ -687,6 +697,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     updatelist(action, value, list = "prestations") {
+        // Complete with calculated values
+        value["localisationLib"] = this.localisationMap[ value["localisation"]];
         this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", this.orderDateDebutEtVersion, this.allstatus);
     }
 
