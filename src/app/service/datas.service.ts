@@ -136,14 +136,17 @@ export class MissionService extends ResourceService<Mission> {
         // Old value
         var dbold = new Mission(item); this.communServ.setObjectValues(dbold, null, { statutMission : "A"} );
         this.communServ.datePropsToStr(dbold, dateFields );
+        if (dbold["collaborateur"] != undefined ) dbold["collaborateur"]=null; // Don't save related items
 
         // New value
         var dbnew = new Mission(item); this.communServ.setObjectValues(dbnew, null, { statutMission : action,  // "T"
             versionMission : Number(dbnew.versionMission) + 1 });
         this.communServ.datePropsToStr(dbnew, dateFields );
+        if (dbnew["collaborateur"] != undefined ) dbnew["collaborateur"]=null; // Don't save related items
 
         var dbupd  = dbold; var upd = new Mission(item);
         var dbadd  = dbnew; var add = item; // Keep last value in memory
+
         // Save & Clear value
         this.communServ.updateWithBackup(entity, upd, dbupd, add, dbadd, dbService, clear);
     }

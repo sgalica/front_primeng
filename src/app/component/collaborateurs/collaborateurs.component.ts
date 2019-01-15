@@ -212,7 +212,6 @@ export class CollaborateursComponent implements OnInit {
     }
 
 
-
     // Tri sur trigramme (asc) et version (desc)
     orderTrigrammeVersion(a, b) {
         var fld = "trigramme";
@@ -262,9 +261,13 @@ export class CollaborateursComponent implements OnInit {
             this.lastMission = this.communServ.getLastItem( this.selectedCollaborateur.missions, 'dateDebutMission', 'versionMission');
             if (this.lastMission) this.lastMission["statutMissionLabel"] = this.allstatus[this.lastMission.statutMission];
 
+            // Refresh screen elements depending on mission
             // Enable/disable change of dateFinSG depending on mission derogation oui/non
             this.refreshDerogationInput();
-
+            var statutCollab = this.getStatutCollab(this.selectedCollaborateur.statutCollab, this.lastMission);
+            // Button EndMission
+            this.communServ.setObjectValues(this.buttons, "disabled",{
+                EndMission : !statutCollab.activeCollab || !statutCollab.hasMission });       // Ne pas mettre Fin à la mission si : collab pas actif ou
         },error => { this.errmsg(error); } );
 
 
@@ -445,6 +448,7 @@ export class CollaborateursComponent implements OnInit {
 
     // Actual value becomes original value, refresh form
     onUpdateComplete(success) {
+        console.log("Collaborateurs - onUpdateComplete triggered");
 
         this.alertService.success("Enregistré");
 
@@ -482,13 +486,19 @@ export class CollaborateursComponent implements OnInit {
     onMissionAdded(param : Mission) { this.onMissionChange(param, "add"); }
 
     onMissionChange(param:Mission, change:string) {
+        console.log("Collaborateurs - onMissionChange triggered - "+ change );
 
         this.lastMission = param;
+
+        if (param==null) {
+            debugger;
+            return;
+        }
 
         // Update missions list of collab
         if (change=="update")
             this.communServ.updatelist( this.selectedCollaborateur.missions, "change", param, new Mission(param),   null,null, null,null);
-        else {// add
+        else { // add
             // Update missions list of collab (add)
             if (!Array.isArray(this.selectedCollaborateur.missions))
                 this.selectedCollaborateur.missions = [];
@@ -499,7 +509,7 @@ export class CollaborateursComponent implements OnInit {
         this.refreshDerogationInput();
 
         // If terminated hide it
-        if (this.lastMission.statutMission == 'T')
+        if (this.lastMission["statutMission"] == 'T')
             this.lastMission = null;
 
     }
@@ -559,6 +569,7 @@ export class CollaborateursComponent implements OnInit {
                 if (this.lastMission) {
 
                     // - Mission
+                    // !! as clear is set the lastmision will be cleared (
                     this.missionService.updateMission("Mission", "T", this.lastMission, this.missionService, true);
 
                     // - Last Prestation of Mission
@@ -566,6 +577,7 @@ export class CollaborateursComponent implements OnInit {
                     this.currentPrestation = this.communServ.getLastItem( prestationsMission, 'dateDebutPrestation', 'versionPrestation' );
                     if ( this.currentPrestation != undefined && this.currentPrestation != null ) {
                         this.lastPrestation = new Prestation(this.currentPrestation); // Last value = current value archived
+                        debugger;
                         this.prestasComponent.updatePrestation("Prestation", "T", this.currentPrestation, this.lastPrestation, this.prestasComponent.updatePrestationCompleted );
                     }
                 }
@@ -592,7 +604,7 @@ export class CollaborateursComponent implements OnInit {
     }
 
     updateCollabList(action, list, value) {
-        return this.communServ.updatelist( list, action, value, new Collaborateur(value), this.colDefs,"statutCollab",  this.orderTrigrammeVersion, this.allstatus);
+        return this.communServ.updatelist( list, action, value, new Collaborateur(value), this.colDefs,"statutCollab", this.orderTrigrammeVersion, this.allstatus);
     }
 
     suppCollab(item=null) {
@@ -629,7 +641,8 @@ export class CollaborateursComponent implements OnInit {
     showPrestations() {
 
         this.displayDialog2=true;
-        //this.prestasComponent.showCollab(this.selectedCollaborateur);
+        // Update prestas screen because prestas & missions lists can have be changed by programme so updating & sorting required
+        this.prestasComponent.showCollab(this.selectedCollaborateur);
 
         // Dynamic way :
         //(<PrestationsComponent>this.componentRef.instance).collab = this.selectedCollaborateur;

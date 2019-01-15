@@ -309,7 +309,6 @@ export class CommunATGService {
                 // Sort
                 itemsarray[fld.ref].sort(this.orderSelectItems);
 
-                debugger;
             });
         },error => { this.error$.emit(error); }); //this.alertService.error(error);
     }
@@ -346,6 +345,7 @@ export class CommunATGService {
 
     updateFilters( list, sortFunc, colDefs, colStatut, allstatus, dateFields=[], pCollabDef=null, localisationsMap=null) {
 
+        debugger;
         if ( list != undefined ) list.sort(sortFunc);
 
         // Clear
@@ -403,7 +403,6 @@ export class CommunATGService {
     }
 
     updatelist(list, action, item, rowval, colDefs, colStatut, sortFunc, allstatus ) {
-
         // Replace date values in dateformat dd/mm/yyyy
         //this.datePropsToStr(rowval, dateFields);
         if (action == "add") {
@@ -415,9 +414,11 @@ export class CommunATGService {
         else if (action == "change") {
             var index=0;
             for (let row of list) {
-                if (row["id"] == item["id"]) {
-                    list[index] = rowval;
-                    break;
+                if (item) {
+                    if (row["id"] == item["id"]) {
+                        list[index] = rowval;
+                        break;
+                    }
                 }
                 index++;
             }
@@ -537,7 +538,7 @@ export class CommunATGService {
 
                 //if (listToBeUpdated) listToBeUpdated.push(add);
                 // Clear
-                if (clear) add = null;
+                //if (clear) add = null;
 
                 // Callback trigger
                 if      (entity == "Mission")    this.updateMissionCompleted$.emit(add); //callbackfunc.call(callingclass);

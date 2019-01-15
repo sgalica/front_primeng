@@ -598,6 +598,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 newItemForDb.dateFinPrestation = this.communServ.addToDate( actualMission.dateDebutMission,[0,0,3]);
         }
 
+        // Set topAtg
+        item.topAtg = ( item.topAtg == "" && item.numAtg != "" ) ? "ATG" : "";
+
         // Conversion dates en strings
         this.communServ.datePropsToStr(newItemForDb, this.dateFields );
 
@@ -619,7 +622,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             // Update item on success
             this.communServ.updateVersion(entity, item, data);
-
+            debugger;
             // Update list
             this.updatelist("add", item);
 
@@ -655,11 +658,18 @@ export class PrestationsComponent implements OnInit, OnChanges {
         var dbService = this.prestationService;
         this.callback = callback;
 
+        // TopATG calculated
+        currentValue.topAtg = (currentValue.numAtg != "" ) ? "ATG" : "";
+
         // Old value : Archive old value
         var dbold = new Prestation(lastValue);
         this.communServ.setObjectValues(dbold, null, { statutPrestation: "A",
             collaborateur : null, contrat : null, commercialOpenInfo : null } ); // Don't save collaborateur, contrat et commercial automatically
         this.communServ.datePropsToStr(dbold, this.dateFields);
+        // Set to null related columns if no value
+        if (this.communServ.isEmpty(dbold.contratAppli)) dbold.contratAppli=null;
+        // Set to null related columns if no value
+        if (this.communServ.isEmpty(dbold.commercialOpen)) dbold.commercialOpen = null;
 
         // New value : statut = action (T, ...), version++
         var dbnew = new Prestation(currentValue);
@@ -669,9 +679,15 @@ export class PrestationsComponent implements OnInit, OnChanges {
             versionPrestation   : version,
             collaborateur : null, contrat : null, commercialOpenInfo : null } ); // ,,
         this.communServ.datePropsToStr(dbnew, this.dateFields);
+        // Set to null related columns if no value
+        if (this.communServ.isEmpty(dbnew.contratAppli)) dbnew.contratAppli=null;
+        // Set to null related columns if no value
+        if (this.communServ.isEmpty(dbnew.commercialOpen)) dbnew.commercialOpen = null;
 
         var dbupd = dbold; var upd = lastValue;
         var dbadd = dbnew; var add = currentValue;
+
+
         this.communServ.updateWithBackup("Prestation", upd, dbupd, add, dbadd, dbService, false );
     }
 
@@ -684,6 +700,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if (this.callback)
             this.callback.emit();
         else {
+            debugger;
             // Update list with new and archived values
             this.updatelist("change",   this.selectedPrestationOriginalValue );
             this.updatelist("add",      this.selectedPrestation );
@@ -699,6 +716,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
     updatelist(action, value, list = "prestations") {
         // Complete with calculated values
         value["localisationLib"] = this.localisationMap[ value["localisation"]];
+        debugger;
         this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", this.orderDateDebutEtVersion, this.allstatus);
     }
 
