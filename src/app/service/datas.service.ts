@@ -103,7 +103,7 @@ export class MissionService extends ResourceService<Mission> {
 
     communServ : CommunATGService;
     httpClient : HttpClient;
-    public missionAdded$  : EventEmitter<Mission> ;
+    public missionAdded$ : EventEmitter<Mission> ;
 
     constructor(httpClient: HttpClient, private communATGService : CommunATGService) {
 
@@ -115,11 +115,10 @@ export class MissionService extends ResourceService<Mission> {
         this.missionAdded$ = new EventEmitter();
     }
 
-
-    getMission(id: string): Observable<Mission> {
+    getMission(id: string): Observable<Mission[]> {
         return this.httpClient
             .get(`api/missions/id/${id}`)
-            .map((data: any) => data as Mission);
+            .map((data: any) => data as Mission[]);
     }
 
     getMissionsCollab(collab: string): Observable<Mission[]> {

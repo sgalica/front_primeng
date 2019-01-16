@@ -60,9 +60,9 @@ export class CollaborateursComponent implements OnInit {
     showPrestas : string = "none";
     componentRef: any;
     @ViewChild(PrestationsComponent)
-    private prestasComponent : PrestationsComponent ;
-    private lastPrestation : Prestation;
-    private currentPrestation : Prestation;
+    private prestasComponent    : PrestationsComponent ;
+    private lastPrestation      : Prestation;
+    private currentPrestation   : Prestation;
 
     // Dynamic prestas component : @ViewChild(AdDirective) adHost: AdDirective;
     buttonPrestationsLabels : String[] = ["Visualiser les prestations", "Visualiser les prestations"]; idxBtnPrestations : number =0;
@@ -147,7 +147,7 @@ export class CollaborateursComponent implements OnInit {
             {grp: "Mission",    grplabel : "Informations Mission",          fields : [
                 {name:"dateDebutMission", type:"date",  obligatoire:"", readonly:true},                       {name:"dateA3Ans",   type:"date",  obligatoire:"", readonly:true},  {name:"dateFinSg",   type:"date",     obligatoire:"", readonly:true},
                 {name:"derogation",       type:"combo", obligatoire:"", readonly:false, options:this.ouinonComboOptions},
-                {name:"statutMissionLabel",   type:"field", obligatoire:"", readonly:true, options:this.allStatusComboOptions},   {name:"versionMission",   type:"field", obligatoire:"", readonly:true} ]},
+                {name:"statutMissionLabel",type:"field", obligatoire:"", readonly:true, options:this.allStatusComboOptions},   {name:"versionMission",   type:"field", obligatoire:"", readonly:true} ]},
             {grp: "ST",         grplabel : "Informations Sous-Traitance",   fields : [
                 {name:"societeStt",       type:"field", obligatoire:this.styleObligatoire, readonly:false},   {name:"preEmbauche", type:"combo", obligatoire:"", readonly:false}, {name:"dateEmbaucheOpen", type:"date",obligatoire:"", readonly:false}]},
             {grp: "Contact",    grplabel : "Informations de contact",       fields : [
@@ -264,10 +264,9 @@ export class CollaborateursComponent implements OnInit {
             // Refresh screen elements depending on mission
             // Enable/disable change of dateFinSG depending on mission derogation oui/non
             this.refreshDerogationInput();
-            var statutCollab = this.getStatutCollab(this.selectedCollaborateur.statutCollab, this.lastMission);
-            // Button EndMission
-            this.communServ.setObjectValues(this.buttons, "disabled",{
-                EndMission : !statutCollab.activeCollab || !statutCollab.hasMission });       // Ne pas mettre Fin à la mission si : collab pas actif ou
+            // Buttons depending on mission :
+            this.afficherLaSaisie("Visu");
+
         },error => { this.errmsg(error); } );
 
 
@@ -362,8 +361,8 @@ export class CollaborateursComponent implements OnInit {
                 var newItem = new Collaborateur(item);
                 this.communServ.setObjectValues(newItem, null, {
                     // Set State to "En cours" Version "1"
-                    statutCollab : "E", versionCollab : 1
-                });
+                    statutCollab : "E", versionCollab : 1,
+                    missions : [], prestations : []}); // Don't save the missions neither prestations automatically
                 this.communServ.datePropsToStr(newItem, this.dateFields );
 
                 this.add(newItem);
@@ -486,14 +485,13 @@ export class CollaborateursComponent implements OnInit {
     onMissionAdded(param : Mission) { this.onMissionChange(param, "add"); }
 
     onMissionChange(param:Mission, change:string) {
-        console.log("Collaborateurs - onMissionChange triggered - "+ change );
+
+        console.log("Collaborateurs - onMissionChange triggered - " + change );
 
         this.lastMission = param;
+        if (this.lastMission) this.lastMission["statutMissionLabel"] = this.allstatus[this.lastMission.statutMission];
 
-        if (param==null) {
-            debugger;
-            return;
-        }
+        if (param==null) return;
 
         // Update missions list of collab
         if (change=="update")
@@ -577,7 +575,6 @@ export class CollaborateursComponent implements OnInit {
                     this.currentPrestation = this.communServ.getLastItem( prestationsMission, 'dateDebutPrestation', 'versionPrestation' );
                     if ( this.currentPrestation != undefined && this.currentPrestation != null ) {
                         this.lastPrestation = new Prestation(this.currentPrestation); // Last value = current value archived
-                        debugger;
                         this.prestasComponent.updatePrestation("Prestation", "T", this.currentPrestation, this.lastPrestation, this.prestasComponent.updatePrestationCompleted );
                     }
                 }

@@ -190,7 +190,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             "End"    : {label:"Terminer",    disabled:true,  fnc : ()=>{this.end();} },
             "Delete" : {label:"Supprimer",   disabled:false, fnc : ()=>{this.suppPrestation();} },
             "Cancel" : {label:"Annuler",     disabled:true,  fnc : ()=>{this.cancelEditPresta();} },
-            "ReOpen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.save();} }
+            "ReOpen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.save('nocheck');} }
         };
 
         if (!this.modeCollab)
@@ -523,12 +523,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
         return errmsg ;
     }
 
-    save() { // On save do add or update
+    // On save do add or update
+    // - param docheck : if only change of state (reactivation) don't check values (can be wrong old (imported) values)
+    save(docheck="check") {
 
         var item = this.selectedPrestation;
 
         // CHECK input
-        let errMsg = this.checkInput(item);
+        let errMsg = (docheck=="check") ? this.checkInput(item) : "";
         if (errMsg == "") {
 
             // >= ADD =<
@@ -645,7 +647,8 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // On save but last state was terminated : reOpen mission
         if ( action == "E" && state == 'T') {
             // Get mission of presta to update it
-            this.missionService.getMission(this.selectedPrestation.identifiantMission).pipe(first()).subscribe(mission => {
+            this.missionService.getMission(this.selectedPrestation.identifiantMission).pipe(first()).subscribe(missions => {
+                let mission = this.communServ.getLastItem(missions, null, 'versionMission');
                 if (mission != undefined && mission != null)
                     this.missionService.updateMission("Mission", action, mission, this.missionService, false);
             },error => { this.errmsg(error); });
@@ -695,12 +698,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         console.log("Prestations - onUpdatePrestationCompleted triggered");
 
-        // If update from collab form only update info presta of collab no refresh
+        // If update from collab componant only update info presta of collab no refresh
         // Only signal finished don't do default behavior
         if (this.callback)
             this.callback.emit();
         else {
-            debugger;
             // Update list with new and archived values
             this.updatelist("change",   this.selectedPrestationOriginalValue );
             this.updatelist("add",      this.selectedPrestation );

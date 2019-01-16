@@ -216,7 +216,9 @@ export class CommunATGService {
         var lastItem = null;
         if (items) {
             items.forEach( item => {
-                let compDates = (lastItem != null) ? this.compareDates(item[dateFld], lastItem[dateFld]) : 1; // new item by default (if first item)
+                let compDates = 0;
+                if (dateFld)
+                    compDates = (lastItem != null) ? this.compareDates(item[dateFld], lastItem[dateFld]) : 1; // new item by default (if first item)
                 if (compDates == 1)
                     lastItem = item;
                 // Dates identiques, comparer version
