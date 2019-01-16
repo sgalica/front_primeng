@@ -81,6 +81,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         }*/
     isAdmin$ = new BehaviorSubject<boolean>(false); // {1}
     displayInfo = false;
+    enableBtnNewPresta = true;
     errMsg = "";
 
 
@@ -130,6 +131,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         //    "nom", "prenom", "dateDebutContrat", "dateFinContrat", "adresseMail", "telephonePortable", "telephoneFixe"];
 
         this.colDefs = {
+
             trigramme :             {header: 'Identifiant Pilote',  filtertype: "liste", showInList:true,  filtercond: null,  selected: [], values:[], keys:{}, keycol:true},
             dateDebutPrestation :   {header: 'Début',               filtertype: "date",  showInList:true,  filtercond: "gte", selected: "", values:"", keys:{}, keycol:false},
             dateFinPrestation :     {header: 'Fin',                 filtertype: "date",  showInList:true,  filtercond: "lte", selected: "", values:"", keys:{}, keycol:false},
@@ -225,10 +227,22 @@ export class PrestationsComponent implements OnInit, OnChanges {
         list.push({label: " [Vide]", value: ""});
         if (this.collab.missions)
             this.collab.missions.forEach(mission => {
-                list.push({label: mission.identifiantMission , value: mission.identifiantMission});
+                list.push({label: mission.identifiantMission, value: mission.identifiantMission});
             });
         if (this.colDefs)
             this.colDefs["identifiantMission"].values = list;
+
+
+        // La création d'une prestation n'est pas possible si (au moins) une prestation est déjà en cours.
+        let hasPrestation = false;
+        let activeMissions = this.communServ.getItemsCond(this.collab.missions, "statutMission", "E");
+        let lastMission = this.communServ.getLastItem( activeMissions, 'dateDebutMission', 'versionMission');
+        let statutCollab = this.communServ.getStatutCollab( this.collab, lastMission );
+        if (statutCollab.activeCollab && statutCollab.hasMission) {
+            let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
+            hasPrestation = (actualPrestation) ? true : false;
+        }
+        this.enableBtnNewPresta = !hasPrestation;
 
     }
 
@@ -379,7 +393,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
         // Buttons
         let statut = this.getStatut(this.selectedPrestation.statutPrestation);
-        this.communServ.setObjectValues(this.buttons, "disabled",{
+        this.communServ.setObjectValues( this.buttons, "disabled",{
             Save        : !statut.activeOrNew,         // Ne pas Enregistrer si : pas (Actif ou Nouveau)
                                                        // On ne peut mettre fin à la prestation si :
                                                        //> pas statut En cours ||
@@ -388,12 +402,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
             // On ne peut pas réactiver si : statut != 'T' ou collab!=actif ou user != admin
             ReOpen      : statut.statut != "T" || this.collab.statutCollab != "E" || !this.isAdmin$ ,
             Cancel      : false } );
+
     }
 
     new() {
         // Check if not already prestation running
         // S'il existe une prestation de statut "En cours" (donc une mission En cours), une nouvelle prestation ne peut-être créée.
         if (this.collab) {
+
             let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
             if (actualPrestation) {
                 this.errmsg("La création d'une prestation n'est pas possible parce qu'une prestation est encore en cours.");
@@ -525,7 +541,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     // On save do add or update
     // - param docheck : if only change of state (reactivation) don't check values (can be wrong old (imported) values)
-    save(docheck="check") {
+    save( docheck="check") {
 
         var item = this.selectedPrestation;
 
@@ -624,7 +640,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
             // Update item on success
             this.communServ.updateVersion(entity, item, data);
-            debugger;
+
             // Update list
             this.updatelist("add", item);
 
@@ -716,9 +732,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     updatelist(action, value, list = "prestations") {
+
         // Complete with calculated values
         value["localisationLib"] = this.localisationMap[ value["localisation"]];
-        debugger;
         this[list] = this.communServ.updatelist(this[list], action, value, new Prestation(value), this.colDefs, "statutPrestation", this.orderDateDebutEtVersion, this.allstatus);
     }
 

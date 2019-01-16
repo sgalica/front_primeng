@@ -2,7 +2,7 @@
     <div class="ui-toolbar-group-left"><span style="font-size:1.5em; display:inline-block; padding-top: 3px ">Liste des prestations {{employee_name}}</span></div>
 
         <button *ngIf="modeCollab" pButton type="button" styleClass="ui-button-icon" icon="pi pi-times" style="float:right; margin:0px 0px 0px 5px; background-color:transparent; color:gray; font-size: 1.2em; margin-top:-3px;" (click)="closeDialog()" ></button>
-        <button *ngIf="modeCollab" pButton type="button" label="Nouvelle prestation" icon="pi pi-plus" (click)="new()" style="float:right; margin:0px;"></button>
+        <button *ngIf="modeCollab" pButton type="button" label="Nouvelle prestation" icon="pi pi-plus" [disabled]="!enableBtnNewPresta" (click)="new()" style="float:right; margin:0px;"></button>
 
         <!--<button pButton type="button" label="Upload" icon="pi pi-upload" class="ui-button-success"></button>-->
         <!--<i class="pi pi-bars"></i>-->

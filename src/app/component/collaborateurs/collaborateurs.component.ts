@@ -60,7 +60,7 @@ export class CollaborateursComponent implements OnInit {
     showPrestas : string = "none";
     componentRef: any;
     @ViewChild(PrestationsComponent)
-    private prestasComponent    : PrestationsComponent ;
+    private prestasComponent    : PrestationsComponent;
     private lastPrestation      : Prestation;
     private currentPrestation   : Prestation;
 
@@ -258,7 +258,9 @@ export class CollaborateursComponent implements OnInit {
             this.selectedCollaborateur.missions.map(mission => {
                 this.communServ.datePropsToDate(mission, ["dateDebutMission", "dateFinSg", "dateA3Ans"]);
             });
-            this.lastMission = this.communServ.getLastItem( this.selectedCollaborateur.missions, 'dateDebutMission', 'versionMission');
+            // Last mission = Active mission
+            let activeMissions = this.communServ.getItemsCond(this.selectedCollaborateur.missions, "statutMission", "E");
+            this.lastMission = this.communServ.getLastItem( activeMissions, 'dateDebutMission', 'versionMission');
             if (this.lastMission) this.lastMission["statutMissionLabel"] = this.allstatus[this.lastMission.statutMission];
 
             // Refresh screen elements depending on mission
@@ -279,42 +281,37 @@ export class CollaborateursComponent implements OnInit {
 
     }
 
-
-    getStatutCollab(statutCollab, lastMission) {
-        var statutMission = (lastMission) ? lastMission.statutMission : "";
-        var activeCollab  = (statutCollab == "E");
-        return { statutCollab : statutCollab,
-                 hasMission : (statutMission!="" && statutMission!="T"),
-                 hasHadMission : (lastMission) ? (statutMission!="") ? true : false : false,
-                 activeCollab : activeCollab,
-                 activeOrNew: activeCollab || (statutCollab == "") }
-    }
-
-    canDelete(collab) {
+    canDelete( collab ) {
 
         // Si pas en cours : Non
-        if (collab.statutCollab != "E")
+        if ( collab.statutCollab != "E" )
             return false;
 
         // S'il n'a pas (eu) une mission
-        var lastMission = this.communServ.getLastItem( collab.missions, 'dateDebutMission', 'versionMission' );
-        var statutCollab = this.getStatutCollab( collab.statutCollab, lastMission );
-        return !statutCollab.hasHadMission;
+        return (collab.missions && collab.missions.length > 0 ) ? false : true;
     }
 
     afficherLaSaisie(action) {
 
         this.displayDialog = true;
 
-        var statutCollab = this.getStatutCollab(this.selectedCollaborateur.statutCollab, this.lastMission);
+        var statutCollab = this.communServ.getStatutCollab( this.selectedCollaborateur, this.lastMission );
 
         this.FieldsFiches = this.manageFieldsFiche(action, this.selectedCollaborateur.statutCollab );
+
+        // La création d'une prestation n'est pas possible si (au moins) une prestation est déjà en cours.
+        let hasPrestation = false;
+        if ( statutCollab.activeCollab ) { //&& statutCollab.hasMission // si btn pas desactivé, desactiver à cause d'une evt. présence presta
+            let actualPrestation = this.communServ.getArrayItemProp(this.selectedCollaborateur.prestations, "statutPrestation", "E", null);
+            hasPrestation = (actualPrestation) ? true : false;
+        }
 
         // Buttons
         this.communServ.setObjectValues(this.buttons, "disabled",{
             Save        : !statutCollab.activeOrNew,                                    // Ne pas Enregistrer si : collab Pas Actif ou Nouveau
-            Create      : !statutCollab.activeCollab || !statutCollab.hasMission,       // Ne pas Créer prestation si : collab pas actif ou pas mission en cours
-                                                                                        // Ne pas Voir Prestas si : il y en a pas
+            Create      : !statutCollab.activeCollab // || !statutCollab.hasMission        // Ne pas Créer prestation si : collab pas actif (ou pas mission en cours <- desactivé rg parce que dans ce cas on ne peut pas créer une prestation pour un nouveau collab depusis que visu prestas est également désactivé )
+                            || hasPrestation,                                           // ou sinon si collab actif mustn't have already prestation
+                                                                                        // Ne pas Voir Prestas si : il y en a pas !!!!
             Prestas     : (this.selectedCollaborateur.prestations == null || this.selectedCollaborateur.prestations.length == 0),
             EndMission  : !statutCollab.activeCollab || !statutCollab.hasMission,       // Ne pas mettre Fin à la mission si : collab pas actif ou pas mission en cours
             Delete      : statutCollab.hasHadMission || !statutCollab.activeCollab,     // Ne pas Supprimer le collab si : il a (eu) une mission ou pas actif (E / donc pas T, A ou déjà S)
@@ -374,8 +371,8 @@ export class CollaborateursComponent implements OnInit {
                 this.update("E");
 
                 // Update last mission
-                if (this.lastMission != null)
-                    this.missionService.update(this.lastMission).pipe(first()).subscribe(data => {  },error => { this.errmsg(error); } );
+                if ( this.lastMission != null )
+                    this.missionService.update( this.lastMission ).pipe(first()).subscribe(data => {  },error => { this.errmsg(error); } );
             }
         }
         else this.errmsg(errMsg);
@@ -512,10 +509,9 @@ export class CollaborateursComponent implements OnInit {
 
     }
 
-
     refreshDerogationInput() {
 
-        let readonly = (this.lastMission && this.lastMission.derogation=="Oui") ? false : true;
+        let readonly = ( this.lastMission && this.lastMission.derogation == "Oui") ? false : true;
         this.FieldsFiches = this.communServ.setSubArrayProperty(this.FieldsFiches,"Mission","fields","dateFinSg","readonly", readonly);
     }
 
@@ -524,10 +520,11 @@ export class CollaborateursComponent implements OnInit {
 
         // Check if not a running prestation exceeding 3 years
         let valueChanged = 1;
-        if (event.value=="Non") {
+        if ( event.value == "Non" ) {
+
             var hasDateExceeding3Years = false;
             var debutMission = this.communServ.convertStrToDate(this.lastMission.dateDebutMission);
-            var date3ans = this.communServ.addToDate( debutMission, [0,0,3] )
+            var date3ans     = this.communServ.addToDate( debutMission, [0,0,3] )
             this.selectedCollaborateur.prestations.forEach(prestation => {
                 if ( prestation.identifiantMission == this.lastMission.identifiantMission) {
                     if ( prestation.dateFinPrestation > date3ans )
@@ -536,12 +533,12 @@ export class CollaborateursComponent implements OnInit {
             });
             if (hasDateExceeding3Years) {
 
-                this.lastMission.derogation="Oui";
+                this.lastMission.derogation = "Oui";
 
                 this.errmsg("La dérogation ne peut être annulée du à la présence de prestations dépassant la période autorisée.");
 
                 // Refresh screen
-                this.showDerogation=false;
+                this.showDerogation = false;
                 setTimeout(()=>this.showDerogation=true, 0);
                 valueChanged = 0;
             }
@@ -552,7 +549,10 @@ export class CollaborateursComponent implements OnInit {
 
     }
 
-    createPrestation() { }
+    createPrestation() {
+        this.showPrestations();
+        this.prestasComponent.new();
+    }
 
     // Terminate mission
     endMission() {
@@ -564,7 +564,7 @@ export class CollaborateursComponent implements OnInit {
                 // Updates :
 
                 // - Mission & - Prestation
-                if (this.lastMission) {
+                if ( this.lastMission ) {
 
                     // - Mission
                     // !! as clear is set the lastmision will be cleared (
@@ -572,7 +572,7 @@ export class CollaborateursComponent implements OnInit {
 
                     // - Last Prestation of Mission
                     let prestationsMission = this.communServ.getItemsCond( this.selectedCollaborateur.prestations, 'identifiantMission', this.lastMission.identifiantMission );
-                    this.currentPrestation = this.communServ.getLastItem( prestationsMission, 'dateDebutPrestation', 'versionPrestation' );
+                    this.currentPrestation = this.communServ.getLastItem( prestationsMission, null, 'versionPrestation' );
                     if ( this.currentPrestation != undefined && this.currentPrestation != null ) {
                         this.lastPrestation = new Prestation(this.currentPrestation); // Last value = current value archived
                         this.prestasComponent.updatePrestation("Prestation", "T", this.currentPrestation, this.lastPrestation, this.prestasComponent.updatePrestationCompleted );
@@ -637,9 +637,9 @@ export class CollaborateursComponent implements OnInit {
 
     showPrestations() {
 
-        this.displayDialog2=true;
+        this.displayDialog2 = true;
         // Update prestas screen because prestas & missions lists can have be changed by programme so updating & sorting required
-        this.prestasComponent.showCollab(this.selectedCollaborateur);
+        this.prestasComponent.showCollab( this.selectedCollaborateur );
 
         // Dynamic way :
         //(<PrestationsComponent>this.componentRef.instance).collab = this.selectedCollaborateur;

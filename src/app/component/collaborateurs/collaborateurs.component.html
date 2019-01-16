@@ -75,7 +75,7 @@
                 <div class="ui-toolbar-group-right">
                     <button pButton type="button" icon="pi pi-search" (click)="selectCollaborateur($event, rowData); afficherLaSaisie('Visu');"></button>
                     <button pButton type="button" icon="pi pi-calendar" class="ui-button-success"></button>
-                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger" (click)="suppCollab(rowData)" [disabled]="canDelete(rowData)"></button>
+                    <button pButton type="button" icon="pi pi-times" class="ui-button-danger" (click)="suppCollab(rowData)" [disabled]="!canDelete(rowData)"></button>
                 </div>
             </td>
         </tr>

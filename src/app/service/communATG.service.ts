@@ -561,4 +561,16 @@ export class CommunATGService {
         else
             return (param == 0) ;
     }
+
+    // SPECIFIQIE
+    getStatutCollab( collab, lastMission ) {
+
+        var statutMission = (lastMission) ? lastMission.statutMission : "";
+        var activeCollab  = (collab.statutCollab == "E");
+        return { statutCollab   : collab.statutCollab,
+            hasMission     : (statutMission != "" && statutMission!="T"),
+            hasHadMission  : (collab.missions && collab.missions.length > 0 ) ? true : false ,
+            activeCollab   : activeCollab,
+            activeOrNew    : activeCollab || (collab.statutCollab == "") }
+    }
 }
