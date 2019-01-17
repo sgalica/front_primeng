@@ -85,10 +85,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
     errMsg = "";
 
 
-    constructor(
+    constructor (
 
         private prestationService: PrestationService,
-
         private contratService: ContratService,
         private missionService : MissionService,
         private siteService: SiteService,
@@ -99,11 +98,11 @@ export class PrestationsComponent implements OnInit, OnChanges {
         // private respPoleService: Service,
 
         private router: Router, private route: ActivatedRoute,
-        private alertService: AlertService,
-        private communATGService : CommunATGService,
+        private alertService        : AlertService,
+        private communATGService    : CommunATGService,
         private confirmationService : ConfirmationService,
-        private authService : AuthService
-    ) {
+        private authService         : AuthService )
+    {
         communATGService.updatePrestationCompleted$.subscribe(x => this.onUpdatePrestationCompleted(x));
         missionService.missionAdded$.subscribe(x => this.onMissionAdded(x));
         communATGService.error$.subscribe(x => this.errmsg(x) );
@@ -192,7 +191,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             "End"    : {label:"Terminer",    disabled:true,  fnc : ()=>{this.end();} },
             "Delete" : {label:"Supprimer",   disabled:false, fnc : ()=>{this.suppPrestation();} },
             "Cancel" : {label:"Annuler",     disabled:true,  fnc : ()=>{this.cancelEditPresta();} },
-            "ReOpen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.save('nocheck');} }
+            "ReOpen" : {label:"Ré-ouvrir la prestation", disabled:true,  fnc : ()=>{this.save();} }
         };
 
         if (!this.modeCollab)
@@ -209,7 +208,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
 
     }
 
-    showCollab(pCollab:Collaborateur) {
+    showCollab(pCollab : Collaborateur) {
 
         this.errMsg = "";
 
@@ -232,17 +231,18 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if (this.colDefs)
             this.colDefs["identifiantMission"].values = list;
 
-
         // La création d'une prestation n'est pas possible si (au moins) une prestation est déjà en cours.
-        let hasPrestation = false;
-        let activeMissions = this.communServ.getItemsCond(this.collab.missions, "statutMission", "E");
-        let lastMission = this.communServ.getLastItem( activeMissions, 'dateDebutMission', 'versionMission');
-        let statutCollab = this.communServ.getStatutCollab( this.collab, lastMission );
-        if (statutCollab.activeCollab && statutCollab.hasMission) {
-            let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
-            hasPrestation = (actualPrestation) ? true : false;
+        if (this.communServ) {
+            let hasPrestation = false;
+            let activeMissions = this.communServ.getItemsCond(this.collab.missions, "statutMission", "E");
+            let lastMission = this.communServ.getLastItem(activeMissions, 'dateDebutMission', 'versionMission');
+            let statutCollab = this.communServ.getStatutCollab(this.collab, lastMission);
+            if (statutCollab.activeCollab && statutCollab.hasMission) {
+                let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
+                hasPrestation = (actualPrestation != null);
+            }
+            this.enableBtnNewPresta = !hasPrestation;
         }
-        this.enableBtnNewPresta = !hasPrestation;
 
     }
 
@@ -284,9 +284,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             if (this.localisationMap == null) {
                 this.localisationMap = {};
                 this.siteService.list().pipe(first()).subscribe( rows => {
-                    rows.forEach(row => {
-                        this.localisationMap[row.codeSite] = row.libelleSite;
-                    });
+                    rows.forEach(row => { this.localisationMap[row.codeSite] = row.libelleSite; });
                     this.prestations = this.communServ.updateFilters(p_prestations, this.orderDateDebutEtVersion, this.colDefs, "statutPrestation", this.allstatus, this.dateFields, "collaborateur", this.localisationMap);
                 });
             }
@@ -306,9 +304,41 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }*/
     // Tri sur datedebut (desc) et version (desc)
     orderDateDebutEtVersion(a, b) {
-        var fld="dateDebutPrestation"; var fld2="versionPrestation";
-        var retval = (a[fld] > b[fld]) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
-        return (retval!=0) ? retval : (a[fld2] > b[fld2]) ? -1 : (a[fld2] < b[fld2]) ? 1 : 0;
+
+        let fld = "dateDebutPrestation";
+        /*
+        let date1 = a[fld];
+        let date2 = b[fld];
+        // Convert str to date
+        let date = date1;
+        if (date) {
+            if (typeof date == "string") {
+                let dateArr = date.split("/"); //dd/mm/yyyy
+                date = (dateArr.length==3) ? new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0])) : new Date(0);
+            }
+            else
+                date = date;
+        }
+        else // null
+            date = new Date(0);
+
+        date = date2;
+        if (date) {
+            if (typeof date == "string") {
+                let dateArr = date.split("/"); //dd/mm/yyyy
+                date = (dateArr.length==3) ? new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0])) : new Date(0);
+            }
+            else
+                date = date;
+        }
+        else // null
+            date = new Date(0);
+        */
+
+        let retval = ( a[fld] > b[fld] ) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
+        if (retval !=0 ) return retval;
+        let fld2 = "versionPrestation";
+        return (a[fld2] > b[fld2]) ? -1 : (a[fld2] < b[fld2]) ? 1 : 0;
     }
 
     filterVersions() {
@@ -540,13 +570,14 @@ export class PrestationsComponent implements OnInit, OnChanges {
     }
 
     // On save do add or update
-    // - param docheck : if only change of state (reactivation) don't check values (can be wrong old (imported) values)
-    save( docheck="check") {
+    save( ) {
 
         var item = this.selectedPrestation;
 
-        // CHECK input
-        let errMsg = (docheck=="check") ? this.checkInput(item) : "";
+        // CHECK input ? If only change of state (reactivation) don't check values (can be wrong old (imported) values)
+        // do check In case of add or update and state = E  (!= TSA)
+        let docheck = ( (item.id == 0) || ( item.statutPrestation == "E" ) );
+        let errMsg = (docheck) ? this.checkInput(item) : "";
         if (errMsg == "") {
 
             // >= ADD =<

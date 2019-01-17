@@ -347,8 +347,6 @@ export class CommunATGService {
 
     updateFilters( list, sortFunc, colDefs, colStatut, allstatus, dateFields=[], pCollabDef=null, localisationsMap=null) {
 
-        debugger;
-        if ( list != undefined ) list.sort(sortFunc);
 
         // Clear
         if (colDefs)
@@ -378,6 +376,9 @@ export class CommunATGService {
                 this.setLabel(labels, collabDef, "trigramme",["nom", "prenom"]);
 
             });
+
+            list.sort(sortFunc); // Sort once dateStrs converted to Dae
+
         }
 
         for (var column in colDefs) {

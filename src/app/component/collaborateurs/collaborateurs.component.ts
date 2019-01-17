@@ -115,8 +115,6 @@ export class CollaborateursComponent implements OnInit {
             telPro :         {header: 'Tél professionnel',   filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
             categorisation : {header: 'Catégorie',           filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
             stt :            {header: 'S/T',                 filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
-            statutCollab :   {header: 'Statut',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
-            versionCollab :  {header: 'Version',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
             mailSg:          {header: 'Mail SG',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
             mailOpen:        {header: 'Mail Open',           filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
             societeStt:      {header: 'Société STT',         filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
@@ -129,7 +127,9 @@ export class CollaborateursComponent implements OnInit {
             derogation:      {header:"Dérogation",           filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false},
             statutMission:   {header:"Statut",               filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false},
             statutMissionLabel: {header:"Statut",            filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false},
-            versionMission:  {header:"Version",              filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false}
+            versionMission:  {header:"Version",              filtertype : "",       filtercond:"", selected: [], values: [], keys: {}, showInList:false, keycol:false},
+            statutCollab :   {header: 'Statut',              filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false},
+            versionCollab :  {header: 'Version',             filtertype : "liste",  filtercond:"", selected: [], values: [], keys: {}, showInList:true, keycol:false}
             //{header: 'created_at', field: camelCase('created_at')},
             //{header: 'created_by', field: camelCase('created_by')},
             //{header: 'updated_at', field: camelCase('updated_at')},
@@ -350,7 +350,8 @@ export class CollaborateursComponent implements OnInit {
         var item = this.selectedCollaborateur;
 
         // CHECK input
-        let errMsg = this.checkInput(item);
+        let docheck = ( (item.id == 0) || ( item.statutCollab == "E" ) );
+        let errMsg = (docheck) ? this.checkInput(item) : "" ;
         if (errMsg == "") {
 
             // ADD new value
