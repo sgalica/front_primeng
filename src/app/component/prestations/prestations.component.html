@@ -8,6 +8,7 @@
         <!--<i class="pi pi-bars"></i>-->
 </p-toolbar>
 <div style="height: 5px"> </div>
+
 <p-table #pt [columns]="selectedColumns" [value]="prestations" [paginator]="true" [rows]="10">
 
     <ng-template pTemplate="caption">
@@ -57,8 +58,8 @@
                                 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis', 'padding':'6px 6px'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}"      >
-                        <p-header *ngIf="col.field=='dateDebutPrestation'"><div style="width:200px">A partir de :</div></p-header>
-                        <p-header *ngIf="col.field=='dateFinPrestation'"><div style="width:200px">Jusqu'au :</div></p-header>
+                        <p-header *ngIf="col.field=='dateDebutPrestation'"><div style="width:225px">A partir de :</div></p-header>
+                        <p-header *ngIf="col.field=='dateFinPrestation'"><div style="width:225px">Jusqu'au :</div></p-header>
                     </p-calendar>
                 </div>
 
@@ -126,19 +127,25 @@
 
         <p-fieldset *ngFor="let fiche of fieldsFiches" legend="{{fiche.grplabel}}" [ngSwitch]="fiche.grp" class="ui-g-12 ui-md-6">
 
+
             <div *ngIf="fiche.grp == 'contrat' || fiche.grp == 'collaborateur' || fiche.grp == 'commercialOpenInfo'">
 
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
 
                     <span class="ui-inputgroup-addon" [ngStyle]="{'flex-basis':'25%', 'flex-grow':'0', 'text-align':'left','background-color':'#f5fafb'}">{{colDefs[field.name].header}}&nbsp;:</span>
 
+                    <div [class]="field.obligatoire">
+
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" [showButtonBar]="true"
                                 dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [disabled]="field.readonly"
                                 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                 [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
+                        <p-header><div style="width:225px;"></div></p-header>
                     </p-calendar>
 
-                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" filter="true" [disabled]="field.readonly" [editable]="field.editable" [style]="{'width':'100%'}" (onChange)="field.fnc.call()">
+                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[fiche.grp][field.name]" filter="true" [disabled]="field.readonly" [editable]="field.editable"
+                                [style]="{'width':'100%'}" [panelStyle]="{'min-width':'175px'}"
+                                (onChange)="field.fnc.call()" >
                         <ng-template let-item pTemplate="selectedItem">
                             <span style="vertical-align:middle; margin-left:0em">{{item.label}}</span>
                         </ng-template>
@@ -150,20 +157,27 @@
                     </p-dropdown>
 
                     <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[fiche.grp][field.name]" [disabled]="field.readonly" style="width:auto">
+
+                    </div>
                 </div>
             </div>
-            <div *ngIf="fiche.grp == 'Prestation'">
+
+            <div *ngIf = "fiche.grp == 'Prestation'">
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.type">
                     
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%','text-align':'left','background-color':'#f5fafb'}">{{colDefs[field.name].header}}&nbsp;:</span>
+
+                    <div [class]="field.obligatoire">
 
                     <p-calendar *ngSwitchCase="'date'" [(ngModel)]="selectedPrestation[field.name]" [showIcon]="true" [showButtonBar]="true"
                                 dateFormat="{{communServ.datefmtCalendarInput}}" [locale]="communServ.fr" [disabled]="field.readonly"
                                 [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                 [inputStyle]="{}">
+                        <p-header><div style="width:225px;"></div></p-header>
                     </p-calendar>
 
-                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [disabled]="field.readonly" [editable]="field.editable" [style]="{'width':'100%'}">
+                    <p-dropdown *ngSwitchCase="'combo'" [options]="references[field.name]" [(ngModel)]="selectedPrestation[field.name]" filter="true" [disabled]="field.readonly" [editable]="field.editable"
+                                [style] = "{'width':'100%'}" [panelStyle]="{'min-width':'175px'}" >
                         <ng-template let-item pTemplate="selectedItem"><span>{{item.label}}</span></ng-template>
                         <ng-template let-itembis pTemplate="item">
                             <div class="ui-helper-clearfix" style="position:relative;">
@@ -173,6 +187,7 @@
                     </p-dropdown>
 
                     <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedPrestation[field.name]" [disabled]="field.readonly" style="width:auto">
+                    </div>
                 </div>
             </div>
         </p-fieldset>

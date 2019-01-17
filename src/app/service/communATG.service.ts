@@ -102,21 +102,21 @@ export class CommunATGService {
         return ( date1 > date2 ) ? 1 : (date1 < date2) ? -1 : 0 ;
     }
 
-    checkDate(dateTest, comp, dateLimite) {
+    checkDate(dateTest, comp, pDateLimite) {
 
-        // Si pas de date comparaison : return false
-        if (!(dateLimite > 0))
+        let dateLimite = this.convertStrToDate(pDateLimite);
+        if (dateLimite > 0) {
+            if (comp == "<")
+                return (dateTest < dateLimite);
+            else if (comp == ">")
+                return (dateTest > dateLimite);
+            else if (comp == "<=")
+                return (dateTest <= dateLimite);
+            else if (comp == ">=")
+                return (dateTest >= dateLimite);
+        }
+        else // Si pas de date comparaison : return false
             return false;
-
-        if (comp == "<")
-            return (dateTest < dateLimite) ;
-        else if (comp == ">")
-            return (dateTest > dateLimite) ;
-        else if (comp == "<=")
-            return (dateTest <= dateLimite) ;
-        else if (comp == ">=")
-            return (dateTest >= dateLimite) ;
-
     }
 
 

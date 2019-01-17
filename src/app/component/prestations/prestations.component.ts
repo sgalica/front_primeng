@@ -171,7 +171,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
             {grp: "collaborateur",  grplabel : "Prestataire",
                 fields :   [{name:"trigramme",      type:"field", obligatoire:"", readonly:true},                  {name:"nom",                 type:"field", obligatoire:"", readonly:true},                   {name:"prenom",             type:"field", obligatoire:"", readonly:true}]},
             {grp: "contrat",        grplabel : "Contrat",
-                fields :   [{name:"contratAppli",   type:"combo", obligatoire:"", readonly:false, editable:false, fnc: ()=>{this.contratChanged();} }, {name:"dateDebutContrat",    type:"date",  obligatoire:"", readonly:true},                   {name:"dateFinContrat",     type:"date",  obligatoire:"", readonly:true}]},
+                fields :   [{name:"contratAppli",   type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false, fnc: ()=>{this.contratChanged();} }, {name:"dateDebutContrat",    type:"date",  obligatoire:"", readonly:true},                   {name:"dateFinContrat",     type:"date",  obligatoire:"", readonly:true}]},
             {grp: "Prestation",     grplabel : "Prestation",
                 fields :   [{name:"localisation",   type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false}, {name:"numAtg",              type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},
                             {name:"departement",    type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false}, {name:"pole",                type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},  {name:"domaine",            type:"combo", obligatoire:this.styleObligatoire, readonly:false, editable:false},
@@ -232,18 +232,18 @@ export class PrestationsComponent implements OnInit, OnChanges {
             this.colDefs["identifiantMission"].values = list;
 
         // La création d'une prestation n'est pas possible si (au moins) une prestation est déjà en cours.
+        this.enableBtnNewPresta = (this.getActivePrestation() == null);
+
+    }
+
+    getActivePrestation() {
         if (this.communServ) {
-            let hasPrestation = false;
             let activeMissions = this.communServ.getItemsCond(this.collab.missions, "statutMission", "E");
             let lastMission = this.communServ.getLastItem(activeMissions, 'dateDebutMission', 'versionMission');
             let statutCollab = this.communServ.getStatutCollab(this.collab, lastMission);
-            if (statutCollab.activeCollab && statutCollab.hasMission) {
-                let actualPrestation = this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null);
-                hasPrestation = (actualPrestation != null);
-            }
-            this.enableBtnNewPresta = !hasPrestation;
+            return (statutCollab.activeCollab && statutCollab.hasMission) ? this.communServ.getArrayItemProp(this.collab.prestations, "statutPrestation", "E", null) : null;
         }
-
+        return null;
     }
 
     selectColumns() {
@@ -306,35 +306,6 @@ export class PrestationsComponent implements OnInit, OnChanges {
     orderDateDebutEtVersion(a, b) {
 
         let fld = "dateDebutPrestation";
-        /*
-        let date1 = a[fld];
-        let date2 = b[fld];
-        // Convert str to date
-        let date = date1;
-        if (date) {
-            if (typeof date == "string") {
-                let dateArr = date.split("/"); //dd/mm/yyyy
-                date = (dateArr.length==3) ? new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0])) : new Date(0);
-            }
-            else
-                date = date;
-        }
-        else // null
-            date = new Date(0);
-
-        date = date2;
-        if (date) {
-            if (typeof date == "string") {
-                let dateArr = date.split("/"); //dd/mm/yyyy
-                date = (dateArr.length==3) ? new Date(Number(dateArr[2]), Number(dateArr[1]) - 1, Number(dateArr[0])) : new Date(0);
-            }
-            else
-                date = date;
-        }
-        else // null
-            date = new Date(0);
-        */
-
         let retval = ( a[fld] > b[fld] ) ? -1 : (a[fld] < b[fld]) ? 1 : 0;
         if (retval !=0 ) return retval;
         let fld2 = "versionPrestation";
@@ -433,6 +404,9 @@ export class PrestationsComponent implements OnInit, OnChanges {
             ReOpen      : statut.statut != "T" || this.collab.statutCollab != "E" || !this.isAdmin$ ,
             Cancel      : false } );
 
+        // Après ajout d'une presta vérifier que la création d'une prestation n'est possible que si pas une prestation déjà en cours.
+        // Desactiver le bouton en consequence
+        this.enableBtnNewPresta = (this.selectedPrestation.statutPrestation != "E");
     }
 
     new() {
@@ -502,6 +476,7 @@ export class PrestationsComponent implements OnInit, OnChanges {
         if ( (item.dateFinPrestation > 0) && (dateTest > item.dateFinPrestation) )
             errmsgs.push("La date de début de prestation ne peut pas être après la date de fin");
 
+        debugger;
         // S'il n'existe pas de mission en cours, mais il existe une mission terminée,
         // la date de début de prestation doit être supérieure à la date de fin de la dernière mission + 1 an.
         let terminatedMissions      = this.communServ.getItemsCond(this.collab.missions, "statutMission", "T");
@@ -510,6 +485,16 @@ export class PrestationsComponent implements OnInit, OnChanges {
             let dateLimite = this.communServ.convertStrToDate(lastTerminatedMission["dateFinSG"]);
             if (( dateLimite > 0) && (dateTest <= this.communServ.addToDate(dateLimite,[0,0,1])))
                 errmsgs.push("La date de début de prestation ne peut être à moins d'1 an après la fin de la dernière mission.");
+        }
+
+        // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur)
+        let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
+        if ( actualMission ) {
+            // -&& et s'il n'y a pas dérogation, la prestation ne peut pas dépasser 3 ans.
+            if (actualMission.derogation == "Non") {
+                if (!this.checkDateBeforeEnd(dateTest, actualMission["dateDebutMission"], 3))
+                    errmsgs.push("La prestation ne peut pas dépasser la limite de 3 ans d'une mission.");
+            }
         }
 
 
@@ -531,15 +516,12 @@ export class PrestationsComponent implements OnInit, OnChanges {
                 errmsgs.push("La date de fin de prestation ne peut pas être avant la date de début");
         }
 
-
         // S'il existe une mission en cours (ce n'est pas la première prestation du collaborateur)
-        let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null);
+        //let actualMission = this.communServ.getArrayItemProp(this.collab.missions, "statutMission", "E", null); // See up datedebutpresta
         if ( actualMission ) {
             // -&& et s'il n'y a pas dérogation, la prestation ne peut pas dépasser 3 ans.
             if ( actualMission.derogation == "Non" ) {
-                let dateLimite = this.communServ.convertStrToDate( actualMission["dateDebutMission"] );
-                let dateLimite2 = this.communServ.addToDate( dateLimite,[0,0,3]);
-                if ( ( dateLimite > 0 ) && ( dateTest >= dateLimite2))
+                if (!this.checkDateBeforeEnd( dateTest, actualMission["dateDebutMission"], 3))
                     errmsgs.push("La prestation ne peut pas dépasser la limite de 3 ans d'une mission.");
                 // ToDo ? : check ne pas dépasser la durée de la mission (dateFinSg avant limite de 3 ans, comme dérogation).
             }
@@ -547,11 +529,10 @@ export class PrestationsComponent implements OnInit, OnChanges {
             else {
                 // Pas de dérogation en cas d'ajout d'une presta : date limite = date à 3 ans
                 // En cas de modif : 1 an de prolongation max, donc 4 ans maxi après début
-                let nans = (item.id > 0) ? 3 : 4;
-                let dateLimiteMax = this.communServ.convertStrToDate(actualMission["dateDebutMission"]);
-                dateLimiteMax = this.communServ.addToDate(dateLimiteMax, [0, 0, nans]);
-
                 let dateLimite = this.communServ.convertStrToDate(actualMission["dateFinSg"]);
+                let nans = (item.id > 0) ? 3 : 4;
+                let dateLimiteMax = this.communServ.addToDate( actualMission["dateDebutMission"], [0, 0, nans]);
+
                 // Si pas de date limite indiquée alors default
                 if ((dateLimite == 0) || (dateLimite > dateLimiteMax))
                     dateLimite = dateLimiteMax;
@@ -567,6 +548,16 @@ export class PrestationsComponent implements OnInit, OnChanges {
         errmsg = errmsgs.join(" - ");
         if (errmsgs.length >= 1) errmsg = " - " + errmsg;
         return errmsg ;
+    }
+
+
+    checkDateBeforeEnd(pDateTest, pStartDate, nyears) {
+
+        let dateLimite      = this.communServ.convertStrToDate( pStartDate );
+        let dateLimiteMax   = this.communServ.addToDate( dateLimite,[0,0,nyears]) ;
+
+        return ( ( dateLimite > 0 ) && ( pDateTest >= dateLimiteMax) ) ? false : true ;
+
     }
 
     // On save do add or update

@@ -58,10 +58,10 @@ th {
 
 .col { background-color:  #e5eaf0;}
 
-.obligatoire {
-    border-bottom: #6fa03b solid thin;
-}
+.obligatoire { border-bottom: #7799aa solid 1px; }
 
 .readonly {
 
 }
+
+

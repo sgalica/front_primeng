@@ -51,6 +51,7 @@
                                 (onClearClick)="co_filter(col.field);"
                                 [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                 [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                        <p-header><div style="width:225px;"></div></p-header>
                     </p-calendar>
                 </div>
             </th>
@@ -112,6 +113,7 @@
                                     [disabled] = "field.readonly"
                                     [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                     [inputStyle]="{'border-radius':'2px', 'border':'solid thin lightgray'}" [ngStyle]="{'flex-grow':'3'}">
+                            <p-header><div style="width:225px;"></div></p-header>
                         </p-calendar>
 
                         <div *ngSwitchCase="'combo'" [ngStyle]="{'flex-grow':'3'}" [ngSwitch]="field.name">
@@ -129,7 +131,9 @@
                 <div *ngIf="lastMission==null">Il n'existe aucune mission pour ce collaborateur.</div>
             </div>
 
+
             <div *ngSwitchDefault>
+
                 <div *ngFor="let field of fiche.fields" class="ui-inputgroup" [ngSwitch]="field.name" >
 
                     <span class="ui-inputgroup-addon" [ngStyle]="{'width':'25%', 'text-align':'left','background-color':'#f5fafb'}">{{colDefs[field.name].header}} :</span>
@@ -155,9 +159,11 @@
                                     [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100" [selectOtherMonths]="true"
                                     [inputStyle]="{'max-width':'100%', 'text-overflow':'ellipsis'}"
                                     [style]="{'display':'inline-block', 'max-width':'100%', 'min-width':'auto', 'text-overflow':'ellipsis'}">
+                            <p-header><div style="width:225px;"></div></p-header>
                         </p-calendar>
 
                         <input *ngSwitchDefault type="text" pInputText [(ngModel)]="selectedCollaborateur[field.name]" [disabled]="field.readonly"  style="width:auto">
+
                     </div>
                 </div>
              </div>
