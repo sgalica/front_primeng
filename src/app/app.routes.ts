@@ -20,7 +20,7 @@ export const routes: Routes = [
 
     {path: 'collaborateurs', component: CollaborateursComponent, canActivate: [AuthGuard]},
     {path: 'prestations', component: PrestationsComponent, canActivate: [AuthGuard]},
-    {path: 'prestations/collab/:idcollab', component: PrestationsComponent, canActivate: [AuthGuard]},
+    //{path: 'prestations/collab/:idcollab', component: PrestationsComponent, canActivate: [AuthGuard]},
 
     //{path: 'administration', component: AdministratorComponent, canActivate: [AuthGuard , AdminGuard]},
     {path: 'administration', component: AdministratorComponent, canActivate: [AuthGuard]},
